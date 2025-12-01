@@ -12,48 +12,38 @@ find_package(OpenMP REQUIRED)
 
 
 find_package(deal.II 9.7.0 REQUIRED HINTS ${DEAL_II_DIR} ../ ../../ $ENV{DEAL_II_DIR})
-IF(NOT ${deal.II_FOUND})
-  MESSAGE(FATAL_ERROR
-    "\n*** deal.II library not found! ***\n\n"
+IF (NOT ${deal.II_FOUND})
+    MESSAGE(FATAL_ERROR
+            "\n*** deal.II library not found! ***\n\n"
     )
-ENDIF()
+ENDIF ()
 
 # Check for required deal.II features
-IF(NOT DEAL_II_WITH_MPI)
-  MESSAGE(FATAL_ERROR
-    "\n*** deal.II was not configured with MPI support! ***\n\n"
-    "This project requires MPI. Please recompile deal.II with:\n"
-    "  -DDEAL_II_WITH_MPI=ON\n"
+IF (NOT DEAL_II_WITH_MPI)
+    MESSAGE(FATAL_ERROR
+            "\n*** deal.II was not configured with MPI support! ***\n\n"
+            "This project requires MPI. Please recompile deal.II with:\n"
+            "  -DDEAL_II_WITH_MPI=ON\n"
     )
-ENDIF()
+ENDIF ()
 
-IF(NOT DEAL_II_WITH_P4EST)
-  MESSAGE(FATAL_ERROR
-    "\n*** deal.II was not configured with p4est support! ***\n\n"
-    "This project requires p4est for distributed triangulations.\n"
-    "Please recompile deal.II with:\n"
-    "  -DDEAL_II_WITH_P4EST=ON\n"
+IF (NOT DEAL_II_WITH_P4EST)
+    MESSAGE(FATAL_ERROR
+            "\n*** deal.II was not configured with p4est support! ***\n\n"
+            "This project requires p4est for distributed triangulations.\n"
+            "Please recompile deal.II with:\n"
+            "  -DDEAL_II_WITH_P4EST=ON\n"
     )
-ENDIF()
+ENDIF ()
 
- deal_ii_initialize_cached_variables()
+deal_ii_initialize_cached_variables()
 
- add_executable(GalerkinSolver src/GalerkinSolver.cc)
+# Enable testing
+ENABLE_TESTING()
 
- deal_ii_setup_target(GalerkinSolver)
+add_executable(GalerkinSolver src/GalerkinSolver.cc)
 
-# add_executable(mpi_hello main.cpp)
-# target_link_libraries(mpi_hello PRIVATE MPI::MPI_CXX)
-
-
-
-# add_custom_target(run
-#     COMMAND ${MPIEXEC_EXECUTABLE} ${MPIEXEC_NUMPROC_FLAG} 4 --oversubscribe $<TARGET_FILE:mpi_hello>
-#     DEPENDS mpi_hello
-#     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-#     COMMENT "Launching MPI application with 4 processes"
-# )
-
+deal_ii_setup_target(GalerkinSolver)
 
 # Print configuration summary
 MESSAGE(STATUS "")
@@ -68,3 +58,22 @@ MESSAGE(STATUS "  OpenMP version:  ${OpenMP_CXX_VERSION}")
 MESSAGE(STATUS "  LAPACK support:  ${DEAL_II_WITH_LAPACK}")
 MESSAGE(STATUS "========================================")
 MESSAGE(STATUS "")
+
+# =============================================================
+# Tests
+# =============================================================
+
+# Test: galerkin solver runs and produces output
+ADD_TEST(
+        NAME test_basic_solver_runs
+        COMMAND GalerkinSolver
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+)
+
+# Test: Check VTK output is created
+ADD_TEST(
+        NAME test_output_created
+        COMMAND ${CMAKE_COMMAND} -E cat solution-0.vtk
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+)
+SET_TESTS_PROPERTIES(test_output_created PROPERTIES DEPENDS test_basic_solver_runs)
