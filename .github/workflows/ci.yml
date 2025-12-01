@@ -27,12 +27,12 @@ jobs:
       matrix:
         # Updated to v9.7.0.
         # Kept v9.6.0 as a secondary check for backward compatibility.
-        dealii_version: [ 'v9.7.0-jammy', 'v9.6.0-jammy' ]
+        dealii_version: [ 'master-jammy', 'v9.7.1-jammy' ]
         include:
-          - dealii_version: 'v9.7.0-jammy'
-            container: 'dealii/dealii:v9.7.0-jammy'
-          - dealii_version: 'v9.6.0-jammy'
-            container: 'dealii/dealii:v9.6.0-jammy'
+          - dealii_version: 'master-jammy'
+            container: 'dealii/dealii:master-jammy'
+          - dealii_version: 'v9.7.1-jammy'
+            container: 'dealii/dealii:v9.7.1-jammy'
 
     container:
       image: ${{ matrix.container }}
@@ -143,8 +143,7 @@ jobs:
     needs: build-docker
 
     container:
-      # Updated to use deal.II v9.7.0
-      image: dealii/dealii:v9.7.0-jammy
+      image: dealii/dealii:master-jammy
       options: --user root
 
     steps:
@@ -193,8 +192,7 @@ jobs:
     if: github.event_name == 'pull_request'  # Only on PRs to save time
 
     container:
-      # Updated to use deal.II v9.7.0
-      image: dealii/dealii:v9.7.0-jammy
+      image: dealii/dealii:master-jammy
       options: --user root
 
     steps:
