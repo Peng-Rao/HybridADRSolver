@@ -291,10 +291,10 @@ template <int dim> void Solver<dim>::assemble_system() {
 template <int dim> void Solver<dim>::solve() {
     // Use GMRES for non-symmetric system
     SolverControl solver_control(1000, 1e-12);
-    SolverGMRES solver(solver_control);
+    SolverGMRES<Vector<double>> solver(solver_control);
 
     // ILU preconditioner
-    PreconditionSSOR preconditioner;
+    PreconditionSSOR<SparseMatrix<double>> preconditioner;
     preconditioner.initialize(system_matrix, 1.2);
 
     solver.solve(system_matrix, solution, system_rhs, preconditioner);

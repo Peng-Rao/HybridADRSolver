@@ -11,7 +11,7 @@ find_package(MPI REQUIRED)
 find_package(OpenMP REQUIRED)
 
 
-find_package(deal.II 9.7.0 REQUIRED HINTS ${DEAL_II_DIR} ../ ../../ $ENV{DEAL_II_DIR})
+find_package(deal.II REQUIRED HINTS ${DEAL_II_DIR} ../ ../../ $ENV{DEAL_II_DIR})
 IF (NOT ${deal.II_FOUND})
     MESSAGE(FATAL_ERROR
             "\n*** deal.II library not found! ***\n\n"
