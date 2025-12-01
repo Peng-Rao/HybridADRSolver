@@ -36,18 +36,11 @@ IF(NOT DEAL_II_WITH_P4EST)
     )
 ENDIF()
 
-# add_custom_target(run ALL
-#     COMMAND ${MPIEXEC_EXECUTABLE} --oversubscribe -n 2 $<TARGET_FILE:deadlock>
-#     DEPENDS deadlock
-#     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-#     COMMENT "Launching MPI application with 2 processes"
-# )
+ deal_ii_initialize_cached_variables()
 
-# deal_ii_initialize_cached_variables()
+ add_executable(GalerkinSolver src/GalerkinSolver.cc)
 
-# add_executable(main main.cc)
-
-# deal_ii_setup_target(main)
+ deal_ii_setup_target(GalerkinSolver)
 
 # add_executable(mpi_hello main.cpp)
 # target_link_libraries(mpi_hello PRIVATE MPI::MPI_CXX)
