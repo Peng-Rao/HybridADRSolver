@@ -34,17 +34,38 @@ $$\int_\Omega \mu \nabla u \cdot \nabla v \, dx + \int_\Omega (\beta \cdot \nabl
 
 ### Prerequisites
 
-- deal.II library (version 9.7 or later)
-- CMake (version 3.10 or later)
-- C++ compiler with C++17 support
+We recommend use [Spack](https://spack.io) to manage dependencies. Spack is a package manager for supercomputers, Linux,
+macOS, and Windows. We can build deal.II automatically with Spack. Using the following commands to install Spack and
+deal.II:
+
+- Install Spack
+
+```bash
+git clone --depth=2 https://github.com/spack/spack.git
+. spack/share/spack/setup-env.sh
+```
+
+- Install deal.II with MPI and other dependencies
+
+```bash
+spack install dealii +mpi +petsc +trilinos +p4est
+```
 
 ### Compilation
+
+- Load deal.II environment
+
+```bash
+spack load dealii
+```
+
+- Build the project
 
 ```bash
 mkdir build
 cd build
-cmake
-make
+cmake ..
+make -j
 ```
 
 ### Running
