@@ -36,6 +36,15 @@ IF (NOT DEAL_II_WITH_P4EST)
     )
 ENDIF ()
 
+IF (NOT DEAL_II_WITH_PETSC)
+    MESSAGE(FATAL_ERROR
+            "\n*** deal.II was not configured with PETSc support! ***\n\n"
+            "This project requires PETSc for linear algebra backends.\n"
+            "Please recompile deal.II with:\n"
+            "  -DDEAL_II_WITH_PETSC=ON\n"
+    )
+ENDIF ()
+
 deal_ii_initialize_cached_variables()
 
 # Enable testing
@@ -45,6 +54,9 @@ add_executable(GalerkinSolver src/GalerkinSolver.cc)
 
 deal_ii_setup_target(GalerkinSolver)
 
+add_executable(GalerkinSolverMPI src/GalerkinSolverMPI.cc)
+deal_ii_setup_target(GalerkinSolverMPI)
+
 # Print configuration summary
 MESSAGE(STATUS "")
 MESSAGE(STATUS "========================================")
@@ -53,9 +65,7 @@ MESSAGE(STATUS "========================================")
 MESSAGE(STATUS "  deal.II version: ${DEAL_II_PACKAGE_VERSION}")
 MESSAGE(STATUS "  MPI support:     ${DEAL_II_WITH_MPI}")
 MESSAGE(STATUS "  p4est support:   ${DEAL_II_WITH_P4EST}")
-MESSAGE(STATUS "  OpenMP support:  ${OpenMP_CXX_FOUND}")
-MESSAGE(STATUS "  OpenMP version:  ${OpenMP_CXX_VERSION}")
-MESSAGE(STATUS "  LAPACK support:  ${DEAL_II_WITH_LAPACK}")
+MESSAGE(STATUS "  PETSc support:   ${DEAL_II_WITH_PETSC}")
 MESSAGE(STATUS "========================================")
 MESSAGE(STATUS "")
 
