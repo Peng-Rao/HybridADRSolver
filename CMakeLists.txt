@@ -69,6 +69,13 @@ MESSAGE(STATUS "  PETSc support:   ${DEAL_II_WITH_PETSC}")
 MESSAGE(STATUS "========================================")
 MESSAGE(STATUS "")
 
+add_custom_target(run_mpi
+        COMMAND ${MPIEXEC_EXECUTABLE} ${MPIEXEC_NUMPROC_FLAG} 4 $<TARGET_FILE:GalerkinSolverMPI>
+        DEPENDS GalerkinSolverMPI
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+        COMMENT "Running GalerkinSolverMPI with 4 processes..."
+)
+
 # =============================================================
 # Tests
 # =============================================================
@@ -86,4 +93,12 @@ ADD_TEST(
         COMMAND ${CMAKE_COMMAND} -E cat solution-0.vtk
         WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
 )
-SET_TESTS_PROPERTIES(test_output_created PROPERTIES DEPENDS test_basic_solver_runs)
+
+
+ADD_TEST(
+        NAME test_mpi_run_4proc
+        COMMAND ${MPIEXEC_EXECUTABLE} ${MPIEXEC_NUMPROC_FLAG} 4 $<TARGET_FILE:GalerkinSolverMPI>
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+)
+
+SET_TESTS_PROPERTIES(test_mpi_output_created PROPERTIES DEPENDS test_mpi_run_4proc)
