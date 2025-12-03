@@ -61,16 +61,20 @@ jobs:
       - name: Verify output files
         run: |
           cd build
-          # Check that VTK output files were created
-          ls -la solution-*.vtk
-          test -f solution-0.vtk
-          test -f solution-1.vtk
+          # Check that VTU output files were created
+          ls -la solution-*vtu
+            if ls solution-*.vtu 1> /dev/null 2>&1; then
+                echo "✓ Output VTU files generated"
+            else
+                echo "✗ No VTU output files found"
+                exit 1
+            fi
 
       - name: Upload solution artifacts
         uses: actions/upload-artifact@v4
         with:
           name: solutions-${{ matrix.dealii_version }}
-          path: build/solution-*.vtk
+          path: build/solution-*.pvtu
           retention-days: 7
 
   # =============================================================
