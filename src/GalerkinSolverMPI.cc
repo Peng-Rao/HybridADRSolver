@@ -278,7 +278,7 @@ template <int dim> void Solver<dim>::solve() {
     SolverControl solver_control(dof_handler.n_dofs(),
                                  1e-12 * system_rhs.l2_norm());
 
-    PETScWrappers::SolverGMRES solver(solver_control, mpi_communicator);
+    PETScWrappers::SolverGMRES solver(solver_control);
 
     PETScWrappers::PreconditionBlockJacobi preconditioner(system_matrix);
 
