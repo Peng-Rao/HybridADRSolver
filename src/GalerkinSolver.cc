@@ -1,7 +1,9 @@
-#include <deal.II/base/convergence_table.h>
-#include <deal.II/base/function.h>
+#include "problem_parameters.h"
+
+#include <deal.II/base/conditional_ostream.h>
+#include <deal.II/base/index_set.h>
+#include <deal.II/base/logstream.h>
 #include <deal.II/base/quadrature_lib.h>
-#include <deal.II/base/tensor_function.h>
 
 #include <deal.II/lac/affine_constraints.h>
 #include <deal.II/lac/dynamic_sparsity_pattern.h>
@@ -11,16 +13,26 @@
 #include <deal.II/lac/sparse_matrix.h>
 #include <deal.II/lac/vector.h>
 
-#include <deal.II/grid/grid_generator.h>
+// Check if we have MPI and PETSc to determine mode
+#if defined(DEAL_II_WITH_PETSC) && defined(DEAL_II_WITH_MPI)
+#define USE_PETSC_MPI
+#include <deal.II/distributed/grid_refinement.h>
+#include <deal.II/distributed/tria.h>
+#include <deal.II/lac/petsc_precondition.h>
+#include <deal.II/lac/petsc_solver.h>
+#include <deal.II/lac/petsc_sparse_matrix.h>
+#include <deal.II/lac/petsc_vector.h>
+#include <deal.II/lac/sparsity_tools.h>
+#else
 #include <deal.II/grid/grid_refinement.h>
-#include <deal.II/grid/tria.h>
+#endif
 
 #include <deal.II/dofs/dof_handler.h>
 #include <deal.II/dofs/dof_tools.h>
-
 #include <deal.II/fe/fe_q.h>
 #include <deal.II/fe/fe_values.h>
-
+#include <deal.II/grid/grid_generator.h>
+#include <deal.II/grid/tria.h>
 #include <deal.II/numerics/data_out.h>
 #include <deal.II/numerics/error_estimator.h>
 #include <deal.II/numerics/vector_tools.h>
@@ -30,95 +42,8 @@
 
 namespace GalerkinSolver {
 using namespace dealii;
+using namespace parameters;
 
-// ============================================================
-// Problem coefficients and data
-// ============================================================
-/**
- * Diffusion coefficient μ(x)
- */
-template <int dim> class DiffusionCoefficient : public Function<dim> {
-public:
-    double value(const Point<dim>& p,
-                 const unsigned int component = 0) const override {
-        (void)p;
-        (void)component;
-        return 1.0; // Constant diffusion
-    }
-};
-
-/**
- * Advection field β(x)
- */
-template <int dim> class AdvectionField : public TensorFunction<1, dim> {
-public:
-    Tensor<1, dim> value(const Point<dim>& p) const override {
-        (void)p;
-        Tensor<1, dim> beta;
-        beta[0] = 1.0; // Convection in x-direction
-        if (dim > 1)
-            beta[1] = 0.0;
-        if (dim > 2)
-            beta[2] = 0.0;
-        return beta;
-    }
-};
-
-/**
- * Reaction coefficient γ(x)
- */
-template <int dim> class ReactionCoefficient : public Function<dim> {
-public:
-    virtual double value(const Point<dim>& p,
-                         const unsigned int component = 0) const override {
-        (void)p;
-        (void)component;
-        return 1.0; // Constant reaction
-    }
-};
-
-/**
- * Source term f(x)
- */
-template <int dim> class SourceTerm : public Function<dim> {
-public:
-    virtual double value(const Point<dim>& p,
-                         const unsigned int component = 0) const override {
-        (void)component;
-        // Example: f = 1 for a simple test
-        return 1.0;
-    }
-};
-
-/**
- * Dirichlet boundary condition g(x)
- */
-template <int dim> class DirichletBoundaryValues : public Function<dim> {
-public:
-    double value(const Point<dim>& p,
-                 const unsigned int component) const override {
-        (void)p;
-        (void)component;
-        return 0.0; // Homogeneous Dirichlet
-    }
-};
-
-/**
- * Neumann boundary condition h(x) = ∇u·n
- */
-template <int dim> class NeumannBoundaryValues : public Function<dim> {
-public:
-    double value(const Point<dim>& p,
-                 const unsigned int component = 0) const override {
-        (void)p;
-        (void)component;
-        return 0.0; // Homogeneous Neumann
-    }
-};
-
-// ============================================================
-// Main solver class
-// ============================================================
 template <int dim> class Solver {
 public:
     explicit Solver(unsigned int degree = 1);
@@ -131,55 +56,100 @@ private:
     void refine_grid();
     void output_results(unsigned int cycle) const;
 
+    MPI_Comm mpi_communicator;
+
+/*
+ * Conditional Types Based on Parallelization Mode
+ */
+#ifdef USE_PETSC_MPI
+    parallel::distributed::Triangulation<dim> triangulation;
+    using MatrixType = PETScWrappers::MPI::SparseMatrix;
+    using VectorType = PETScWrappers::MPI::Vector;
+#else
     Triangulation<dim> triangulation;
+    using MatrixType = SparseMatrix<double>;
+    using VectorType = Vector<double>;
+#endif
+
     FE_Q<dim> fe;
     DoFHandler<dim> dof_handler;
 
-    AffineConstraints<> constraints;
+    IndexSet locally_owned_dofs;
+    IndexSet locally_relevant_dofs;
 
-    SparsityPattern sparsity_pattern;
-    SparseMatrix<double> system_matrix;
+    AffineConstraints<double> constraints;
 
-    Vector<double> solution;
-    Vector<double> system_rhs;
+    MatrixType system_matrix;
+    VectorType
+        locally_relevant_solution; // Acts as just "solution" in sequential
+    VectorType system_rhs;
 
-    // Boundary indicators
-    // Γ_D: boundary_id = 0 (Dirichlet)
-    // Γ_N: boundary_id = 1 (Neumann)
+    ConditionalOStream pcout{std::cout, true};
+
     const types::boundary_id dirichlet_boundary_id = 0;
     const types::boundary_id neumann_boundary_id = 1;
 };
 
+/*
+ * Constructor Implementation
+ */
 template <int dim>
 Solver<dim>::Solver(const unsigned int degree)
-    : fe(degree), dof_handler(triangulation) {}
+    : mpi_communicator(MPI_COMM_WORLD),
+#ifdef USE_PETSC_MPI
+      triangulation(mpi_communicator,
+                    typename Triangulation<dim>::MeshSmoothing(
+                        Triangulation<dim>::smoothing_on_refinement |
+                        Triangulation<dim>::smoothing_on_coarsening)),
+#else
+      triangulation(Triangulation<dim>::smoothing_on_refinement |
+                    Triangulation<dim>::smoothing_on_coarsening),
+#endif
+      fe(degree), dof_handler(triangulation),
+      pcout(std::cout,
+            (Utilities::MPI::this_mpi_process(mpi_communicator) == 0)) {
+}
 
 template <int dim> void Solver<dim>::setup_system() {
     dof_handler.distribute_dofs(fe);
 
-    std::cout << "   Number of active cells:       "
-              << triangulation.n_active_cells() << std::endl;
-    std::cout << "   Number of degrees of freedom: " << dof_handler.n_dofs()
-              << std::endl;
+    locally_owned_dofs = dof_handler.locally_owned_dofs();
+    locally_relevant_dofs =
+        DoFTools::extract_locally_relevant_dofs(dof_handler);
 
-    // Setup constraints (Dirichlet BC)
     constraints.clear();
+    constraints.reinit(locally_owned_dofs, locally_relevant_dofs);
     DoFTools::make_hanging_node_constraints(dof_handler, constraints);
-
-    // Apply Dirichlet boundary conditions
-    VectorTools::interpolate_boundary_values(dof_handler, dirichlet_boundary_id,
-                                             DirichletBoundaryValues<dim>(),
-                                             constraints);
+    VectorTools::interpolate_boundary_values(
+        dof_handler, dirichlet_boundary_id,
+        parameters::DirichletBoundaryValues<dim>(), constraints);
     constraints.close();
 
-    // Setup sparsity pattern
-    DynamicSparsityPattern dsp(dof_handler.n_dofs());
-    DoFTools::make_sparsity_pattern(dof_handler, dsp, constraints, false);
-    sparsity_pattern.copy_from(dsp);
+    DynamicSparsityPattern dsp(locally_relevant_dofs);
 
+#ifdef USE_PETSC_MPI
+    DoFTools::make_sparsity_pattern(dof_handler, dsp, constraints, false);
+    SparsityTools::distribute_sparsity_pattern(
+        dsp, dof_handler.locally_owned_dofs(), mpi_communicator,
+        locally_relevant_dofs);
+    system_matrix.reinit(locally_owned_dofs, locally_owned_dofs, dsp,
+                         mpi_communicator);
+    locally_relevant_solution.reinit(locally_owned_dofs, locally_relevant_dofs,
+                                     mpi_communicator);
+    system_rhs.reinit(locally_owned_dofs, mpi_communicator);
+#else
+    DoFTools::make_sparsity_pattern(dof_handler, dsp, constraints, false);
+    SparsityPattern sparsity_pattern;
+    sparsity_pattern.copy_from(dsp);
     system_matrix.reinit(sparsity_pattern);
-    solution.reinit(dof_handler.n_dofs());
+    locally_relevant_solution.reinit(dof_handler.n_dofs());
     system_rhs.reinit(dof_handler.n_dofs());
+#endif
+
+    pcout << "   Number of active cells:       "
+          << triangulation.n_global_active_cells() << std::endl;
+    pcout << "   Number of degrees of freedom: " << dof_handler.n_dofs()
+          << std::endl;
 }
 
 template <int dim> void Solver<dim>::assemble_system() {
@@ -201,10 +171,8 @@ template <int dim> void Solver<dim>::assemble_system() {
 
     FullMatrix<double> cell_matrix(dofs_per_cell, dofs_per_cell);
     Vector<double> cell_rhs(dofs_per_cell);
-
     std::vector<types::global_dof_index> local_dof_indices(dofs_per_cell);
 
-    // Coefficient functions
     DiffusionCoefficient<dim> mu;
     AdvectionField<dim> beta;
     ReactionCoefficient<dim> gamma;
@@ -212,27 +180,22 @@ template <int dim> void Solver<dim>::assemble_system() {
     NeumannBoundaryValues<dim> h;
 
     for (const auto& cell : dof_handler.active_cell_iterators()) {
+        // In Sequential: is_locally_owned() is always true.
+        // In Parallel: checks ownership.
+        if (cell->is_locally_owned() == false)
+            continue;
+
         fe_values.reinit(cell);
         cell_matrix = 0;
         cell_rhs = 0;
 
-        // Get coefficient values at quadrature points
-        std::vector<double> mu_values(n_q_points);
-        std::vector<Tensor<1, dim>> beta_values(n_q_points);
-        std::vector<double> gamma_values(n_q_points);
-        std::vector<double> f_values(n_q_points);
-
         for (unsigned int q = 0; q < n_q_points; ++q) {
             const Point<dim>& x = fe_values.quadrature_point(q);
-            mu_values[q] = mu.value(x);
-            beta_values[q] = beta.value(x);
-            gamma_values[q] = gamma.value(x);
-            f_values[q] = f.value(x);
-        }
-
-        // Compute cell contribution
-        for (unsigned int q = 0; q < n_q_points; ++q) {
-            const double JxW = fe_values.JxW(q);
+            double mu_val = mu.value(x, 0);
+            Tensor<1, dim> beta_val = beta.value(x);
+            double gamma_val = gamma.value(x, 0);
+            double f_val = f.value(x, 0);
+            double JxW = fe_values.JxW(q);
 
             for (unsigned int i = 0; i < dofs_per_cell; ++i) {
                 const double phi_i = fe_values.shape_value(i, q);
@@ -243,36 +206,26 @@ template <int dim> void Solver<dim>::assemble_system() {
                     const Tensor<1, dim> grad_phi_j =
                         fe_values.shape_grad(j, q);
 
-                    // Diffusion term: ∫ μ ∇φ_j · ∇φ_i dx
                     cell_matrix(i, j) +=
-                        mu_values[q] * grad_phi_j * grad_phi_i * JxW;
-
-                    // Convection term: ∫ (β · ∇φ_j) φ_i dx
-                    // (using weak form after integration by parts)
-                    cell_matrix(i, j) +=
-                        (beta_values[q] * grad_phi_j) * phi_i * JxW;
-
-                    // Reaction term: ∫ γ φ_j φ_i dx
-                    cell_matrix(i, j) += gamma_values[q] * phi_j * phi_i * JxW;
+                        (mu_val * grad_phi_j * grad_phi_i + // Diffusion
+                         (beta_val * grad_phi_j) * phi_i +  // Advection
+                         gamma_val * phi_j * phi_i) *       // Reaction
+                        JxW;
                 }
-
-                // RHS: ∫ f φ_i dx
-                cell_rhs(i) += f_values[q] * phi_i * JxW;
+                cell_rhs(i) += f_val * phi_i * JxW;
             }
         }
 
-        // Neumann boundary contribution: ∫_Γ_N h φ_i ds
+        // Neumann Boundary
         for (const auto& face : cell->face_iterators()) {
             if (face->at_boundary() &&
                 face->boundary_id() == neumann_boundary_id) {
                 fe_face_values.reinit(cell, face);
-
                 for (unsigned int q = 0; q < n_face_q_points; ++q) {
-                    const double h_value =
-                        h.value(fe_face_values.quadrature_point(q));
-
+                    double h_val =
+                        h.value(fe_face_values.quadrature_point(q), 0);
                     for (unsigned int i = 0; i < dofs_per_cell; ++i) {
-                        cell_rhs(i) += h_value *
+                        cell_rhs(i) += h_val *
                                        fe_face_values.shape_value(i, q) *
                                        fe_face_values.JxW(q);
                     }
@@ -280,40 +233,68 @@ template <int dim> void Solver<dim>::assemble_system() {
             }
         }
 
-        // Transfer to global system
         cell->get_dof_indices(local_dof_indices);
         constraints.distribute_local_to_global(cell_matrix, cell_rhs,
                                                local_dof_indices, system_matrix,
                                                system_rhs);
     }
+
+#ifdef USE_PETSC_MPI
+    system_matrix.compress(VectorOperation::add);
+    system_rhs.compress(VectorOperation::add);
+#endif
 }
 
 template <int dim> void Solver<dim>::solve() {
-    // Use GMRES for non-symmetric system
-    SolverControl solver_control(1000, 1e-12);
-    SolverGMRES<Vector<double>> solver(solver_control);
+#ifdef USE_PETSC_MPI
+    PETScWrappers::MPI::Vector completely_distributed_solution(
+        locally_owned_dofs, mpi_communicator);
 
-    // ILU preconditioner
-    PreconditionSSOR<SparseMatrix<double>> preconditioner;
+    SolverControl solver_control(dof_handler.n_dofs(),
+                                 1e-12 * system_rhs.l2_norm());
+    PETScWrappers::SolverGMRES solver(solver_control);
+    PETScWrappers::PreconditionBlockJacobi preconditioner(system_matrix);
+
+    solver.solve(system_matrix, completely_distributed_solution, system_rhs,
+                 preconditioner);
+
+    constraints.distribute(completely_distributed_solution);
+    locally_relevant_solution = completely_distributed_solution;
+
+    (void)(pcout << "   Solved in " << solver_control.last_step()
+                 << " iterations." << std::endl);
+#else
+    SolverControl solver_control(1000, 1e-12);
+    SolverGMRES<VectorType> solver(solver_control);
+    PreconditionSSOR<MatrixType> preconditioner;
     preconditioner.initialize(system_matrix, 1.2);
 
-    solver.solve(system_matrix, solution, system_rhs, preconditioner);
+    solver.solve(system_matrix, locally_relevant_solution, system_rhs,
+                 preconditioner);
+    constraints.distribute(locally_relevant_solution);
 
-    constraints.distribute(solution);
-
-    std::cout << "   " << solver_control.last_step()
-              << " GMRES iterations needed to obtain convergence." << std::endl;
+    (void)(pcout << "   Solved in " << solver_control.last_step()
+                 << " iterations." << std::endl);
+#endif
 }
 
 template <int dim> void Solver<dim>::refine_grid() {
     Vector<float> estimated_error_per_cell(triangulation.n_active_cells());
 
-    KellyErrorEstimator<dim>::estimate(dof_handler,
-                                       QGauss<dim - 1>(fe.degree + 1), {},
-                                       solution, estimated_error_per_cell);
+    // NOTE: In sequential, locally_owned_subdomain() returns 0, which works
+    // fine. In parallel, it returns the rank.
+    KellyErrorEstimator<dim>::estimate(
+        dof_handler, QGauss<dim - 1>(fe.degree + 1), {},
+        locally_relevant_solution, estimated_error_per_cell, ComponentMask(),
+        nullptr, 0, triangulation.locally_owned_subdomain());
 
+#ifdef USE_PETSC_MPI
+    parallel::distributed::GridRefinement::refine_and_coarsen_fixed_number(
+        triangulation, estimated_error_per_cell, 0.3, 0.03);
+#else
     GridRefinement::refine_and_coarsen_fixed_number(
         triangulation, estimated_error_per_cell, 0.3, 0.03);
+#endif
 
     triangulation.execute_coarsening_and_refinement();
 }
@@ -322,29 +303,72 @@ template <int dim>
 void Solver<dim>::output_results(const unsigned int cycle) const {
     DataOut<dim> data_out;
     data_out.attach_dof_handler(dof_handler);
-    data_out.add_data_vector(solution, "solution");
+    data_out.add_data_vector(locally_relevant_solution, "solution");
+
+#ifdef USE_PETSC_MPI
+    // Add subdomain BEFORE build_patches()
+    Vector<float> subdomain(triangulation.n_active_cells());
+    for (unsigned int i = 0; i < subdomain.size(); ++i)
+        subdomain(i) = triangulation.locally_owned_subdomain();
+    data_out.add_data_vector(subdomain, "subdomain");
+#endif
+
     data_out.build_patches();
 
-    const std::string filename = "solution-" + std::to_string(cycle) + ".vtk";
-    std::ofstream output(filename);
-    data_out.write_vtk(output);
+    const std::string filename_base = "solution-" + std::to_string(cycle);
 
-    std::cout << "   Output written to " << filename << std::endl;
+#ifdef USE_PETSC_MPI
+    // PARALLEL OUTPUT: .vtu per processor + .pvtu master record
+    const unsigned int n_ranks =
+        Utilities::MPI::n_mpi_processes(mpi_communicator);
+    const unsigned int my_rank =
+        Utilities::MPI::this_mpi_process(mpi_communicator);
+
+    const std::string filename_vtu =
+        filename_base + "." + std::to_string(my_rank) + ".vtu";
+    std::ofstream output(filename_vtu);
+    data_out.write_vtu(output);
+
+    if (my_rank == 0) {
+        std::vector<std::string> filenames;
+        filenames.reserve(n_ranks);
+        for (unsigned int i = 0; i < n_ranks; ++i)
+            filenames.push_back(filename_base + "." + std::to_string(i) +
+                                ".vtu");
+
+        std::ofstream master_output(filename_base + ".pvtu");
+        data_out.write_pvtu_record(master_output, filenames);
+        (void)(pcout << "   Output written to " << filename_base << ".pvtu"
+                     << std::endl);
+    }
+#else
+    // SEQUENTIAL OUTPUT: Standard .vtk
+    const std::string filename_vtk = filename_base + ".vtk";
+    std::ofstream output(filename_vtk);
+    data_out.write_vtk(output);
+    (void)(pcout << "   Output written to " << filename_vtk << std::endl);
+#endif
 }
 
 template <int dim> void Solver<dim>::run() {
-    constexpr unsigned int n_cycles = 5;
+    pcout << "Running in "
+#ifdef USE_PETSC_MPI
+          << "PARALLEL (MPI/PETSc)"
+#else
+          << "SEQUENTIAL"
+#endif
+          << " mode on " << Utilities::MPI::n_mpi_processes(mpi_communicator)
+          << " MPI rank(s)." << std::endl;
+
+    constexpr unsigned int n_cycles = 6;
 
     for (unsigned int cycle = 0; cycle < n_cycles; ++cycle) {
-        std::cout << "Cycle " << cycle << ':' << std::endl;
+        (void)(pcout << "Cycle " << cycle << ":" << std::endl);
 
         if (cycle == 0) {
-            // Create initial mesh
             GridGenerator::hyper_cube(triangulation, 0.0, 1.0);
 
-            // Set boundary indicators:
-            // Left boundary (x=0): Dirichlet (id=0)
-            // Other boundaries: Neumann (id=1)
+            // Set boundary IDs
             for (const auto& cell : triangulation.cell_iterators())
                 for (const auto& face : cell->face_iterators())
                     if (face->at_boundary()) {
@@ -369,19 +393,15 @@ template <int dim> void Solver<dim>::run() {
 
 } // namespace GalerkinSolver
 
-int main() {
+int main(int argc, char* argv[]) {
     try {
         using namespace GalerkinSolver;
 
-        std::cout << "Solving 2D Convection-Diffusion-Reaction problem"
-                  << std::endl;
-        std::cout << "================================================"
-                  << std::endl;
+        Utilities::MPI::MPI_InitFinalize mpi_initialization(argc, argv, 1);
 
-        Solver<2> problem_2d(1); // Linear elements
+        Solver<2> problem_2d(1);
         problem_2d.run();
 
-        std::cout << std::endl;
     } catch (std::exception& exc) {
         std::cerr << std::endl
                   << "--------------------------------------------"

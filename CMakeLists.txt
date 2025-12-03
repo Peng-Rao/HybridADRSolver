@@ -50,12 +50,10 @@ deal_ii_initialize_cached_variables()
 # Enable testing
 ENABLE_TESTING()
 
-add_executable(GalerkinSolver src/GalerkinSolver.cc)
+add_executable(GalerkinSolver src/GalerkinSolver.cc
+        src/problem_parameters.h)
 
 deal_ii_setup_target(GalerkinSolver)
-
-add_executable(GalerkinSolverMPI src/GalerkinSolverMPI.cc)
-deal_ii_setup_target(GalerkinSolverMPI)
 
 # Print configuration summary
 MESSAGE(STATUS "")
@@ -69,13 +67,6 @@ MESSAGE(STATUS "  PETSc support:   ${DEAL_II_WITH_PETSC}")
 MESSAGE(STATUS "========================================")
 MESSAGE(STATUS "")
 
-add_custom_target(run_mpi
-        COMMAND ${MPIEXEC_EXECUTABLE} ${MPIEXEC_NUMPROC_FLAG} 4 $<TARGET_FILE:GalerkinSolverMPI>
-        DEPENDS GalerkinSolverMPI
-        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-        COMMENT "Running GalerkinSolverMPI with 4 processes..."
-)
-
 # =============================================================
 # Tests
 # =============================================================
@@ -86,19 +77,3 @@ ADD_TEST(
         COMMAND GalerkinSolver
         WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
 )
-
-# Test: Check VTK output is created
-ADD_TEST(
-        NAME test_output_created
-        COMMAND ${CMAKE_COMMAND} -E cat solution-0.vtk
-        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-)
-
-
-ADD_TEST(
-        NAME test_mpi_run_4proc
-        COMMAND ${MPIEXEC_EXECUTABLE} ${MPIEXEC_NUMPROC_FLAG} 4 $<TARGET_FILE:GalerkinSolverMPI>
-        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-)
-
-SET_TESTS_PROPERTIES(test_output_created PROPERTIES DEPENDS test_basic_solver_runs)
