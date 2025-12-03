@@ -101,4 +101,4 @@ ADD_TEST(
         WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
 )
 
-SET_TESTS_PROPERTIES(test_mpi_output_created PROPERTIES DEPENDS test_mpi_run_4proc)
+SET_TESTS_PROPERTIES(test_output_created PROPERTIES DEPENDS test_basic_solver_runs)

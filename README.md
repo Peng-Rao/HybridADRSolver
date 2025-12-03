@@ -48,7 +48,11 @@ git clone --depth=2 https://github.com/spack/spack.git
 - Install deal.II with MPI and other dependencies
 
 ```bash
-spack install dealii +mpi +petsc +trilinos +p4est
+spack install dealii +mpi +petsc +p4est \
+    '~gmsh' '~arborx' '~taskflow' '~ginkgo' '~opencascade' '~cgal' '~trilinos' \
+    '^petsc+hypre+metis+hdf5' \
+    '^mpich' \
+    '^python@3.11'
 ```
 
 ### Compilation
