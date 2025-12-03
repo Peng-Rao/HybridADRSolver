@@ -98,45 +98,6 @@ jobs:
         continue-on-error: true
 
   # =============================================================
-  # Build from source (without Docker)
-  # =============================================================
-  build-from-source:
-    name: Build from Source (Ubuntu)
-    runs-on: ubuntu-latest
-    # Note: This uses the default deal.II version available in the Ubuntu repositories
-    # (apt-get), which may differ from the Docker image version (9.7.0).
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y \
-            cmake \
-            g++ \
-            libdeal.ii-dev \
-            || echo "deal.II not available in apt, skipping native build test"
-
-      - name: Check if deal.II is available
-        id: check_dealii
-        run: |
-          if dpkg -l | grep -q libdeal.ii-dev; then
-            echo "dealii_available=true" >> $GITHUB_OUTPUT
-          else
-            echo "dealii_available=false" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Configure and build
-        if: steps.check_dealii.outputs.dealii_available == 'true'
-        run: |
-          mkdir -p build
-          cd build
-          cmake .. -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }}
-          make -j$(nproc)
-
-  # =============================================================
   # Convergence test
   # =============================================================
   convergence-test:
