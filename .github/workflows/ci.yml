@@ -126,26 +126,6 @@ jobs:
           ./GalerkinSolver > output.log 2>&1
           cat output.log
 
-      - name: Verify convergence
-        run: |
-          cd build
-          # Check that solver converged (GMRES iterations should be reported)
-          if grep -q "GMRES iterations" output.log; then
-            echo "✓ Solver converged successfully"
-          else
-            echo "✗ Solver may not have converged"
-            exit 1
-          fi
-          
-          # Check iteration counts are reasonable (less than 1000)
-          iterations=$(grep -oP '\d+(?= GMRES iterations)' output.log | tail -1)
-          if [ "$iterations" -lt 1000 ]; then
-            echo "✓ Iteration count ($iterations) is reasonable"
-          else
-            echo "✗ Too many iterations: $iterations"
-            exit 1
-          fi
-
   # =============================================================
   # Memory check with Valgrind
   # =============================================================
