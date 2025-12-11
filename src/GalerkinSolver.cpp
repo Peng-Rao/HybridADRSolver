@@ -1,98 +1,28 @@
+// solver.cc
+#include "GalerkinSolver.h"
 #include "problem_parameters.h"
-
-#include <deal.II/base/conditional_ostream.h>
-#include <deal.II/base/index_set.h>
-#include <deal.II/base/logstream.h>
 #include <deal.II/base/quadrature_lib.h>
-
-#include <deal.II/lac/affine_constraints.h>
-#include <deal.II/lac/dynamic_sparsity_pattern.h>
-#include <deal.II/lac/full_matrix.h>
-#include <deal.II/lac/precondition.h>
-#include <deal.II/lac/solver_gmres.h>
-#include <deal.II/lac/sparse_matrix.h>
-#include <deal.II/lac/vector.h>
-
-// Check if we have MPI and PETSc to determine mode
-#if defined(DEAL_II_WITH_PETSC) && defined(DEAL_II_WITH_MPI)
-#define USE_PETSC_MPI
-#include <deal.II/distributed/grid_refinement.h>
-#include <deal.II/distributed/tria.h>
-#include <deal.II/lac/petsc_precondition.h>
-#include <deal.II/lac/petsc_solver.h>
-#include <deal.II/lac/petsc_sparse_matrix.h>
-#include <deal.II/lac/petsc_vector.h>
-#include <deal.II/lac/sparsity_tools.h>
-#else
-#include <deal.II/grid/grid_refinement.h>
-#endif
-
-#include <deal.II/dofs/dof_handler.h>
 #include <deal.II/dofs/dof_tools.h>
-#include <deal.II/fe/fe_q.h>
 #include <deal.II/fe/fe_values.h>
 #include <deal.II/grid/grid_generator.h>
-#include <deal.II/grid/tria.h>
+#include <deal.II/grid/grid_refinement.h>
+#include <deal.II/lac/dynamic_sparsity_pattern.h>
 #include <deal.II/numerics/data_out.h>
 #include <deal.II/numerics/error_estimator.h>
 #include <deal.II/numerics/vector_tools.h>
 
-#include <fstream>
-#include <iostream>
-
-namespace GalerkinSolver {
-using namespace dealii;
-using namespace parameters;
-
-template <int dim> class Solver {
-public:
-    explicit Solver(unsigned int degree = 1);
-    void run();
-
-private:
-    void setup_system();
-    void assemble_system();
-    void solve();
-    void refine_grid();
-    void output_results(unsigned int cycle) const;
-
-    MPI_Comm mpi_communicator;
-
-/*
- * Conditional Types Based on Parallelization Mode
- */
 #ifdef USE_PETSC_MPI
-    parallel::distributed::Triangulation<dim> triangulation;
-    using MatrixType = PETScWrappers::MPI::SparseMatrix;
-    using VectorType = PETScWrappers::MPI::Vector;
-#else
-    Triangulation<dim> triangulation;
-    using MatrixType = SparseMatrix<double>;
-    using VectorType = Vector<double>;
+#include <deal.II/distributed/grid_refinement.h>
+#include <deal.II/lac/petsc_precondition.h>
+#include <deal.II/lac/petsc_solver.h>
+#include <deal.II/lac/sparsity_tools.h>
 #endif
 
-    FE_Q<dim> fe;
-    DoFHandler<dim> dof_handler;
+#include <fstream>
 
-    IndexSet locally_owned_dofs;
-    IndexSet locally_relevant_dofs;
+namespace GalerkinSolver {
+using namespace parameters;
 
-    AffineConstraints<double> constraints;
-
-    MatrixType system_matrix;
-    VectorType
-        locally_relevant_solution; // Acts as just "solution" in sequential
-    VectorType system_rhs;
-
-    ConditionalOStream pcout{std::cout, true};
-
-    const types::boundary_id dirichlet_boundary_id = 0;
-    const types::boundary_id neumann_boundary_id = 1;
-};
-
-/*
- * Constructor Implementation
- */
 template <int dim>
 Solver<dim>::Solver(const unsigned int degree)
     : mpi_communicator(MPI_COMM_WORLD),
@@ -180,8 +110,6 @@ template <int dim> void Solver<dim>::assemble_system() {
     NeumannBoundaryValues<dim> h;
 
     for (const auto& cell : dof_handler.active_cell_iterators()) {
-        // In Sequential: is_locally_owned() is always true.
-        // In Parallel: checks ownership.
         if (cell->is_locally_owned() == false)
             continue;
 
@@ -206,17 +134,15 @@ template <int dim> void Solver<dim>::assemble_system() {
                     const Tensor<1, dim> grad_phi_j =
                         fe_values.shape_grad(j, q);
 
-                    cell_matrix(i, j) +=
-                        (mu_val * grad_phi_j * grad_phi_i + // Diffusion
-                         (beta_val * grad_phi_j) * phi_i +  // Advection
-                         gamma_val * phi_j * phi_i) *       // Reaction
-                        JxW;
+                    cell_matrix(i, j) += (mu_val * grad_phi_j * grad_phi_i +
+                                          (beta_val * grad_phi_j) * phi_i +
+                                          gamma_val * phi_j * phi_i) *
+                                         JxW;
                 }
                 cell_rhs(i) += f_val * phi_i * JxW;
             }
         }
 
-        // Neumann Boundary
         for (const auto& face : cell->face_iterators()) {
             if (face->at_boundary() &&
                 face->boundary_id() == neumann_boundary_id) {
@@ -249,18 +175,14 @@ template <int dim> void Solver<dim>::solve() {
 #ifdef USE_PETSC_MPI
     PETScWrappers::MPI::Vector completely_distributed_solution(
         locally_owned_dofs, mpi_communicator);
-
     SolverControl solver_control(dof_handler.n_dofs(),
                                  1e-12 * system_rhs.l2_norm());
     PETScWrappers::SolverGMRES solver(solver_control);
     PETScWrappers::PreconditionBlockJacobi preconditioner(system_matrix);
-
     solver.solve(system_matrix, completely_distributed_solution, system_rhs,
                  preconditioner);
-
     constraints.distribute(completely_distributed_solution);
     locally_relevant_solution = completely_distributed_solution;
-
     (void)(pcout << "   Solved in " << solver_control.last_step()
                  << " iterations." << std::endl);
 #else
@@ -268,11 +190,9 @@ template <int dim> void Solver<dim>::solve() {
     SolverGMRES<VectorType> solver(solver_control);
     PreconditionSSOR<MatrixType> preconditioner;
     preconditioner.initialize(system_matrix, 1.2);
-
     solver.solve(system_matrix, locally_relevant_solution, system_rhs,
                  preconditioner);
     constraints.distribute(locally_relevant_solution);
-
     (void)(pcout << "   Solved in " << solver_control.last_step()
                  << " iterations." << std::endl);
 #endif
@@ -280,9 +200,6 @@ template <int dim> void Solver<dim>::solve() {
 
 template <int dim> void Solver<dim>::refine_grid() {
     Vector<float> estimated_error_per_cell(triangulation.n_active_cells());
-
-    // NOTE: In sequential, locally_owned_subdomain() returns 0, which works
-    // fine. In parallel, it returns the rank.
     KellyErrorEstimator<dim>::estimate(
         dof_handler, QGauss<dim - 1>(fe.degree + 1), {},
         locally_relevant_solution, estimated_error_per_cell, ComponentMask(),
@@ -295,18 +212,15 @@ template <int dim> void Solver<dim>::refine_grid() {
     GridRefinement::refine_and_coarsen_fixed_number(
         triangulation, estimated_error_per_cell, 0.3, 0.03);
 #endif
-
     triangulation.execute_coarsening_and_refinement();
 }
 
-template <int dim>
-void Solver<dim>::output_results(const unsigned int cycle) const {
+template <int dim> void Solver<dim>::output_results(unsigned int cycle) const {
     DataOut<dim> data_out;
     data_out.attach_dof_handler(dof_handler);
     data_out.add_data_vector(locally_relevant_solution, "solution");
 
 #ifdef USE_PETSC_MPI
-    // Add subdomain BEFORE build_patches()
     Vector<float> subdomain(triangulation.n_active_cells());
     for (unsigned int i = 0; i < subdomain.size(); ++i)
         subdomain(i) = triangulation.locally_owned_subdomain();
@@ -314,35 +228,29 @@ void Solver<dim>::output_results(const unsigned int cycle) const {
 #endif
 
     data_out.build_patches();
-
     const std::string filename_base = "solution-" + std::to_string(cycle);
 
 #ifdef USE_PETSC_MPI
-    // PARALLEL OUTPUT: .vtu per processor + .pvtu master record
     const unsigned int n_ranks =
         Utilities::MPI::n_mpi_processes(mpi_communicator);
     const unsigned int my_rank =
         Utilities::MPI::this_mpi_process(mpi_communicator);
-
     const std::string filename_vtu =
         filename_base + "." + std::to_string(my_rank) + ".vtu";
     std::ofstream output(filename_vtu);
     data_out.write_vtu(output);
-
     if (my_rank == 0) {
         std::vector<std::string> filenames;
         filenames.reserve(n_ranks);
         for (unsigned int i = 0; i < n_ranks; ++i)
             filenames.push_back(filename_base + "." + std::to_string(i) +
                                 ".vtu");
-
         std::ofstream master_output(filename_base + ".pvtu");
         data_out.write_pvtu_record(master_output, filenames);
         (void)(pcout << "   Output written to " << filename_base << ".pvtu"
                      << std::endl);
     }
 #else
-    // SEQUENTIAL OUTPUT: Standard .vtk
     const std::string filename_vtk = filename_base + ".vtk";
     std::ofstream output(filename_vtk);
     data_out.write_vtk(output);
@@ -361,14 +269,10 @@ template <int dim> void Solver<dim>::run() {
           << " MPI rank(s)." << std::endl;
 
     constexpr unsigned int n_cycles = 6;
-
     for (unsigned int cycle = 0; cycle < n_cycles; ++cycle) {
         (void)(pcout << "Cycle " << cycle << ":" << std::endl);
-
         if (cycle == 0) {
             GridGenerator::hyper_cube(triangulation, 0.0, 1.0);
-
-            // Set boundary IDs
             for (const auto& cell : triangulation.cell_iterators())
                 for (const auto& face : cell->face_iterators())
                     if (face->at_boundary()) {
@@ -378,46 +282,16 @@ template <int dim> void Solver<dim>::run() {
                         else
                             face->set_boundary_id(neumann_boundary_id);
                     }
-
             triangulation.refine_global(3);
         } else {
             refine_grid();
         }
-
         setup_system();
         assemble_system();
         solve();
         output_results(cycle);
     }
 }
+template class Solver<2>;
 
 } // namespace GalerkinSolver
-
-int main(int argc, char* argv[]) {
-    try {
-        using namespace GalerkinSolver;
-
-        Utilities::MPI::MPI_InitFinalize mpi_initialization(argc, argv, 1);
-
-        Solver<2> problem_2d(1);
-        problem_2d.run();
-
-    } catch (std::exception& exc) {
-        std::cerr << std::endl
-                  << "--------------------------------------------"
-                  << std::endl;
-        std::cerr << "Exception on processing: " << std::endl
-                  << exc.what() << std::endl
-                  << "Aborting!" << std::endl;
-        return 1;
-    } catch (...) {
-        std::cerr << std::endl
-                  << "--------------------------------------------"
-                  << std::endl;
-        std::cerr << "Unknown exception!" << std::endl
-                  << "Aborting!" << std::endl;
-        return 1;
-    }
-
-    return 0;
-}

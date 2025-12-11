@@ -50,8 +50,10 @@ deal_ii_initialize_cached_variables()
 # Enable testing
 ENABLE_TESTING()
 
-add_executable(GalerkinSolver src/GalerkinSolver.cc
-        src/problem_parameters.h)
+add_executable(GalerkinSolver src/GalerkinSolver.cpp
+        src/problem_parameters.h
+        src/GalerkinSolver.h
+        src/main.cpp)
 
 deal_ii_setup_target(GalerkinSolver)
 
