@@ -1,15 +1,44 @@
 #ifndef HYBRIDADRSOLVER_PROBLEM_PARAMETERS_H
 #define HYBRIDADRSOLVER_PROBLEM_PARAMETERS_H
 
+#include <cmath>
 #include <deal.II/base/function.h>
 #include <deal.II/base/parameter_handler.h>
 #include <deal.II/base/tensor_function.h>
 
 namespace parameters {
 using namespace dealii;
+using numbers::PI;
 
 // Problem dimension
 constexpr unsigned int dim = 3;
+
+// Pick a smooth Exact Solution that is zero on unit cube boundaries
+// u(x,y,z) = sin(pi*x) * sin(pi*y) * sin(pi*z)
+template <int dim> class ExactSolution : public Function<dim> {
+public:
+    ExactSolution() : Function<dim>() {}
+
+    double value(const Point<dim>& p, const unsigned int) const override {
+        double val = 1.0;
+        for (unsigned int d = 0; d < dim; ++d)
+            val *= std::sin(PI * p[d]);
+        return val;
+    }
+
+    Tensor<1, dim> gradient(const Point<dim>& p,
+                            const unsigned int) const override {
+        Tensor<1, dim> grad;
+        for (unsigned int d = 0; d < dim; ++d) {
+            grad[d] = PI * std::cos(PI * p[d]);
+            for (unsigned int other_d = 0; other_d < dim; ++other_d) {
+                if (d != other_d)
+                    grad[d] *= std::sin(PI * p[other_d]);
+            }
+        }
+        return grad;
+    }
+};
 
 /**
  * Diffusion coefficient $\mu(x)$
@@ -75,16 +104,38 @@ private:
 /**
  * Right-hand side function f(x)
  */
+// We compute f = -mu*Laplacian(u) + beta*grad(u) + gamma*u
+// using the ExactSolution u defined above.
 template <int dim> class SourceTerm : public Function<dim> {
 public:
-    explicit SourceTerm() : Function<dim>() {}
+    SourceTerm() : Function<dim>() {}
 
-    double value(const Point<dim>& p,
-                 const unsigned int component) const override {
-        (void)component;
-        // Gaussian source term centered at origin
-        const double r_squared = p.norm_square();
-        return std::exp(-10.0 * r_squared);
+    double value(const Point<dim>& p, const unsigned int) const override {
+        double u_val = 1.0;
+        for (unsigned int d = 0; d < dim; ++d)
+            u_val *= std::sin(PI * p[d]);
+
+        Tensor<1, dim> grad_u;
+        for (unsigned int d = 0; d < dim; ++d) {
+            grad_u[d] = PI * std::cos(PI * p[d]);
+            for (unsigned int other_d = 0; other_d < dim; ++other_d)
+                if (d != other_d)
+                    grad_u[d] *= std::sin(PI * p[other_d]);
+        }
+
+        const double laplacian_u = -1.0 * dim * PI * PI * u_val;
+
+        constexpr double mu = 1.0;    //  DiffusionCoefficient
+        constexpr double gamma = 0.1; //  ReactionCoefficient
+
+        Tensor<1, dim> beta;
+        beta[0] = -p[1];
+        beta[1] = p[0];
+        if (dim == 3)
+            beta[2] = 0.1;
+
+        // Combine into Residual ---
+        return -mu * laplacian_u + beta * grad_u + gamma * u_val;
     }
 };
 
