@@ -47,7 +47,7 @@ public:
  */
 template <int dim> class DiffusionCoefficient : public Function<dim> {
 public:
-    explicit DiffusionCoefficient(const double value = 1.0)
+    explicit DiffusionCoefficient(const double value = 1e-5)
         : Function<dim>(), coefficient_value(value) {}
 
     double value(const Point<dim>& p,
@@ -125,7 +125,7 @@ public:
 
         const double laplacian_u = -1.0 * dim * PI * PI * u_val;
 
-        constexpr double mu = 1.0;    //  DiffusionCoefficient
+        constexpr double mu = 1e-5;   //  DiffusionCoefficient
         constexpr double gamma = 0.1; //  ReactionCoefficient
 
         Tensor<1, dim> beta;

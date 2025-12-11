@@ -31,6 +31,7 @@ template <int dim> class Solver {
 public:
     explicit Solver(unsigned int degree = 1);
     void run();
+    double compute_l2_error();
 
 private:
     void setup_system();

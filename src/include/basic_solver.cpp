@@ -311,11 +311,12 @@ template <int dim> void Solver<dim>::run() {
             for (const auto& cell : triangulation.cell_iterators())
                 for (const auto& face : cell->face_iterators())
                     if (face->at_boundary()) {
-                        const Point<dim> center = face->center();
-                        if (std::abs(center[0]) < 1e-12)
-                            face->set_boundary_id(dirichlet_boundary_id);
-                        else
-                            face->set_boundary_id(neumann_boundary_id);
+                        // const Point<dim> center = face->center();
+                        // if (std::abs(center[0]) < 1e-12)
+                        //     face->set_boundary_id(dirichlet_boundary_id);
+                        // else
+                        //     face->set_boundary_id(neumann_boundary_id);
+                        face->set_boundary_id(dirichlet_boundary_id);
                     }
             triangulation.refine_global(3);
         } else {
@@ -325,8 +326,31 @@ template <int dim> void Solver<dim>::run() {
         assemble_system();
         solve();
         output_results(cycle);
+
+        // Compute and print L2 error
+        const double l2_error = compute_l2_error();
+        (void)(pcout << "   L2 error: " << l2_error << std::endl);
     }
 }
+template <int dim> double Solver<dim>::compute_l2_error() {
+    if (locally_relevant_solution.size() == 0) {
+        return 1e10;
+    }
+
+    Vector<float> difference_per_cell(triangulation.n_active_cells());
+
+    ExactSolution<dim> exact_solution;
+
+    VectorTools::integrate_difference(
+        dof_handler, locally_relevant_solution, exact_solution,
+        difference_per_cell, QGauss<dim>(fe.degree + 2), VectorTools::L2_norm);
+
+    const double local_l2_error = VectorTools::compute_global_error(
+        triangulation, difference_per_cell, VectorTools::L2_norm);
+
+    return local_l2_error;
+}
+
 template class Solver<2>;
 
 } // namespace BasicSolver
