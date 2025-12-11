@@ -9,6 +9,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(MPI REQUIRED)
 find_package(OpenMP REQUIRED)
+find_package(GTest REQUIRED)
 
 
 find_package(deal.II REQUIRED HINTS ${DEAL_II_DIR} ../ ../../ $ENV{DEAL_II_DIR})
@@ -45,15 +46,27 @@ IF (NOT DEAL_II_WITH_PETSC)
     )
 ENDIF ()
 
+# Check TBB support
+IF (NOT DEAL_II_WITH_TBB)
+    MESSAGE(WARNING
+            "\n*** deal.II was not configured with TBB support! ***\n\n"
+            "This project can benefit from TBB for multithreading.\n"
+            "Consider recompiling deal.II with:\n"
+            "  -DDEAL_II_WITH_TBB=ON\n"
+    )
+ENDIF ()
+
 deal_ii_initialize_cached_variables()
 
-# Enable testing
-ENABLE_TESTING()
+ADD_EXECUTABLE(
+        GalerkinSolver
+        src/applications/main.cpp
+)
 
-add_executable(GalerkinSolver src/GalerkinSolver.cpp
-        src/problem_parameters.h
-        src/GalerkinSolver.h
-        src/main.cpp)
+TARGET_INCLUDE_DIRECTORIES(GalerkinSolver
+        PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/include
+)
 
 deal_ii_setup_target(GalerkinSolver)
 
@@ -66,16 +79,13 @@ MESSAGE(STATUS "  deal.II version: ${DEAL_II_PACKAGE_VERSION}")
 MESSAGE(STATUS "  MPI support:     ${DEAL_II_WITH_MPI}")
 MESSAGE(STATUS "  p4est support:   ${DEAL_II_WITH_P4EST}")
 MESSAGE(STATUS "  PETSc support:   ${DEAL_II_WITH_PETSC}")
+MESSAGE(STATUS "  TBB support:     ${DEAL_II_WITH_TBB}")
 MESSAGE(STATUS "========================================")
 MESSAGE(STATUS "")
 
 # =============================================================
 # Tests
 # =============================================================
-
-# Test: galerkin solver runs and produces output
-ADD_TEST(
-        NAME test_basic_solver_runs
-        COMMAND GalerkinSolver
-        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-)
+# Enable testing
+ENABLE_TESTING()
+ADD_SUBDIRECTORY(tests)

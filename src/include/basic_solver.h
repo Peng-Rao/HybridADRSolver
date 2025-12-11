@@ -24,7 +24,7 @@
 
 #include <iostream>
 
-namespace GalerkinSolver {
+namespace BasicSolver {
 using namespace dealii;
 
 template <int dim> class Solver {
@@ -68,6 +68,6 @@ private:
     const types::boundary_id dirichlet_boundary_id = 0;
     const types::boundary_id neumann_boundary_id = 1;
 };
-} // namespace GalerkinSolver
+} // namespace BasicSolver
 
 #endif

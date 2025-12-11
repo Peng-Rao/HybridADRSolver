@@ -1,13 +1,8 @@
-//
-// Created by PENG RAO on 03/12/25.
-//
-
 #ifndef HYBRIDADRSOLVER_PROBLEM_PARAMETERS_H
 #define HYBRIDADRSOLVER_PROBLEM_PARAMETERS_H
 
 #include <deal.II/base/function.h>
 #include <deal.II/base/parameter_handler.h>
-#include <deal.II/base/point.h>
 #include <deal.II/base/tensor_function.h>
 
 namespace parameters {
@@ -123,6 +118,46 @@ public:
     }
 };
 
+/**
+ * Runtime parameters structure
+ */
+struct RuntimeParameters {
+    unsigned int fe_degree = 2;
+    unsigned int n_global_refines = 4;
+    unsigned int n_cycles = 1;
+    double diffusion_coefficient = 1.0;
+    double reaction_coefficient = 0.1;
+    std::string output_filename = "solution";
+    bool output_vtu = true;
+
+    static void declare_parameters(ParameterHandler& prm) {
+        prm.declare_entry("Finite element degree", "2", Patterns::Integer(1),
+                          "Polynomial degree of finite elements");
+        prm.declare_entry("Number of global refinements", "4",
+                          Patterns::Integer(0),
+                          "Number of global mesh refinements");
+        prm.declare_entry("Number of cycles", "1", Patterns::Integer(1),
+                          "Number of refinement cycles");
+        prm.declare_entry("Diffusion coefficient", "1.0", Patterns::Double(0),
+                          "Value of diffusion coefficient mu");
+        prm.declare_entry("Reaction coefficient", "0.1", Patterns::Double(0),
+                          "Value of reaction coefficient gamma");
+        prm.declare_entry("Output filename", "solution", Patterns::Anything(),
+                          "Base name for output files");
+        prm.declare_entry("Output VTU", "true", Patterns::Bool(),
+                          "Whether to output VTU files");
+    };
+
+    void parse_parameters(const ParameterHandler& prm) {
+        fe_degree = prm.get_integer("Finite element degree");
+        n_global_refines = prm.get_integer("Number of global refinements");
+        n_cycles = prm.get_integer("Number of cycles");
+        diffusion_coefficient = prm.get_double("Diffusion coefficient");
+        reaction_coefficient = prm.get_double("Reaction coefficient");
+        output_filename = prm.get("Output filename");
+        output_vtu = prm.get_bool("Output VTU");
+    }
+};
 } // namespace parameters
 
 #endif // HYBRIDADRSOLVER_PROBLEM_PARAMETERS_H

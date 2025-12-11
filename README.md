@@ -53,6 +53,8 @@ spack install dealii +mpi +petsc +p4est \
     '^petsc+hypre+metis+hdf5' \
     '^mpich' \
     '^python@3.11'
+    
+spack install gtest
 ```
 
 ### Compilation

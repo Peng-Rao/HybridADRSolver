@@ -1,13 +1,9 @@
-//
-// Created by PENG RAO on 11/12/25.
-//
-// main.cc
-#include "GalerkinSolver.h"
+#include "basic_solver.h"
 
 int main(int argc, char* argv[]) {
     try {
         using namespace dealii;
-        using namespace GalerkinSolver;
+        using namespace BasicSolver;
 
         Utilities::MPI::MPI_InitFinalize mpi_initialization(argc, argv, 1);
 

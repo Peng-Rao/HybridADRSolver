@@ -1,5 +1,4 @@
-// solver.cc
-#include "GalerkinSolver.h"
+#include "basic_solver.h"
 #include "problem_parameters.h"
 #include <deal.II/base/quadrature_lib.h>
 #include <deal.II/dofs/dof_tools.h>
@@ -20,7 +19,7 @@
 
 #include <fstream>
 
-namespace GalerkinSolver {
+namespace BasicSolver {
 using namespace parameters;
 
 template <int dim>
@@ -87,7 +86,7 @@ template <int dim> void Solver<dim>::assemble_system() {
     const QGauss<dim - 1> face_quadrature_formula(fe.degree + 1);
 
     FEValues<dim> fe_values(fe, quadrature_formula,
-                            update_values | update_gradients |
+                            update_values | update_gradients | update_hessians |
                                 update_quadrature_points | update_JxW_values);
 
     FEFaceValues<dim> fe_face_values(fe, face_quadrature_formula,
@@ -107,7 +106,7 @@ template <int dim> void Solver<dim>::assemble_system() {
     AdvectionField<dim> beta;
     ReactionCoefficient<dim> gamma;
     SourceTerm<dim> f;
-    NeumannBoundaryValues<dim> h;
+    NeumannBoundaryValues<dim> h_boundary;
 
     for (const auto& cell : dof_handler.active_cell_iterators()) {
         if (cell->is_locally_owned() == false)
@@ -117,29 +116,65 @@ template <int dim> void Solver<dim>::assemble_system() {
         cell_matrix = 0;
         cell_rhs = 0;
 
+        // Retrieve cell diameter for stabilization parameter calculation
+        const double h_K = cell->diameter();
+
         for (unsigned int q = 0; q < n_q_points; ++q) {
             const Point<dim>& x = fe_values.quadrature_point(q);
-            double mu_val = mu.value(x, 0);
-            Tensor<1, dim> beta_val = beta.value(x);
-            double gamma_val = gamma.value(x, 0);
-            double f_val = f.value(x, 0);
-            double JxW = fe_values.JxW(q);
+            const double mu_val = mu.value(x, 0);
+            const Tensor<1, dim> beta_val = beta.value(x);
+            const double gamma_val = gamma.value(x, 0);
+            const double f_val = f.value(x, 0);
+            const double JxW = fe_values.JxW(q);
+
+            // Calculate SUPG stabilization parameter (tau)
+            // Using a standard asymptotic formula for
+            // advection-diffusion-reaction
+            const double beta_norm = beta_val.norm();
+            double tau = 0.0;
+
+            if (beta_norm > 1e-12) {
+                const double num_sq = std::pow(2.0 * beta_norm / h_K, 2);
+                const double diff_sq = std::pow(4.0 * mu_val / (h_K * h_K), 2);
+                const double react_sq = std::pow(gamma_val, 2);
+                tau = 1.0 / std::sqrt(num_sq + diff_sq + react_sq);
+            }
 
             for (unsigned int i = 0; i < dofs_per_cell; ++i) {
                 const double phi_i = fe_values.shape_value(i, q);
                 const Tensor<1, dim> grad_phi_i = fe_values.shape_grad(i, q);
+
+                // SUPG Test Function term: tau * (beta * grad(v))
+                const double supg_test_i = tau * (beta_val * grad_phi_i);
 
                 for (unsigned int j = 0; j < dofs_per_cell; ++j) {
                     const double phi_j = fe_values.shape_value(j, q);
                     const Tensor<1, dim> grad_phi_j =
                         fe_values.shape_grad(j, q);
 
-                    cell_matrix(i, j) += (mu_val * grad_phi_j * grad_phi_i +
-                                          (beta_val * grad_phi_j) * phi_i +
-                                          gamma_val * phi_j * phi_i) *
-                                         JxW;
+                    // Standard Galerkin Contribution
+                    double cell_contribution =
+                        (mu_val * grad_phi_j * grad_phi_i +
+                         (beta_val * grad_phi_j) * phi_i +
+                         gamma_val * phi_j * phi_i);
+
+                    // SUPG Stabilization Contribution
+                    // Strong Residual: -mu * laplacian(u) + beta * grad(u) +
+                    // gamma * u Note: trace(hessian) gives the Laplacian
+                    const double laplacian_phi_j =
+                        trace(fe_values.shape_hessian(j, q));
+                    const double strong_residual_j = -mu_val * laplacian_phi_j +
+                                                     (beta_val * grad_phi_j) +
+                                                     gamma_val * phi_j;
+
+                    cell_contribution += strong_residual_j * supg_test_i;
+
+                    cell_matrix(i, j) += cell_contribution * JxW;
                 }
-                cell_rhs(i) += f_val * phi_i * JxW;
+
+                // Standard RHS + SUPG RHS
+                // RHS term: (f, v + tau * beta * grad(v))
+                cell_rhs(i) += (f_val * phi_i + f_val * supg_test_i) * JxW;
             }
         }
 
@@ -149,7 +184,7 @@ template <int dim> void Solver<dim>::assemble_system() {
                 fe_face_values.reinit(cell, face);
                 for (unsigned int q = 0; q < n_face_q_points; ++q) {
                     double h_val =
-                        h.value(fe_face_values.quadrature_point(q), 0);
+                        h_boundary.value(fe_face_values.quadrature_point(q), 0);
                     for (unsigned int i = 0; i < dofs_per_cell; ++i) {
                         cell_rhs(i) += h_val *
                                        fe_face_values.shape_value(i, q) *
@@ -294,4 +329,4 @@ template <int dim> void Solver<dim>::run() {
 }
 template class Solver<2>;
 
-} // namespace GalerkinSolver
+} // namespace BasicSolver
