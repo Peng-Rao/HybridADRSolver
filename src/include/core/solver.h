@@ -19,15 +19,15 @@
 
 namespace HybridADRSolver {
 using namespace dealii;
-template <int dim> class SolverBase {
+template <int dim> class ParallelSolverBase {
 public:
     /**
      * Constructor
      * @param comm MPI communicator
      * @param params Solver parameters
      */
-    SolverBase(MPI_Comm comm, const SolverParameters& params);
-    virtual ~SolverBase() = default;
+    ParallelSolverBase(MPI_Comm comm, const SolverParameters& params);
+    virtual ~ParallelSolverBase() = default;
 
     /**
      * Run the complete solve cycle
@@ -108,7 +108,8 @@ protected:
 };
 
 template <int dim>
-SolverBase<dim>::SolverBase(MPI_Comm comm, const SolverParameters& params)
+ParallelSolverBase<dim>::ParallelSolverBase(MPI_Comm comm,
+                                            const SolverParameters& params)
     : mpi_communicator(comm),
       n_mpi_processes(Utilities::MPI::n_mpi_processes(comm)),
       this_mpi_process(Utilities::MPI::this_mpi_process(comm)),
@@ -125,7 +126,7 @@ SolverBase<dim>::SolverBase(MPI_Comm comm, const SolverParameters& params)
 }
 
 template <int dim>
-void SolverBase<dim>::setup_grid(const unsigned int n_refinements) {
+void ParallelSolverBase<dim>::setup_grid(const unsigned int n_refinements) {
     // Default: unit hypercube with boundary IDs
     GridGenerator::hyper_cube(triangulation, 0.0, 1.0, true);
 

@@ -58,23 +58,36 @@ ENDIF ()
 
 deal_ii_initialize_cached_variables()
 
-FILE(GLOB_RECURSE SRC_FILES
-        "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.cpp"
-)
+file(GLOB_RECURSE SRC_FILES CONFIGURE_DEPENDS
+        "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.cpp")
+
+#ADD_EXECUTABLE(
+#        GalerkinSolver
+#        src/applications/main.cpp
+#)
+#
+#TARGET_SOURCES(GalerkinSolver PRIVATE ${SRC_FILES})
+#
+#TARGET_INCLUDE_DIRECTORIES(GalerkinSolver
+#        PUBLIC
+#        ${CMAKE_CURRENT_SOURCE_DIR}/src/include
+#)
+#
+#deal_ii_setup_target(GalerkinSolver)
 
 ADD_EXECUTABLE(
-        GalerkinSolver
-        src/applications/main.cpp
+        main_matrix_based
+        src/applications/main_matrix_based.cpp
 )
 
-TARGET_SOURCES(GalerkinSolver PRIVATE ${SRC_FILES})
+TARGET_SOURCES(main_matrix_based PRIVATE ${SRC_FILES})
 
-TARGET_INCLUDE_DIRECTORIES(GalerkinSolver
+TARGET_INCLUDE_DIRECTORIES(main_matrix_based
         PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/src/include
 )
 
-deal_ii_setup_target(GalerkinSolver)
+deal_ii_setup_target(main_matrix_based)
 
 # Print configuration summary
 MESSAGE(STATUS "")
