@@ -63,16 +63,12 @@ backend=biber]{biblatex}
         \vspace{1cm}
 
         \rule{0.95\textwidth}{0.7mm}
-        {\Large{\textbf{Final project: \\Classify musical genre using audio files}}}
+        {\Large{\textbf{Hybrid thread-MPI parallelization for ADR equation}}}
         \rule{0.95\textwidth}{0.7mm}
 
         \vspace{1cm}
 
-        % \large{Prof. Edie Miglio \\ A.Y. 2024-2025}
-
-        \vspace{1cm}
-
-        \large{Authors: \\ \textbf{Peng Rao} (ID 270661)}
+        \large{\textbf{Peng Rao}, \textbf{Jiali Claudio Huang}, \textbf{Ruiying Jiao}}
     \end{center}
 
 \end{titlingpage}
@@ -86,7 +82,21 @@ backend=biber]{biblatex}
 \setcounter{page}{1}
 \pagenumbering{arabic}
 
-\section{Introduction} \label{sec:introduction}
+\section{Problem statement} \label{sec:problem_statement}
+\subsection{Strong formulation}
+Consider the following \textbf{Advection-Diffusion-Reaction} equation:
+\[
+    \begin{cases}
+        -\nabla \cdot (\mu \nabla u) + \nabla \cdot (\beta u) + \gamma u = f
+         & \text{in } \Omega,                                         \\[0.5em]
+        u = g
+         & \text{on } \Gamma_D \subset \partial \Omega,               \\[0.5em]
+        \nabla u \cdot n = h
+         & \text{on } \Gamma_N = \partial \Omega \setminus \Gamma_D .
+    \end{cases}
+\]
+
+\subsection{Weak formulation}
 
 \clearpage
 \printbibliography[heading=bibintoc, title = {References}]
