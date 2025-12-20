@@ -13,7 +13,6 @@ int main(int argc, char* argv[]) {
     try {
         using namespace dealii;
         using namespace HybridADRSolver;
-
         // 1. Initialize MPI
         Utilities::MPI::MPI_InitFinalize mpi_initialization(argc, argv, 1);
         MPI_Comm mpi_communicator = MPI_COMM_WORLD;

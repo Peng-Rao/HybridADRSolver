@@ -57,6 +57,12 @@ public:
      */
     virtual double source(const Point<dim>& p) const = 0;
 
+    /**
+     * @brief Exact solution for error calculation.
+     * Defaults to returning 0.0 if not implemented.
+     */
+    virtual double exact_solution(const Point<dim>& /*p*/) const { return 0.0; }
+
     // ========================================================================
     // Vectorized coefficient evaluation (for matrix-free)
     // ========================================================================

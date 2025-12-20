@@ -54,6 +54,9 @@ public:
     double source(const Point<dim>& p) const override {
         return std::exp(-10.0 * p.norm_square());
     }
+    double exact_solution(const Point<dim>& /*p*/) const override {
+        return 0.0;
+    }
 
     // Optimized vectorized versions
     VectorizedArray<double> diffusion_vectorized(
@@ -124,6 +127,18 @@ public:
     double source(const Point<dim>& p) const override {
         // f = 2*dim for solution u = x*(1-x) + y*(1-y) + ...
         return 2.0 * dim;
+    }
+
+    /**
+     * @brief Analytical solution for verification.
+     * u(x) = x(1-x) + y(1-y) ...
+     */
+    double exact_solution(const Point<dim>& p) const override {
+        double val = 0.0;
+        for (unsigned int d = 0; d < dim; ++d) {
+            val += p[d] * (1.0 - p[d]);
+        }
+        return val;
     }
 
     VectorizedArray<double> diffusion_vectorized(

@@ -19,6 +19,24 @@
 namespace HybridADRSolver {
 using namespace dealii;
 
+/**
+ * @brief Wrapper to allow VectorTools to see ProblemInterface::exact_solution
+ * as a Function
+ */
+template <int dim> class ExactSolutionFunction : public Function<dim> {
+public:
+    explicit ExactSolutionFunction(const ProblemInterface<dim>& problem)
+        : Function<dim>(1), problem(problem) {}
+
+    double value(const Point<dim>& p,
+                 const unsigned int /*component*/ = 0) const override {
+        return problem.exact_solution(p);
+    }
+
+private:
+    const ProblemInterface<dim>& problem;
+};
+
 // ==========================================================================
 // Helper Struct Definitions
 // ==========================================================================
@@ -275,6 +293,29 @@ void MatrixBasedSolver<dim>::output_results(const unsigned int cycle) const {
                                         cycle, this->mpi_communicator, 2);
 }
 
+template <int dim> double MatrixBasedSolver<dim>::compute_l2_error() {
+    // Create the wrapper for the exact solution
+    ExactSolutionFunction<dim> exact_solution_func(problem);
+
+    // Vector to hold the L2 norm of the error on each cell
+    Vector<double> cellwise_errors(this->triangulation.n_active_cells());
+
+    // Compute error locally on each cell
+    // Uses a higher order quadrature (fe_degree + 2) to ensure accurate
+    // integration of the error
+    VectorTools::integrate_difference(
+        *this->mapping, this->dof_handler, solution, exact_solution_func,
+        cellwise_errors, QGauss<dim>(fe_degree + 2), VectorTools::L2_norm);
+
+    // Aggregate errors across all MPI processes
+    // The vector contains ||u - u_h||_K. We need sqrt(sum( ||u - u_h||_K^2 ))
+    const double local_l2_sq = cellwise_errors.norm_sqr();
+    const double global_l2_sq =
+        Utilities::MPI::sum(local_l2_sq, this->mpi_communicator);
+
+    return std::sqrt(global_l2_sq);
+}
+
 template <int dim>
 void MatrixBasedSolver<dim>::run(const unsigned int n_refinements) {
     if (this->parameters.verbose) {
@@ -335,6 +376,13 @@ void MatrixBasedSolver<dim>::run(const unsigned int n_refinements) {
                     << " s" << std::endl;
         this->pcout << "     Total:     " << this->timing_results.total_time
                     << " s" << std::endl;
+    }
+
+    const double l2_error = compute_l2_error();
+
+    if (this->parameters.verbose) {
+        this->pcout << "\n   Error Analysis:" << std::endl;
+        this->pcout << "     L2 Error:  " << l2_error << std::endl;
     }
 }
 // ==========================================================================

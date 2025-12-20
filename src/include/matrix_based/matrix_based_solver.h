@@ -47,8 +47,6 @@ public:
 
     std::string get_name() const override { return "Matrix-Based Solver"; }
 
-    double compute_l2_error();
-
     /**
      * Get the system matrix (for analysis/debugging)
      */
@@ -60,7 +58,8 @@ protected:
     void setup_dofs() override;
     void assemble_system() override;
     void solve() override;
-    void output_results(const unsigned int cycle) const override;
+    void output_results(unsigned int cycle) const override;
+    double compute_l2_error();
 
 private:
     // WorkStream assembly functions
