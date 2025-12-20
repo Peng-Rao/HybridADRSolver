@@ -56,7 +56,7 @@ jobs:
       - name: Run basic solver
         run: |
           cd build
-          ./GalerkinSolver
+          ./main_matrix_based
 
       - name: Verify output files
         run: |
@@ -123,7 +123,7 @@ jobs:
       - name: Run convergence test
         run: |
           cd build
-          ./GalerkinSolver > output.log 2>&1
+          ./main_matrix_based > output.log 2>&1
           cat output.log
 
   # =============================================================
@@ -162,7 +162,7 @@ jobs:
                    --track-origins=yes \
                    --error-exitcode=1 \
                    --suppressions=/usr/local/share/deal.II/valgrind/deal.supp \
-                   ./GalerkinSolver 2>&1 | tee valgrind.log || true
+                   ./main_matrix_based 2>&1 | tee valgrind.log || true
           
           # Check for definite memory leaks (ignore possible/reachable)
           if grep -q "definitely lost: [1-9]" valgrind.log; then
