@@ -78,6 +78,8 @@ void MatrixBasedSolver<dim>::setup_dofs() {
 template <int dim>
 void MatrixBasedSolver<dim>::assemble_system() {
     auto worker = [&](const typename DoFHandler<dim>::active_cell_iterator& cell, ScratchData<dim>& scratch, CopyData& copy) {
+        copy.local_dof_indices.clear();
+
         // Safety check for distributed triangulation
         if (!cell->is_locally_owned()) return;
 
@@ -96,7 +98,6 @@ void MatrixBasedSolver<dim>::assemble_system() {
         const unsigned int n_q_points = q_points.size();
 
         for(unsigned int q=0; q<n_q_points; ++q) {
-            // [Decoupled] Get physics from problem interface
             const double mu = problem.diffusion_coefficient(q_points[q]);
             const auto beta = problem.advection_field(q_points[q]);
             const double gamma = problem.reaction_coefficient(q_points[q]);
@@ -188,6 +189,7 @@ void MatrixBasedSolver<dim>::solve() {
 
     this->constraints.distribute(dist_solution);
     solution = dist_solution;
+    solution.update_ghost_values();
 
     if(this->parameters.verbose) {
         this->pcout << "   Converged in " << solver_control.last_step() << " iterations." << std::endl;
