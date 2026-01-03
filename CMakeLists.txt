@@ -8,7 +8,6 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(MPI REQUIRED)
-find_package(OpenMP REQUIRED)
 find_package(GTest REQUIRED)
 
 
@@ -60,20 +59,6 @@ deal_ii_initialize_cached_variables()
 
 file(GLOB_RECURSE SRC_FILES CONFIGURE_DEPENDS
         "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.cpp")
-
-#ADD_EXECUTABLE(
-#        GalerkinSolver
-#        src/applications/main.cpp
-#)
-#
-#TARGET_SOURCES(GalerkinSolver PRIVATE ${SRC_FILES})
-#
-#TARGET_INCLUDE_DIRECTORIES(GalerkinSolver
-#        PUBLIC
-#        ${CMAKE_CURRENT_SOURCE_DIR}/src/include
-#)
-#
-#deal_ii_setup_target(GalerkinSolver)
 
 ADD_EXECUTABLE(
         main_matrix_based
