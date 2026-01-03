@@ -12,7 +12,7 @@ int main(int argc, char* argv[]) {
         
         SolverParameters params;
         params.verbose = true;
-        params.output_prefix = "adr_solution";
+        params.output_prefix = "solution";
 
         const Problems::ADRProblem<3> problem;
 
