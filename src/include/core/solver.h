@@ -33,7 +33,7 @@ public:
      * Run the complete solve cycle
      * @param n_refinements Number of global mesh refinements
      */
-    virtual void run(const unsigned int n_refinements) = 0;
+    virtual void run(unsigned int n_refinements) = 0;
 
     /**
      * Get timing results from the last run
@@ -127,22 +127,7 @@ ParallelSolverBase<dim>::ParallelSolverBase(MPI_Comm comm,
 
 template <int dim>
 void ParallelSolverBase<dim>::setup_grid(const unsigned int n_refinements) {
-    // Default: unit hypercube with boundary IDs
     GridGenerator::hyper_cube(triangulation, 0.0, 1.0, true);
-
-    // Set boundary IDs: 0 for Dirichlet, 1 for Neumann
-    for (auto& cell : triangulation.active_cell_iterators()) {
-        for (const auto& face : cell->face_iterators()) {
-            if (face->at_boundary()) {
-                const Point<dim> center = face->center();
-                // Dirichlet on x=0 face
-                if (std::abs(center[0]) < 1e-12)
-                    face->set_boundary_id(0);
-                else
-                    face->set_boundary_id(1);
-            }
-        }
-    }
 
     triangulation.refine_global(n_refinements);
 

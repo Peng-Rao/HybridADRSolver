@@ -6,7 +6,7 @@
 #ifndef HYBRIDADRSOLVER_MATRIX_BASED_SOLVER_H
 #define HYBRIDADRSOLVER_MATRIX_BASED_SOLVER_H
 
-#include "core/problem_interface.h"
+#include "core/problem_definition.h"
 #include "core/solver.h"
 #include "core/types.h"
 
