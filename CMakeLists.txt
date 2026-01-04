@@ -74,6 +74,20 @@ TARGET_INCLUDE_DIRECTORIES(main_matrix_based
 
 deal_ii_setup_target(main_matrix_based)
 
+ADD_EXECUTABLE(
+        main_matrix_free
+        src/applications/main_matrix_free.cpp
+)
+
+TARGET_SOURCES(main_matrix_free PRIVATE ${SRC_FILES})
+
+TARGET_INCLUDE_DIRECTORIES(main_matrix_free
+        PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/include
+)
+
+deal_ii_setup_target(main_matrix_free)
+
 # Print configuration summary
 MESSAGE(STATUS "")
 MESSAGE(STATUS "========================================")
