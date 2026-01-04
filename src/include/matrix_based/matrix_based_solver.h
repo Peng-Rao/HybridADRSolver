@@ -54,6 +54,11 @@ public:
         return system_matrix;
     }
 
+    /**
+     * @brief Compute memory usage in MB.
+     */
+    double compute_memory_usage() const;
+
 protected:
     void setup_dofs() override;
     void assemble_system() override;

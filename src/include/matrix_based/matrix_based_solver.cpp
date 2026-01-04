@@ -85,6 +85,36 @@ MatrixBasedSolver<dim>::MatrixBasedSolver(const ProblemInterface<dim>& prob,
     this->mapping = std::make_unique<MappingQ<dim>>(degree);
 }
 
+template <int dim> double MatrixBasedSolver<dim>::compute_memory_usage() const {
+    double memory = 0.0;
+
+    // System matrix memory (this is the dominant cost)
+    // PETSc matrix memory consumption
+    MatInfo info;
+    const auto petsc_mat =
+        const_cast<LADistributed::MPI::SparseMatrix&>(system_matrix)
+            .petsc_matrix();
+    MatGetInfo(petsc_mat, MAT_LOCAL, &info);
+    // info.memory gives bytes used by PETSc matrix on this process
+    memory += info.memory;
+
+    // Solution vector (with ghost values)
+    memory += solution.memory_consumption();
+
+    // RHS vector
+    memory += system_rhs.memory_consumption();
+
+    // Constraints
+    memory += this->constraints.memory_consumption();
+
+    // Sum across all MPI processes
+    const double global_memory =
+        Utilities::MPI::sum(memory, this->mpi_communicator);
+
+    // Convert to MB
+    return global_memory / (1024.0 * 1024.0);
+}
+
 template <int dim> void MatrixBasedSolver<dim>::setup_dofs() {
     // Distribute degrees of freedom based on the finite element
     this->dof_handler.distribute_dofs(*this->fe);
@@ -357,6 +387,7 @@ template <int dim> void MatrixBasedSolver<dim>::run(unsigned int n_ref) {
     // Output and Analysis
     output_results(0);
     double err = compute_l2_error();
+    this->timing_results.memory_mb = compute_memory_usage();
 
     if (this->parameters.verbose) {
         this->pcout << "   Setup time:    "
@@ -368,6 +399,8 @@ template <int dim> void MatrixBasedSolver<dim>::run(unsigned int n_ref) {
         this->pcout << "   Solve time:    "
                     << std::chrono::duration<double>(t3 - t2).count() << "s"
                     << std::endl;
+        this->pcout << "   Memory usage:  " << this->timing_results.memory_mb
+                    << " MB" << std::endl;
         this->pcout << "   L2 Error:      " << err << std::endl;
     }
 }

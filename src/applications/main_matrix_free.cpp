@@ -41,18 +41,6 @@ int main(int argc, char* argv[]) {
         // Run with 4 global refinements
         solver.run(4);
 
-        // Print final summary
-        const auto& timing = solver.get_timing_results();
-        if (Utilities::MPI::this_mpi_process(MPI_COMM_WORLD) == 0) {
-            std::cout << "\n=== Matrix-Free Solver Summary ===" << std::endl;
-            std::cout << "DoFs:           " << timing.n_dofs << std::endl;
-            std::cout << "Iterations:     " << timing.n_iterations << std::endl;
-            std::cout << "Total time:     " << timing.total_time << " s"
-                      << std::endl;
-            std::cout << "Memory:         " << timing.memory_mb << " MB"
-                      << std::endl;
-        }
-
     } catch (std::exception& exc) {
         std::cerr << "Exception: " << exc.what() << std::endl;
         return 1;
