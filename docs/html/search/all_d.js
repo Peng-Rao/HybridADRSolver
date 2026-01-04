@@ -1,0 +1,11 @@
+var searchData=
+[
+  ['scratchdata_0',['ScratchData',['../struct_hybrid_a_d_r_solver_1_1_scratch_data.html',1,'HybridADRSolver::ScratchData&lt; dim &gt;'],['../struct_hybrid_a_d_r_solver_1_1_scratch_data.html#a6363830df8e1dba5b185bb584f98e565',1,'HybridADRSolver::ScratchData::ScratchData(const FiniteElement&lt; dim &gt; &amp;fe, const Quadrature&lt; dim &gt; &amp;q, const Quadrature&lt; dim - 1 &gt; &amp;fq)'],['../struct_hybrid_a_d_r_solver_1_1_scratch_data.html#a6239a2e46c97e3b807020f9ae42319b7',1,'HybridADRSolver::ScratchData::ScratchData(const ScratchData &amp;sd)']]],
+  ['setup_5fdofs_1',['setup_dofs',['../class_hybrid_a_d_r_solver_1_1_parallel_solver_base.html#ad78ad9c73638fe3e8e0ca020453b41e5',1,'HybridADRSolver::ParallelSolverBase::setup_dofs()'],['../class_hybrid_a_d_r_solver_1_1_matrix_based_solver.html#a43b399d0de2daf8edb8d18c32d65729f',1,'HybridADRSolver::MatrixBasedSolver::setup_dofs()']]],
+  ['setup_5fgrid_2',['setup_grid',['../class_hybrid_a_d_r_solver_1_1_parallel_solver_base.html#a1a8f8a07786c68b12898e58ad345a4cc',1,'HybridADRSolver::ParallelSolverBase']]],
+  ['solve_3',['solve',['../class_hybrid_a_d_r_solver_1_1_parallel_solver_base.html#a98b341d0949ede6584d02d3520eb1642',1,'HybridADRSolver::ParallelSolverBase::solve()'],['../class_hybrid_a_d_r_solver_1_1_matrix_based_solver.html#a42698f5fb46f66c40aeccd03c277c05e',1,'HybridADRSolver::MatrixBasedSolver::solve()']]],
+  ['solver_2eh_4',['solver.h',['../solver_8h.html',1,'']]],
+  ['solverparameters_5',['SolverParameters',['../struct_hybrid_a_d_r_solver_1_1_solver_parameters.html',1,'HybridADRSolver']]],
+  ['solvertype_6',['SolverType',['../types_8h.html#afe6d3d39f0c710383621e32a46108cb1',1,'HybridADRSolver']]],
+  ['source_5fterm_7',['source_term',['../class_hybrid_a_d_r_solver_1_1_problem_interface.html#ab51cd54979ec7cb91914b0f071d7f5bc',1,'HybridADRSolver::ProblemInterface::source_term()'],['../class_hybrid_a_d_r_solver_1_1_problems_1_1_a_d_r_problem.html#add125e85d1ffecaa56cb8895c5ebb284',1,'HybridADRSolver::Problems::ADRProblem::source_term()']]]
+];

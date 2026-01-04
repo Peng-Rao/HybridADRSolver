@@ -62,18 +62,9 @@ protected:
     double compute_l2_error();
 
 private:
-    // WorkStream assembly functions
-    void local_assemble_cell(
-        const typename DoFHandler<dim>::active_cell_iterator& cell,
-        ScratchData<dim>& scratch, CopyData& copy_data);
-
-    void copy_local_to_global(const CopyData& copy_data);
-
-    // Problem definition
     const ProblemInterface<dim>& problem;
     unsigned int fe_degree;
 
-    // Linear algebra objects (Trilinos-based distributed)
     LADistributed::MPI::SparseMatrix system_matrix;
     LADistributed::MPI::Vector system_rhs;
     LADistributed::MPI::Vector solution;

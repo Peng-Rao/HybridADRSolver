@@ -1,0 +1,61 @@
+\doxysection{types.\+h}
+\hypertarget{types_8h_source}{}\label{types_8h_source}\index{src/include/core/types.h@{src/include/core/types.h}}
+\mbox{\hyperlink{types_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#ifndef\ HYBRIDADRSOLVER\_TYPES\_H}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#define\ HYBRIDADRSOLVER\_TYPES\_H}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <deal.II/lac/generic\_linear\_algebra.h>}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ <deal.II/lac/la\_parallel\_vector.h>}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{keyword}{namespace\ }HybridADRSolver\ \{}
+\DoxyCodeLine{00019\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_hybrid_a_d_r_solver_1_1_l_a_distributed}{LADistributed}}\ \{}
+\DoxyCodeLine{00020\ \textcolor{keyword}{using\ namespace\ }dealii::LinearAlgebraPETSc;}
+\DoxyCodeLine{00021\ \}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00026\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_hybrid_a_d_r_solver_1_1_l_a_matrix_free}{LAMatrixFree}}\ \{}
+\DoxyCodeLine{00027\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ Number\ =\ \textcolor{keywordtype}{double}>}
+\DoxyCodeLine{00028\ \textcolor{keyword}{using\ }Vector\ =\ dealii::LinearAlgebra::distributed::Vector<Number>;}
+\DoxyCodeLine{00029\ \}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00034\ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{types_8h_afe6d3d39f0c710383621e32a46108cb1}{SolverType}}\ \{\ MatrixBased,\ MatrixFree\ \};}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00039\ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{types_8h_aa3fd5a2bb73d19a55b178e5a35b5b341}{PreconditionerType}}\ \{\ None,\ Jacobi,\ ILU,\ AMG,\ Chebyshev,\ GMG\ \};}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00044\ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{types_8h_a222b7a02326125bfc0eec6713f38e5ff}{LinearSolverType}}\ \{\ CG,\ GMRES,\ BiCGStab\ \};}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00049\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_hybrid_a_d_r_solver_1_1_solver_parameters}{SolverParameters}}\ \{}
+\DoxyCodeLine{00050\ \ \ \ \ \mbox{\hyperlink{types_8h_afe6d3d39f0c710383621e32a46108cb1}{SolverType}}\ solver\_type\ =\ SolverType::MatrixBased;}
+\DoxyCodeLine{00051\ \ \ \ \ \mbox{\hyperlink{types_8h_aa3fd5a2bb73d19a55b178e5a35b5b341}{PreconditionerType}}\ preconditioner\ =\ PreconditionerType::ILU;}
+\DoxyCodeLine{00052\ \ \ \ \ \mbox{\hyperlink{types_8h_a222b7a02326125bfc0eec6713f38e5ff}{LinearSolverType}}\ linear\_solver\ =\ LinearSolverType::GMRES;}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ max\_iterations\ =\ 1000;}
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keywordtype}{double}\ tolerance\ =\ 1e-\/10;}
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{comment}{//\ Threading\ parameters}}
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ n\_threads\ =\ dealii::numbers::invalid\_unsigned\_int;}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \ \ \ \ \textcolor{comment}{//\ Output\ options}}
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keywordtype}{bool}\ verbose\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keywordtype}{bool}\ output\_solution\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00062\ \ \ \ \ std::string\ output\_prefix\ =\ \textcolor{stringliteral}{"{}solution"{}};}
+\DoxyCodeLine{00063\ \};}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00068\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_hybrid_a_d_r_solver_1_1_timing_results}{TimingResults}}\ \{}
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keywordtype}{double}\ setup\_time\ =\ 0.0;}
+\DoxyCodeLine{00070\ \ \ \ \ \textcolor{keywordtype}{double}\ assembly\_time\ =\ 0.0;}
+\DoxyCodeLine{00071\ \ \ \ \ \textcolor{keywordtype}{double}\ solve\_time\ =\ 0.0;}
+\DoxyCodeLine{00072\ \ \ \ \ \textcolor{keywordtype}{double}\ total\_time\ =\ 0.0;}
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keywordtype}{double}\ operator\_apply\_time\ =\ 0.0;}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00075\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ n\_iterations\ =\ 0;}
+\DoxyCodeLine{00076\ \ \ \ \ \textcolor{keywordtype}{double}\ memory\_mb\ =\ 0.0;}
+\DoxyCodeLine{00077\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ n\_dofs\ =\ 0;}
+\DoxyCodeLine{00078\ \};}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00080\ \}\ \textcolor{comment}{//\ namespace\ HybridADRSolver}}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00082\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ HYBRIDADRSOLVER\_TYPES\_H}}
+
+\end{DoxyCode}

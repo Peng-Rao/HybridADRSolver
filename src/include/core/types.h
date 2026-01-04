@@ -9,7 +9,6 @@
 #ifndef HYBRIDADRSOLVER_TYPES_H
 #define HYBRIDADRSOLVER_TYPES_H
 
-#include <deal.II/base/config.h>
 #include <deal.II/lac/generic_linear_algebra.h>
 #include <deal.II/lac/la_parallel_vector.h>
 

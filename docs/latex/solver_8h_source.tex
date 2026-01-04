@@ -1,0 +1,110 @@
+\doxysection{solver.\+h}
+\hypertarget{solver_8h_source}{}\label{solver_8h_source}\index{src/include/core/solver.h@{src/include/core/solver.h}}
+\mbox{\hyperlink{solver_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#ifndef\ HYBRIDADRSOLVER\_SOLVER\_H}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#define\ HYBRIDADRSOLVER\_SOLVER\_H}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{types_8h}{types.h}}"{}}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <deal.II/base/conditional\_ostream.h>}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <deal.II/base/multithread\_info.h>}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <deal.II/base/timer.h>}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ <deal.II/distributed/tria.h>}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <deal.II/dofs/dof\_handler.h>}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ <deal.II/fe/fe\_q.h>}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ <deal.II/fe/mapping\_q.h>}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ <deal.II/grid/grid\_generator.h>}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ <deal.II/lac/affine\_constraints.h>}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \textcolor{keyword}{namespace\ }HybridADRSolver\ \{}
+\DoxyCodeLine{00021\ \textcolor{keyword}{using\ namespace\ }dealii;}
+\DoxyCodeLine{00022\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{int}\ dim>\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_hybrid_a_d_r_solver_1_1_parallel_solver_base_a77ab963e0e19f20b7796391228249776}{ParallelSolverBase}}\ \{}
+\DoxyCodeLine{00023\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00029\ \ \ \ \ \mbox{\hyperlink{class_hybrid_a_d_r_solver_1_1_parallel_solver_base_a77ab963e0e19f20b7796391228249776}{ParallelSolverBase}}(MPI\_Comm\ comm,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_hybrid_a_d_r_solver_1_1_solver_parameters}{SolverParameters}}\&\ params);}
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{class_hybrid_a_d_r_solver_1_1_parallel_solver_base_a77ab963e0e19f20b7796391228249776}{\string~ParallelSolverBase}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_hybrid_a_d_r_solver_1_1_parallel_solver_base_a292eb2256eb64421c621ceb4fce5a70e}{run}}(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ n\_refinements)\ =\ 0;}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_hybrid_a_d_r_solver_1_1_timing_results}{TimingResults}}\&\ \mbox{\hyperlink{class_hybrid_a_d_r_solver_1_1_parallel_solver_base_a189b05a7ddae0a51cdf40835ab3530bf}{get\_timing\_results}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ timing\_results;\ \}}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{types_8h_afe6d3d39f0c710383621e32a46108cb1}{SolverType}}\ \mbox{\hyperlink{class_hybrid_a_d_r_solver_1_1_parallel_solver_base_a17a1f03f110b6c0a6a2837c514c24d24}{get\_solver\_type}}()\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keyword}{virtual}\ std::string\ \mbox{\hyperlink{class_hybrid_a_d_r_solver_1_1_parallel_solver_base_a81a0595ff4a42d68c353d5ba01614be4}{get\_name}}()\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_hybrid_a_d_r_solver_1_1_parallel_solver_base_a1a8f8a07786c68b12898e58ad345a4cc}{setup\_grid}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ n\_refinements);}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_hybrid_a_d_r_solver_1_1_parallel_solver_base_ad78ad9c73638fe3e8e0ca020453b41e5}{setup\_dofs}}()\ =\ 0;}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00068\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_hybrid_a_d_r_solver_1_1_parallel_solver_base_a1c0394fd4e16b7a0c321f8d6f23fa867}{assemble\_system}}()\ =\ 0;}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_hybrid_a_d_r_solver_1_1_parallel_solver_base_a98b341d0949ede6584d02d3520eb1642}{solve}}()\ =\ 0;}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00079\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_hybrid_a_d_r_solver_1_1_parallel_solver_base_a1cabfab934aea3b3c0db0573e0291a63}{output\_results}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ cycle)\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00081\ \ \ \ \ \textcolor{comment}{//\ MPI\ communication}}
+\DoxyCodeLine{00082\ \ \ \ \ MPI\_Comm\ mpi\_communicator;}
+\DoxyCodeLine{00083\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ n\_mpi\_processes;}
+\DoxyCodeLine{00084\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ this\_mpi\_process;}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00086\ \ \ \ \ \textcolor{comment}{//\ Mesh\ and\ finite\ element}}
+\DoxyCodeLine{00087\ \ \ \ \ parallel::distributed::Triangulation<dim>\ triangulation;}
+\DoxyCodeLine{00088\ \ \ \ \ std::unique\_ptr<FiniteElement<dim>>\ fe;}
+\DoxyCodeLine{00089\ \ \ \ \ DoFHandler<dim>\ dof\_handler;}
+\DoxyCodeLine{00090\ \ \ \ \ std::unique\_ptr<Mapping<dim>>\ mapping;}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00092\ \ \ \ \ \textcolor{comment}{//\ Constraints\ (Dirichlet\ BC,\ hanging\ nodes)}}
+\DoxyCodeLine{00093\ \ \ \ \ AffineConstraints<double>\ constraints;}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00095\ \ \ \ \ \textcolor{comment}{//\ DoF\ distribution\ info}}
+\DoxyCodeLine{00096\ \ \ \ \ IndexSet\ locally\_owned\_dofs;}
+\DoxyCodeLine{00097\ \ \ \ \ IndexSet\ locally\_relevant\_dofs;}
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00099\ \ \ \ \ \textcolor{comment}{//\ Parameters}}
+\DoxyCodeLine{00100\ \ \ \ \ \mbox{\hyperlink{struct_hybrid_a_d_r_solver_1_1_solver_parameters}{SolverParameters}}\ parameters;}
+\DoxyCodeLine{00101\ }
+\DoxyCodeLine{00102\ \ \ \ \ \textcolor{comment}{//\ Timing}}
+\DoxyCodeLine{00103\ \ \ \ \ \mbox{\hyperlink{struct_hybrid_a_d_r_solver_1_1_timing_results}{TimingResults}}\ timing\_results;}
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00105\ \ \ \ \ \textcolor{comment}{//\ Output}}
+\DoxyCodeLine{00106\ \ \ \ \ ConditionalOStream\ pcout;}
+\DoxyCodeLine{00107\ \ \ \ \ TimerOutput\ computing\_timer;}
+\DoxyCodeLine{00108\ \};}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00110\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{int}\ dim>}
+\DoxyCodeLine{00111\ \mbox{\hyperlink{class_hybrid_a_d_r_solver_1_1_parallel_solver_base_a77ab963e0e19f20b7796391228249776}{ParallelSolverBase<dim>::ParallelSolverBase}}(MPI\_Comm\ comm,}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_hybrid_a_d_r_solver_1_1_solver_parameters}{SolverParameters}}\&\ params)}
+\DoxyCodeLine{00113\ \ \ \ \ :\ mpi\_communicator(comm),}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ n\_mpi\_processes(Utilities::MPI::n\_mpi\_processes(comm)),}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ this\_mpi\_process(Utilities::MPI::this\_mpi\_process(comm)),}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ triangulation(comm,\ typename\ Triangulation<dim>::MeshSmoothing(}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Triangulation<dim>::smoothing\_on\_refinement\ |}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Triangulation<dim>::smoothing\_on\_coarsening)),}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ dof\_handler(triangulation),\ parameters(params),}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ pcout(std::cout,\ this\_mpi\_process\ ==\ 0),}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ computing\_timer(comm,\ pcout,\ TimerOutput::never,}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ TimerOutput::wall\_times)\ \{}
+\DoxyCodeLine{00123\ \ \ \ \ \textcolor{comment}{//\ Set\ thread\ limit}}
+\DoxyCodeLine{00124\ \ \ \ \ \textcolor{keywordflow}{if}\ (parameters.n\_threads\ !=\ numbers::invalid\_unsigned\_int)}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ MultithreadInfo::set\_thread\_limit(parameters.n\_threads);}
+\DoxyCodeLine{00126\ \}}
+\DoxyCodeLine{00127\ }
+\DoxyCodeLine{00128\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{int}\ dim>}
+\DoxyCodeLine{00129\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_hybrid_a_d_r_solver_1_1_parallel_solver_base_a1a8f8a07786c68b12898e58ad345a4cc}{ParallelSolverBase<dim>::setup\_grid}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ n\_refinements)\ \{}
+\DoxyCodeLine{00130\ \ \ \ \ GridGenerator::hyper\_cube(triangulation,\ 0.0,\ 1.0,\ \textcolor{keyword}{true});}
+\DoxyCodeLine{00131\ }
+\DoxyCodeLine{00132\ \ \ \ \ triangulation.refine\_global(n\_refinements);}
+\DoxyCodeLine{00133\ }
+\DoxyCodeLine{00134\ \ \ \ \ \textcolor{keywordflow}{if}\ (parameters.verbose)\ \{}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ pcout\ <<\ \textcolor{stringliteral}{"{}\ \ \ Active\ cells:\ "{}}\ <<\ triangulation.n\_global\_active\_cells()}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ std::endl;}
+\DoxyCodeLine{00137\ \ \ \ \ \}}
+\DoxyCodeLine{00138\ \}}
+\DoxyCodeLine{00139\ }
+\DoxyCodeLine{00140\ \}\ \textcolor{comment}{//\ namespace\ HybridADRSolver}}
+\DoxyCodeLine{00141\ }
+\DoxyCodeLine{00142\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ HYBRIDADRSOLVER\_SOLVER\_H}}
+
+\end{DoxyCode}
