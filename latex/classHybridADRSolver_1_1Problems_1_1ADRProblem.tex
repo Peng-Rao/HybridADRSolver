@@ -1,0 +1,278 @@
+\doxysection{Hybrid\+ADRSolver\+::Problems\+::ADRProblem\texorpdfstring{$<$}{<} dim \texorpdfstring{$>$}{>} Class Template Reference}
+\hypertarget{classHybridADRSolver_1_1Problems_1_1ADRProblem}{}\label{classHybridADRSolver_1_1Problems_1_1ADRProblem}\index{HybridADRSolver::Problems::ADRProblem$<$ dim $>$@{HybridADRSolver::Problems::ADRProblem$<$ dim $>$}}
+
+
+Concrete implementation of a steady-\/state Advection-\/\+Diffusion-\/\+Reaction problem.  
+
+
+
+
+{\ttfamily \#include $<$problem\+\_\+definition.\+h$>$}
+
+
+
+Inheritance diagram for Hybrid\+ADRSolver\+::Problems\+::ADRProblem\texorpdfstring{$<$}{<} dim \texorpdfstring{$>$}{>}\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=219pt]{classHybridADRSolver_1_1Problems_1_1ADRProblem__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Hybrid\+ADRSolver\+::Problems\+::ADRProblem\texorpdfstring{$<$}{<} dim \texorpdfstring{$>$}{>}\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=219pt]{classHybridADRSolver_1_1Problems_1_1ADRProblem__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classHybridADRSolver_1_1Problems_1_1ADRProblem_a9ad1e3d2dfbe361cde25ab5167f08033}{ADRProblem}} ()
+\item 
+double \mbox{\hyperlink{classHybridADRSolver_1_1Problems_1_1ADRProblem_a2bf2910f5a22536fa0f709a607a1ac5a}{diffusion\+\_\+coefficient}} (const Point$<$ dim $>$ \&) const override
+\begin{DoxyCompactList}\small\item\em Constant diffusion coefficient $ \mu = 1.0 $. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classHybridADRSolver_1_1Problems_1_1ADRProblem_af39f2fd3c88a607b4f91a73700caa033}{reaction\+\_\+coefficient}} (const Point$<$ dim $>$ \&) const override
+\begin{DoxyCompactList}\small\item\em Constant reaction coefficient $ \gamma = 0.1 $. \end{DoxyCompactList}\item 
+Tensor$<$ 1, dim $>$ \mbox{\hyperlink{classHybridADRSolver_1_1Problems_1_1ADRProblem_a6140b4c8bf2af60e41d061f1dce92691}{advection\+\_\+field}} (const Point$<$ dim $>$ \&p) const override
+\begin{DoxyCompactList}\small\item\em Rotational advection field. 2D\+: $ \beta = (-y, x)^T $ 3D\+: $ \beta = (-y, x, 0.1)^T $. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classHybridADRSolver_1_1Problems_1_1ADRProblem_add125e85d1ffecaa56cb8895c5ebb284}{source\+\_\+term}} (const Point$<$ dim $>$ \&p) const override
+\begin{DoxyCompactList}\small\item\em Computes the source term $ f $ using the Method of Manufactured Solutions. \end{DoxyCompactList}\item 
+std\+::set$<$ types\+::boundary\+\_\+id $>$ \mbox{\hyperlink{classHybridADRSolver_1_1Problems_1_1ADRProblem_ab7621e925dc74b833dc8d9090f37d6d4}{get\+\_\+dirichlet\+\_\+ids}} () const override
+\begin{DoxyCompactList}\small\item\em Defines Dirichlet boundaries. All boundaries except Right (ID 1) are Dirichlet (0, 2, 3, 4, 5). \end{DoxyCompactList}\item 
+std\+::set$<$ types\+::boundary\+\_\+id $>$ \mbox{\hyperlink{classHybridADRSolver_1_1Problems_1_1ADRProblem_ace0cce9c0432ae46f774dc832b6b6d3d}{get\+\_\+neumann\+\_\+ids}} () const override
+\begin{DoxyCompactList}\small\item\em Defines Neumann boundaries. Only the Right boundary (ID 1) is Neumann. \end{DoxyCompactList}\item 
+const Function$<$ dim $>$ \& \mbox{\hyperlink{classHybridADRSolver_1_1Problems_1_1ADRProblem_a349208226c415f9419159a93201cf820}{get\+\_\+dirichlet\+\_\+function}} (types\+::boundary\+\_\+id) const override
+\begin{DoxyCompactList}\small\item\em Returns zero function for Dirichlet BCs. \end{DoxyCompactList}\item 
+const Function$<$ dim $>$ \& \mbox{\hyperlink{classHybridADRSolver_1_1Problems_1_1ADRProblem_a08a3b5bf3dfc316655a310b29952ca40}{get\+\_\+neumann\+\_\+function}} (const types\+::boundary\+\_\+id id) const override
+\begin{DoxyCompactList}\small\item\em Returns analytic flux for Neumann BCs. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classHybridADRSolver_1_1Problems_1_1ADRProblem_a1734ce4eabc52b679a7db95dd5d9c170}{has\+\_\+exact\+\_\+solution}} () const override
+\begin{DoxyCompactList}\small\item\em Checks if an analytical exact solution is available. \end{DoxyCompactList}\item 
+const Function$<$ dim $>$ \& \mbox{\hyperlink{classHybridADRSolver_1_1Problems_1_1ADRProblem_abfe6cb0b022db369ee45cdb33d0d170d}{get\+\_\+exact\+\_\+solution}} () const override
+\begin{DoxyCompactList}\small\item\em Returns the exact solution function object (if available). \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classHybridADRSolver_1_1Problems_1_1ADRProblem_a10147739ab222b8b792b9cdbc19e96a3}{is\+\_\+symmetric}} () const override
+\begin{DoxyCompactList}\small\item\em Problem is non-\/symmetric due to advection term. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{classHybridADRSolver_1_1Problems_1_1ADRProblem_a3d78a52a09830bc50bdab99bbd365bbd}{get\+\_\+name}} () const override
+\begin{DoxyCompactList}\small\item\em Returns a descriptive name of the problem. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classHybridADRSolver_1_1ProblemInterface}{Hybrid\+ADRSolver\+::\+Problem\+Interface$<$ dim $>$}}}
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{classHybridADRSolver_1_1ProblemInterface_a52fc548eccab5919f0e21f85fa61e5d1}{\texorpdfstring{$\sim$}{\string~}\+Problem\+Interface}} ()=default
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$int dim$>$\newline
+class Hybrid\+ADRSolver\+::\+Problems\+::\+ADRProblem$<$ dim $>$}
+Concrete implementation of a steady-\/state Advection-\/\+Diffusion-\/\+Reaction problem. 
+
+Solves\+: $ -\mu \Delta u + \mathbf{\beta} \cdot \nabla u + \gamma u = f $
+
+Domain\+: Unit Hypercube $ [0,1]^d $. BCs\+: Neumann on Right face (ID 1), Homogeneous Dirichlet elsewhere. 
+
+\label{doc-constructors}
+\Hypertarget{classHybridADRSolver_1_1Problems_1_1ADRProblem_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classHybridADRSolver_1_1Problems_1_1ADRProblem_a9ad1e3d2dfbe361cde25ab5167f08033}\index{HybridADRSolver::Problems::ADRProblem$<$ dim $>$@{HybridADRSolver::Problems::ADRProblem$<$ dim $>$}!ADRProblem@{ADRProblem}}
+\index{ADRProblem@{ADRProblem}!HybridADRSolver::Problems::ADRProblem$<$ dim $>$@{HybridADRSolver::Problems::ADRProblem$<$ dim $>$}}
+\doxysubsubsection{\texorpdfstring{ADRProblem()}{ADRProblem()}}
+{\footnotesize\ttfamily \label{classHybridADRSolver_1_1Problems_1_1ADRProblem_a9ad1e3d2dfbe361cde25ab5167f08033} 
+template$<$int dim$>$ \\
+\mbox{\hyperlink{classHybridADRSolver_1_1Problems_1_1ADRProblem}{Hybrid\+ADRSolver\+::\+Problems\+::\+ADRProblem}}$<$ dim $>$\+::\+ADRProblem (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\label{doc-func-members}
+\Hypertarget{classHybridADRSolver_1_1Problems_1_1ADRProblem_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classHybridADRSolver_1_1Problems_1_1ADRProblem_a6140b4c8bf2af60e41d061f1dce92691}\index{HybridADRSolver::Problems::ADRProblem$<$ dim $>$@{HybridADRSolver::Problems::ADRProblem$<$ dim $>$}!advection\_field@{advection\_field}}
+\index{advection\_field@{advection\_field}!HybridADRSolver::Problems::ADRProblem$<$ dim $>$@{HybridADRSolver::Problems::ADRProblem$<$ dim $>$}}
+\doxysubsubsection{\texorpdfstring{advection\_field()}{advection\_field()}}
+{\footnotesize\ttfamily \label{classHybridADRSolver_1_1Problems_1_1ADRProblem_a6140b4c8bf2af60e41d061f1dce92691} 
+template$<$int dim$>$ \\
+Tensor$<$ 1, dim $>$ \mbox{\hyperlink{classHybridADRSolver_1_1Problems_1_1ADRProblem}{Hybrid\+ADRSolver\+::\+Problems\+::\+ADRProblem}}$<$ dim $>$\+::advection\+\_\+field (\begin{DoxyParamCaption}\item[{const Point$<$ dim $>$ \&}]{p}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Rotational advection field. 2D\+: $ \beta = (-y, x)^T $ 3D\+: $ \beta = (-y, x, 0.1)^T $. 
+
+
+
+Implements \mbox{\hyperlink{classHybridADRSolver_1_1ProblemInterface_a8cecfc89cc73098f866bda3ac15d28be}{Hybrid\+ADRSolver\+::\+Problem\+Interface$<$ dim $>$}}.
+
+\Hypertarget{classHybridADRSolver_1_1Problems_1_1ADRProblem_a2bf2910f5a22536fa0f709a607a1ac5a}\index{HybridADRSolver::Problems::ADRProblem$<$ dim $>$@{HybridADRSolver::Problems::ADRProblem$<$ dim $>$}!diffusion\_coefficient@{diffusion\_coefficient}}
+\index{diffusion\_coefficient@{diffusion\_coefficient}!HybridADRSolver::Problems::ADRProblem$<$ dim $>$@{HybridADRSolver::Problems::ADRProblem$<$ dim $>$}}
+\doxysubsubsection{\texorpdfstring{diffusion\_coefficient()}{diffusion\_coefficient()}}
+{\footnotesize\ttfamily \label{classHybridADRSolver_1_1Problems_1_1ADRProblem_a2bf2910f5a22536fa0f709a607a1ac5a} 
+template$<$int dim$>$ \\
+double \mbox{\hyperlink{classHybridADRSolver_1_1Problems_1_1ADRProblem}{Hybrid\+ADRSolver\+::\+Problems\+::\+ADRProblem}}$<$ dim $>$\+::diffusion\+\_\+coefficient (\begin{DoxyParamCaption}\item[{const Point$<$ dim $>$ \&}]{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Constant diffusion coefficient $ \mu = 1.0 $. 
+
+
+
+Implements \mbox{\hyperlink{classHybridADRSolver_1_1ProblemInterface_a7776571e28e92ba07754475855358678}{Hybrid\+ADRSolver\+::\+Problem\+Interface$<$ dim $>$}}.
+
+\Hypertarget{classHybridADRSolver_1_1Problems_1_1ADRProblem_a349208226c415f9419159a93201cf820}\index{HybridADRSolver::Problems::ADRProblem$<$ dim $>$@{HybridADRSolver::Problems::ADRProblem$<$ dim $>$}!get\_dirichlet\_function@{get\_dirichlet\_function}}
+\index{get\_dirichlet\_function@{get\_dirichlet\_function}!HybridADRSolver::Problems::ADRProblem$<$ dim $>$@{HybridADRSolver::Problems::ADRProblem$<$ dim $>$}}
+\doxysubsubsection{\texorpdfstring{get\_dirichlet\_function()}{get\_dirichlet\_function()}}
+{\footnotesize\ttfamily \label{classHybridADRSolver_1_1Problems_1_1ADRProblem_a349208226c415f9419159a93201cf820} 
+template$<$int dim$>$ \\
+const Function$<$ dim $>$ \& \mbox{\hyperlink{classHybridADRSolver_1_1Problems_1_1ADRProblem}{Hybrid\+ADRSolver\+::\+Problems\+::\+ADRProblem}}$<$ dim $>$\+::get\+\_\+dirichlet\+\_\+function (\begin{DoxyParamCaption}\item[{types\+::boundary\+\_\+id}]{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Returns zero function for Dirichlet BCs. 
+
+
+
+Implements \mbox{\hyperlink{classHybridADRSolver_1_1ProblemInterface_a39cb4044cd015a879885e29e9a88bbbe}{Hybrid\+ADRSolver\+::\+Problem\+Interface$<$ dim $>$}}.
+
+\Hypertarget{classHybridADRSolver_1_1Problems_1_1ADRProblem_ab7621e925dc74b833dc8d9090f37d6d4}\index{HybridADRSolver::Problems::ADRProblem$<$ dim $>$@{HybridADRSolver::Problems::ADRProblem$<$ dim $>$}!get\_dirichlet\_ids@{get\_dirichlet\_ids}}
+\index{get\_dirichlet\_ids@{get\_dirichlet\_ids}!HybridADRSolver::Problems::ADRProblem$<$ dim $>$@{HybridADRSolver::Problems::ADRProblem$<$ dim $>$}}
+\doxysubsubsection{\texorpdfstring{get\_dirichlet\_ids()}{get\_dirichlet\_ids()}}
+{\footnotesize\ttfamily \label{classHybridADRSolver_1_1Problems_1_1ADRProblem_ab7621e925dc74b833dc8d9090f37d6d4} 
+template$<$int dim$>$ \\
+std\+::set$<$ types\+::boundary\+\_\+id $>$ \mbox{\hyperlink{classHybridADRSolver_1_1Problems_1_1ADRProblem}{Hybrid\+ADRSolver\+::\+Problems\+::\+ADRProblem}}$<$ dim $>$\+::get\+\_\+dirichlet\+\_\+ids (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [nodiscard]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Defines Dirichlet boundaries. All boundaries except Right (ID 1) are Dirichlet (0, 2, 3, 4, 5). 
+
+
+
+Implements \mbox{\hyperlink{classHybridADRSolver_1_1ProblemInterface_a2e664d9b1e8ffc970980679707bbd312}{Hybrid\+ADRSolver\+::\+Problem\+Interface$<$ dim $>$}}.
+
+\Hypertarget{classHybridADRSolver_1_1Problems_1_1ADRProblem_abfe6cb0b022db369ee45cdb33d0d170d}\index{HybridADRSolver::Problems::ADRProblem$<$ dim $>$@{HybridADRSolver::Problems::ADRProblem$<$ dim $>$}!get\_exact\_solution@{get\_exact\_solution}}
+\index{get\_exact\_solution@{get\_exact\_solution}!HybridADRSolver::Problems::ADRProblem$<$ dim $>$@{HybridADRSolver::Problems::ADRProblem$<$ dim $>$}}
+\doxysubsubsection{\texorpdfstring{get\_exact\_solution()}{get\_exact\_solution()}}
+{\footnotesize\ttfamily \label{classHybridADRSolver_1_1Problems_1_1ADRProblem_abfe6cb0b022db369ee45cdb33d0d170d} 
+template$<$int dim$>$ \\
+const Function$<$ dim $>$ \& \mbox{\hyperlink{classHybridADRSolver_1_1Problems_1_1ADRProblem}{Hybrid\+ADRSolver\+::\+Problems\+::\+ADRProblem}}$<$ dim $>$\+::get\+\_\+exact\+\_\+solution (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Returns the exact solution function object (if available). 
+
+
+
+Implements \mbox{\hyperlink{classHybridADRSolver_1_1ProblemInterface_a1466d46f36839ce3eaba3ee3ff735827}{Hybrid\+ADRSolver\+::\+Problem\+Interface$<$ dim $>$}}.
+
+\Hypertarget{classHybridADRSolver_1_1Problems_1_1ADRProblem_a3d78a52a09830bc50bdab99bbd365bbd}\index{HybridADRSolver::Problems::ADRProblem$<$ dim $>$@{HybridADRSolver::Problems::ADRProblem$<$ dim $>$}!get\_name@{get\_name}}
+\index{get\_name@{get\_name}!HybridADRSolver::Problems::ADRProblem$<$ dim $>$@{HybridADRSolver::Problems::ADRProblem$<$ dim $>$}}
+\doxysubsubsection{\texorpdfstring{get\_name()}{get\_name()}}
+{\footnotesize\ttfamily \label{classHybridADRSolver_1_1Problems_1_1ADRProblem_a3d78a52a09830bc50bdab99bbd365bbd} 
+template$<$int dim$>$ \\
+std\+::string \mbox{\hyperlink{classHybridADRSolver_1_1Problems_1_1ADRProblem}{Hybrid\+ADRSolver\+::\+Problems\+::\+ADRProblem}}$<$ dim $>$\+::get\+\_\+name (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [nodiscard]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Returns a descriptive name of the problem. 
+
+
+
+Implements \mbox{\hyperlink{classHybridADRSolver_1_1ProblemInterface_a621512390d85b10ba1a545d3e65909e1}{Hybrid\+ADRSolver\+::\+Problem\+Interface$<$ dim $>$}}.
+
+\Hypertarget{classHybridADRSolver_1_1Problems_1_1ADRProblem_a08a3b5bf3dfc316655a310b29952ca40}\index{HybridADRSolver::Problems::ADRProblem$<$ dim $>$@{HybridADRSolver::Problems::ADRProblem$<$ dim $>$}!get\_neumann\_function@{get\_neumann\_function}}
+\index{get\_neumann\_function@{get\_neumann\_function}!HybridADRSolver::Problems::ADRProblem$<$ dim $>$@{HybridADRSolver::Problems::ADRProblem$<$ dim $>$}}
+\doxysubsubsection{\texorpdfstring{get\_neumann\_function()}{get\_neumann\_function()}}
+{\footnotesize\ttfamily \label{classHybridADRSolver_1_1Problems_1_1ADRProblem_a08a3b5bf3dfc316655a310b29952ca40} 
+template$<$int dim$>$ \\
+const Function$<$ dim $>$ \& \mbox{\hyperlink{classHybridADRSolver_1_1Problems_1_1ADRProblem}{Hybrid\+ADRSolver\+::\+Problems\+::\+ADRProblem}}$<$ dim $>$\+::get\+\_\+neumann\+\_\+function (\begin{DoxyParamCaption}\item[{const types\+::boundary\+\_\+id}]{id}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Returns analytic flux for Neumann BCs. 
+
+
+
+Implements \mbox{\hyperlink{classHybridADRSolver_1_1ProblemInterface_a5b2f1978ba57a13db9ad25222fb5a9ac}{Hybrid\+ADRSolver\+::\+Problem\+Interface$<$ dim $>$}}.
+
+\Hypertarget{classHybridADRSolver_1_1Problems_1_1ADRProblem_ace0cce9c0432ae46f774dc832b6b6d3d}\index{HybridADRSolver::Problems::ADRProblem$<$ dim $>$@{HybridADRSolver::Problems::ADRProblem$<$ dim $>$}!get\_neumann\_ids@{get\_neumann\_ids}}
+\index{get\_neumann\_ids@{get\_neumann\_ids}!HybridADRSolver::Problems::ADRProblem$<$ dim $>$@{HybridADRSolver::Problems::ADRProblem$<$ dim $>$}}
+\doxysubsubsection{\texorpdfstring{get\_neumann\_ids()}{get\_neumann\_ids()}}
+{\footnotesize\ttfamily \label{classHybridADRSolver_1_1Problems_1_1ADRProblem_ace0cce9c0432ae46f774dc832b6b6d3d} 
+template$<$int dim$>$ \\
+std\+::set$<$ types\+::boundary\+\_\+id $>$ \mbox{\hyperlink{classHybridADRSolver_1_1Problems_1_1ADRProblem}{Hybrid\+ADRSolver\+::\+Problems\+::\+ADRProblem}}$<$ dim $>$\+::get\+\_\+neumann\+\_\+ids (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [nodiscard]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Defines Neumann boundaries. Only the Right boundary (ID 1) is Neumann. 
+
+
+
+Implements \mbox{\hyperlink{classHybridADRSolver_1_1ProblemInterface_ad238d8e04bc4c436f10a14d9cd858bb5}{Hybrid\+ADRSolver\+::\+Problem\+Interface$<$ dim $>$}}.
+
+\Hypertarget{classHybridADRSolver_1_1Problems_1_1ADRProblem_a1734ce4eabc52b679a7db95dd5d9c170}\index{HybridADRSolver::Problems::ADRProblem$<$ dim $>$@{HybridADRSolver::Problems::ADRProblem$<$ dim $>$}!has\_exact\_solution@{has\_exact\_solution}}
+\index{has\_exact\_solution@{has\_exact\_solution}!HybridADRSolver::Problems::ADRProblem$<$ dim $>$@{HybridADRSolver::Problems::ADRProblem$<$ dim $>$}}
+\doxysubsubsection{\texorpdfstring{has\_exact\_solution()}{has\_exact\_solution()}}
+{\footnotesize\ttfamily \label{classHybridADRSolver_1_1Problems_1_1ADRProblem_a1734ce4eabc52b679a7db95dd5d9c170} 
+template$<$int dim$>$ \\
+bool \mbox{\hyperlink{classHybridADRSolver_1_1Problems_1_1ADRProblem}{Hybrid\+ADRSolver\+::\+Problems\+::\+ADRProblem}}$<$ dim $>$\+::has\+\_\+exact\+\_\+solution (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [nodiscard]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Checks if an analytical exact solution is available. 
+
+
+
+Implements \mbox{\hyperlink{classHybridADRSolver_1_1ProblemInterface_a77b635bd6c552e0f15b965099a826ad0}{Hybrid\+ADRSolver\+::\+Problem\+Interface$<$ dim $>$}}.
+
+\Hypertarget{classHybridADRSolver_1_1Problems_1_1ADRProblem_a10147739ab222b8b792b9cdbc19e96a3}\index{HybridADRSolver::Problems::ADRProblem$<$ dim $>$@{HybridADRSolver::Problems::ADRProblem$<$ dim $>$}!is\_symmetric@{is\_symmetric}}
+\index{is\_symmetric@{is\_symmetric}!HybridADRSolver::Problems::ADRProblem$<$ dim $>$@{HybridADRSolver::Problems::ADRProblem$<$ dim $>$}}
+\doxysubsubsection{\texorpdfstring{is\_symmetric()}{is\_symmetric()}}
+{\footnotesize\ttfamily \label{classHybridADRSolver_1_1Problems_1_1ADRProblem_a10147739ab222b8b792b9cdbc19e96a3} 
+template$<$int dim$>$ \\
+bool \mbox{\hyperlink{classHybridADRSolver_1_1Problems_1_1ADRProblem}{Hybrid\+ADRSolver\+::\+Problems\+::\+ADRProblem}}$<$ dim $>$\+::is\+\_\+symmetric (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [nodiscard]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Problem is non-\/symmetric due to advection term. 
+
+
+
+Implements \mbox{\hyperlink{classHybridADRSolver_1_1ProblemInterface_acf8b02176ebbf5cd77776e47c5d067b3}{Hybrid\+ADRSolver\+::\+Problem\+Interface$<$ dim $>$}}.
+
+\Hypertarget{classHybridADRSolver_1_1Problems_1_1ADRProblem_af39f2fd3c88a607b4f91a73700caa033}\index{HybridADRSolver::Problems::ADRProblem$<$ dim $>$@{HybridADRSolver::Problems::ADRProblem$<$ dim $>$}!reaction\_coefficient@{reaction\_coefficient}}
+\index{reaction\_coefficient@{reaction\_coefficient}!HybridADRSolver::Problems::ADRProblem$<$ dim $>$@{HybridADRSolver::Problems::ADRProblem$<$ dim $>$}}
+\doxysubsubsection{\texorpdfstring{reaction\_coefficient()}{reaction\_coefficient()}}
+{\footnotesize\ttfamily \label{classHybridADRSolver_1_1Problems_1_1ADRProblem_af39f2fd3c88a607b4f91a73700caa033} 
+template$<$int dim$>$ \\
+double \mbox{\hyperlink{classHybridADRSolver_1_1Problems_1_1ADRProblem}{Hybrid\+ADRSolver\+::\+Problems\+::\+ADRProblem}}$<$ dim $>$\+::reaction\+\_\+coefficient (\begin{DoxyParamCaption}\item[{const Point$<$ dim $>$ \&}]{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Constant reaction coefficient $ \gamma = 0.1 $. 
+
+
+
+Implements \mbox{\hyperlink{classHybridADRSolver_1_1ProblemInterface_a5327d941efe76a20867935f0460e1cce}{Hybrid\+ADRSolver\+::\+Problem\+Interface$<$ dim $>$}}.
+
+\Hypertarget{classHybridADRSolver_1_1Problems_1_1ADRProblem_add125e85d1ffecaa56cb8895c5ebb284}\index{HybridADRSolver::Problems::ADRProblem$<$ dim $>$@{HybridADRSolver::Problems::ADRProblem$<$ dim $>$}!source\_term@{source\_term}}
+\index{source\_term@{source\_term}!HybridADRSolver::Problems::ADRProblem$<$ dim $>$@{HybridADRSolver::Problems::ADRProblem$<$ dim $>$}}
+\doxysubsubsection{\texorpdfstring{source\_term()}{source\_term()}}
+{\footnotesize\ttfamily \label{classHybridADRSolver_1_1Problems_1_1ADRProblem_add125e85d1ffecaa56cb8895c5ebb284} 
+template$<$int dim$>$ \\
+double \mbox{\hyperlink{classHybridADRSolver_1_1Problems_1_1ADRProblem}{Hybrid\+ADRSolver\+::\+Problems\+::\+ADRProblem}}$<$ dim $>$\+::source\+\_\+term (\begin{DoxyParamCaption}\item[{const Point$<$ dim $>$ \&}]{p}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Computes the source term $ f $ using the Method of Manufactured Solutions. 
+
+$ f = -\mu \Delta u + \mathbf{\beta} \cdot \nabla u + \gamma u $
+
+where $ u $ is the \doxylink{classHybridADRSolver_1_1Problems_1_1ExactSolution}{Exact\+Solution}. 
+
+Implements \mbox{\hyperlink{classHybridADRSolver_1_1ProblemInterface_ab51cd54979ec7cb91914b0f071d7f5bc}{Hybrid\+ADRSolver\+::\+Problem\+Interface$<$ dim $>$}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/include/core/\mbox{\hyperlink{problem__definition_8h}{problem\+\_\+definition.\+h}}\end{DoxyCompactItemize}

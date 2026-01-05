@@ -1,0 +1,182 @@
+\doxysection{utils.\+h}
+\hypertarget{utils_8h_source}{}\label{utils_8h_source}\index{src/applications/benchmark/utils.h@{src/applications/benchmark/utils.h}}
+\mbox{\hyperlink{utils_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#ifndef\ BENCHMARK\_UTILS\_H}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#define\ BENCHMARK\_UTILS\_H}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <fstream>}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ <iomanip>}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ <mpi.h>}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ <sstream>}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespaceBenchmarkUtils}{BenchmarkUtils}}\ \{}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00027\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult}{BenchmarkResult}}\ \{}
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{comment}{//\ Configuration}}
+\DoxyCodeLine{00029\ \ \ \ \ std::string\ \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult_a516f065e080195f9fb90fe562cec8f67}{solver\_type}};\ \ \ \textcolor{comment}{//\ "{}matrix\_based"{}\ or\ "{}matrix\_free"{}}}
+\DoxyCodeLine{00030\ \ \ \ \ std::string\ \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult_ac6d633be9ae48253b4685aec6b4a950e}{test\_type}};\ \ \ \ \ \textcolor{comment}{//\ "{}strong\_scaling"{}\ or\ "{}weak\_scaling"{}}}
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult_af604f2d3e9d3a9a16802f1cda353f9a7}{n\_mpi\_processes}};\ \ \ \ \ \ \ \textcolor{comment}{//\ number\ of\ processes}}
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult_a746bd438f47d484364a34cad6176bcaf}{n\_threads\_per\_process}};\ \textcolor{comment}{//\ number\ of\ threads\ per\ process}}
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult_aedf8c0d06750237146bc86fc5cf1b957}{n\_refinements}};}
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult_a04d782248c44381d3fa606a38a070c35}{polynomial\_degree}};}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{comment}{//\ Problem\ size}}
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult_a6c2d9111fbe7112333b999f476f3f3af}{n\_dofs}};}
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult_a0b3dab71332f3ee193496ac24dd03311}{n\_cells}};}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{comment}{//\ Timing\ results\ (in\ seconds)}}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult_a1fb0649ad5e9437845d477a82707ae75}{setup\_time}};}
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult_a5ddafcf3365f34c84b97421dc0fb0cc1}{assembly\_time}};}
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult_a0940b53ad2ce0b62da1d0ed9d2d2ba97}{solve\_time}};}
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult_a8ce0d3b45b2017097bbbd2e4eb9b57c3}{total\_time}};}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{comment}{//\ Solver\ performance}}
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult_a9460334f0e84cd59ef2b9631164c3231}{n\_iterations}};}
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult_adfecfb6aa95210406190f893f29d87a1}{l2\_error}};}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{comment}{//\ Memory\ usage\ (in\ MB)}}
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult_aaac71f03215c16e3027b3ed0c99114dd}{memory\_mb}};}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{comment}{//\ Derived\ metrics}}
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult_ab0e72367518ced941a3bbb19a118c81b}{dofs\_per\_second}};\ \ \ \ \ \textcolor{comment}{//\ Throughput}}
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult_a0c240dbe561087e66c30905dc11fc282}{parallel\_efficiency}};\ \textcolor{comment}{//\ For\ scaling\ analysis}}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keyword}{static}\ std::string\ \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult_a17fb92b2f308ca6bac91ebcb0e4c0a20}{csv\_header}}()\ \{}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}solver\_type,test\_type,n\_mpi,n\_threads,total\_cores,"{}}}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}n\_refinements,poly\_degree,n\_dofs,n\_cells,"{}}}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}setup\_time,assembly\_time,solve\_time,total\_time,"{}}}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}n\_iterations,l2\_error,memory\_mb,"{}}}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}dofs\_per\_second,parallel\_efficiency"{}};}
+\DoxyCodeLine{00066\ \ \ \ \ \}}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00071\ \ \ \ \ std::string\ \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult_a33193037e2c2bff4c6862d198eea8bf5}{to\_csv}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ std::ostringstream\ oss;}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ oss\ <<\ std::fixed\ <<\ std::setprecision(6);}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ oss\ <<\ \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult_a516f065e080195f9fb90fe562cec8f67}{solver\_type}}\ <<\ \textcolor{stringliteral}{"{},"{}}\ <<\ \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult_ac6d633be9ae48253b4685aec6b4a950e}{test\_type}}\ <<\ \textcolor{stringliteral}{"{},"{}}\ <<\ \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult_af604f2d3e9d3a9a16802f1cda353f9a7}{n\_mpi\_processes}}\ <<\ \textcolor{stringliteral}{"{},"{}}}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult_a746bd438f47d484364a34cad6176bcaf}{n\_threads\_per\_process}}\ <<\ \textcolor{stringliteral}{"{},"{}}}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ \ \ <<\ (\mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult_af604f2d3e9d3a9a16802f1cda353f9a7}{n\_mpi\_processes}}\ *\ \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult_a746bd438f47d484364a34cad6176bcaf}{n\_threads\_per\_process}})\ <<\ \textcolor{stringliteral}{"{},"{}}\ <<\ \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult_aedf8c0d06750237146bc86fc5cf1b957}{n\_refinements}}}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{},"{}}\ <<\ \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult_a04d782248c44381d3fa606a38a070c35}{polynomial\_degree}}\ <<\ \textcolor{stringliteral}{"{},"{}}\ <<\ \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult_a6c2d9111fbe7112333b999f476f3f3af}{n\_dofs}}\ <<\ \textcolor{stringliteral}{"{},"{}}\ <<\ \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult_a0b3dab71332f3ee193496ac24dd03311}{n\_cells}}}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{},"{}}\ <<\ \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult_a1fb0649ad5e9437845d477a82707ae75}{setup\_time}}\ <<\ \textcolor{stringliteral}{"{},"{}}\ <<\ \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult_a5ddafcf3365f34c84b97421dc0fb0cc1}{assembly\_time}}\ <<\ \textcolor{stringliteral}{"{},"{}}\ <<\ \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult_a0940b53ad2ce0b62da1d0ed9d2d2ba97}{solve\_time}}}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{},"{}}\ <<\ \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult_a8ce0d3b45b2017097bbbd2e4eb9b57c3}{total\_time}}\ <<\ \textcolor{stringliteral}{"{},"{}}\ <<\ \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult_a9460334f0e84cd59ef2b9631164c3231}{n\_iterations}}\ <<\ \textcolor{stringliteral}{"{},"{}}\ <<\ \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult_adfecfb6aa95210406190f893f29d87a1}{l2\_error}}}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{},"{}}\ <<\ \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult_aaac71f03215c16e3027b3ed0c99114dd}{memory\_mb}}\ <<\ \textcolor{stringliteral}{"{},"{}}\ <<\ \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult_ab0e72367518ced941a3bbb19a118c81b}{dofs\_per\_second}}\ <<\ \textcolor{stringliteral}{"{},"{}}}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult_a0c240dbe561087e66c30905dc11fc282}{parallel\_efficiency}};}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ oss.str();}
+\DoxyCodeLine{00083\ \ \ \ \ \}}
+\DoxyCodeLine{00084\ \};}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00089\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classBenchmarkUtils_1_1ResultCollector_a04ad03e83d125369cb1f6753dbbdbd2e}{ResultCollector}}\ \{}
+\DoxyCodeLine{00090\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00091\ \ \ \ \ \mbox{\hyperlink{classBenchmarkUtils_1_1ResultCollector_a04ad03e83d125369cb1f6753dbbdbd2e}{ResultCollector}}(\textcolor{keyword}{const}\ std::string\&\ output\_file,\ MPI\_Comm\ comm)}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ :\ filename(output\_file),\ communicator(comm)\ \{}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ MPI\_Comm\_rank(comm,\ \&rank);}
+\DoxyCodeLine{00094\ \ \ \ \ \}}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00096\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classBenchmarkUtils_1_1ResultCollector_af10e5d209dd7b86eb0b902e103448f22}{add\_result}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult}{BenchmarkResult}}\&\ result)\ \{}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ results.push\_back(result);}
+\DoxyCodeLine{00098\ \ \ \ \ \}}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00103\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classBenchmarkUtils_1_1ResultCollector_a9ef0f3f55dd36d17a93241dbffcafb31}{write\_csv}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (rank\ !=\ 0)}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00106\ }
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ std::ofstream\ ofs(filename);}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ ofs\ <<\ \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult_a17fb92b2f308ca6bac91ebcb0e4c0a20}{BenchmarkResult::csv\_header}}()\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ r\ :\ results)\ \{}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \ \ \ \ ofs\ <<\ r.to\_csv()\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ ofs.close();}
+\DoxyCodeLine{00113\ \ \ \ \ \}}
+\DoxyCodeLine{00114\ }
+\DoxyCodeLine{00118\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classBenchmarkUtils_1_1ResultCollector_a02fd335ab635717e54eca766f51918d1}{print\_summary}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (rank\ !=\ 0)}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00121\ }
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}}\ <<\ std::string(80,\ \textcolor{charliteral}{'='})\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}BENCHMARK\ SUMMARY\(\backslash\)n"{}};}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ std::cout\ <<\ std::string(80,\ \textcolor{charliteral}{'='})\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n\(\backslash\)n"{}};}
+\DoxyCodeLine{00125\ }
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ std::cout\ <<\ std::left\ <<\ std::setw(15)\ <<\ \textcolor{stringliteral}{"{}Solver"{}}\ <<\ std::setw(10)}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{}MPI"{}}\ <<\ std::setw(10)\ <<\ \textcolor{stringliteral}{"{}Threads"{}}\ <<\ std::setw(12)}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{}DoFs"{}}\ <<\ std::setw(12)\ <<\ \textcolor{stringliteral}{"{}Total(s)"{}}\ <<\ std::setw(12)}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{}Memory(MB)"{}}\ <<\ std::setw(15)\ <<\ \textcolor{stringliteral}{"{}DoFs/s"{}}}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ std::cout\ <<\ std::string(80,\ \textcolor{charliteral}{'-\/'})\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{00132\ }
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ r\ :\ results)\ \{}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \ \ \ \ std::cout\ <<\ std::left\ <<\ std::setw(15)\ <<\ r.solver\_type}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ std::setw(10)\ <<\ r.n\_mpi\_processes\ <<\ std::setw(10)}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ r.n\_threads\_per\_process\ <<\ std::setw(12)\ <<\ r.n\_dofs}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ std::fixed\ <<\ std::setprecision(3)\ <<\ std::setw(12)}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ r.total\_time\ <<\ std::setw(12)\ <<\ r.memory\_mb}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ std::scientific\ <<\ std::setprecision(2)}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ std::setw(15)\ <<\ r.dofs\_per\_second\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ std::cout\ <<\ std::string(80,\ \textcolor{charliteral}{'='})\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{00143\ \ \ \ \ \}}
+\DoxyCodeLine{00144\ }
+\DoxyCodeLine{00145\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00146\ \ \ \ \ std::string\ filename;}
+\DoxyCodeLine{00147\ \ \ \ \ MPI\_Comm\ communicator;}
+\DoxyCodeLine{00148\ \ \ \ \ \textcolor{keywordtype}{int}\ rank;}
+\DoxyCodeLine{00149\ \ \ \ \ std::vector<BenchmarkResult>\ results;}
+\DoxyCodeLine{00150\ \};}
+\DoxyCodeLine{00151\ }
+\DoxyCodeLine{00155\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classBenchmarkUtils_1_1Timer}{Timer}}\ \{}
+\DoxyCodeLine{00156\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00157\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classBenchmarkUtils_1_1Timer_a16139425b9d5d07183f08c69cda21a93}{start}}()\ \{\ start\_time\ =\ MPI\_Wtime();\ \}}
+\DoxyCodeLine{00158\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classBenchmarkUtils_1_1Timer_a6c061574ca6a548a7ba62b8ea5b109ad}{stop}}()\ \{\ elapsed\ =\ MPI\_Wtime()\ -\/\ start\_time;\ \}}
+\DoxyCodeLine{00159\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{classBenchmarkUtils_1_1Timer_abe2d213cf7bee460b5f0bd1603bced69}{get\_elapsed}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ elapsed;\ \}}
+\DoxyCodeLine{00160\ }
+\DoxyCodeLine{00161\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00162\ \ \ \ \ \textcolor{keywordtype}{double}\ start\_time\ =\ 0.0;}
+\DoxyCodeLine{00163\ \ \ \ \ \textcolor{keywordtype}{double}\ elapsed\ =\ 0.0;}
+\DoxyCodeLine{00164\ \};}
+\DoxyCodeLine{00165\ }
+\DoxyCodeLine{00173\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{namespaceBenchmarkUtils_aa5f5ff5434c4bd3a61e8efe85c313e1a}{compute\_efficiency}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ t1,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ tp,\ \textcolor{keywordtype}{int}\ p)\ \{}
+\DoxyCodeLine{00174\ \ \ \ \ \textcolor{keywordflow}{if}\ (tp\ <=\ 0\ ||\ p\ <=\ 0)}
+\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0.0;}
+\DoxyCodeLine{00176\ \ \ \ \ \textcolor{keywordflow}{return}\ t1\ /\ (p\ *\ tp);}
+\DoxyCodeLine{00177\ \}}
+\DoxyCodeLine{00178\ }
+\DoxyCodeLine{00182\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{namespaceBenchmarkUtils_a06c5ae8a2829968ce171149ab9aed0b7}{compute\_speedup}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ t1,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ tp)\ \{}
+\DoxyCodeLine{00183\ \ \ \ \ \textcolor{keywordflow}{if}\ (tp\ <=\ 0)}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0.0;}
+\DoxyCodeLine{00185\ \ \ \ \ \textcolor{keywordflow}{return}\ t1\ /\ tp;}
+\DoxyCodeLine{00186\ \}}
+\DoxyCodeLine{00187\ }
+\DoxyCodeLine{00191\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{namespaceBenchmarkUtils_a6a46143d7628c27d34aa9dee29757795}{get\_process\_memory\_mb}}()\ \{}
+\DoxyCodeLine{00192\ \ \ \ \ \textcolor{keywordtype}{double}\ vm\_rss\ =\ 0.0;}
+\DoxyCodeLine{00193\ \ \ \ \ std::ifstream\ status(\textcolor{stringliteral}{"{}/proc/self/status"{}});}
+\DoxyCodeLine{00194\ \ \ \ \ std::string\ line;}
+\DoxyCodeLine{00195\ \ \ \ \ \textcolor{keywordflow}{while}\ (std::getline(status,\ line))\ \{}
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (line.substr(0,\ 6)\ ==\ \textcolor{stringliteral}{"{}VmRSS:"{}})\ \{}
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \ \ \ \ std::istringstream\ iss(line.substr(6));}
+\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ \ \ \ \ iss\ >>\ vm\_rss;\ \ \ \ \textcolor{comment}{//\ Value\ in\ kB}}
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \ \ \ \ vm\_rss\ /=\ 1024.0;\ \textcolor{comment}{//\ Convert\ to\ MB}}
+\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00202\ \ \ \ \ \}}
+\DoxyCodeLine{00203\ \ \ \ \ \textcolor{keywordflow}{return}\ vm\_rss;}
+\DoxyCodeLine{00204\ \}}
+\DoxyCodeLine{00205\ }
+\DoxyCodeLine{00209\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structBenchmarkUtils_1_1ScalingConfig}{ScalingConfig}}\ \{}
+\DoxyCodeLine{00210\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structBenchmarkUtils_1_1ScalingConfig_a323cf26deae1492d287b7ecc9532632e}{min\_refinements}}\ =\ 3;}
+\DoxyCodeLine{00211\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structBenchmarkUtils_1_1ScalingConfig_a7a0d701c240e1b701c2d8d5a8b2b1b04}{max\_refinements}}\ =\ 6;}
+\DoxyCodeLine{00212\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structBenchmarkUtils_1_1ScalingConfig_ab6d77f04e0c74b0740f2766cea4783dd}{polynomial\_degree}}\ =\ 2;}
+\DoxyCodeLine{00213\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structBenchmarkUtils_1_1ScalingConfig_ab8a67b9545c8402b489d20fc21e170f7}{n\_warmup\_runs}}\ =\ 1;}
+\DoxyCodeLine{00214\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structBenchmarkUtils_1_1ScalingConfig_a24364d109fe4b55f02921d3d8248b007}{n\_timed\_runs}}\ =\ 3;}
+\DoxyCodeLine{00215\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structBenchmarkUtils_1_1ScalingConfig_a6953007e8fa8c4628f7a03f7bdee111a}{test\_matrix\_based}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00216\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structBenchmarkUtils_1_1ScalingConfig_ab252f32ec06b3ea151e682878274815c}{test\_matrix\_free}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00217\ \};}
+\DoxyCodeLine{00218\ }
+\DoxyCodeLine{00219\ \}\ \textcolor{comment}{//\ namespace\ BenchmarkUtils}}
+\DoxyCodeLine{00220\ }
+\DoxyCodeLine{00221\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ BENCHMARK\_UTILS\_H}}
+
+\end{DoxyCode}

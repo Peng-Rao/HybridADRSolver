@@ -1,0 +1,66 @@
+\doxysection{src/applications/benchmark/utils.h File Reference}
+\hypertarget{utils_8h}{}\label{utils_8h}\index{src/applications/benchmark/utils.h@{src/applications/benchmark/utils.h}}
+
+
+Utilities for benchmarking hybrid vs fully distributed solvers.  
+
+
+{\ttfamily \#include $<$fstream$>$}\newline
+{\ttfamily \#include $<$iomanip$>$}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$mpi.\+h$>$}\newline
+{\ttfamily \#include $<$sstream$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+Include dependency graph for utils.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{utils_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{utils_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult}{Benchmark\+Utils\+::\+Benchmark\+Result}}
+\begin{DoxyCompactList}\small\item\em Structure to hold benchmark results for a single run. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classBenchmarkUtils_1_1ResultCollector}{Benchmark\+Utils\+::\+Result\+Collector}}
+\begin{DoxyCompactList}\small\item\em Class to collect and output benchmark results. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classBenchmarkUtils_1_1Timer}{Benchmark\+Utils\+::\+Timer}}
+\begin{DoxyCompactList}\small\item\em High-\/resolution timer using MPI\+\_\+\+Wtime for consistency. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structBenchmarkUtils_1_1ScalingConfig}{Benchmark\+Utils\+::\+Scaling\+Config}}
+\begin{DoxyCompactList}\small\item\em Configuration for scaling tests. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespaceBenchmarkUtils}{Benchmark\+Utils}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+double \mbox{\hyperlink{namespaceBenchmarkUtils_aa5f5ff5434c4bd3a61e8efe85c313e1a}{Benchmark\+Utils\+::compute\+\_\+efficiency}} (const double t1, const double tp, int p)
+\begin{DoxyCompactList}\small\item\em Compute parallel efficiency. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{namespaceBenchmarkUtils_a06c5ae8a2829968ce171149ab9aed0b7}{Benchmark\+Utils\+::compute\+\_\+speedup}} (const double t1, const double tp)
+\begin{DoxyCompactList}\small\item\em Compute speedup. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{namespaceBenchmarkUtils_a6a46143d7628c27d34aa9dee29757795}{Benchmark\+Utils\+::get\+\_\+process\+\_\+memory\+\_\+mb}} ()
+\begin{DoxyCompactList}\small\item\em Get memory info from /proc/self/status (Linux specific) \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Utilities for benchmarking hybrid vs fully distributed solvers. 
+
+This header provides\+:
+\begin{DoxyItemize}
+\item Timing utilities for accurate performance measurement
+\item Result collection and CSV output
+\item Strong and weak scaling test configurations 
+\end{DoxyItemize}

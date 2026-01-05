@@ -1,0 +1,68 @@
+\doxysection{src/include/core/problem\+\_\+definition.h File Reference}
+\hypertarget{problem__definition_8h}{}\label{problem__definition_8h}\index{src/include/core/problem\_definition.h@{src/include/core/problem\_definition.h}}
+
+
+Defines the problem interface and a concrete Advection-\/\+Diffusion-\/\+Reaction (ADR) problem.  
+
+
+{\ttfamily \#include $<$deal.\+II/base/function.\+h$>$}\newline
+{\ttfamily \#include $<$deal.\+II/base/point.\+h$>$}\newline
+{\ttfamily \#include $<$deal.\+II/base/tensor.\+h$>$}\newline
+{\ttfamily \#include $<$set$>$}\newline
+{\ttfamily \#include $<$cmath$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+Include dependency graph for problem\+\_\+definition.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{problem__definition_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{problem__definition_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classHybridADRSolver_1_1ProblemInterface}{Hybrid\+ADRSolver\+::\+Problem\+Interface$<$ dim $>$}}
+\begin{DoxyCompactList}\small\item\em Abstract interface for defining a physical problem. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classHybridADRSolver_1_1Problems_1_1ExactSolution}{Hybrid\+ADRSolver\+::\+Problems\+::\+Exact\+Solution$<$ dim $>$}}
+\begin{DoxyCompactList}\small\item\em Manufactured exact solution\+: $ u(\mathbf{x}) = \prod \sin(\pi x_i) $. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classHybridADRSolver_1_1Problems_1_1NeumannFluxRight}{Hybrid\+ADRSolver\+::\+Problems\+::\+Neumann\+Flux\+Right$<$ dim $>$}}
+\begin{DoxyCompactList}\small\item\em Analytic Neumann flux for the Right boundary (x=1). \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classHybridADRSolver_1_1Problems_1_1ADRProblem}{Hybrid\+ADRSolver\+::\+Problems\+::\+ADRProblem$<$ dim $>$}}
+\begin{DoxyCompactList}\small\item\em Concrete implementation of a steady-\/state Advection-\/\+Diffusion-\/\+Reaction problem. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespaceHybridADRSolver}{Hybrid\+ADRSolver}}
+\item 
+namespace \mbox{\hyperlink{namespaceHybridADRSolver_1_1Problems}{Hybrid\+ADRSolver\+::\+Problems}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{problem__definition_8h_aa4f7ad7091baf0acd6e96fe9db91a6b8}{HYBRIDADRSOLVER\+\_\+\+PROBLEM\+\_\+\+BASE\+\_\+H}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Defines the problem interface and a concrete Advection-\/\+Diffusion-\/\+Reaction (ADR) problem. 
+
+This file contains the abstract base class {\ttfamily Problem\+Interface} which allows the solver to be decoupled from specific physics. It also provides a concrete implementation {\ttfamily ADRProblem} using the Method of Manufactured Solutions (MMS) for verification. 
+
+\label{doc-define-members}
+\Hypertarget{problem__definition_8h_doc-define-members}
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{problem__definition_8h_aa4f7ad7091baf0acd6e96fe9db91a6b8}\index{problem\_definition.h@{problem\_definition.h}!HYBRIDADRSOLVER\_PROBLEM\_BASE\_H@{HYBRIDADRSOLVER\_PROBLEM\_BASE\_H}}
+\index{HYBRIDADRSOLVER\_PROBLEM\_BASE\_H@{HYBRIDADRSOLVER\_PROBLEM\_BASE\_H}!problem\_definition.h@{problem\_definition.h}}
+\doxysubsubsection{\texorpdfstring{HYBRIDADRSOLVER\_PROBLEM\_BASE\_H}{HYBRIDADRSOLVER\_PROBLEM\_BASE\_H}}
+{\footnotesize\ttfamily \label{problem__definition_8h_aa4f7ad7091baf0acd6e96fe9db91a6b8} 
+\#define HYBRIDADRSOLVER\+\_\+\+PROBLEM\+\_\+\+BASE\+\_\+H}
+

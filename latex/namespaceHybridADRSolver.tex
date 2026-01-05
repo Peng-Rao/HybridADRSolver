@@ -1,0 +1,129 @@
+\doxysection{Hybrid\+ADRSolver Namespace Reference}
+\hypertarget{namespaceHybridADRSolver}{}\label{namespaceHybridADRSolver}\index{HybridADRSolver@{HybridADRSolver}}
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespaceHybridADRSolver_1_1LADistributed}{LADistributed}}
+\item 
+namespace \mbox{\hyperlink{namespaceHybridADRSolver_1_1LAMatrixFree}{LAMatrix\+Free}}
+\item 
+namespace \mbox{\hyperlink{namespaceHybridADRSolver_1_1Problems}{Problems}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator}{ADROperator}}
+\begin{DoxyCompactList}\small\item\em Matrix-\/free operator for the ADR problem. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structHybridADRSolver_1_1CopyData}{Copy\+Data}}
+\begin{DoxyCompactList}\small\item\em Copy data for the {\ttfamily Work\+Stream} assembly. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classHybridADRSolver_1_1JacobiPreconditioner}{Jacobi\+Preconditioner}}
+\begin{DoxyCompactList}\small\item\em Jacobi preconditioner for the matrix-\/free operator. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classHybridADRSolver_1_1MatrixBasedSolver}{Matrix\+Based\+Solver}}
+\begin{DoxyCompactList}\small\item\em Matrix-\/based solver with hybrid MPI+threading parallelization. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver}{Matrix\+Free\+Solver}}
+\begin{DoxyCompactList}\small\item\em Matrix-\/free solver with hybrid MPI+threading parallelization. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classHybridADRSolver_1_1ParallelSolverBase}{Parallel\+Solver\+Base}}
+\item 
+class \mbox{\hyperlink{classHybridADRSolver_1_1ProblemInterface}{Problem\+Interface}}
+\begin{DoxyCompactList}\small\item\em Abstract interface for defining a physical problem. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structHybridADRSolver_1_1ScratchData}{Scratch\+Data}}
+\begin{DoxyCompactList}\small\item\em Scratch data for the {\ttfamily Work\+Stream} assembly. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structHybridADRSolver_1_1SolverParameters}{Solver\+Parameters}}
+\item 
+struct \mbox{\hyperlink{structHybridADRSolver_1_1TimingResults}{Timing\+Results}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum class \mbox{\hyperlink{namespaceHybridADRSolver_afe6d3d39f0c710383621e32a46108cb1}{Solver\+Type}} \{ \mbox{\hyperlink{namespaceHybridADRSolver_afe6d3d39f0c710383621e32a46108cb1a50c8f7f1f99ac14228f9f78516b7dd07}{Matrix\+Based}}
+, \mbox{\hyperlink{namespaceHybridADRSolver_afe6d3d39f0c710383621e32a46108cb1af2674a258348188d6a3ee81d2669255a}{Matrix\+Free}}
+ \}
+\item 
+enum class \mbox{\hyperlink{namespaceHybridADRSolver_aa3fd5a2bb73d19a55b178e5a35b5b341}{Preconditioner\+Type}} \{ \newline
+\mbox{\hyperlink{namespaceHybridADRSolver_aa3fd5a2bb73d19a55b178e5a35b5b341a6adf97f83acf6453d4a6a4b1070f3754}{None}}
+, \mbox{\hyperlink{namespaceHybridADRSolver_aa3fd5a2bb73d19a55b178e5a35b5b341a2ba38a7b398cfd9360591c3a1a25ba39}{Jacobi}}
+, \mbox{\hyperlink{namespaceHybridADRSolver_aa3fd5a2bb73d19a55b178e5a35b5b341af77d68d6b47fa42d89a943d976a0759d}{ILU}}
+, \mbox{\hyperlink{namespaceHybridADRSolver_aa3fd5a2bb73d19a55b178e5a35b5b341a378ff3b4a7e82873638b320c4b5578a0}{AMG}}
+, \newline
+\mbox{\hyperlink{namespaceHybridADRSolver_aa3fd5a2bb73d19a55b178e5a35b5b341a7672163939be25b939905898298d3648}{Chebyshev}}
+, \mbox{\hyperlink{namespaceHybridADRSolver_aa3fd5a2bb73d19a55b178e5a35b5b341a21b63b129f9c31f7f6de494305abc108}{GMG}}
+ \}
+\item 
+enum class \mbox{\hyperlink{namespaceHybridADRSolver_a222b7a02326125bfc0eec6713f38e5ff}{Linear\+Solver\+Type}} \{ \mbox{\hyperlink{namespaceHybridADRSolver_a222b7a02326125bfc0eec6713f38e5ffa5202c6586cac8bee468e86d1ff854231}{CG}}
+, \mbox{\hyperlink{namespaceHybridADRSolver_a222b7a02326125bfc0eec6713f38e5ffac1bfd84e7215afa3204b8e1cdb21a2bd}{GMRES}}
+, \mbox{\hyperlink{namespaceHybridADRSolver_a222b7a02326125bfc0eec6713f38e5ffa17f477cd947340d28b9a4d6f49c1e43b}{Bi\+CGStab}}
+ \}
+\end{DoxyCompactItemize}
+
+
+\label{doc-enum-members}
+\Hypertarget{namespaceHybridADRSolver_doc-enum-members}
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{namespaceHybridADRSolver_a222b7a02326125bfc0eec6713f38e5ff}\index{HybridADRSolver@{HybridADRSolver}!LinearSolverType@{LinearSolverType}}
+\index{LinearSolverType@{LinearSolverType}!HybridADRSolver@{HybridADRSolver}}
+\doxysubsubsection{\texorpdfstring{LinearSolverType}{LinearSolverType}}
+{\footnotesize\ttfamily \label{namespaceHybridADRSolver_a222b7a02326125bfc0eec6713f38e5ff} 
+enum class \mbox{\hyperlink{namespaceHybridADRSolver_a222b7a02326125bfc0eec6713f38e5ff}{Hybrid\+ADRSolver\+::\+Linear\+Solver\+Type}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+Enum for linear solver type, use matrix-\/based methods \begin{DoxyEnumFields}[2]{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CG@{CG}!HybridADRSolver@{HybridADRSolver}}\index{HybridADRSolver@{HybridADRSolver}!CG@{CG}}}\Hypertarget{namespaceHybridADRSolver_a222b7a02326125bfc0eec6713f38e5ffa5202c6586cac8bee468e86d1ff854231}\label{namespaceHybridADRSolver_a222b7a02326125bfc0eec6713f38e5ffa5202c6586cac8bee468e86d1ff854231} 
+CG&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{GMRES@{GMRES}!HybridADRSolver@{HybridADRSolver}}\index{HybridADRSolver@{HybridADRSolver}!GMRES@{GMRES}}}\Hypertarget{namespaceHybridADRSolver_a222b7a02326125bfc0eec6713f38e5ffac1bfd84e7215afa3204b8e1cdb21a2bd}\label{namespaceHybridADRSolver_a222b7a02326125bfc0eec6713f38e5ffac1bfd84e7215afa3204b8e1cdb21a2bd} 
+GMRES&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{BiCGStab@{BiCGStab}!HybridADRSolver@{HybridADRSolver}}\index{HybridADRSolver@{HybridADRSolver}!BiCGStab@{BiCGStab}}}\Hypertarget{namespaceHybridADRSolver_a222b7a02326125bfc0eec6713f38e5ffa17f477cd947340d28b9a4d6f49c1e43b}\label{namespaceHybridADRSolver_a222b7a02326125bfc0eec6713f38e5ffa17f477cd947340d28b9a4d6f49c1e43b} 
+Bi\+CGStab&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{namespaceHybridADRSolver_aa3fd5a2bb73d19a55b178e5a35b5b341}\index{HybridADRSolver@{HybridADRSolver}!PreconditionerType@{PreconditionerType}}
+\index{PreconditionerType@{PreconditionerType}!HybridADRSolver@{HybridADRSolver}}
+\doxysubsubsection{\texorpdfstring{PreconditionerType}{PreconditionerType}}
+{\footnotesize\ttfamily \label{namespaceHybridADRSolver_aa3fd5a2bb73d19a55b178e5a35b5b341} 
+enum class \mbox{\hyperlink{namespaceHybridADRSolver_aa3fd5a2bb73d19a55b178e5a35b5b341}{Hybrid\+ADRSolver\+::\+Preconditioner\+Type}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+Enum for preconditioner type \begin{DoxyEnumFields}[2]{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{None@{None}!HybridADRSolver@{HybridADRSolver}}\index{HybridADRSolver@{HybridADRSolver}!None@{None}}}\Hypertarget{namespaceHybridADRSolver_aa3fd5a2bb73d19a55b178e5a35b5b341a6adf97f83acf6453d4a6a4b1070f3754}\label{namespaceHybridADRSolver_aa3fd5a2bb73d19a55b178e5a35b5b341a6adf97f83acf6453d4a6a4b1070f3754} 
+None&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Jacobi@{Jacobi}!HybridADRSolver@{HybridADRSolver}}\index{HybridADRSolver@{HybridADRSolver}!Jacobi@{Jacobi}}}\Hypertarget{namespaceHybridADRSolver_aa3fd5a2bb73d19a55b178e5a35b5b341a2ba38a7b398cfd9360591c3a1a25ba39}\label{namespaceHybridADRSolver_aa3fd5a2bb73d19a55b178e5a35b5b341a2ba38a7b398cfd9360591c3a1a25ba39} 
+Jacobi&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ILU@{ILU}!HybridADRSolver@{HybridADRSolver}}\index{HybridADRSolver@{HybridADRSolver}!ILU@{ILU}}}\Hypertarget{namespaceHybridADRSolver_aa3fd5a2bb73d19a55b178e5a35b5b341af77d68d6b47fa42d89a943d976a0759d}\label{namespaceHybridADRSolver_aa3fd5a2bb73d19a55b178e5a35b5b341af77d68d6b47fa42d89a943d976a0759d} 
+ILU&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AMG@{AMG}!HybridADRSolver@{HybridADRSolver}}\index{HybridADRSolver@{HybridADRSolver}!AMG@{AMG}}}\Hypertarget{namespaceHybridADRSolver_aa3fd5a2bb73d19a55b178e5a35b5b341a378ff3b4a7e82873638b320c4b5578a0}\label{namespaceHybridADRSolver_aa3fd5a2bb73d19a55b178e5a35b5b341a378ff3b4a7e82873638b320c4b5578a0} 
+AMG&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Chebyshev@{Chebyshev}!HybridADRSolver@{HybridADRSolver}}\index{HybridADRSolver@{HybridADRSolver}!Chebyshev@{Chebyshev}}}\Hypertarget{namespaceHybridADRSolver_aa3fd5a2bb73d19a55b178e5a35b5b341a7672163939be25b939905898298d3648}\label{namespaceHybridADRSolver_aa3fd5a2bb73d19a55b178e5a35b5b341a7672163939be25b939905898298d3648} 
+Chebyshev&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{GMG@{GMG}!HybridADRSolver@{HybridADRSolver}}\index{HybridADRSolver@{HybridADRSolver}!GMG@{GMG}}}\Hypertarget{namespaceHybridADRSolver_aa3fd5a2bb73d19a55b178e5a35b5b341a21b63b129f9c31f7f6de494305abc108}\label{namespaceHybridADRSolver_aa3fd5a2bb73d19a55b178e5a35b5b341a21b63b129f9c31f7f6de494305abc108} 
+GMG&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{namespaceHybridADRSolver_afe6d3d39f0c710383621e32a46108cb1}\index{HybridADRSolver@{HybridADRSolver}!SolverType@{SolverType}}
+\index{SolverType@{SolverType}!HybridADRSolver@{HybridADRSolver}}
+\doxysubsubsection{\texorpdfstring{SolverType}{SolverType}}
+{\footnotesize\ttfamily \label{namespaceHybridADRSolver_afe6d3d39f0c710383621e32a46108cb1} 
+enum class \mbox{\hyperlink{namespaceHybridADRSolver_afe6d3d39f0c710383621e32a46108cb1}{Hybrid\+ADRSolver\+::\+Solver\+Type}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+Enum for solver type selection \begin{DoxyEnumFields}[2]{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{MatrixBased@{MatrixBased}!HybridADRSolver@{HybridADRSolver}}\index{HybridADRSolver@{HybridADRSolver}!MatrixBased@{MatrixBased}}}\Hypertarget{namespaceHybridADRSolver_afe6d3d39f0c710383621e32a46108cb1a50c8f7f1f99ac14228f9f78516b7dd07}\label{namespaceHybridADRSolver_afe6d3d39f0c710383621e32a46108cb1a50c8f7f1f99ac14228f9f78516b7dd07} 
+Matrix\+Based&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{MatrixFree@{MatrixFree}!HybridADRSolver@{HybridADRSolver}}\index{HybridADRSolver@{HybridADRSolver}!MatrixFree@{MatrixFree}}}\Hypertarget{namespaceHybridADRSolver_afe6d3d39f0c710383621e32a46108cb1af2674a258348188d6a3ee81d2669255a}\label{namespaceHybridADRSolver_afe6d3d39f0c710383621e32a46108cb1af2674a258348188d6a3ee81d2669255a} 
+Matrix\+Free&\\
+\hline
+
+\end{DoxyEnumFields}

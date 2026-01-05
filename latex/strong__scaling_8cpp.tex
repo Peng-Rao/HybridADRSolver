@@ -1,0 +1,83 @@
+\doxysection{src/applications/benchmark/strong\+\_\+scaling.cpp File Reference}
+\hypertarget{strong__scaling_8cpp}{}\label{strong__scaling_8cpp}\index{src/applications/benchmark/strong\_scaling.cpp@{src/applications/benchmark/strong\_scaling.cpp}}
+
+
+Strong scaling benchmark for hybrid vs distributed solvers.  
+
+
+{\ttfamily \#include "{}core/problem\+\_\+definition.\+h"{}}\newline
+{\ttfamily \#include "{}core/types.\+h"{}}\newline
+{\ttfamily \#include "{}matrix\+\_\+based/matrix\+\_\+based\+\_\+solver.\+h"{}}\newline
+{\ttfamily \#include "{}matrix\+\_\+free/matrix\+\_\+free\+\_\+solver.\+h"{}}\newline
+{\ttfamily \#include "{}utils.\+h"{}}\newline
+{\ttfamily \#include $<$deal.\+II/base/conditional\+\_\+ostream.\+h$>$}\newline
+{\ttfamily \#include $<$deal.\+II/base/mpi.\+h$>$}\newline
+{\ttfamily \#include $<$deal.\+II/base/multithread\+\_\+info.\+h$>$}\newline
+{\ttfamily \#include $<$fstream$>$}\newline
+{\ttfamily \#include $<$iomanip$>$}\newline
+Include dependency graph for strong\+\_\+scaling.\+cpp\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{strong__scaling_8cpp__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structStrongScalingConfig}{Strong\+Scaling\+Config}}
+\begin{DoxyCompactList}\small\item\em Strong scaling test configuration. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structTimingStats}{Timing\+Stats}}
+\begin{DoxyCompactList}\small\item\em Compute statistics from timing data. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$int dim$>$ }\\std\+::vector$<$ double $>$ \mbox{\hyperlink{strong__scaling_8cpp_aab65a1c6306b79a69669b40f18210ce9}{benchmark\+\_\+matrix\+\_\+based}} (const \mbox{\hyperlink{classHybridADRSolver_1_1ProblemInterface}{Problem\+Interface}}$<$ dim $>$ \&problem, const \mbox{\hyperlink{structStrongScalingConfig}{Strong\+Scaling\+Config}} \&config, MPI\+\_\+\+Comm comm)
+\begin{DoxyCompactList}\small\item\em Run matrix-\/based solver and collect timing. \end{DoxyCompactList}\item 
+{\footnotesize template$<$int dim, int fe\+\_\+degree$>$ }\\std\+::vector$<$ double $>$ \mbox{\hyperlink{strong__scaling_8cpp_ae2b2161843b5bd95ded2229e8b3727fe}{benchmark\+\_\+matrix\+\_\+free}} (const \mbox{\hyperlink{classHybridADRSolver_1_1ProblemInterface}{Problem\+Interface}}$<$ dim $>$ \&problem, const \mbox{\hyperlink{structStrongScalingConfig}{Strong\+Scaling\+Config}} \&config, MPI\+\_\+\+Comm comm)
+\begin{DoxyCompactList}\small\item\em Run matrix-\/free solver and collect timing. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{strong__scaling_8cpp_a0ddf1224851353fc92bfbff6f499fa97}{main}} (int argc, char \texorpdfstring{$\ast$}{*}argv\mbox{[}$\,$\mbox{]})
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Strong scaling benchmark for hybrid vs distributed solvers. 
+
+Strong scaling\+: Fixed problem size, varying number of processes/threads. This measures how well the solvers parallelize a fixed workload.
+
+Ideal strong scaling\+: Time = T\+\_\+1 / P (where P = number of processes) Efficiency = T\+\_\+1 / (P \texorpdfstring{$\ast$}{*} T\+\_\+P)
+
+For hybrid parallelization, total parallelism = MPI\+\_\+ranks × threads\+\_\+per\+\_\+rank 
+
+\label{doc-func-members}
+\Hypertarget{strong__scaling_8cpp_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{strong__scaling_8cpp_aab65a1c6306b79a69669b40f18210ce9}\index{strong\_scaling.cpp@{strong\_scaling.cpp}!benchmark\_matrix\_based@{benchmark\_matrix\_based}}
+\index{benchmark\_matrix\_based@{benchmark\_matrix\_based}!strong\_scaling.cpp@{strong\_scaling.cpp}}
+\doxysubsubsection{\texorpdfstring{benchmark\_matrix\_based()}{benchmark\_matrix\_based()}}
+{\footnotesize\ttfamily \label{strong__scaling_8cpp_aab65a1c6306b79a69669b40f18210ce9} 
+template$<$int dim$>$ \\
+std\+::vector$<$ double $>$ benchmark\+\_\+matrix\+\_\+based (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classHybridADRSolver_1_1ProblemInterface}{Problem\+Interface}}$<$ dim $>$ \&}]{problem}{, }\item[{const \mbox{\hyperlink{structStrongScalingConfig}{Strong\+Scaling\+Config}} \&}]{config}{, }\item[{MPI\+\_\+\+Comm}]{comm}{}\end{DoxyParamCaption})}
+
+
+
+Run matrix-\/based solver and collect timing. 
+
+\Hypertarget{strong__scaling_8cpp_ae2b2161843b5bd95ded2229e8b3727fe}\index{strong\_scaling.cpp@{strong\_scaling.cpp}!benchmark\_matrix\_free@{benchmark\_matrix\_free}}
+\index{benchmark\_matrix\_free@{benchmark\_matrix\_free}!strong\_scaling.cpp@{strong\_scaling.cpp}}
+\doxysubsubsection{\texorpdfstring{benchmark\_matrix\_free()}{benchmark\_matrix\_free()}}
+{\footnotesize\ttfamily \label{strong__scaling_8cpp_ae2b2161843b5bd95ded2229e8b3727fe} 
+template$<$int dim, int fe\+\_\+degree$>$ \\
+std\+::vector$<$ double $>$ benchmark\+\_\+matrix\+\_\+free (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classHybridADRSolver_1_1ProblemInterface}{Problem\+Interface}}$<$ dim $>$ \&}]{problem}{, }\item[{const \mbox{\hyperlink{structStrongScalingConfig}{Strong\+Scaling\+Config}} \&}]{config}{, }\item[{MPI\+\_\+\+Comm}]{comm}{}\end{DoxyParamCaption})}
+
+
+
+Run matrix-\/free solver and collect timing. 
+
+\Hypertarget{strong__scaling_8cpp_a0ddf1224851353fc92bfbff6f499fa97}\index{strong\_scaling.cpp@{strong\_scaling.cpp}!main@{main}}
+\index{main@{main}!strong\_scaling.cpp@{strong\_scaling.cpp}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily \label{strong__scaling_8cpp_a0ddf1224851353fc92bfbff6f499fa97} 
+int main (\begin{DoxyParamCaption}\item[{int}]{argc}{, }\item[{char \texorpdfstring{$\ast$}{*}}]{argv}{\mbox{[}$\,$\mbox{]}}\end{DoxyParamCaption})}
+

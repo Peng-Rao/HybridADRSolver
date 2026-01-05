@@ -1,0 +1,49 @@
+\doxysection{Hybrid\+ADRSolver\+::Copy\+Data Struct Reference}
+\hypertarget{structHybridADRSolver_1_1CopyData}{}\label{structHybridADRSolver_1_1CopyData}\index{HybridADRSolver::CopyData@{HybridADRSolver::CopyData}}
+
+
+Copy data for the {\ttfamily Work\+Stream} assembly.  
+
+
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Full\+Matrix$<$ double $>$ \mbox{\hyperlink{structHybridADRSolver_1_1CopyData_a901fdbe4897465f178c0f9aae3f47b19}{cell\+\_\+matrix}}
+\item 
+Vector$<$ double $>$ \mbox{\hyperlink{structHybridADRSolver_1_1CopyData_a0720e8e1a80c7bad6f23b0da84035d1a}{cell\+\_\+rhs}}
+\item 
+std\+::vector$<$ types\+::global\+\_\+dof\+\_\+index $>$ \mbox{\hyperlink{structHybridADRSolver_1_1CopyData_a18386802eee1a404cfb9299bfb62b3fc}{local\+\_\+dof\+\_\+indices}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Copy data for the {\ttfamily Work\+Stream} assembly. 
+
+This struct holds the results of the local integration (cell matrix, cell rhs, and DoF indices). This data is passed from the worker threads to the main thread (copier) to be added to the global system. 
+
+\label{doc-variable-members}
+\Hypertarget{structHybridADRSolver_1_1CopyData_doc-variable-members}
+\doxysubsection{Member Data Documentation}
+\Hypertarget{structHybridADRSolver_1_1CopyData_a901fdbe4897465f178c0f9aae3f47b19}\index{HybridADRSolver::CopyData@{HybridADRSolver::CopyData}!cell\_matrix@{cell\_matrix}}
+\index{cell\_matrix@{cell\_matrix}!HybridADRSolver::CopyData@{HybridADRSolver::CopyData}}
+\doxysubsubsection{\texorpdfstring{cell\_matrix}{cell\_matrix}}
+{\footnotesize\ttfamily \label{structHybridADRSolver_1_1CopyData_a901fdbe4897465f178c0f9aae3f47b19} 
+Full\+Matrix$<$double$>$ Hybrid\+ADRSolver\+::\+Copy\+Data\+::cell\+\_\+matrix}
+
+\Hypertarget{structHybridADRSolver_1_1CopyData_a0720e8e1a80c7bad6f23b0da84035d1a}\index{HybridADRSolver::CopyData@{HybridADRSolver::CopyData}!cell\_rhs@{cell\_rhs}}
+\index{cell\_rhs@{cell\_rhs}!HybridADRSolver::CopyData@{HybridADRSolver::CopyData}}
+\doxysubsubsection{\texorpdfstring{cell\_rhs}{cell\_rhs}}
+{\footnotesize\ttfamily \label{structHybridADRSolver_1_1CopyData_a0720e8e1a80c7bad6f23b0da84035d1a} 
+Vector$<$double$>$ Hybrid\+ADRSolver\+::\+Copy\+Data\+::cell\+\_\+rhs}
+
+\Hypertarget{structHybridADRSolver_1_1CopyData_a18386802eee1a404cfb9299bfb62b3fc}\index{HybridADRSolver::CopyData@{HybridADRSolver::CopyData}!local\_dof\_indices@{local\_dof\_indices}}
+\index{local\_dof\_indices@{local\_dof\_indices}!HybridADRSolver::CopyData@{HybridADRSolver::CopyData}}
+\doxysubsubsection{\texorpdfstring{local\_dof\_indices}{local\_dof\_indices}}
+{\footnotesize\ttfamily \label{structHybridADRSolver_1_1CopyData_a18386802eee1a404cfb9299bfb62b3fc} 
+std\+::vector$<$types\+::global\+\_\+dof\+\_\+index$>$ Hybrid\+ADRSolver\+::\+Copy\+Data\+::local\+\_\+dof\+\_\+indices}
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/include/matrix\+\_\+based/\mbox{\hyperlink{matrix__based__solver_8cpp}{matrix\+\_\+based\+\_\+solver.\+cpp}}\end{DoxyCompactItemize}

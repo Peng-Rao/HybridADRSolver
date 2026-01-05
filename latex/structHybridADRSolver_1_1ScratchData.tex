@@ -1,0 +1,95 @@
+\doxysection{Hybrid\+ADRSolver\+::Scratch\+Data\texorpdfstring{$<$}{<} dim \texorpdfstring{$>$}{>} Struct Template Reference}
+\hypertarget{structHybridADRSolver_1_1ScratchData}{}\label{structHybridADRSolver_1_1ScratchData}\index{HybridADRSolver::ScratchData$<$ dim $>$@{HybridADRSolver::ScratchData$<$ dim $>$}}
+
+
+Scratch data for the {\ttfamily Work\+Stream} assembly.  
+
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structHybridADRSolver_1_1ScratchData_a6363830df8e1dba5b185bb584f98e565}{Scratch\+Data}} (const Finite\+Element$<$ dim $>$ \&fe, const Quadrature$<$ dim $>$ \&q, const Quadrature$<$ dim -\/ 1 $>$ \&fq)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structHybridADRSolver_1_1ScratchData_a6239a2e46c97e3b807020f9ae42319b7}{Scratch\+Data}} (const \mbox{\hyperlink{structHybridADRSolver_1_1ScratchData}{Scratch\+Data}} \&sd)
+\begin{DoxyCompactList}\small\item\em Copy constructor (required by Work\+Stream). \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+FEValues$<$ dim $>$ \mbox{\hyperlink{structHybridADRSolver_1_1ScratchData_a5267a7ca2ab89f6bb3a9e3823c0c304e}{fe\+\_\+values}}
+\item 
+FEFace\+Values$<$ dim $>$ \mbox{\hyperlink{structHybridADRSolver_1_1ScratchData_a02e734df2e7185a449b54f884b6459c8}{fe\+\_\+face\+\_\+values}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$int dim$>$\newline
+struct Hybrid\+ADRSolver\+::\+Scratch\+Data$<$ dim $>$}
+Scratch data for the {\ttfamily Work\+Stream} assembly. 
+
+This struct holds thread-\/local data required for assembly, such as {\ttfamily FEValues} and {\ttfamily FEFace\+Values} objects. Using this prevents the need to reallocate these objects for every cell, which would be expensive.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em dim} & Spatial dimension. \\
+\hline
+\end{DoxyTemplParams}
+
+
+\label{doc-constructors}
+\Hypertarget{structHybridADRSolver_1_1ScratchData_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{structHybridADRSolver_1_1ScratchData_a6363830df8e1dba5b185bb584f98e565}\index{HybridADRSolver::ScratchData$<$ dim $>$@{HybridADRSolver::ScratchData$<$ dim $>$}!ScratchData@{ScratchData}}
+\index{ScratchData@{ScratchData}!HybridADRSolver::ScratchData$<$ dim $>$@{HybridADRSolver::ScratchData$<$ dim $>$}}
+\doxysubsubsection{\texorpdfstring{ScratchData()}{ScratchData()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \label{structHybridADRSolver_1_1ScratchData_a6363830df8e1dba5b185bb584f98e565} 
+template$<$int dim$>$ \\
+\mbox{\hyperlink{structHybridADRSolver_1_1ScratchData}{Hybrid\+ADRSolver\+::\+Scratch\+Data}}$<$ dim $>$\+::\+Scratch\+Data (\begin{DoxyParamCaption}\item[{const Finite\+Element$<$ dim $>$ \&}]{fe}{, }\item[{const Quadrature$<$ dim $>$ \&}]{q}{, }\item[{const Quadrature$<$ dim -\/ 1 $>$ \&}]{fq}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em fe} & The finite element object. \\
+\hline
+{\em q} & The cell quadrature rule. \\
+\hline
+{\em fq} & The face quadrature rule. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{structHybridADRSolver_1_1ScratchData_a6239a2e46c97e3b807020f9ae42319b7}\index{HybridADRSolver::ScratchData$<$ dim $>$@{HybridADRSolver::ScratchData$<$ dim $>$}!ScratchData@{ScratchData}}
+\index{ScratchData@{ScratchData}!HybridADRSolver::ScratchData$<$ dim $>$@{HybridADRSolver::ScratchData$<$ dim $>$}}
+\doxysubsubsection{\texorpdfstring{ScratchData()}{ScratchData()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \label{structHybridADRSolver_1_1ScratchData_a6239a2e46c97e3b807020f9ae42319b7} 
+template$<$int dim$>$ \\
+\mbox{\hyperlink{structHybridADRSolver_1_1ScratchData}{Hybrid\+ADRSolver\+::\+Scratch\+Data}}$<$ dim $>$\+::\+Scratch\+Data (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structHybridADRSolver_1_1ScratchData}{Scratch\+Data}}$<$ dim $>$ \&}]{sd}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Copy constructor (required by Work\+Stream). 
+
+
+
+\label{doc-variable-members}
+\Hypertarget{structHybridADRSolver_1_1ScratchData_doc-variable-members}
+\doxysubsection{Member Data Documentation}
+\Hypertarget{structHybridADRSolver_1_1ScratchData_a02e734df2e7185a449b54f884b6459c8}\index{HybridADRSolver::ScratchData$<$ dim $>$@{HybridADRSolver::ScratchData$<$ dim $>$}!fe\_face\_values@{fe\_face\_values}}
+\index{fe\_face\_values@{fe\_face\_values}!HybridADRSolver::ScratchData$<$ dim $>$@{HybridADRSolver::ScratchData$<$ dim $>$}}
+\doxysubsubsection{\texorpdfstring{fe\_face\_values}{fe\_face\_values}}
+{\footnotesize\ttfamily \label{structHybridADRSolver_1_1ScratchData_a02e734df2e7185a449b54f884b6459c8} 
+template$<$int dim$>$ \\
+FEFace\+Values$<$dim$>$ \mbox{\hyperlink{structHybridADRSolver_1_1ScratchData}{Hybrid\+ADRSolver\+::\+Scratch\+Data}}$<$ dim $>$\+::fe\+\_\+face\+\_\+values}
+
+\Hypertarget{structHybridADRSolver_1_1ScratchData_a5267a7ca2ab89f6bb3a9e3823c0c304e}\index{HybridADRSolver::ScratchData$<$ dim $>$@{HybridADRSolver::ScratchData$<$ dim $>$}!fe\_values@{fe\_values}}
+\index{fe\_values@{fe\_values}!HybridADRSolver::ScratchData$<$ dim $>$@{HybridADRSolver::ScratchData$<$ dim $>$}}
+\doxysubsubsection{\texorpdfstring{fe\_values}{fe\_values}}
+{\footnotesize\ttfamily \label{structHybridADRSolver_1_1ScratchData_a5267a7ca2ab89f6bb3a9e3823c0c304e} 
+template$<$int dim$>$ \\
+FEValues$<$dim$>$ \mbox{\hyperlink{structHybridADRSolver_1_1ScratchData}{Hybrid\+ADRSolver\+::\+Scratch\+Data}}$<$ dim $>$\+::fe\+\_\+values}
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/include/matrix\+\_\+based/\mbox{\hyperlink{matrix__based__solver_8cpp}{matrix\+\_\+based\+\_\+solver.\+cpp}}\end{DoxyCompactItemize}

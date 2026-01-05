@@ -1,0 +1,82 @@
+\doxysection{Hybrid\+ADRSolver\+::Problems\+::Exact\+Solution\texorpdfstring{$<$}{<} dim \texorpdfstring{$>$}{>} Class Template Reference}
+\hypertarget{classHybridADRSolver_1_1Problems_1_1ExactSolution}{}\label{classHybridADRSolver_1_1Problems_1_1ExactSolution}\index{HybridADRSolver::Problems::ExactSolution$<$ dim $>$@{HybridADRSolver::Problems::ExactSolution$<$ dim $>$}}
+
+
+Manufactured exact solution\+: $ u(\mathbf{x}) = \prod \sin(\pi x_i) $.  
+
+
+
+
+{\ttfamily \#include $<$problem\+\_\+definition.\+h$>$}
+
+
+
+Inheritance diagram for Hybrid\+ADRSolver\+::Problems\+::Exact\+Solution\texorpdfstring{$<$}{<} dim \texorpdfstring{$>$}{>}\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=219pt]{classHybridADRSolver_1_1Problems_1_1ExactSolution__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Hybrid\+ADRSolver\+::Problems\+::Exact\+Solution\texorpdfstring{$<$}{<} dim \texorpdfstring{$>$}{>}\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=219pt]{classHybridADRSolver_1_1Problems_1_1ExactSolution__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+double \mbox{\hyperlink{classHybridADRSolver_1_1Problems_1_1ExactSolution_ac8980c0d2cdb14a4e98a8f9e75d7dec9}{value}} (const Point$<$ dim $>$ \&p, const unsigned int) const override
+\begin{DoxyCompactList}\small\item\em Evaluates the exact solution at point p. \end{DoxyCompactList}\item 
+Tensor$<$ 1, dim $>$ \mbox{\hyperlink{classHybridADRSolver_1_1Problems_1_1ExactSolution_a67af345598fe5fe4714957a5e9f5fbd5}{gradient}} (const Point$<$ dim $>$ \&p, const unsigned int) const override
+\begin{DoxyCompactList}\small\item\em Evaluates the gradient of the exact solution at point p. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$int dim$>$\newline
+class Hybrid\+ADRSolver\+::\+Problems\+::\+Exact\+Solution$<$ dim $>$}
+Manufactured exact solution\+: $ u(\mathbf{x}) = \prod \sin(\pi x_i) $. 
+
+This function is used to verify the solver accuracy. It satisfies homogeneous Dirichlet boundary conditions on the unit hypercube (except where we manually apply Neumann). 
+
+\label{doc-func-members}
+\Hypertarget{classHybridADRSolver_1_1Problems_1_1ExactSolution_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classHybridADRSolver_1_1Problems_1_1ExactSolution_a67af345598fe5fe4714957a5e9f5fbd5}\index{HybridADRSolver::Problems::ExactSolution$<$ dim $>$@{HybridADRSolver::Problems::ExactSolution$<$ dim $>$}!gradient@{gradient}}
+\index{gradient@{gradient}!HybridADRSolver::Problems::ExactSolution$<$ dim $>$@{HybridADRSolver::Problems::ExactSolution$<$ dim $>$}}
+\doxysubsubsection{\texorpdfstring{gradient()}{gradient()}}
+{\footnotesize\ttfamily \label{classHybridADRSolver_1_1Problems_1_1ExactSolution_a67af345598fe5fe4714957a5e9f5fbd5} 
+template$<$int dim$>$ \\
+Tensor$<$ 1, dim $>$ \mbox{\hyperlink{classHybridADRSolver_1_1Problems_1_1ExactSolution}{Hybrid\+ADRSolver\+::\+Problems\+::\+Exact\+Solution}}$<$ dim $>$\+::gradient (\begin{DoxyParamCaption}\item[{const Point$<$ dim $>$ \&}]{p}{, }\item[{const unsigned int}]{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}}
+
+
+
+Evaluates the gradient of the exact solution at point p. 
+
+\Hypertarget{classHybridADRSolver_1_1Problems_1_1ExactSolution_ac8980c0d2cdb14a4e98a8f9e75d7dec9}\index{HybridADRSolver::Problems::ExactSolution$<$ dim $>$@{HybridADRSolver::Problems::ExactSolution$<$ dim $>$}!value@{value}}
+\index{value@{value}!HybridADRSolver::Problems::ExactSolution$<$ dim $>$@{HybridADRSolver::Problems::ExactSolution$<$ dim $>$}}
+\doxysubsubsection{\texorpdfstring{value()}{value()}}
+{\footnotesize\ttfamily \label{classHybridADRSolver_1_1Problems_1_1ExactSolution_ac8980c0d2cdb14a4e98a8f9e75d7dec9} 
+template$<$int dim$>$ \\
+double \mbox{\hyperlink{classHybridADRSolver_1_1Problems_1_1ExactSolution}{Hybrid\+ADRSolver\+::\+Problems\+::\+Exact\+Solution}}$<$ dim $>$\+::value (\begin{DoxyParamCaption}\item[{const Point$<$ dim $>$ \&}]{p}{, }\item[{const unsigned int}]{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}}
+
+
+
+Evaluates the exact solution at point p. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p} & The evaluation point. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/include/core/\mbox{\hyperlink{problem__definition_8h}{problem\+\_\+definition.\+h}}\end{DoxyCompactItemize}

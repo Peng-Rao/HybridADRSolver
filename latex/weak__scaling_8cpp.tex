@@ -1,0 +1,108 @@
+\doxysection{src/applications/benchmark/weak\+\_\+scaling.cpp File Reference}
+\hypertarget{weak__scaling_8cpp}{}\label{weak__scaling_8cpp}\index{src/applications/benchmark/weak\_scaling.cpp@{src/applications/benchmark/weak\_scaling.cpp}}
+
+
+Weak scaling benchmark for hybrid vs distributed solvers.  
+
+
+{\ttfamily \#include "{}core/problem\+\_\+definition.\+h"{}}\newline
+{\ttfamily \#include "{}core/types.\+h"{}}\newline
+{\ttfamily \#include "{}matrix\+\_\+based/matrix\+\_\+based\+\_\+solver.\+h"{}}\newline
+{\ttfamily \#include "{}matrix\+\_\+free/matrix\+\_\+free\+\_\+solver.\+h"{}}\newline
+{\ttfamily \#include "{}utils.\+h"{}}\newline
+{\ttfamily \#include $<$deal.\+II/base/conditional\+\_\+ostream.\+h$>$}\newline
+{\ttfamily \#include $<$deal.\+II/base/mpi.\+h$>$}\newline
+{\ttfamily \#include $<$deal.\+II/base/multithread\+\_\+info.\+h$>$}\newline
+{\ttfamily \#include $<$fstream$>$}\newline
+{\ttfamily \#include $<$iomanip$>$}\newline
+Include dependency graph for weak\+\_\+scaling.\+cpp\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{weak__scaling_8cpp__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structWeakScalingConfig}{Weak\+Scaling\+Config}}
+\begin{DoxyCompactList}\small\item\em Weak scaling test configuration. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structTimingStats}{Timing\+Stats}}
+\begin{DoxyCompactList}\small\item\em Compute statistics from timing data. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structWeakScalingResult}{Weak\+Scaling\+Result}}
+\begin{DoxyCompactList}\small\item\em Benchmark result for weak scaling. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{weak__scaling_8cpp_a9d67efb6c98adf4a9285705a376fe0f4}{compute\+\_\+weak\+\_\+scaling\+\_\+refinements}} (const int base\+\_\+refs, const unsigned int n\+\_\+procs, const int dim=3)
+\begin{DoxyCompactList}\small\item\em Compute refinements for weak scaling. \end{DoxyCompactList}\item 
+{\footnotesize template$<$int dim$>$ }\\\mbox{\hyperlink{structWeakScalingResult}{Weak\+Scaling\+Result}} \mbox{\hyperlink{weak__scaling_8cpp_a3357c839b44e1ae7021c1c8658400392}{run\+\_\+matrix\+\_\+based\+\_\+weak\+\_\+scaling}} (const \mbox{\hyperlink{classHybridADRSolver_1_1ProblemInterface}{Problem\+Interface}}$<$ dim $>$ \&problem, const \mbox{\hyperlink{structWeakScalingConfig}{Weak\+Scaling\+Config}} \&config, MPI\+\_\+\+Comm comm)
+\begin{DoxyCompactList}\small\item\em Run matrix-\/based solver benchmark. \end{DoxyCompactList}\item 
+{\footnotesize template$<$int dim, int fe\+\_\+degree$>$ }\\\mbox{\hyperlink{structWeakScalingResult}{Weak\+Scaling\+Result}} \mbox{\hyperlink{weak__scaling_8cpp_a3d80a05ffdc78fe7a2dc56f068541cc6}{run\+\_\+matrix\+\_\+free\+\_\+weak\+\_\+scaling}} (const \mbox{\hyperlink{classHybridADRSolver_1_1ProblemInterface}{Problem\+Interface}}$<$ dim $>$ \&problem, const \mbox{\hyperlink{structWeakScalingConfig}{Weak\+Scaling\+Config}} \&config, MPI\+\_\+\+Comm comm)
+\begin{DoxyCompactList}\small\item\em Run matrix-\/free solver benchmark. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{weak__scaling_8cpp_aca5cdfad1403be6c640f1049134e780c}{print\+\_\+result}} (const \mbox{\hyperlink{structWeakScalingResult}{Weak\+Scaling\+Result}} \&r, std\+::ostream \&os)
+\item 
+int \mbox{\hyperlink{weak__scaling_8cpp_a0ddf1224851353fc92bfbff6f499fa97}{main}} (int argc, char \texorpdfstring{$\ast$}{*}argv\mbox{[}$\,$\mbox{]})
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Weak scaling benchmark for hybrid vs distributed solvers. 
+
+Weak scaling\+: Problem size scales with number of processes. Each process maintains constant work (constant Do\+Fs per process).
+
+Ideal weak scaling\+: Time remains constant as P increases Efficiency = T\+\_\+1 / T\+\_\+P (should stay near 1.\+0)
+\begin{DoxyItemize}
+\item This tests the communication overhead of both approaches as the system scales up. 
+\end{DoxyItemize}
+
+\label{doc-func-members}
+\Hypertarget{weak__scaling_8cpp_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{weak__scaling_8cpp_a9d67efb6c98adf4a9285705a376fe0f4}\index{weak\_scaling.cpp@{weak\_scaling.cpp}!compute\_weak\_scaling\_refinements@{compute\_weak\_scaling\_refinements}}
+\index{compute\_weak\_scaling\_refinements@{compute\_weak\_scaling\_refinements}!weak\_scaling.cpp@{weak\_scaling.cpp}}
+\doxysubsubsection{\texorpdfstring{compute\_weak\_scaling\_refinements()}{compute\_weak\_scaling\_refinements()}}
+{\footnotesize\ttfamily \label{weak__scaling_8cpp_a9d67efb6c98adf4a9285705a376fe0f4} 
+int compute\+\_\+weak\+\_\+scaling\+\_\+refinements (\begin{DoxyParamCaption}\item[{const int}]{base\+\_\+refs}{, }\item[{const unsigned int}]{n\+\_\+procs}{, }\item[{const int}]{dim}{ = {\ttfamily 3}}\end{DoxyParamCaption})}
+
+
+
+Compute refinements for weak scaling. 
+
+For 3D\+: doubling processes means we can add \texorpdfstring{$\sim$}{\string~}1/3 refinement level to maintain constant Do\+Fs per process.
+
+With n\+\_\+procs processes, we add log2(n\+\_\+procs)/dim refinement levels. \Hypertarget{weak__scaling_8cpp_a0ddf1224851353fc92bfbff6f499fa97}\index{weak\_scaling.cpp@{weak\_scaling.cpp}!main@{main}}
+\index{main@{main}!weak\_scaling.cpp@{weak\_scaling.cpp}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily \label{weak__scaling_8cpp_a0ddf1224851353fc92bfbff6f499fa97} 
+int main (\begin{DoxyParamCaption}\item[{int}]{argc}{, }\item[{char \texorpdfstring{$\ast$}{*}}]{argv}{\mbox{[}$\,$\mbox{]}}\end{DoxyParamCaption})}
+
+\Hypertarget{weak__scaling_8cpp_aca5cdfad1403be6c640f1049134e780c}\index{weak\_scaling.cpp@{weak\_scaling.cpp}!print\_result@{print\_result}}
+\index{print\_result@{print\_result}!weak\_scaling.cpp@{weak\_scaling.cpp}}
+\doxysubsubsection{\texorpdfstring{print\_result()}{print\_result()}}
+{\footnotesize\ttfamily \label{weak__scaling_8cpp_aca5cdfad1403be6c640f1049134e780c} 
+void print\+\_\+result (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structWeakScalingResult}{Weak\+Scaling\+Result}} \&}]{r}{, }\item[{std\+::ostream \&}]{os}{}\end{DoxyParamCaption})}
+
+\Hypertarget{weak__scaling_8cpp_a3357c839b44e1ae7021c1c8658400392}\index{weak\_scaling.cpp@{weak\_scaling.cpp}!run\_matrix\_based\_weak\_scaling@{run\_matrix\_based\_weak\_scaling}}
+\index{run\_matrix\_based\_weak\_scaling@{run\_matrix\_based\_weak\_scaling}!weak\_scaling.cpp@{weak\_scaling.cpp}}
+\doxysubsubsection{\texorpdfstring{run\_matrix\_based\_weak\_scaling()}{run\_matrix\_based\_weak\_scaling()}}
+{\footnotesize\ttfamily \label{weak__scaling_8cpp_a3357c839b44e1ae7021c1c8658400392} 
+template$<$int dim$>$ \\
+\mbox{\hyperlink{structWeakScalingResult}{Weak\+Scaling\+Result}} run\+\_\+matrix\+\_\+based\+\_\+weak\+\_\+scaling (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classHybridADRSolver_1_1ProblemInterface}{Problem\+Interface}}$<$ dim $>$ \&}]{problem}{, }\item[{const \mbox{\hyperlink{structWeakScalingConfig}{Weak\+Scaling\+Config}} \&}]{config}{, }\item[{MPI\+\_\+\+Comm}]{comm}{}\end{DoxyParamCaption})}
+
+
+
+Run matrix-\/based solver benchmark. 
+
+\Hypertarget{weak__scaling_8cpp_a3d80a05ffdc78fe7a2dc56f068541cc6}\index{weak\_scaling.cpp@{weak\_scaling.cpp}!run\_matrix\_free\_weak\_scaling@{run\_matrix\_free\_weak\_scaling}}
+\index{run\_matrix\_free\_weak\_scaling@{run\_matrix\_free\_weak\_scaling}!weak\_scaling.cpp@{weak\_scaling.cpp}}
+\doxysubsubsection{\texorpdfstring{run\_matrix\_free\_weak\_scaling()}{run\_matrix\_free\_weak\_scaling()}}
+{\footnotesize\ttfamily \label{weak__scaling_8cpp_a3d80a05ffdc78fe7a2dc56f068541cc6} 
+template$<$int dim, int fe\+\_\+degree$>$ \\
+\mbox{\hyperlink{structWeakScalingResult}{Weak\+Scaling\+Result}} run\+\_\+matrix\+\_\+free\+\_\+weak\+\_\+scaling (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classHybridADRSolver_1_1ProblemInterface}{Problem\+Interface}}$<$ dim $>$ \&}]{problem}{, }\item[{const \mbox{\hyperlink{structWeakScalingConfig}{Weak\+Scaling\+Config}} \&}]{config}{, }\item[{MPI\+\_\+\+Comm}]{comm}{}\end{DoxyParamCaption})}
+
+
+
+Run matrix-\/free solver benchmark. 
+

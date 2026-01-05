@@ -1,0 +1,42 @@
+\doxysection{src/include/matrix\+\_\+based/matrix\+\_\+based\+\_\+solver.cpp File Reference}
+\hypertarget{matrix__based__solver_8cpp}{}\label{matrix__based__solver_8cpp}\index{src/include/matrix\_based/matrix\_based\_solver.cpp@{src/include/matrix\_based/matrix\_based\_solver.cpp}}
+
+
+Implementation of the Matrix-\/based Finite Element solver.  
+
+
+{\ttfamily \#include "{}matrix\+\_\+based/matrix\+\_\+based\+\_\+solver.\+h"{}}\newline
+{\ttfamily \#include $<$deal.\+II/base/work\+\_\+stream.\+h$>$}\newline
+{\ttfamily \#include $<$deal.\+II/dofs/dof\+\_\+renumbering.\+h$>$}\newline
+{\ttfamily \#include $<$deal.\+II/dofs/dof\+\_\+tools.\+h$>$}\newline
+{\ttfamily \#include $<$deal.\+II/lac/dynamic\+\_\+sparsity\+\_\+pattern.\+h$>$}\newline
+{\ttfamily \#include $<$deal.\+II/lac/solver\+\_\+gmres.\+h$>$}\newline
+{\ttfamily \#include $<$deal.\+II/lac/sparsity\+\_\+tools.\+h$>$}\newline
+{\ttfamily \#include $<$deal.\+II/numerics/data\+\_\+out.\+h$>$}\newline
+{\ttfamily \#include $<$deal.\+II/numerics/vector\+\_\+tools.\+h$>$}\newline
+Include dependency graph for matrix\+\_\+based\+\_\+solver.\+cpp\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{matrix__based__solver_8cpp__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structHybridADRSolver_1_1ScratchData}{Hybrid\+ADRSolver\+::\+Scratch\+Data$<$ dim $>$}}
+\begin{DoxyCompactList}\small\item\em Scratch data for the {\ttfamily Work\+Stream} assembly. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structHybridADRSolver_1_1CopyData}{Hybrid\+ADRSolver\+::\+Copy\+Data}}
+\begin{DoxyCompactList}\small\item\em Copy data for the {\ttfamily Work\+Stream} assembly. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespaceHybridADRSolver}{Hybrid\+ADRSolver}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Implementation of the Matrix-\/based Finite Element solver. 
+
+This file implements the {\ttfamily Matrix\+Based\+Solver} class. It uses the deal.\+II {\ttfamily Work\+Stream} functionality for multithreaded assembly and PETSc wrappers for distributed linear algebra. 

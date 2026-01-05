@@ -1,0 +1,310 @@
+\doxysection{Hybrid\+ADRSolver\+::ADROperator\texorpdfstring{$<$}{<} dim, fe\+\_\+degree, Number \texorpdfstring{$>$}{>} Class Template Reference}
+\hypertarget{classHybridADRSolver_1_1ADROperator}{}\label{classHybridADRSolver_1_1ADROperator}\index{HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$@{HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$}}
+
+
+Matrix-\/free operator for the ADR problem.  
+
+
+
+
+{\ttfamily \#include $<$adr\+\_\+operator.\+h$>$}
+
+
+
+Inheritance diagram for Hybrid\+ADRSolver\+::ADROperator\texorpdfstring{$<$}{<} dim, fe\+\_\+degree, Number \texorpdfstring{$>$}{>}\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=236pt]{classHybridADRSolver_1_1ADROperator__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Hybrid\+ADRSolver\+::ADROperator\texorpdfstring{$<$}{<} dim, fe\+\_\+degree, Number \texorpdfstring{$>$}{>}\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=236pt]{classHybridADRSolver_1_1ADROperator__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_aff0ba29974dfe3ea1768c095eb3acb7e}{Vector\+Type}} = Linear\+Algebra\+::distributed\+::\+Vector$<$Number$>$
+\item 
+using \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_a8ab55f16aef4f72e68b45bc8560b22cd}{value\+\_\+type}} = Number
+\item 
+using \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_a9b20d4eeb7f2effb111ab3e73e798704}{size\+\_\+type}} = types\+::global\+\_\+dof\+\_\+index
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_aed661703a9567f90494dbaf153590d67}{ADROperator}} ()
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_aa468d145511e54150a5bf8c022caeff2}{initialize}} (std\+::shared\+\_\+ptr$<$ const \mbox{\hyperlink{namespaceHybridADRSolver_afe6d3d39f0c710383621e32a46108cb1af2674a258348188d6a3ee81d2669255a}{Matrix\+Free}}$<$ dim, Number $>$ $>$ data\+\_\+in, const \mbox{\hyperlink{classHybridADRSolver_1_1ProblemInterface}{Problem\+Interface}}$<$ dim $>$ \&problem)
+\begin{DoxyCompactList}\small\item\em Initialize the operator with Matrix\+Free data and problem definition. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_a8c5e5616fdaec818c0745f3deae93f34}{clear}} ()
+\begin{DoxyCompactList}\small\item\em Clear all data. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_a9b20d4eeb7f2effb111ab3e73e798704}{size\+\_\+type}} \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_a0ae02b4f74e5493bea1ca521230bd8da}{m}} () const
+\begin{DoxyCompactList}\small\item\em Returns the number of rows (degrees of freedom). \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_a9b20d4eeb7f2effb111ab3e73e798704}{size\+\_\+type}} \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_ae19d0ff622fc22e79b192bf9e4ade2da}{n}} () const
+\begin{DoxyCompactList}\small\item\em Returns the number of columns (equals rows for square operator). \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_a101c5d878ba9926dc9e6e30947cb8aa2}{vmult}} (\mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_aff0ba29974dfe3ea1768c095eb3acb7e}{Vector\+Type}} \&dst, const \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_aff0ba29974dfe3ea1768c095eb3acb7e}{Vector\+Type}} \&src) const
+\begin{DoxyCompactList}\small\item\em Applies the operator\+: dst = A \texorpdfstring{$\ast$}{*} src. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_a475a8215de7eb19ef2dbd3a4f4396762}{vmult\+\_\+add}} (\mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_aff0ba29974dfe3ea1768c095eb3acb7e}{Vector\+Type}} \&dst, const \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_aff0ba29974dfe3ea1768c095eb3acb7e}{Vector\+Type}} \&src) const
+\begin{DoxyCompactList}\small\item\em Adds the operator application\+: dst += A \texorpdfstring{$\ast$}{*} src. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_aa4a1e6777fef75161fcf6f4c1501b0fa}{Tvmult}} (\mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_aff0ba29974dfe3ea1768c095eb3acb7e}{Vector\+Type}} \&dst, const \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_aff0ba29974dfe3ea1768c095eb3acb7e}{Vector\+Type}} \&src) const
+\begin{DoxyCompactList}\small\item\em Applies the transpose operator\+: dst = A\texorpdfstring{$^\wedge$}{\string^}T \texorpdfstring{$\ast$}{*} src. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_a0fef8e8e00fbc3e17c11726b3d67422f}{Tvmult\+\_\+add}} (\mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_aff0ba29974dfe3ea1768c095eb3acb7e}{Vector\+Type}} \&dst, const \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_aff0ba29974dfe3ea1768c095eb3acb7e}{Vector\+Type}} \&src) const
+\begin{DoxyCompactList}\small\item\em Adds the transpose operator application\+: dst += A\texorpdfstring{$^\wedge$}{\string^}T \texorpdfstring{$\ast$}{*} src. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_a6c57796c2fb3c8bf1fa6a1e09a507dbc}{compute\+\_\+diagonal}} (\mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_aff0ba29974dfe3ea1768c095eb3acb7e}{Vector\+Type}} \&diagonal) const
+\begin{DoxyCompactList}\small\item\em Computes the diagonal of the operator (for preconditioning). \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_ae7493904390d63cc394f4ff1458ad9db}{compute\+\_\+inverse\+\_\+diagonal}} (\mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_aff0ba29974dfe3ea1768c095eb3acb7e}{Vector\+Type}} \&inverse\+\_\+diagonal) const
+\begin{DoxyCompactList}\small\item\em Returns the inverse of the diagonal (for Jacobi preconditioning). \end{DoxyCompactList}\item 
+std\+::shared\+\_\+ptr$<$ const \mbox{\hyperlink{namespaceHybridADRSolver_afe6d3d39f0c710383621e32a46108cb1af2674a258348188d6a3ee81d2669255a}{Matrix\+Free}}$<$ dim, Number $>$ $>$ \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_a76974e20b4f4bab4d450871c650dfbc4}{get\+\_\+matrix\+\_\+free}} () const
+\begin{DoxyCompactList}\small\item\em Access to the underlying Matrix\+Free object. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_a6856d8ccbe8b4616afa229c22fb66f10}{initialize\+\_\+dof\+\_\+vector}} (\mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_aff0ba29974dfe3ea1768c095eb3acb7e}{Vector\+Type}} \&vec) const
+\begin{DoxyCompactList}\small\item\em Initialize a vector compatible with this operator. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$int dim, int fe\+\_\+degree, typename Number = double$>$\newline
+class Hybrid\+ADRSolver\+::\+ADROperator$<$ dim, fe\+\_\+degree, Number $>$}
+Matrix-\/free operator for the ADR problem. 
+
+This class implements the action of the system matrix on a vector without explicitly storing the matrix. The computation uses\+:
+\begin{DoxyItemize}
+\item Sum factorization for efficient tensor-\/product evaluation
+\item Vectorization over multiple cells (SIMD)
+\item Hybrid MPI+threading parallelization
+\end{DoxyItemize}
+
+The weak form implemented is\+:  $ a(u,v) = (\mu \nabla u, \nabla v) + (\beta \cdot \nabla u, v) + (\gamma
+u, v) $
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em dim} & Spatial dimension \\
+\hline
+{\em fe\+\_\+degree} & Polynomial degree of finite elements \\
+\hline
+{\em Number} & Floating point type (double or float) \\
+\hline
+\end{DoxyTemplParams}
+
+
+\label{doc-typedef-members}
+\Hypertarget{classHybridADRSolver_1_1ADROperator_doc-typedef-members}
+\doxysubsection{Member Typedef Documentation}
+\Hypertarget{classHybridADRSolver_1_1ADROperator_a9b20d4eeb7f2effb111ab3e73e798704}\index{HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$@{HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$}!size\_type@{size\_type}}
+\index{size\_type@{size\_type}!HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$@{HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$}}
+\doxysubsubsection{\texorpdfstring{size\_type}{size\_type}}
+{\footnotesize\ttfamily \label{classHybridADRSolver_1_1ADROperator_a9b20d4eeb7f2effb111ab3e73e798704} 
+template$<$int dim, int fe\+\_\+degree, typename Number = double$>$ \\
+using \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator}{Hybrid\+ADRSolver\+::\+ADROperator}}$<$ dim, fe\+\_\+degree, Number $>$\+::size\+\_\+type = types\+::global\+\_\+dof\+\_\+index}
+
+\Hypertarget{classHybridADRSolver_1_1ADROperator_a8ab55f16aef4f72e68b45bc8560b22cd}\index{HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$@{HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$}!value\_type@{value\_type}}
+\index{value\_type@{value\_type}!HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$@{HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$}}
+\doxysubsubsection{\texorpdfstring{value\_type}{value\_type}}
+{\footnotesize\ttfamily \label{classHybridADRSolver_1_1ADROperator_a8ab55f16aef4f72e68b45bc8560b22cd} 
+template$<$int dim, int fe\+\_\+degree, typename Number = double$>$ \\
+using \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator}{Hybrid\+ADRSolver\+::\+ADROperator}}$<$ dim, fe\+\_\+degree, Number $>$\+::value\+\_\+type = Number}
+
+\Hypertarget{classHybridADRSolver_1_1ADROperator_aff0ba29974dfe3ea1768c095eb3acb7e}\index{HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$@{HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$}!VectorType@{VectorType}}
+\index{VectorType@{VectorType}!HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$@{HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$}}
+\doxysubsubsection{\texorpdfstring{VectorType}{VectorType}}
+{\footnotesize\ttfamily \label{classHybridADRSolver_1_1ADROperator_aff0ba29974dfe3ea1768c095eb3acb7e} 
+template$<$int dim, int fe\+\_\+degree, typename Number = double$>$ \\
+using \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator}{Hybrid\+ADRSolver\+::\+ADROperator}}$<$ dim, fe\+\_\+degree, Number $>$\+::\+Vector\+Type = Linear\+Algebra\+::distributed\+::\+Vector$<$Number$>$}
+
+
+
+\label{doc-constructors}
+\Hypertarget{classHybridADRSolver_1_1ADROperator_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classHybridADRSolver_1_1ADROperator_aed661703a9567f90494dbaf153590d67}\index{HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$@{HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$}!ADROperator@{ADROperator}}
+\index{ADROperator@{ADROperator}!HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$@{HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$}}
+\doxysubsubsection{\texorpdfstring{ADROperator()}{ADROperator()}}
+{\footnotesize\ttfamily \label{classHybridADRSolver_1_1ADROperator_aed661703a9567f90494dbaf153590d67} 
+template$<$int dim, int fe\+\_\+degree, typename Number = double$>$ \\
+\mbox{\hyperlink{classHybridADRSolver_1_1ADROperator}{Hybrid\+ADRSolver\+::\+ADROperator}}$<$ dim, fe\+\_\+degree, Number $>$\+::\+ADROperator (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Default constructor. 
+
+
+
+\label{doc-func-members}
+\Hypertarget{classHybridADRSolver_1_1ADROperator_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classHybridADRSolver_1_1ADROperator_a8c5e5616fdaec818c0745f3deae93f34}\index{HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$@{HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$}!clear@{clear}}
+\index{clear@{clear}!HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$@{HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$}}
+\doxysubsubsection{\texorpdfstring{clear()}{clear()}}
+{\footnotesize\ttfamily \label{classHybridADRSolver_1_1ADROperator_a8c5e5616fdaec818c0745f3deae93f34} 
+template$<$int dim, int fe\+\_\+degree, typename Number = double$>$ \\
+void \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator}{Hybrid\+ADRSolver\+::\+ADROperator}}$<$ dim, fe\+\_\+degree, Number $>$\+::clear (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Clear all data. 
+
+\Hypertarget{classHybridADRSolver_1_1ADROperator_a6c57796c2fb3c8bf1fa6a1e09a507dbc}\index{HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$@{HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$}!compute\_diagonal@{compute\_diagonal}}
+\index{compute\_diagonal@{compute\_diagonal}!HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$@{HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$}}
+\doxysubsubsection{\texorpdfstring{compute\_diagonal()}{compute\_diagonal()}}
+{\footnotesize\ttfamily \label{classHybridADRSolver_1_1ADROperator_a6c57796c2fb3c8bf1fa6a1e09a507dbc} 
+template$<$int dim, int fe\+\_\+degree, typename Number = double$>$ \\
+void \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator}{Hybrid\+ADRSolver\+::\+ADROperator}}$<$ dim, fe\+\_\+degree, Number $>$\+::compute\+\_\+diagonal (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_aff0ba29974dfe3ea1768c095eb3acb7e}{Vector\+Type}} \&}]{diagonal}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Computes the diagonal of the operator (for preconditioning). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em diagonal} & Output vector containing the diagonal entries \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classHybridADRSolver_1_1ADROperator_ae7493904390d63cc394f4ff1458ad9db}\index{HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$@{HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$}!compute\_inverse\_diagonal@{compute\_inverse\_diagonal}}
+\index{compute\_inverse\_diagonal@{compute\_inverse\_diagonal}!HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$@{HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$}}
+\doxysubsubsection{\texorpdfstring{compute\_inverse\_diagonal()}{compute\_inverse\_diagonal()}}
+{\footnotesize\ttfamily \label{classHybridADRSolver_1_1ADROperator_ae7493904390d63cc394f4ff1458ad9db} 
+template$<$int dim, int fe\+\_\+degree, typename Number = double$>$ \\
+void \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator}{Hybrid\+ADRSolver\+::\+ADROperator}}$<$ dim, fe\+\_\+degree, Number $>$\+::compute\+\_\+inverse\+\_\+diagonal (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_aff0ba29974dfe3ea1768c095eb3acb7e}{Vector\+Type}} \&}]{inverse\+\_\+diagonal}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Returns the inverse of the diagonal (for Jacobi preconditioning). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em inverse\+\_\+diagonal} & Output vector \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classHybridADRSolver_1_1ADROperator_a76974e20b4f4bab4d450871c650dfbc4}\index{HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$@{HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$}!get\_matrix\_free@{get\_matrix\_free}}
+\index{get\_matrix\_free@{get\_matrix\_free}!HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$@{HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$}}
+\doxysubsubsection{\texorpdfstring{get\_matrix\_free()}{get\_matrix\_free()}}
+{\footnotesize\ttfamily \label{classHybridADRSolver_1_1ADROperator_a76974e20b4f4bab4d450871c650dfbc4} 
+template$<$int dim, int fe\+\_\+degree, typename Number = double$>$ \\
+std\+::shared\+\_\+ptr$<$ const \mbox{\hyperlink{namespaceHybridADRSolver_afe6d3d39f0c710383621e32a46108cb1af2674a258348188d6a3ee81d2669255a}{Matrix\+Free}}$<$ dim, Number $>$ $>$ \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator}{Hybrid\+ADRSolver\+::\+ADROperator}}$<$ dim, fe\+\_\+degree, Number $>$\+::get\+\_\+matrix\+\_\+free (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Access to the underlying Matrix\+Free object. 
+
+\Hypertarget{classHybridADRSolver_1_1ADROperator_aa468d145511e54150a5bf8c022caeff2}\index{HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$@{HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$}!initialize@{initialize}}
+\index{initialize@{initialize}!HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$@{HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$}}
+\doxysubsubsection{\texorpdfstring{initialize()}{initialize()}}
+{\footnotesize\ttfamily \label{classHybridADRSolver_1_1ADROperator_aa468d145511e54150a5bf8c022caeff2} 
+template$<$int dim, int fe\+\_\+degree, typename Number = double$>$ \\
+void \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator}{Hybrid\+ADRSolver\+::\+ADROperator}}$<$ dim, fe\+\_\+degree, Number $>$\+::initialize (\begin{DoxyParamCaption}\item[{std\+::shared\+\_\+ptr$<$ const \mbox{\hyperlink{namespaceHybridADRSolver_afe6d3d39f0c710383621e32a46108cb1af2674a258348188d6a3ee81d2669255a}{Matrix\+Free}}$<$ dim, Number $>$ $>$}]{data\+\_\+in}{, }\item[{const \mbox{\hyperlink{classHybridADRSolver_1_1ProblemInterface}{Problem\+Interface}}$<$ dim $>$ \&}]{problem}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Initialize the operator with Matrix\+Free data and problem definition. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data\+\_\+in} & Shared pointer to Matrix\+Free data structure \\
+\hline
+{\em problem} & Reference to the problem interface \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classHybridADRSolver_1_1ADROperator_a6856d8ccbe8b4616afa229c22fb66f10}\index{HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$@{HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$}!initialize\_dof\_vector@{initialize\_dof\_vector}}
+\index{initialize\_dof\_vector@{initialize\_dof\_vector}!HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$@{HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$}}
+\doxysubsubsection{\texorpdfstring{initialize\_dof\_vector()}{initialize\_dof\_vector()}}
+{\footnotesize\ttfamily \label{classHybridADRSolver_1_1ADROperator_a6856d8ccbe8b4616afa229c22fb66f10} 
+template$<$int dim, int fe\+\_\+degree, typename Number = double$>$ \\
+void \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator}{Hybrid\+ADRSolver\+::\+ADROperator}}$<$ dim, fe\+\_\+degree, Number $>$\+::initialize\+\_\+dof\+\_\+vector (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_aff0ba29974dfe3ea1768c095eb3acb7e}{Vector\+Type}} \&}]{vec}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Initialize a vector compatible with this operator. 
+
+\Hypertarget{classHybridADRSolver_1_1ADROperator_a0ae02b4f74e5493bea1ca521230bd8da}\index{HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$@{HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$}!m@{m}}
+\index{m@{m}!HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$@{HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$}}
+\doxysubsubsection{\texorpdfstring{m()}{m()}}
+{\footnotesize\ttfamily \label{classHybridADRSolver_1_1ADROperator_a0ae02b4f74e5493bea1ca521230bd8da} 
+template$<$int dim, int fe\+\_\+degree, typename Number = double$>$ \\
+\mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_a9b20d4eeb7f2effb111ab3e73e798704}{size\+\_\+type}} \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator}{Hybrid\+ADRSolver\+::\+ADROperator}}$<$ dim, fe\+\_\+degree, Number $>$\+::m (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Returns the number of rows (degrees of freedom). 
+
+\Hypertarget{classHybridADRSolver_1_1ADROperator_ae19d0ff622fc22e79b192bf9e4ade2da}\index{HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$@{HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$}!n@{n}}
+\index{n@{n}!HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$@{HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$}}
+\doxysubsubsection{\texorpdfstring{n()}{n()}}
+{\footnotesize\ttfamily \label{classHybridADRSolver_1_1ADROperator_ae19d0ff622fc22e79b192bf9e4ade2da} 
+template$<$int dim, int fe\+\_\+degree, typename Number = double$>$ \\
+\mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_a9b20d4eeb7f2effb111ab3e73e798704}{size\+\_\+type}} \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator}{Hybrid\+ADRSolver\+::\+ADROperator}}$<$ dim, fe\+\_\+degree, Number $>$\+::n (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Returns the number of columns (equals rows for square operator). 
+
+\Hypertarget{classHybridADRSolver_1_1ADROperator_aa4a1e6777fef75161fcf6f4c1501b0fa}\index{HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$@{HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$}!Tvmult@{Tvmult}}
+\index{Tvmult@{Tvmult}!HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$@{HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$}}
+\doxysubsubsection{\texorpdfstring{Tvmult()}{Tvmult()}}
+{\footnotesize\ttfamily \label{classHybridADRSolver_1_1ADROperator_aa4a1e6777fef75161fcf6f4c1501b0fa} 
+template$<$int dim, int fe\+\_\+degree, typename Number = double$>$ \\
+void \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator}{Hybrid\+ADRSolver\+::\+ADROperator}}$<$ dim, fe\+\_\+degree, Number $>$\+::\+Tvmult (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_aff0ba29974dfe3ea1768c095eb3acb7e}{Vector\+Type}} \&}]{dst}{, }\item[{const \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_aff0ba29974dfe3ea1768c095eb3acb7e}{Vector\+Type}} \&}]{src}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Applies the transpose operator\+: dst = A\texorpdfstring{$^\wedge$}{\string^}T \texorpdfstring{$\ast$}{*} src. 
+
+For the ADR problem with advection, the operator is non-\/symmetric, so Tvmult differs from vmult. \Hypertarget{classHybridADRSolver_1_1ADROperator_a0fef8e8e00fbc3e17c11726b3d67422f}\index{HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$@{HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$}!Tvmult\_add@{Tvmult\_add}}
+\index{Tvmult\_add@{Tvmult\_add}!HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$@{HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$}}
+\doxysubsubsection{\texorpdfstring{Tvmult\_add()}{Tvmult\_add()}}
+{\footnotesize\ttfamily \label{classHybridADRSolver_1_1ADROperator_a0fef8e8e00fbc3e17c11726b3d67422f} 
+template$<$int dim, int fe\+\_\+degree, typename Number = double$>$ \\
+void \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator}{Hybrid\+ADRSolver\+::\+ADROperator}}$<$ dim, fe\+\_\+degree, Number $>$\+::\+Tvmult\+\_\+add (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_aff0ba29974dfe3ea1768c095eb3acb7e}{Vector\+Type}} \&}]{dst}{, }\item[{const \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_aff0ba29974dfe3ea1768c095eb3acb7e}{Vector\+Type}} \&}]{src}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Adds the transpose operator application\+: dst += A\texorpdfstring{$^\wedge$}{\string^}T \texorpdfstring{$\ast$}{*} src. 
+
+\Hypertarget{classHybridADRSolver_1_1ADROperator_a101c5d878ba9926dc9e6e30947cb8aa2}\index{HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$@{HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$}!vmult@{vmult}}
+\index{vmult@{vmult}!HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$@{HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$}}
+\doxysubsubsection{\texorpdfstring{vmult()}{vmult()}}
+{\footnotesize\ttfamily \label{classHybridADRSolver_1_1ADROperator_a101c5d878ba9926dc9e6e30947cb8aa2} 
+template$<$int dim, int fe\+\_\+degree, typename Number = double$>$ \\
+void \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator}{Hybrid\+ADRSolver\+::\+ADROperator}}$<$ dim, fe\+\_\+degree, Number $>$\+::vmult (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_aff0ba29974dfe3ea1768c095eb3acb7e}{Vector\+Type}} \&}]{dst}{, }\item[{const \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_aff0ba29974dfe3ea1768c095eb3acb7e}{Vector\+Type}} \&}]{src}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Applies the operator\+: dst = A \texorpdfstring{$\ast$}{*} src. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em dst} & Output vector \\
+\hline
+{\em src} & Input vector \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classHybridADRSolver_1_1ADROperator_a475a8215de7eb19ef2dbd3a4f4396762}\index{HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$@{HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$}!vmult\_add@{vmult\_add}}
+\index{vmult\_add@{vmult\_add}!HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$@{HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$}}
+\doxysubsubsection{\texorpdfstring{vmult\_add()}{vmult\_add()}}
+{\footnotesize\ttfamily \label{classHybridADRSolver_1_1ADROperator_a475a8215de7eb19ef2dbd3a4f4396762} 
+template$<$int dim, int fe\+\_\+degree, typename Number = double$>$ \\
+void \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator}{Hybrid\+ADRSolver\+::\+ADROperator}}$<$ dim, fe\+\_\+degree, Number $>$\+::vmult\+\_\+add (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_aff0ba29974dfe3ea1768c095eb3acb7e}{Vector\+Type}} \&}]{dst}{, }\item[{const \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_aff0ba29974dfe3ea1768c095eb3acb7e}{Vector\+Type}} \&}]{src}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Adds the operator application\+: dst += A \texorpdfstring{$\ast$}{*} src. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em dst} & Output vector (accumulated) \\
+\hline
+{\em src} & Input vector \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/include/matrix\+\_\+free/\mbox{\hyperlink{adr__operator_8h}{adr\+\_\+operator.\+h}}\end{DoxyCompactItemize}

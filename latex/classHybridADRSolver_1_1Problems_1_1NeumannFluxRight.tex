@@ -1,0 +1,60 @@
+\doxysection{Hybrid\+ADRSolver\+::Problems\+::Neumann\+Flux\+Right\texorpdfstring{$<$}{<} dim \texorpdfstring{$>$}{>} Class Template Reference}
+\hypertarget{classHybridADRSolver_1_1Problems_1_1NeumannFluxRight}{}\label{classHybridADRSolver_1_1Problems_1_1NeumannFluxRight}\index{HybridADRSolver::Problems::NeumannFluxRight$<$ dim $>$@{HybridADRSolver::Problems::NeumannFluxRight$<$ dim $>$}}
+
+
+Analytic Neumann flux for the Right boundary (x=1).  
+
+
+
+
+{\ttfamily \#include $<$problem\+\_\+definition.\+h$>$}
+
+
+
+Inheritance diagram for Hybrid\+ADRSolver\+::Problems\+::Neumann\+Flux\+Right\texorpdfstring{$<$}{<} dim \texorpdfstring{$>$}{>}\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=220pt]{classHybridADRSolver_1_1Problems_1_1NeumannFluxRight__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Hybrid\+ADRSolver\+::Problems\+::Neumann\+Flux\+Right\texorpdfstring{$<$}{<} dim \texorpdfstring{$>$}{>}\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=220pt]{classHybridADRSolver_1_1Problems_1_1NeumannFluxRight__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+double \mbox{\hyperlink{classHybridADRSolver_1_1Problems_1_1NeumannFluxRight_ab6f72de96970be6497ab326566d5dcfb}{value}} (const Point$<$ dim $>$ \&p, const unsigned int) const override
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$int dim$>$\newline
+class Hybrid\+ADRSolver\+::\+Problems\+::\+Neumann\+Flux\+Right$<$ dim $>$}
+Analytic Neumann flux for the Right boundary (x=1). 
+
+Calculates $ \nabla u \cdot \mathbf{n} $ at x=1, where $ \mathbf{n} = (1, 0, \dots)^T $. Since $ \cos(\pi) = -1 $, the flux is negative. 
+
+\label{doc-func-members}
+\Hypertarget{classHybridADRSolver_1_1Problems_1_1NeumannFluxRight_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classHybridADRSolver_1_1Problems_1_1NeumannFluxRight_ab6f72de96970be6497ab326566d5dcfb}\index{HybridADRSolver::Problems::NeumannFluxRight$<$ dim $>$@{HybridADRSolver::Problems::NeumannFluxRight$<$ dim $>$}!value@{value}}
+\index{value@{value}!HybridADRSolver::Problems::NeumannFluxRight$<$ dim $>$@{HybridADRSolver::Problems::NeumannFluxRight$<$ dim $>$}}
+\doxysubsubsection{\texorpdfstring{value()}{value()}}
+{\footnotesize\ttfamily \label{classHybridADRSolver_1_1Problems_1_1NeumannFluxRight_ab6f72de96970be6497ab326566d5dcfb} 
+template$<$int dim$>$ \\
+double \mbox{\hyperlink{classHybridADRSolver_1_1Problems_1_1NeumannFluxRight}{Hybrid\+ADRSolver\+::\+Problems\+::\+Neumann\+Flux\+Right}}$<$ dim $>$\+::value (\begin{DoxyParamCaption}\item[{const Point$<$ dim $>$ \&}]{p}{, }\item[{const unsigned int}]{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/include/core/\mbox{\hyperlink{problem__definition_8h}{problem\+\_\+definition.\+h}}\end{DoxyCompactItemize}

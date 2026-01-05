@@ -1,0 +1,74 @@
+\doxysection{src/include/core/types.h File Reference}
+\hypertarget{types_8h}{}\label{types_8h}\index{src/include/core/types.h@{src/include/core/types.h}}
+
+
+Common type definitions for the hybrid solver framework.  
+
+
+{\ttfamily \#include $<$deal.\+II/lac/generic\+\_\+linear\+\_\+algebra.\+h$>$}\newline
+{\ttfamily \#include $<$deal.\+II/lac/la\+\_\+parallel\+\_\+vector.\+h$>$}\newline
+Include dependency graph for types.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=296pt]{types_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{types_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structHybridADRSolver_1_1SolverParameters}{Hybrid\+ADRSolver\+::\+Solver\+Parameters}}
+\item 
+struct \mbox{\hyperlink{structHybridADRSolver_1_1TimingResults}{Hybrid\+ADRSolver\+::\+Timing\+Results}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespaceHybridADRSolver}{Hybrid\+ADRSolver}}
+\item 
+namespace \mbox{\hyperlink{namespaceHybridADRSolver_1_1LADistributed}{Hybrid\+ADRSolver\+::\+LADistributed}}
+\item 
+namespace \mbox{\hyperlink{namespaceHybridADRSolver_1_1LAMatrixFree}{Hybrid\+ADRSolver\+::\+LAMatrix\+Free}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename Number = double$>$ }\\using \mbox{\hyperlink{namespaceHybridADRSolver_1_1LAMatrixFree_ae01c009957c8b7be75b9f834434ede45}{Hybrid\+ADRSolver\+::\+LAMatrix\+Free\+::\+Vector}} = dealii\+::\+Linear\+Algebra\+::distributed\+::\+Vector$<$Number$>$
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum class \mbox{\hyperlink{namespaceHybridADRSolver_afe6d3d39f0c710383621e32a46108cb1}{Hybrid\+ADRSolver\+::\+Solver\+Type}} \{ \mbox{\hyperlink{namespaceHybridADRSolver_afe6d3d39f0c710383621e32a46108cb1a50c8f7f1f99ac14228f9f78516b7dd07}{Hybrid\+ADRSolver\+::\+Matrix\+Based}}
+, \mbox{\hyperlink{namespaceHybridADRSolver_afe6d3d39f0c710383621e32a46108cb1af2674a258348188d6a3ee81d2669255a}{Hybrid\+ADRSolver\+::\+Matrix\+Free}}
+ \}
+\item 
+enum class \mbox{\hyperlink{namespaceHybridADRSolver_aa3fd5a2bb73d19a55b178e5a35b5b341}{Hybrid\+ADRSolver\+::\+Preconditioner\+Type}} \{ \newline
+\mbox{\hyperlink{namespaceHybridADRSolver_aa3fd5a2bb73d19a55b178e5a35b5b341a6adf97f83acf6453d4a6a4b1070f3754}{Hybrid\+ADRSolver\+::\+None}}
+, \mbox{\hyperlink{namespaceHybridADRSolver_aa3fd5a2bb73d19a55b178e5a35b5b341a2ba38a7b398cfd9360591c3a1a25ba39}{Hybrid\+ADRSolver\+::\+Jacobi}}
+, \mbox{\hyperlink{namespaceHybridADRSolver_aa3fd5a2bb73d19a55b178e5a35b5b341af77d68d6b47fa42d89a943d976a0759d}{Hybrid\+ADRSolver\+::\+ILU}}
+, \mbox{\hyperlink{namespaceHybridADRSolver_aa3fd5a2bb73d19a55b178e5a35b5b341a378ff3b4a7e82873638b320c4b5578a0}{Hybrid\+ADRSolver\+::\+AMG}}
+, \newline
+\mbox{\hyperlink{namespaceHybridADRSolver_aa3fd5a2bb73d19a55b178e5a35b5b341a7672163939be25b939905898298d3648}{Hybrid\+ADRSolver\+::\+Chebyshev}}
+, \mbox{\hyperlink{namespaceHybridADRSolver_aa3fd5a2bb73d19a55b178e5a35b5b341a21b63b129f9c31f7f6de494305abc108}{Hybrid\+ADRSolver\+::\+GMG}}
+ \}
+\item 
+enum class \mbox{\hyperlink{namespaceHybridADRSolver_a222b7a02326125bfc0eec6713f38e5ff}{Hybrid\+ADRSolver\+::\+Linear\+Solver\+Type}} \{ \mbox{\hyperlink{namespaceHybridADRSolver_a222b7a02326125bfc0eec6713f38e5ffa5202c6586cac8bee468e86d1ff854231}{Hybrid\+ADRSolver\+::\+CG}}
+, \mbox{\hyperlink{namespaceHybridADRSolver_a222b7a02326125bfc0eec6713f38e5ffac1bfd84e7215afa3204b8e1cdb21a2bd}{Hybrid\+ADRSolver\+::\+GMRES}}
+, \mbox{\hyperlink{namespaceHybridADRSolver_a222b7a02326125bfc0eec6713f38e5ffa17f477cd947340d28b9a4d6f49c1e43b}{Hybrid\+ADRSolver\+::\+Bi\+CGStab}}
+ \}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Common type definitions for the hybrid solver framework. 
+
+This file contains type definitions and aliases used throughout the Hybrid ADR Solver project. 

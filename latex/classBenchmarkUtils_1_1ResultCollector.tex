@@ -1,0 +1,72 @@
+\doxysection{Benchmark\+Utils\+::Result\+Collector Class Reference}
+\hypertarget{classBenchmarkUtils_1_1ResultCollector}{}\label{classBenchmarkUtils_1_1ResultCollector}\index{BenchmarkUtils::ResultCollector@{BenchmarkUtils::ResultCollector}}
+
+
+Class to collect and output benchmark results.  
+
+
+
+
+{\ttfamily \#include $<$utils.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classBenchmarkUtils_1_1ResultCollector_a04ad03e83d125369cb1f6753dbbdbd2e}{Result\+Collector}} (const std\+::string \&output\+\_\+file, MPI\+\_\+\+Comm comm)
+\item 
+void \mbox{\hyperlink{classBenchmarkUtils_1_1ResultCollector_af10e5d209dd7b86eb0b902e103448f22}{add\+\_\+result}} (const \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult}{Benchmark\+Result}} \&result)
+\item 
+void \mbox{\hyperlink{classBenchmarkUtils_1_1ResultCollector_a9ef0f3f55dd36d17a93241dbffcafb31}{write\+\_\+csv}} () const
+\begin{DoxyCompactList}\small\item\em Write all results to CSV file (only rank 0) \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classBenchmarkUtils_1_1ResultCollector_a02fd335ab635717e54eca766f51918d1}{print\+\_\+summary}} () const
+\begin{DoxyCompactList}\small\item\em Print summary to stdout (only rank 0) \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Class to collect and output benchmark results. 
+
+\label{doc-constructors}
+\Hypertarget{classBenchmarkUtils_1_1ResultCollector_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classBenchmarkUtils_1_1ResultCollector_a04ad03e83d125369cb1f6753dbbdbd2e}\index{BenchmarkUtils::ResultCollector@{BenchmarkUtils::ResultCollector}!ResultCollector@{ResultCollector}}
+\index{ResultCollector@{ResultCollector}!BenchmarkUtils::ResultCollector@{BenchmarkUtils::ResultCollector}}
+\doxysubsubsection{\texorpdfstring{ResultCollector()}{ResultCollector()}}
+{\footnotesize\ttfamily \label{classBenchmarkUtils_1_1ResultCollector_a04ad03e83d125369cb1f6753dbbdbd2e} 
+Benchmark\+Utils\+::\+Result\+Collector\+::\+Result\+Collector (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{output\+\_\+file}{, }\item[{MPI\+\_\+\+Comm}]{comm}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\label{doc-func-members}
+\Hypertarget{classBenchmarkUtils_1_1ResultCollector_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classBenchmarkUtils_1_1ResultCollector_af10e5d209dd7b86eb0b902e103448f22}\index{BenchmarkUtils::ResultCollector@{BenchmarkUtils::ResultCollector}!add\_result@{add\_result}}
+\index{add\_result@{add\_result}!BenchmarkUtils::ResultCollector@{BenchmarkUtils::ResultCollector}}
+\doxysubsubsection{\texorpdfstring{add\_result()}{add\_result()}}
+{\footnotesize\ttfamily \label{classBenchmarkUtils_1_1ResultCollector_af10e5d209dd7b86eb0b902e103448f22} 
+void Benchmark\+Utils\+::\+Result\+Collector\+::add\+\_\+result (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult}{Benchmark\+Result}} \&}]{result}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{classBenchmarkUtils_1_1ResultCollector_a02fd335ab635717e54eca766f51918d1}\index{BenchmarkUtils::ResultCollector@{BenchmarkUtils::ResultCollector}!print\_summary@{print\_summary}}
+\index{print\_summary@{print\_summary}!BenchmarkUtils::ResultCollector@{BenchmarkUtils::ResultCollector}}
+\doxysubsubsection{\texorpdfstring{print\_summary()}{print\_summary()}}
+{\footnotesize\ttfamily \label{classBenchmarkUtils_1_1ResultCollector_a02fd335ab635717e54eca766f51918d1} 
+void Benchmark\+Utils\+::\+Result\+Collector\+::print\+\_\+summary (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Print summary to stdout (only rank 0) 
+
+\Hypertarget{classBenchmarkUtils_1_1ResultCollector_a9ef0f3f55dd36d17a93241dbffcafb31}\index{BenchmarkUtils::ResultCollector@{BenchmarkUtils::ResultCollector}!write\_csv@{write\_csv}}
+\index{write\_csv@{write\_csv}!BenchmarkUtils::ResultCollector@{BenchmarkUtils::ResultCollector}}
+\doxysubsubsection{\texorpdfstring{write\_csv()}{write\_csv()}}
+{\footnotesize\ttfamily \label{classBenchmarkUtils_1_1ResultCollector_a9ef0f3f55dd36d17a93241dbffcafb31} 
+void Benchmark\+Utils\+::\+Result\+Collector\+::write\+\_\+csv (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Write all results to CSV file (only rank 0) 
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/applications/benchmark/\mbox{\hyperlink{utils_8h}{utils.\+h}}\end{DoxyCompactItemize}

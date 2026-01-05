@@ -1,0 +1,74 @@
+\doxysection{Hybrid\+ADRSolver\+::Jacobi\+Preconditioner\texorpdfstring{$<$}{<} dim, fe\+\_\+degree, Number \texorpdfstring{$>$}{>} Class Template Reference}
+\hypertarget{classHybridADRSolver_1_1JacobiPreconditioner}{}\label{classHybridADRSolver_1_1JacobiPreconditioner}\index{HybridADRSolver::JacobiPreconditioner$<$ dim, fe\_degree, Number $>$@{HybridADRSolver::JacobiPreconditioner$<$ dim, fe\_degree, Number $>$}}
+
+
+Jacobi preconditioner for the matrix-\/free operator.  
+
+
+
+
+{\ttfamily \#include $<$adr\+\_\+operator.\+h$>$}
+
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{classHybridADRSolver_1_1JacobiPreconditioner_a379c15643b52436d227f5c7efed6dc53}{Vector\+Type}} = Linear\+Algebra\+::distributed\+::\+Vector$<$Number$>$
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classHybridADRSolver_1_1JacobiPreconditioner_aca6fead7d20eb49cae04755ff052af55}{initialize}} (const \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator}{ADROperator}}$<$ dim, fe\+\_\+degree, Number $>$ \&op)
+\begin{DoxyCompactList}\small\item\em Initialize with the operator. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classHybridADRSolver_1_1JacobiPreconditioner_ad5b1a748a6bf6df9d00878742f8dae67}{vmult}} (\mbox{\hyperlink{classHybridADRSolver_1_1JacobiPreconditioner_a379c15643b52436d227f5c7efed6dc53}{Vector\+Type}} \&dst, const \mbox{\hyperlink{classHybridADRSolver_1_1JacobiPreconditioner_a379c15643b52436d227f5c7efed6dc53}{Vector\+Type}} \&src) const
+\begin{DoxyCompactList}\small\item\em Apply the preconditioner\+: dst = M\texorpdfstring{$^\wedge$}{\string^}\{-\/1\} \texorpdfstring{$\ast$}{*} src. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$int dim, int fe\+\_\+degree, typename Number = double$>$\newline
+class Hybrid\+ADRSolver\+::\+Jacobi\+Preconditioner$<$ dim, fe\+\_\+degree, Number $>$}
+Jacobi preconditioner for the matrix-\/free operator. 
+
+This simple preconditioner uses the inverse of the diagonal entries. 
+
+\label{doc-typedef-members}
+\Hypertarget{classHybridADRSolver_1_1JacobiPreconditioner_doc-typedef-members}
+\doxysubsection{Member Typedef Documentation}
+\Hypertarget{classHybridADRSolver_1_1JacobiPreconditioner_a379c15643b52436d227f5c7efed6dc53}\index{HybridADRSolver::JacobiPreconditioner$<$ dim, fe\_degree, Number $>$@{HybridADRSolver::JacobiPreconditioner$<$ dim, fe\_degree, Number $>$}!VectorType@{VectorType}}
+\index{VectorType@{VectorType}!HybridADRSolver::JacobiPreconditioner$<$ dim, fe\_degree, Number $>$@{HybridADRSolver::JacobiPreconditioner$<$ dim, fe\_degree, Number $>$}}
+\doxysubsubsection{\texorpdfstring{VectorType}{VectorType}}
+{\footnotesize\ttfamily \label{classHybridADRSolver_1_1JacobiPreconditioner_a379c15643b52436d227f5c7efed6dc53} 
+template$<$int dim, int fe\+\_\+degree, typename Number = double$>$ \\
+using \mbox{\hyperlink{classHybridADRSolver_1_1JacobiPreconditioner}{Hybrid\+ADRSolver\+::\+Jacobi\+Preconditioner}}$<$ dim, fe\+\_\+degree, Number $>$\+::\+Vector\+Type = Linear\+Algebra\+::distributed\+::\+Vector$<$Number$>$}
+
+
+
+\label{doc-func-members}
+\Hypertarget{classHybridADRSolver_1_1JacobiPreconditioner_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classHybridADRSolver_1_1JacobiPreconditioner_aca6fead7d20eb49cae04755ff052af55}\index{HybridADRSolver::JacobiPreconditioner$<$ dim, fe\_degree, Number $>$@{HybridADRSolver::JacobiPreconditioner$<$ dim, fe\_degree, Number $>$}!initialize@{initialize}}
+\index{initialize@{initialize}!HybridADRSolver::JacobiPreconditioner$<$ dim, fe\_degree, Number $>$@{HybridADRSolver::JacobiPreconditioner$<$ dim, fe\_degree, Number $>$}}
+\doxysubsubsection{\texorpdfstring{initialize()}{initialize()}}
+{\footnotesize\ttfamily \label{classHybridADRSolver_1_1JacobiPreconditioner_aca6fead7d20eb49cae04755ff052af55} 
+template$<$int dim, int fe\+\_\+degree, typename Number = double$>$ \\
+void \mbox{\hyperlink{classHybridADRSolver_1_1JacobiPreconditioner}{Hybrid\+ADRSolver\+::\+Jacobi\+Preconditioner}}$<$ dim, fe\+\_\+degree, Number $>$\+::initialize (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator}{ADROperator}}$<$ dim, fe\+\_\+degree, Number $>$ \&}]{op}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Initialize with the operator. 
+
+\Hypertarget{classHybridADRSolver_1_1JacobiPreconditioner_ad5b1a748a6bf6df9d00878742f8dae67}\index{HybridADRSolver::JacobiPreconditioner$<$ dim, fe\_degree, Number $>$@{HybridADRSolver::JacobiPreconditioner$<$ dim, fe\_degree, Number $>$}!vmult@{vmult}}
+\index{vmult@{vmult}!HybridADRSolver::JacobiPreconditioner$<$ dim, fe\_degree, Number $>$@{HybridADRSolver::JacobiPreconditioner$<$ dim, fe\_degree, Number $>$}}
+\doxysubsubsection{\texorpdfstring{vmult()}{vmult()}}
+{\footnotesize\ttfamily \label{classHybridADRSolver_1_1JacobiPreconditioner_ad5b1a748a6bf6df9d00878742f8dae67} 
+template$<$int dim, int fe\+\_\+degree, typename Number = double$>$ \\
+void \mbox{\hyperlink{classHybridADRSolver_1_1JacobiPreconditioner}{Hybrid\+ADRSolver\+::\+Jacobi\+Preconditioner}}$<$ dim, fe\+\_\+degree, Number $>$\+::vmult (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classHybridADRSolver_1_1JacobiPreconditioner_a379c15643b52436d227f5c7efed6dc53}{Vector\+Type}} \&}]{dst}{, }\item[{const \mbox{\hyperlink{classHybridADRSolver_1_1JacobiPreconditioner_a379c15643b52436d227f5c7efed6dc53}{Vector\+Type}} \&}]{src}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Apply the preconditioner\+: dst = M\texorpdfstring{$^\wedge$}{\string^}\{-\/1\} \texorpdfstring{$\ast$}{*} src. 
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/include/matrix\+\_\+free/\mbox{\hyperlink{adr__operator_8h}{adr\+\_\+operator.\+h}}\end{DoxyCompactItemize}

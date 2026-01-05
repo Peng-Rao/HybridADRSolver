@@ -1,0 +1,198 @@
+\doxysection{Benchmark\+Utils\+::Benchmark\+Result Struct Reference}
+\hypertarget{structBenchmarkUtils_1_1BenchmarkResult}{}\label{structBenchmarkUtils_1_1BenchmarkResult}\index{BenchmarkUtils::BenchmarkResult@{BenchmarkUtils::BenchmarkResult}}
+
+
+Structure to hold benchmark results for a single run.  
+
+
+
+
+{\ttfamily \#include $<$utils.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult_a33193037e2c2bff4c6862d198eea8bf5}{to\+\_\+csv}} () const
+\begin{DoxyCompactList}\small\item\em Convert result to CSV line. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static std\+::string \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult_a17fb92b2f308ca6bac91ebcb0e4c0a20}{csv\+\_\+header}} ()
+\begin{DoxyCompactList}\small\item\em Get CSV header line. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult_a516f065e080195f9fb90fe562cec8f67}{solver\+\_\+type}}
+\item 
+std\+::string \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult_ac6d633be9ae48253b4685aec6b4a950e}{test\+\_\+type}}
+\item 
+int \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult_af604f2d3e9d3a9a16802f1cda353f9a7}{n\+\_\+mpi\+\_\+processes}}
+\item 
+int \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult_a746bd438f47d484364a34cad6176bcaf}{n\+\_\+threads\+\_\+per\+\_\+process}}
+\item 
+int \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult_aedf8c0d06750237146bc86fc5cf1b957}{n\+\_\+refinements}}
+\item 
+int \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult_a04d782248c44381d3fa606a38a070c35}{polynomial\+\_\+degree}}
+\item 
+unsigned int \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult_a6c2d9111fbe7112333b999f476f3f3af}{n\+\_\+dofs}}
+\item 
+unsigned int \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult_a0b3dab71332f3ee193496ac24dd03311}{n\+\_\+cells}}
+\item 
+double \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult_a1fb0649ad5e9437845d477a82707ae75}{setup\+\_\+time}}
+\item 
+double \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult_a5ddafcf3365f34c84b97421dc0fb0cc1}{assembly\+\_\+time}}
+\item 
+double \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult_a0940b53ad2ce0b62da1d0ed9d2d2ba97}{solve\+\_\+time}}
+\item 
+double \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult_a8ce0d3b45b2017097bbbd2e4eb9b57c3}{total\+\_\+time}}
+\item 
+unsigned int \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult_a9460334f0e84cd59ef2b9631164c3231}{n\+\_\+iterations}}
+\item 
+double \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult_adfecfb6aa95210406190f893f29d87a1}{l2\+\_\+error}}
+\item 
+double \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult_aaac71f03215c16e3027b3ed0c99114dd}{memory\+\_\+mb}}
+\item 
+double \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult_ab0e72367518ced941a3bbb19a118c81b}{dofs\+\_\+per\+\_\+second}}
+\item 
+double \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult_a0c240dbe561087e66c30905dc11fc282}{parallel\+\_\+efficiency}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Structure to hold benchmark results for a single run. 
+
+\label{doc-func-members}
+\Hypertarget{structBenchmarkUtils_1_1BenchmarkResult_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{structBenchmarkUtils_1_1BenchmarkResult_a17fb92b2f308ca6bac91ebcb0e4c0a20}\index{BenchmarkUtils::BenchmarkResult@{BenchmarkUtils::BenchmarkResult}!csv\_header@{csv\_header}}
+\index{csv\_header@{csv\_header}!BenchmarkUtils::BenchmarkResult@{BenchmarkUtils::BenchmarkResult}}
+\doxysubsubsection{\texorpdfstring{csv\_header()}{csv\_header()}}
+{\footnotesize\ttfamily \label{structBenchmarkUtils_1_1BenchmarkResult_a17fb92b2f308ca6bac91ebcb0e4c0a20} 
+std\+::string Benchmark\+Utils\+::\+Benchmark\+Result\+::csv\+\_\+header (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Get CSV header line. 
+
+\Hypertarget{structBenchmarkUtils_1_1BenchmarkResult_a33193037e2c2bff4c6862d198eea8bf5}\index{BenchmarkUtils::BenchmarkResult@{BenchmarkUtils::BenchmarkResult}!to\_csv@{to\_csv}}
+\index{to\_csv@{to\_csv}!BenchmarkUtils::BenchmarkResult@{BenchmarkUtils::BenchmarkResult}}
+\doxysubsubsection{\texorpdfstring{to\_csv()}{to\_csv()}}
+{\footnotesize\ttfamily \label{structBenchmarkUtils_1_1BenchmarkResult_a33193037e2c2bff4c6862d198eea8bf5} 
+std\+::string Benchmark\+Utils\+::\+Benchmark\+Result\+::to\+\_\+csv (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Convert result to CSV line. 
+
+
+
+\label{doc-variable-members}
+\Hypertarget{structBenchmarkUtils_1_1BenchmarkResult_doc-variable-members}
+\doxysubsection{Member Data Documentation}
+\Hypertarget{structBenchmarkUtils_1_1BenchmarkResult_a5ddafcf3365f34c84b97421dc0fb0cc1}\index{BenchmarkUtils::BenchmarkResult@{BenchmarkUtils::BenchmarkResult}!assembly\_time@{assembly\_time}}
+\index{assembly\_time@{assembly\_time}!BenchmarkUtils::BenchmarkResult@{BenchmarkUtils::BenchmarkResult}}
+\doxysubsubsection{\texorpdfstring{assembly\_time}{assembly\_time}}
+{\footnotesize\ttfamily \label{structBenchmarkUtils_1_1BenchmarkResult_a5ddafcf3365f34c84b97421dc0fb0cc1} 
+double Benchmark\+Utils\+::\+Benchmark\+Result\+::assembly\+\_\+time}
+
+\Hypertarget{structBenchmarkUtils_1_1BenchmarkResult_ab0e72367518ced941a3bbb19a118c81b}\index{BenchmarkUtils::BenchmarkResult@{BenchmarkUtils::BenchmarkResult}!dofs\_per\_second@{dofs\_per\_second}}
+\index{dofs\_per\_second@{dofs\_per\_second}!BenchmarkUtils::BenchmarkResult@{BenchmarkUtils::BenchmarkResult}}
+\doxysubsubsection{\texorpdfstring{dofs\_per\_second}{dofs\_per\_second}}
+{\footnotesize\ttfamily \label{structBenchmarkUtils_1_1BenchmarkResult_ab0e72367518ced941a3bbb19a118c81b} 
+double Benchmark\+Utils\+::\+Benchmark\+Result\+::dofs\+\_\+per\+\_\+second}
+
+\Hypertarget{structBenchmarkUtils_1_1BenchmarkResult_adfecfb6aa95210406190f893f29d87a1}\index{BenchmarkUtils::BenchmarkResult@{BenchmarkUtils::BenchmarkResult}!l2\_error@{l2\_error}}
+\index{l2\_error@{l2\_error}!BenchmarkUtils::BenchmarkResult@{BenchmarkUtils::BenchmarkResult}}
+\doxysubsubsection{\texorpdfstring{l2\_error}{l2\_error}}
+{\footnotesize\ttfamily \label{structBenchmarkUtils_1_1BenchmarkResult_adfecfb6aa95210406190f893f29d87a1} 
+double Benchmark\+Utils\+::\+Benchmark\+Result\+::l2\+\_\+error}
+
+\Hypertarget{structBenchmarkUtils_1_1BenchmarkResult_aaac71f03215c16e3027b3ed0c99114dd}\index{BenchmarkUtils::BenchmarkResult@{BenchmarkUtils::BenchmarkResult}!memory\_mb@{memory\_mb}}
+\index{memory\_mb@{memory\_mb}!BenchmarkUtils::BenchmarkResult@{BenchmarkUtils::BenchmarkResult}}
+\doxysubsubsection{\texorpdfstring{memory\_mb}{memory\_mb}}
+{\footnotesize\ttfamily \label{structBenchmarkUtils_1_1BenchmarkResult_aaac71f03215c16e3027b3ed0c99114dd} 
+double Benchmark\+Utils\+::\+Benchmark\+Result\+::memory\+\_\+mb}
+
+\Hypertarget{structBenchmarkUtils_1_1BenchmarkResult_a0b3dab71332f3ee193496ac24dd03311}\index{BenchmarkUtils::BenchmarkResult@{BenchmarkUtils::BenchmarkResult}!n\_cells@{n\_cells}}
+\index{n\_cells@{n\_cells}!BenchmarkUtils::BenchmarkResult@{BenchmarkUtils::BenchmarkResult}}
+\doxysubsubsection{\texorpdfstring{n\_cells}{n\_cells}}
+{\footnotesize\ttfamily \label{structBenchmarkUtils_1_1BenchmarkResult_a0b3dab71332f3ee193496ac24dd03311} 
+unsigned int Benchmark\+Utils\+::\+Benchmark\+Result\+::n\+\_\+cells}
+
+\Hypertarget{structBenchmarkUtils_1_1BenchmarkResult_a6c2d9111fbe7112333b999f476f3f3af}\index{BenchmarkUtils::BenchmarkResult@{BenchmarkUtils::BenchmarkResult}!n\_dofs@{n\_dofs}}
+\index{n\_dofs@{n\_dofs}!BenchmarkUtils::BenchmarkResult@{BenchmarkUtils::BenchmarkResult}}
+\doxysubsubsection{\texorpdfstring{n\_dofs}{n\_dofs}}
+{\footnotesize\ttfamily \label{structBenchmarkUtils_1_1BenchmarkResult_a6c2d9111fbe7112333b999f476f3f3af} 
+unsigned int Benchmark\+Utils\+::\+Benchmark\+Result\+::n\+\_\+dofs}
+
+\Hypertarget{structBenchmarkUtils_1_1BenchmarkResult_a9460334f0e84cd59ef2b9631164c3231}\index{BenchmarkUtils::BenchmarkResult@{BenchmarkUtils::BenchmarkResult}!n\_iterations@{n\_iterations}}
+\index{n\_iterations@{n\_iterations}!BenchmarkUtils::BenchmarkResult@{BenchmarkUtils::BenchmarkResult}}
+\doxysubsubsection{\texorpdfstring{n\_iterations}{n\_iterations}}
+{\footnotesize\ttfamily \label{structBenchmarkUtils_1_1BenchmarkResult_a9460334f0e84cd59ef2b9631164c3231} 
+unsigned int Benchmark\+Utils\+::\+Benchmark\+Result\+::n\+\_\+iterations}
+
+\Hypertarget{structBenchmarkUtils_1_1BenchmarkResult_af604f2d3e9d3a9a16802f1cda353f9a7}\index{BenchmarkUtils::BenchmarkResult@{BenchmarkUtils::BenchmarkResult}!n\_mpi\_processes@{n\_mpi\_processes}}
+\index{n\_mpi\_processes@{n\_mpi\_processes}!BenchmarkUtils::BenchmarkResult@{BenchmarkUtils::BenchmarkResult}}
+\doxysubsubsection{\texorpdfstring{n\_mpi\_processes}{n\_mpi\_processes}}
+{\footnotesize\ttfamily \label{structBenchmarkUtils_1_1BenchmarkResult_af604f2d3e9d3a9a16802f1cda353f9a7} 
+int Benchmark\+Utils\+::\+Benchmark\+Result\+::n\+\_\+mpi\+\_\+processes}
+
+\Hypertarget{structBenchmarkUtils_1_1BenchmarkResult_aedf8c0d06750237146bc86fc5cf1b957}\index{BenchmarkUtils::BenchmarkResult@{BenchmarkUtils::BenchmarkResult}!n\_refinements@{n\_refinements}}
+\index{n\_refinements@{n\_refinements}!BenchmarkUtils::BenchmarkResult@{BenchmarkUtils::BenchmarkResult}}
+\doxysubsubsection{\texorpdfstring{n\_refinements}{n\_refinements}}
+{\footnotesize\ttfamily \label{structBenchmarkUtils_1_1BenchmarkResult_aedf8c0d06750237146bc86fc5cf1b957} 
+int Benchmark\+Utils\+::\+Benchmark\+Result\+::n\+\_\+refinements}
+
+\Hypertarget{structBenchmarkUtils_1_1BenchmarkResult_a746bd438f47d484364a34cad6176bcaf}\index{BenchmarkUtils::BenchmarkResult@{BenchmarkUtils::BenchmarkResult}!n\_threads\_per\_process@{n\_threads\_per\_process}}
+\index{n\_threads\_per\_process@{n\_threads\_per\_process}!BenchmarkUtils::BenchmarkResult@{BenchmarkUtils::BenchmarkResult}}
+\doxysubsubsection{\texorpdfstring{n\_threads\_per\_process}{n\_threads\_per\_process}}
+{\footnotesize\ttfamily \label{structBenchmarkUtils_1_1BenchmarkResult_a746bd438f47d484364a34cad6176bcaf} 
+int Benchmark\+Utils\+::\+Benchmark\+Result\+::n\+\_\+threads\+\_\+per\+\_\+process}
+
+\Hypertarget{structBenchmarkUtils_1_1BenchmarkResult_a0c240dbe561087e66c30905dc11fc282}\index{BenchmarkUtils::BenchmarkResult@{BenchmarkUtils::BenchmarkResult}!parallel\_efficiency@{parallel\_efficiency}}
+\index{parallel\_efficiency@{parallel\_efficiency}!BenchmarkUtils::BenchmarkResult@{BenchmarkUtils::BenchmarkResult}}
+\doxysubsubsection{\texorpdfstring{parallel\_efficiency}{parallel\_efficiency}}
+{\footnotesize\ttfamily \label{structBenchmarkUtils_1_1BenchmarkResult_a0c240dbe561087e66c30905dc11fc282} 
+double Benchmark\+Utils\+::\+Benchmark\+Result\+::parallel\+\_\+efficiency}
+
+\Hypertarget{structBenchmarkUtils_1_1BenchmarkResult_a04d782248c44381d3fa606a38a070c35}\index{BenchmarkUtils::BenchmarkResult@{BenchmarkUtils::BenchmarkResult}!polynomial\_degree@{polynomial\_degree}}
+\index{polynomial\_degree@{polynomial\_degree}!BenchmarkUtils::BenchmarkResult@{BenchmarkUtils::BenchmarkResult}}
+\doxysubsubsection{\texorpdfstring{polynomial\_degree}{polynomial\_degree}}
+{\footnotesize\ttfamily \label{structBenchmarkUtils_1_1BenchmarkResult_a04d782248c44381d3fa606a38a070c35} 
+int Benchmark\+Utils\+::\+Benchmark\+Result\+::polynomial\+\_\+degree}
+
+\Hypertarget{structBenchmarkUtils_1_1BenchmarkResult_a1fb0649ad5e9437845d477a82707ae75}\index{BenchmarkUtils::BenchmarkResult@{BenchmarkUtils::BenchmarkResult}!setup\_time@{setup\_time}}
+\index{setup\_time@{setup\_time}!BenchmarkUtils::BenchmarkResult@{BenchmarkUtils::BenchmarkResult}}
+\doxysubsubsection{\texorpdfstring{setup\_time}{setup\_time}}
+{\footnotesize\ttfamily \label{structBenchmarkUtils_1_1BenchmarkResult_a1fb0649ad5e9437845d477a82707ae75} 
+double Benchmark\+Utils\+::\+Benchmark\+Result\+::setup\+\_\+time}
+
+\Hypertarget{structBenchmarkUtils_1_1BenchmarkResult_a0940b53ad2ce0b62da1d0ed9d2d2ba97}\index{BenchmarkUtils::BenchmarkResult@{BenchmarkUtils::BenchmarkResult}!solve\_time@{solve\_time}}
+\index{solve\_time@{solve\_time}!BenchmarkUtils::BenchmarkResult@{BenchmarkUtils::BenchmarkResult}}
+\doxysubsubsection{\texorpdfstring{solve\_time}{solve\_time}}
+{\footnotesize\ttfamily \label{structBenchmarkUtils_1_1BenchmarkResult_a0940b53ad2ce0b62da1d0ed9d2d2ba97} 
+double Benchmark\+Utils\+::\+Benchmark\+Result\+::solve\+\_\+time}
+
+\Hypertarget{structBenchmarkUtils_1_1BenchmarkResult_a516f065e080195f9fb90fe562cec8f67}\index{BenchmarkUtils::BenchmarkResult@{BenchmarkUtils::BenchmarkResult}!solver\_type@{solver\_type}}
+\index{solver\_type@{solver\_type}!BenchmarkUtils::BenchmarkResult@{BenchmarkUtils::BenchmarkResult}}
+\doxysubsubsection{\texorpdfstring{solver\_type}{solver\_type}}
+{\footnotesize\ttfamily \label{structBenchmarkUtils_1_1BenchmarkResult_a516f065e080195f9fb90fe562cec8f67} 
+std\+::string Benchmark\+Utils\+::\+Benchmark\+Result\+::solver\+\_\+type}
+
+\Hypertarget{structBenchmarkUtils_1_1BenchmarkResult_ac6d633be9ae48253b4685aec6b4a950e}\index{BenchmarkUtils::BenchmarkResult@{BenchmarkUtils::BenchmarkResult}!test\_type@{test\_type}}
+\index{test\_type@{test\_type}!BenchmarkUtils::BenchmarkResult@{BenchmarkUtils::BenchmarkResult}}
+\doxysubsubsection{\texorpdfstring{test\_type}{test\_type}}
+{\footnotesize\ttfamily \label{structBenchmarkUtils_1_1BenchmarkResult_ac6d633be9ae48253b4685aec6b4a950e} 
+std\+::string Benchmark\+Utils\+::\+Benchmark\+Result\+::test\+\_\+type}
+
+\Hypertarget{structBenchmarkUtils_1_1BenchmarkResult_a8ce0d3b45b2017097bbbd2e4eb9b57c3}\index{BenchmarkUtils::BenchmarkResult@{BenchmarkUtils::BenchmarkResult}!total\_time@{total\_time}}
+\index{total\_time@{total\_time}!BenchmarkUtils::BenchmarkResult@{BenchmarkUtils::BenchmarkResult}}
+\doxysubsubsection{\texorpdfstring{total\_time}{total\_time}}
+{\footnotesize\ttfamily \label{structBenchmarkUtils_1_1BenchmarkResult_a8ce0d3b45b2017097bbbd2e4eb9b57c3} 
+double Benchmark\+Utils\+::\+Benchmark\+Result\+::total\+\_\+time}
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/applications/benchmark/\mbox{\hyperlink{utils_8h}{utils.\+h}}\end{DoxyCompactItemize}

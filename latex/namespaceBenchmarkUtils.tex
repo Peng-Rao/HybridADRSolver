@@ -1,0 +1,69 @@
+\doxysection{Benchmark\+Utils Namespace Reference}
+\hypertarget{namespaceBenchmarkUtils}{}\label{namespaceBenchmarkUtils}\index{BenchmarkUtils@{BenchmarkUtils}}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult}{Benchmark\+Result}}
+\begin{DoxyCompactList}\small\item\em Structure to hold benchmark results for a single run. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classBenchmarkUtils_1_1ResultCollector}{Result\+Collector}}
+\begin{DoxyCompactList}\small\item\em Class to collect and output benchmark results. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structBenchmarkUtils_1_1ScalingConfig}{Scaling\+Config}}
+\begin{DoxyCompactList}\small\item\em Configuration for scaling tests. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classBenchmarkUtils_1_1Timer}{Timer}}
+\begin{DoxyCompactList}\small\item\em High-\/resolution timer using MPI\+\_\+\+Wtime for consistency. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+double \mbox{\hyperlink{namespaceBenchmarkUtils_aa5f5ff5434c4bd3a61e8efe85c313e1a}{compute\+\_\+efficiency}} (const double t1, const double tp, int p)
+\begin{DoxyCompactList}\small\item\em Compute parallel efficiency. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{namespaceBenchmarkUtils_a06c5ae8a2829968ce171149ab9aed0b7}{compute\+\_\+speedup}} (const double t1, const double tp)
+\begin{DoxyCompactList}\small\item\em Compute speedup. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{namespaceBenchmarkUtils_a6a46143d7628c27d34aa9dee29757795}{get\+\_\+process\+\_\+memory\+\_\+mb}} ()
+\begin{DoxyCompactList}\small\item\em Get memory info from /proc/self/status (Linux specific) \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\label{doc-func-members}
+\Hypertarget{namespaceBenchmarkUtils_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{namespaceBenchmarkUtils_aa5f5ff5434c4bd3a61e8efe85c313e1a}\index{BenchmarkUtils@{BenchmarkUtils}!compute\_efficiency@{compute\_efficiency}}
+\index{compute\_efficiency@{compute\_efficiency}!BenchmarkUtils@{BenchmarkUtils}}
+\doxysubsubsection{\texorpdfstring{compute\_efficiency()}{compute\_efficiency()}}
+{\footnotesize\ttfamily \label{namespaceBenchmarkUtils_aa5f5ff5434c4bd3a61e8efe85c313e1a} 
+double Benchmark\+Utils\+::compute\+\_\+efficiency (\begin{DoxyParamCaption}\item[{const double}]{t1}{, }\item[{const double}]{tp}{, }\item[{int}]{p}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Compute parallel efficiency. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em t1} & Time with 1 process (or baseline) \\
+\hline
+{\em tp} & Time with p processes \\
+\hline
+{\em p} & Number of processes \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Parallel efficiency (ideal = 1.\+0) 
+\end{DoxyReturn}
+\Hypertarget{namespaceBenchmarkUtils_a06c5ae8a2829968ce171149ab9aed0b7}\index{BenchmarkUtils@{BenchmarkUtils}!compute\_speedup@{compute\_speedup}}
+\index{compute\_speedup@{compute\_speedup}!BenchmarkUtils@{BenchmarkUtils}}
+\doxysubsubsection{\texorpdfstring{compute\_speedup()}{compute\_speedup()}}
+{\footnotesize\ttfamily \label{namespaceBenchmarkUtils_a06c5ae8a2829968ce171149ab9aed0b7} 
+double Benchmark\+Utils\+::compute\+\_\+speedup (\begin{DoxyParamCaption}\item[{const double}]{t1}{, }\item[{const double}]{tp}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Compute speedup. 
+
+\Hypertarget{namespaceBenchmarkUtils_a6a46143d7628c27d34aa9dee29757795}\index{BenchmarkUtils@{BenchmarkUtils}!get\_process\_memory\_mb@{get\_process\_memory\_mb}}
+\index{get\_process\_memory\_mb@{get\_process\_memory\_mb}!BenchmarkUtils@{BenchmarkUtils}}
+\doxysubsubsection{\texorpdfstring{get\_process\_memory\_mb()}{get\_process\_memory\_mb()}}
+{\footnotesize\ttfamily \label{namespaceBenchmarkUtils_a6a46143d7628c27d34aa9dee29757795} 
+double Benchmark\+Utils\+::get\+\_\+process\+\_\+memory\+\_\+mb (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get memory info from /proc/self/status (Linux specific) 
+
