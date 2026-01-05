@@ -61,7 +61,7 @@ public:
      * @brief Clear all data.
      */
     void clear() {
-        data.reset();
+        this->data.reset();
         problem_ptr = nullptr;
         diffusion_coefficients.clear();
         advection_coefficients.clear();
@@ -72,8 +72,8 @@ public:
      * @brief Returns the number of rows (degrees of freedom).
      */
     size_type m() const {
-        Assert(data.get() != nullptr, ExcNotInitialized());
-        return data->get_dof_handler().n_dofs();
+        Assert(this->data.get() != nullptr, ExcNotInitialized());
+        return this->data->get_dof_handler().n_dofs();
     }
 
     /**
@@ -88,7 +88,7 @@ public:
      * @param src Input vector
      */
     void vmult(VectorType& dst, const VectorType& src) const {
-        Assert(data.get() != nullptr, ExcNotInitialized());
+        Assert(this->data.get() != nullptr, ExcNotInitialized());
         dst = 0;
         vmult_add(dst, src);
     }
@@ -100,8 +100,8 @@ public:
      * @param src Input vector
      */
     void vmult_add(VectorType& dst, const VectorType& src) const {
-        Assert(data.get() != nullptr, ExcNotInitialized());
-        data->cell_loop(&ADROperator::local_apply, this, dst, src);
+        Assert(this->data.get() != nullptr, ExcNotInitialized());
+        this->data->cell_loop(&ADROperator::local_apply, this, dst, src);
     }
 
     /**
@@ -111,7 +111,7 @@ public:
      * so Tvmult differs from vmult.
      */
     void Tvmult(VectorType& dst, const VectorType& src) const {
-        Assert(data.get() != nullptr, ExcNotInitialized());
+        Assert(this->data.get() != nullptr, ExcNotInitialized());
         dst = 0;
         Tvmult_add(dst, src);
     }
@@ -120,9 +120,10 @@ public:
      * @brief Adds the transpose operator application: dst += A^T * src
      */
     void Tvmult_add(VectorType& dst, const VectorType& src) const {
-        Assert(data.get() != nullptr, ExcNotInitialized());
+        Assert(this->data.get() != nullptr, ExcNotInitialized());
         // For the transpose, we negate the advection term
-        data->cell_loop(&ADROperator::local_apply_transpose, this, dst, src);
+        this->data->cell_loop(&ADROperator::local_apply_transpose, this, dst,
+                              src);
     }
 
     /**
@@ -131,22 +132,22 @@ public:
      * @param diagonal Output vector containing the diagonal entries
      */
     void compute_diagonal(VectorType& diagonal) const {
-        Assert(data.get() != nullptr, ExcNotInitialized());
+        Assert(this->data.get() != nullptr, ExcNotInitialized());
 
-        diagonal.reinit(data->get_dof_handler().locally_owned_dofs(),
-                        data->get_task_info().communicator);
+        diagonal.reinit(this->data->get_dof_handler().locally_owned_dofs(),
+                        this->data->get_task_info().communicator);
 
         // Use FEEvaluation to compute diagonal entries
-        data->initialize_dof_vector(diagonal);
+        this->data->initialize_dof_vector(diagonal);
         diagonal = 0;
 
         // Apply to unit vectors to extract diagonal
         VectorType ones;
-        data->initialize_dof_vector(ones);
+        this->data->initialize_dof_vector(ones);
 
         // Compute diagonal using cell loop with special diagonal computation
-        data->cell_loop(&ADROperator::local_compute_diagonal, this, diagonal,
-                        ones);
+        this->data->cell_loop(&ADROperator::local_compute_diagonal, this,
+                              diagonal, ones);
 
         diagonal.compress(VectorOperation::add);
     }
@@ -168,14 +169,14 @@ public:
      * @brief Access to the underlying MatrixFree object.
      */
     std::shared_ptr<const MatrixFree<dim, Number>> get_matrix_free() const {
-        return data;
+        return this->data;
     }
 
     /**
      * @brief Initialize a vector compatible with this operator.
      */
     void initialize_dof_vector(VectorType& vec) const {
-        data->initialize_dof_vector(vec);
+        this->data->initialize_dof_vector(vec);
     }
 
 private:
@@ -189,7 +190,7 @@ private:
     void precompute_coefficient_data() {
         Assert(problem_ptr != nullptr, ExcNotInitialized());
 
-        const unsigned int n_cells = data->n_cell_batches();
+        const unsigned int n_cells = this->data->n_cell_batches();
         const unsigned int n_q_points = Utilities::pow(fe_degree + 1, dim);
 
         diffusion_coefficients.resize(n_cells);
@@ -197,7 +198,7 @@ private:
         reaction_coefficients.resize(n_cells);
 
         // Use FEEvaluation to get quadrature points
-        FEEvaluation<dim, fe_degree, fe_degree + 1, 1, Number> phi(*data);
+        FEEvaluation<dim, fe_degree, fe_degree + 1, 1, Number> phi(*this->data);
 
         for (unsigned int cell = 0; cell < n_cells; ++cell) {
             phi.reinit(cell);
@@ -245,10 +246,10 @@ private:
      * on a batch of cells using vectorization (SIMD).
      */
     void
-    local_apply(const MatrixFree<dim, Number>& data, VectorType& dst,
+    local_apply(const MatrixFree<dim, Number>& mf_data, VectorType& dst,
                 const VectorType& src,
                 const std::pair<unsigned int, unsigned int>& cell_range) const {
-        FEEvaluation<dim, fe_degree, fe_degree + 1, 1, Number> phi(data);
+        FEEvaluation<dim, fe_degree, fe_degree + 1, 1, Number> phi(mf_data);
 
         for (unsigned int cell = cell_range.first; cell < cell_range.second;
              ++cell) {
@@ -289,10 +290,10 @@ private:
      * The transpose reverses the sign of the advection term.
      */
     void local_apply_transpose(
-        const MatrixFree<dim, Number>& data, VectorType& dst,
+        const MatrixFree<dim, Number>& mf_data, VectorType& dst,
         const VectorType& src,
         const std::pair<unsigned int, unsigned int>& cell_range) const {
-        FEEvaluation<dim, fe_degree, fe_degree + 1, 1, Number> phi(data);
+        FEEvaluation<dim, fe_degree, fe_degree + 1, 1, Number> phi(mf_data);
 
         for (unsigned int cell = cell_range.first; cell < cell_range.second;
              ++cell) {
@@ -332,10 +333,10 @@ private:
      * @brief Computes diagonal entries using sum factorization.
      */
     void local_compute_diagonal(
-        const MatrixFree<dim, Number>& data, VectorType& dst,
+        const MatrixFree<dim, Number>& mf_data, VectorType& dst,
         const VectorType& /*src*/,
         const std::pair<unsigned int, unsigned int>& cell_range) const {
-        FEEvaluation<dim, fe_degree, fe_degree + 1, 1, Number> phi(data);
+        FEEvaluation<dim, fe_degree, fe_degree + 1, 1, Number> phi(mf_data);
 
         AlignedVector<VectorizedArray<Number>> diagonal_values(
             phi.dofs_per_cell);

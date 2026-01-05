@@ -97,6 +97,16 @@ Consider the following \textbf{Advection-Diffusion-Reaction} equation:
 \]
 
 \subsection{Weak formulation}
+First of all, we define the following function spaces:
+\[
+    V = H^1(\Omega) = \{ v \in L^2(\Omega) : \nabla v \in (L^2(\Omega))^d \},
+\]
+\[
+    V_g = \{ v \in H^1(\Omega) : v = g \text{ on } \Gamma_D \},
+\]
+\[
+    V_0 = \{ v \in H^1(\Omega) : v = 0 \text{ on } \Gamma_D \}.
+\]
 
 \clearpage
 \printbibliography[heading=bibintoc, title = {References}]
