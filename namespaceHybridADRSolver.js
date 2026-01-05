@@ -2,7 +2,7 @@ var namespaceHybridADRSolver =
 [
     [ "LADistributed", "namespaceHybridADRSolver_1_1LADistributed.html", null ],
     [ "LAMatrixFree", "namespaceHybridADRSolver_1_1LAMatrixFree.html", [
-      [ "Vector", "namespaceHybridADRSolver_1_1LAMatrixFree.html#a5627eeb62d43764bbbf6a16bb25dd14f", null ]
+      [ "Vector", "namespaceHybridADRSolver_1_1LAMatrixFree.html#ae01c009957c8b7be75b9f834434ede45", null ]
     ] ],
     [ "Problems", "namespaceHybridADRSolver_1_1Problems.html", "namespaceHybridADRSolver_1_1Problems" ],
     [ "ADROperator", "classHybridADRSolver_1_1ADROperator.html", "classHybridADRSolver_1_1ADROperator" ],

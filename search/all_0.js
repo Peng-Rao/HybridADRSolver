@@ -2,9 +2,9 @@ var searchData=
 [
   ['add_5fresult_0',['add_result',['../classBenchmarkUtils_1_1ResultCollector.html#af10e5d209dd7b86eb0b902e103448f22',1,'BenchmarkUtils::ResultCollector']]],
   ['adr_5foperator_2eh_1',['adr_operator.h',['../adr__operator_8h.html',1,'']]],
-  ['adroperator_2',['adroperator',['../classHybridADRSolver_1_1ADROperator.html',1,'HybridADRSolver::ADROperator&lt; dim, fe_degree, Number &gt;'],['../classHybridADRSolver_1_1ADROperator.html#aed661703a9567f90494dbaf153590d67',1,'HybridADRSolver::ADROperator::ADROperator()']]],
+  ['adroperator_2',['ADROperator',['../classHybridADRSolver_1_1ADROperator.html',1,'HybridADRSolver::ADROperator&lt; dim, fe_degree, Number &gt;'],['../classHybridADRSolver_1_1ADROperator.html#aed661703a9567f90494dbaf153590d67',1,'HybridADRSolver::ADROperator::ADROperator()']]],
   ['adroperator_3c_20dim_2c_20fe_5fdegree_2c_20number_20_3e_3',['ADROperator&lt; dim, fe_degree, Number &gt;',['../classHybridADRSolver_1_1ADROperator.html',1,'HybridADRSolver']]],
-  ['adrproblem_4',['adrproblem',['../classHybridADRSolver_1_1Problems_1_1ADRProblem.html',1,'HybridADRSolver::Problems::ADRProblem&lt; dim &gt;'],['../classHybridADRSolver_1_1Problems_1_1ADRProblem.html#a9ad1e3d2dfbe361cde25ab5167f08033',1,'HybridADRSolver::Problems::ADRProblem::ADRProblem()']]],
+  ['adrproblem_4',['ADRProblem',['../classHybridADRSolver_1_1Problems_1_1ADRProblem.html',1,'HybridADRSolver::Problems::ADRProblem&lt; dim &gt;'],['../classHybridADRSolver_1_1Problems_1_1ADRProblem.html#a9ad1e3d2dfbe361cde25ab5167f08033',1,'HybridADRSolver::Problems::ADRProblem::ADRProblem()']]],
   ['advection_5ffield_5',['advection_field',['../classHybridADRSolver_1_1ProblemInterface.html#a8cecfc89cc73098f866bda3ac15d28be',1,'HybridADRSolver::ProblemInterface::advection_field()'],['../classHybridADRSolver_1_1Problems_1_1ADRProblem.html#a6140b4c8bf2af60e41d061f1dce92691',1,'HybridADRSolver::Problems::ADRProblem::advection_field()']]],
   ['amg_6',['AMG',['../namespaceHybridADRSolver.html#aa3fd5a2bb73d19a55b178e5a35b5b341a378ff3b4a7e82873638b320c4b5578a0',1,'HybridADRSolver']]],
   ['assemble_5frhs_7',['assemble_rhs',['../classHybridADRSolver_1_1MatrixFreeSolver.html#aaf685380fa1b47b1dbc66fbbc2acac4b',1,'HybridADRSolver::MatrixFreeSolver']]],

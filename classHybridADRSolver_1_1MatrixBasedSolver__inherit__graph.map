@@ -1,5 +1,5 @@
 <map id="HybridADRSolver::MatrixBasedSolver&lt; dim &gt;" name="HybridADRSolver::MatrixBasedSolver&lt; dim &gt;">
-<area shape="rect" id="Node000001" title="Matrix&#45;based solver with hybrid MPI+threading parallelization." alt="" coords="5,93,229,133"/>
-<area shape="rect" id="Node000002" href="$classHybridADRSolver_1_1ParallelSolverBase.html" title=" " alt="" coords="22,5,213,45"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="120,59,120,93,115,93,115,59"/>
+<area shape="rect" id="Node000001" title="Matrix&#45;based solver with hybrid MPI+threading parallelization." alt="" coords="5,92,209,131"/>
+<area shape="rect" id="Node000002" href="$classHybridADRSolver_1_1ParallelSolverBase.html" title=" " alt="" coords="20,5,194,44"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="110,60,110,91,104,91,104,60"/>
 </map>

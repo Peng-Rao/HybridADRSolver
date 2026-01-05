@@ -17,3 +17,5 @@
 \_form#16=8x13:$ f $
 \_form#17=138x13:$ f = -\mu \Delta u + \mathbf{\beta} \cdot \nabla u + \gamma u $
 \_form#18=9x6:$ u $
+\_form#19=230x14:$ a(u,v) = (\mu \nabla u, \nabla v) + (\beta \cdot \nabla u, v) + (\gamma
+u, v) $

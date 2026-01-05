@@ -62,5 +62,6 @@ var NAVTREEINDEX =
 "classHybridADRSolver_1_1Problems_1_1NeumannFluxRight.html#ab6f72de96970be6497ab326566d5dcfb"
 ];
 
-var SYNCONMSG = 'click to disable panel synchronisation';
-var SYNCOFFMSG = 'click to enable panel synchronisation';
+var SYNCONMSG = 'click to disable panel synchronization';
+var SYNCOFFMSG = 'click to enable panel synchronization';
+var LISTOFALLMEMBERS = 'List of all members';
