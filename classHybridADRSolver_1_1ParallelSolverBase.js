@@ -1,0 +1,28 @@
+var classHybridADRSolver_1_1ParallelSolverBase =
+[
+    [ "ParallelSolverBase", "classHybridADRSolver_1_1ParallelSolverBase.html#a77ab963e0e19f20b7796391228249776", null ],
+    [ "~ParallelSolverBase", "classHybridADRSolver_1_1ParallelSolverBase.html#a4715a01d1a6e0953ad0fee821f1551c0", null ],
+    [ "assemble_system", "classHybridADRSolver_1_1ParallelSolverBase.html#a1c0394fd4e16b7a0c321f8d6f23fa867", null ],
+    [ "get_name", "classHybridADRSolver_1_1ParallelSolverBase.html#a81a0595ff4a42d68c353d5ba01614be4", null ],
+    [ "get_solver_type", "classHybridADRSolver_1_1ParallelSolverBase.html#a17a1f03f110b6c0a6a2837c514c24d24", null ],
+    [ "get_timing_results", "classHybridADRSolver_1_1ParallelSolverBase.html#a189b05a7ddae0a51cdf40835ab3530bf", null ],
+    [ "output_results", "classHybridADRSolver_1_1ParallelSolverBase.html#a1cabfab934aea3b3c0db0573e0291a63", null ],
+    [ "run", "classHybridADRSolver_1_1ParallelSolverBase.html#a292eb2256eb64421c621ceb4fce5a70e", null ],
+    [ "setup_dofs", "classHybridADRSolver_1_1ParallelSolverBase.html#ad78ad9c73638fe3e8e0ca020453b41e5", null ],
+    [ "setup_grid", "classHybridADRSolver_1_1ParallelSolverBase.html#a1a8f8a07786c68b12898e58ad345a4cc", null ],
+    [ "solve", "classHybridADRSolver_1_1ParallelSolverBase.html#a98b341d0949ede6584d02d3520eb1642", null ],
+    [ "computing_timer", "classHybridADRSolver_1_1ParallelSolverBase.html#a952f68312d883f472887719276289a6d", null ],
+    [ "constraints", "classHybridADRSolver_1_1ParallelSolverBase.html#a3b8db48a6033374edcd9cc98fc44ed4a", null ],
+    [ "dof_handler", "classHybridADRSolver_1_1ParallelSolverBase.html#a62c7367a6d02e64c37eb8f634f9b01a8", null ],
+    [ "fe", "classHybridADRSolver_1_1ParallelSolverBase.html#a4eed9758b19581e33d38010437888939", null ],
+    [ "locally_owned_dofs", "classHybridADRSolver_1_1ParallelSolverBase.html#a28468f5a5c268418a5049b5b375175e6", null ],
+    [ "locally_relevant_dofs", "classHybridADRSolver_1_1ParallelSolverBase.html#afe388909303ab450e4322101e4c9d293", null ],
+    [ "mapping", "classHybridADRSolver_1_1ParallelSolverBase.html#af51632f9ad52571236ae744dc943029b", null ],
+    [ "mpi_communicator", "classHybridADRSolver_1_1ParallelSolverBase.html#a8eae4688d8ad928945d283be5fb77157", null ],
+    [ "n_mpi_processes", "classHybridADRSolver_1_1ParallelSolverBase.html#abc7c45717266a9e94f0fa6666d192d42", null ],
+    [ "parameters", "classHybridADRSolver_1_1ParallelSolverBase.html#ac26b34ab7425f0d756966efeb7801aaa", null ],
+    [ "pcout", "classHybridADRSolver_1_1ParallelSolverBase.html#a5d32995f237f5330f6455a45e7ac5383", null ],
+    [ "this_mpi_process", "classHybridADRSolver_1_1ParallelSolverBase.html#abfc1ba1f5402a38ec026fca7e309b78b", null ],
+    [ "timing_results", "classHybridADRSolver_1_1ParallelSolverBase.html#ab5fc3e24c1cd5ba7ed09629195817e5c", null ],
+    [ "triangulation", "classHybridADRSolver_1_1ParallelSolverBase.html#af2e824387ec1bd0226b457d9c56a0b54", null ]
+];

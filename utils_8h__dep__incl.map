@@ -1,0 +1,9 @@
+<map id="src/applications/benchmark/utils.h" name="src/applications/benchmark/utils.h">
+<area shape="rect" id="Node000001" title="Utilities for benchmarking hybrid vs fully distributed solvers." alt="" coords="231,5,432,45"/>
+<area shape="rect" id="Node000002" href="$benchmark__main_8cpp.html" title="Main benchmark driver for comparing hybrid vs fully distributed solvers." alt="" coords="5,93,207,133"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="270,53,156,96,154,91,268,48"/>
+<area shape="rect" id="Node000003" href="$strong__scaling_8cpp.html" title="Strong scaling benchmark for hybrid vs distributed solvers." alt="" coords="231,93,432,133"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="334,59,334,93,329,93,329,59"/>
+<area shape="rect" id="Node000004" href="$weak__scaling_8cpp.html" title="Weak scaling benchmark for hybrid vs distributed solvers." alt="" coords="456,93,657,133"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="395,48,508,91,506,96,393,53"/>
+</map>

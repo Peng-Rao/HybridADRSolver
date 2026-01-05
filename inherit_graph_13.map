@@ -1,0 +1,7 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" title=" " alt="" coords="5,45,100,70"/>
+<area shape="rect" id="Node000001" href="$classHybridADRSolver_1_1ADROperator.html" title=" " alt="" coords="148,5,375,45"/>
+<area shape="poly" id="edge6_Node000000_Node000001" title=" " alt="" coords="113,45,147,40,148,45,114,51"/>
+<area shape="rect" id="Node000002" href="$classHybridADRSolver_1_1ADROperator.html" title="Matrix&#45;free operator for the ADR problem." alt="" coords="148,69,375,109"/>
+<area shape="poly" id="edge7_Node000000_Node000002" title=" " alt="" coords="114,64,148,69,147,75,113,69"/>
+</map>

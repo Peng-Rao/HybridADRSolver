@@ -1,0 +1,9 @@
+<map id="HybridADRSolver::MatrixBasedSolver&lt; dim &gt;" name="HybridADRSolver::MatrixBasedSolver&lt; dim &gt;">
+<area shape="rect" id="Node000001" title="Matrix&#45;based solver with hybrid MPI+threading parallelization." alt="" coords="157,183,381,223"/>
+<area shape="rect" id="Node000002" href="$classHybridADRSolver_1_1ParallelSolverBase.html" title=" " alt="" coords="173,93,364,133"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="271,147,271,183,266,183,266,147"/>
+<area shape="rect" id="Node000003" href="$structHybridADRSolver_1_1SolverParameters.html" title=" " alt="" coords="5,5,263,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="163,36,243,91,240,95,160,41"/>
+<area shape="rect" id="Node000004" href="$structHybridADRSolver_1_1TimingResults.html" title=" " alt="" coords="287,5,522,31"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="378,41,298,95,295,91,375,36"/>
+</map>

@@ -1,0 +1,24 @@
+<map id="src/include/core/solver.h" name="src/include/core/solver.h">
+<area shape="rect" id="Node000001" title="Abstract base class for all solvers." alt="" coords="653,5,832,31"/>
+<area shape="rect" id="Node000002" href="$matrix__based__solver_8h.html" title="Matrix&#45;based solver using WorkStream for hybrid parallelization." alt="" coords="775,79,937,133"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="771,37,823,77,820,81,767,41"/>
+<area shape="rect" id="Node000008" href="$matrix__free__solver_8h.html" title="Matrix&#45;free solver with hybrid MPI+threading parallelization." alt="" coords="546,86,739,126"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="721,42,666,88,663,84,717,38"/>
+<area shape="rect" id="Node000003" href="$benchmark__main_8cpp.html" title="Main benchmark driver for comparing hybrid vs fully distributed solvers." alt="" coords="423,189,625,229"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="763,138,587,191,586,186,762,133"/>
+<area shape="rect" id="Node000004" href="$strong__scaling_8cpp.html" title="Strong scaling benchmark for hybrid vs distributed solvers." alt="" coords="649,189,850,229"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="820,145,772,190,768,186,816,141"/>
+<area shape="rect" id="Node000005" href="$weak__scaling_8cpp.html" title="Weak scaling benchmark for hybrid vs distributed solvers." alt="" coords="874,189,1075,229"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="899,140,954,186,951,191,896,144"/>
+<area shape="rect" id="Node000006" href="$main__matrix__based_8cpp.html" title=" " alt="" coords="1285,189,1446,229"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="951,119,1103,144,1274,179,1303,186,1302,191,1273,184,1102,149,950,124"/>
+<area shape="rect" id="Node000007" href="$matrix__based__solver_8cpp.html" title="Implementation of the Matrix&#45;based Finite Element solver." alt="" coords="1099,181,1261,236"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="951,134,1100,180,1098,185,949,139"/>
+<area shape="poly" id="edge8_Node000008_Node000003" title=" " alt="" coords="611,137,548,191,545,187,608,133"/>
+<area shape="poly" id="edge9_Node000008_Node000004" title=" " alt="" coords="675,134,731,187,728,191,671,138"/>
+<area shape="poly" id="edge10_Node000008_Node000005" title=" " alt="" coords="718,127,913,186,912,191,717,132"/>
+<area shape="rect" id="Node000009" href="$main__matrix__free_8cpp.html" title="Main driver for the matrix&#45;free ADR solver with hybrid parallelization." alt="" coords="238,189,399,229"/>
+<area shape="poly" id="edge11_Node000008_Node000009" title=" " alt="" coords="570,133,380,191,379,186,568,127"/>
+<area shape="rect" id="Node000010" href="$matrix__free__solver_8cpp.html" title="Implementation of the Matrix&#45;free solver." alt="" coords="5,189,213,229"/>
+<area shape="poly" id="edge12_Node000008_Node000010" title=" " alt="" coords="533,128,227,184,192,191,191,186,226,179,532,123"/>
+</map>

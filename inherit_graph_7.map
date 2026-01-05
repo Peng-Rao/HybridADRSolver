@@ -1,0 +1,7 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" href="$classHybridADRSolver_1_1ParallelSolverBase.html" title=" " alt="" coords="5,37,196,77"/>
+<area shape="rect" id="Node000001" href="$classHybridADRSolver_1_1MatrixBasedSolver.html" title="Matrix&#45;based solver with hybrid MPI+threading parallelization." alt="" coords="244,5,468,45"/>
+<area shape="poly" id="edge3_Node000000_Node000001" title=" " alt="" coords="209,41,244,37,244,42,210,46"/>
+<area shape="rect" id="Node000002" href="$classHybridADRSolver_1_1MatrixFreeSolver.html" title="Matrix&#45;free solver with hybrid MPI+threading parallelization." alt="" coords="250,69,462,109"/>
+<area shape="poly" id="edge4_Node000000_Node000002" title=" " alt="" coords="210,68,250,73,250,79,209,74"/>
+</map>
