@@ -12,5 +12,6 @@ var searchData=
   ['n_5fwarmup_5fruns_9',['n_warmup_runs',['../structStrongScalingConfig.html#a15cc0ceecec3d98deb54f8bb933d2120',1,'StrongScalingConfig::n_warmup_runs'],['../structBenchmarkUtils_1_1ScalingConfig.html#ab8a67b9545c8402b489d20fc21e170f7',1,'BenchmarkUtils::ScalingConfig::n_warmup_runs'],['../structWeakScalingConfig.html#ab7e996d877d63fef6d2807e68f33f927',1,'WeakScalingConfig::n_warmup_runs']]],
   ['neumannfluxright_10',['NeumannFluxRight',['../classHybridADRSolver_1_1Problems_1_1NeumannFluxRight.html',1,'HybridADRSolver::Problems']]],
   ['none_11',['None',['../namespaceHybridADRSolver.html#aa3fd5a2bb73d19a55b178e5a35b5b341a6adf97f83acf6453d4a6a4b1070f3754',1,'HybridADRSolver']]],
-  ['number_12',['Number',['../classHybridADRSolver_1_1MatrixFreeSolver.html#a7217c11ce8bebeb139faad0dc91209d7',1,'HybridADRSolver::MatrixFreeSolver']]]
+  ['notes_12',['Mathematical Notes',['../index.html#autotoc_md7',1,'']]],
+  ['number_13',['Number',['../classHybridADRSolver_1_1MatrixFreeSolver.html#a7217c11ce8bebeb139faad0dc91209d7',1,'HybridADRSolver::MatrixFreeSolver']]]
 ];

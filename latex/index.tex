@@ -1,0 +1,112 @@
+\chapter{Advection-\/\+Diffusion-\/\+Reaction Solver using deal.\+II }
+\hypertarget{index}{}\label{index}\index{Advection-\/Diffusion-\/Reaction Solver using deal.II@{Advection-\/Diffusion-\/Reaction Solver using deal.II}}
+\label{index_md_README}%
+\Hypertarget{index_md_README}%
+
+
+\href{https://github.com/Peng-Rao/HybridADRSolver/actions/workflows/ci.yml}{\texttt{}} \href{https://github.com/Peng-Rao/HybridADRSolver/actions/workflows/pages/pages-build-deployment}{\texttt{}}
+
+This project implements a finite element solver for the steady-\/state advection-\/diffusion-\/reaction equation using the \href{https://www.dealii.org/}{\texttt{deal.\+II}} library.\hypertarget{index_autotoc_md1}{}\doxysection{\texorpdfstring{Problem Formulation}{Problem Formulation}}\label{index_autotoc_md1}
+The solver addresses the following boundary value problem\+:
+
+\$\$-\/\textbackslash{}nabla \textbackslash{}cdot (\textbackslash{}mu \textbackslash{}nabla u) + \textbackslash{}nabla \textbackslash{}cdot (\textbackslash{}beta u) + \textbackslash{}gamma u = f \textbackslash{}quad \textbackslash{}text\{in \} \textbackslash{}\+Omega\$\$
+
+\$\$u = g \textbackslash{}quad \textbackslash{}text\{on \} \textbackslash{}\+Gamma\+\_\+D \textbackslash{}subset \textbackslash{}partial\textbackslash{}\+Omega \textbackslash{}quad \textbackslash{}text\{(Dirichlet)\}\$\$
+
+\$\$\textbackslash{}nabla u \textbackslash{}cdot \textbackslash{}mathbf\{n\} = h \textbackslash{}quad \textbackslash{}text\{on \} \textbackslash{}\+Gamma\+\_\+N = \textbackslash{}partial\textbackslash{}\+Omega \textbackslash{}setminus \textbackslash{}\+Gamma\+\_\+D \textbackslash{}quad \textbackslash{}text\{(Neumann)\}\$\$
+
+Where\+:
+
+
+\begin{DoxyItemize}
+\item \$\textbackslash{}mu\$\+: Diffusion coefficient (scalar or tensor)
+\item \$\textbackslash{}beta\$\+: Advection velocity field (vector)
+\item \$\textbackslash{}gamma\$\+: Reaction coefficient (scalar, \$\textbackslash{}gamma \textbackslash{}geq 0\$)
+\item \$f\$\+: Source term
+\item \$g\$\+: Dirichlet boundary data
+\item \$h\$\+: Neumann boundary flux
+\end{DoxyItemize}\hypertarget{index_autotoc_md2}{}\doxysection{\texorpdfstring{Weak Formulation}{Weak Formulation}}\label{index_autotoc_md2}
+Multiplying by a test function \$v \textbackslash{}in H\texorpdfstring{$^\wedge$}{\string^}1\+\_\+0(\textbackslash{}\+Omega)\$ and integrating by parts\+:
+
+\$\$\textbackslash{}int\+\_\+\textbackslash{}\+Omega \textbackslash{}mu \textbackslash{}nabla u \textbackslash{}cdot \textbackslash{}nabla v \textbackslash{}, dx + \textbackslash{}int\+\_\+\textbackslash{}\+Omega (\textbackslash{}beta \textbackslash{}cdot \textbackslash{}nabla u) v \textbackslash{}, dx + \textbackslash{}int\+\_\+\textbackslash{}\+Omega \textbackslash{}gamma u v \textbackslash{}, dx = \textbackslash{}int\+\_\+\textbackslash{}\+Omega f v \textbackslash{}, dx + \textbackslash{}int\+\_\+\{\textbackslash{}\+Gamma\+\_\+N\} h v \textbackslash{}, ds\$\$\hypertarget{index_autotoc_md3}{}\doxysection{\texorpdfstring{Building}{Building}}\label{index_autotoc_md3}
+\hypertarget{index_autotoc_md4}{}\doxysubsection{\texorpdfstring{Prerequisites}{Prerequisites}}\label{index_autotoc_md4}
+We recommend use \href{https://spack.io}{\texttt{Spack}} to manage dependencies. Spack is a package manager for supercomputers, Linux, mac\+OS, and Windows. We can build deal.\+II automatically with Spack. Using the following commands to install Spack and deal.\+II\+:
+
+
+\begin{DoxyItemize}
+\item Install Spack
+\end{DoxyItemize}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{git\ clone\ -\/-\/depth=2\ https://github.com/spack/spack.git}
+\DoxyCodeLine{.\ spack/share/spack/setup-\/env.sh}
+
+\end{DoxyCode}
+
+
+
+\begin{DoxyItemize}
+\item Install deal.\+II with MPI and other dependencies
+\end{DoxyItemize}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{spack\ install\ dealii\ +mpi\ +petsc\ +p4est\ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ '\string~gmsh'\ '\string~arborx'\ '\string~taskflow'\ '\string~ginkgo'\ '\string~opencascade'\ '\string~cgal'\ '\string~trilinos'\ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ '\string^petsc+hypre+metis+hdf5'\ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ '\string^mpich'\ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ '\string^python@3.11'}
+\DoxyCodeLine{\ \ \ \ }
+\DoxyCodeLine{spack\ install\ gtest}
+
+\end{DoxyCode}
+\hypertarget{index_autotoc_md5}{}\doxysubsection{\texorpdfstring{Compilation}{Compilation}}\label{index_autotoc_md5}
+
+\begin{DoxyItemize}
+\item Load deal.\+II environment
+\end{DoxyItemize}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{spack\ load\ dealii}
+
+\end{DoxyCode}
+
+
+
+\begin{DoxyItemize}
+\item Build the project
+\end{DoxyItemize}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{mkdir\ build}
+\DoxyCodeLine{cd\ build}
+\DoxyCodeLine{cmake\ ..}
+\DoxyCodeLine{make\ -\/j}
+
+\end{DoxyCode}
+\hypertarget{index_autotoc_md6}{}\doxysubsection{\texorpdfstring{Running}{Running}}\label{index_autotoc_md6}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{./GalerkinSolver\ \ \ \ \#\ Galerkin\ solver}
+
+\end{DoxyCode}
+\hypertarget{index_autotoc_md7}{}\doxysection{\texorpdfstring{Mathematical Notes}{Mathematical Notes}}\label{index_autotoc_md7}
+\hypertarget{index_autotoc_md8}{}\doxysubsection{\texorpdfstring{Coercivity and Stability}{Coercivity and Stability}}\label{index_autotoc_md8}
+For well-\/posedness, we require\+:
+
+
+\begin{DoxyEnumerate}
+\item \$\textbackslash{}mu \texorpdfstring{$>$}{>} 0\$ (positive diffusion)
+\item \$\textbackslash{}gamma \textbackslash{}geq 0\$ (non-\/negative reaction)
+\item \$\textbackslash{}nabla \textbackslash{}cdot \textbackslash{}beta\$ bounded (divergence of convection)
+\end{DoxyEnumerate}
+
+The bilinear form is coercive if\+:
+
+\$\$\textbackslash{}gamma -\/ \textbackslash{}frac\{1\}\{2\}\textbackslash{}nabla \textbackslash{}cdot \textbackslash{}beta \textbackslash{}geq \textbackslash{}gamma\+\_\+0 \texorpdfstring{$>$}{>} 0\$\$\hypertarget{index_autotoc_md9}{}\doxysubsection{\texorpdfstring{Error Estimates}{Error Estimates}}\label{index_autotoc_md9}
+For sufficiently smooth solutions, the standard Galerkin method gives\+:
+
+\$\$$|$u -\/ u\+\_\+h$|$\+\_\+\{H\texorpdfstring{$^\wedge$}{\string^}1\} \textbackslash{}leq C h\texorpdfstring{$^\wedge$}{\string^}k \texorpdfstring{$\vert$}{|}u\texorpdfstring{$\vert$}{|}\+\_\+\{H\texorpdfstring{$^\wedge$}{\string^}\{k+1\}\}\$\$ 

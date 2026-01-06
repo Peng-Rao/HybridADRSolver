@@ -25,6 +25,7 @@
 var NAVTREE =
 [
   [ "HybridADRSolver", "index.html", [
+    [ "Advection-Diffusion-Reaction Solver using deal.II", "index.html", "index" ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
       [ "Namespace Members", "namespacemembers.html", [

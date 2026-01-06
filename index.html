@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.14.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>HybridADRSolver: Main Page</title>
+<title>HybridADRSolver: Advection-Diffusion-Reaction Solver using deal.II</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -87,10 +87,85 @@ $(function(){initNavTree('index.html','',''); });
 </div>
 </div>
 
-<div class="header">
-  <div class="headertitle"><div class="title">HybridADRSolver Documentation</div></div>
+<div><div class="header">
+  <div class="headertitle"><div class="title">Advection-Diffusion-Reaction Solver using deal.II </div></div>
 </div><!--header-->
 <div class="contents">
+<div class="textblock"><p><a class="anchor" id="md_README"></a></p>
+<p><a href="https://github.com/Peng-Rao/HybridADRSolver/actions/workflows/ci.yml"><img src="https://github.com/Peng-Rao/HybridADRSolver/actions/workflows/ci.yml/badge.svg" alt="CI" style="pointer-events: none;" class="inline"/></a> <a href="https://github.com/Peng-Rao/HybridADRSolver/actions/workflows/pages/pages-build-deployment"><img src="https://github.com/Peng-Rao/HybridADRSolver/actions/workflows/pages/pages-build-deployment/badge.svg" alt="docs-build-deployment" style="pointer-events: none;" class="inline"/></a></p>
+<p>This project implements a finite element solver for the steady-state advection-diffusion-reaction equation using the <a href="https://www.dealii.org/">deal.II</a> library.</p>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md1"></a>
+Problem Formulation</h1>
+<p>The solver addresses the following boundary value problem:</p>
+<p>$$-\nabla \cdot (\mu \nabla u) + \nabla \cdot (\beta u) + \gamma u = f \quad \text{in } \Omega$$</p>
+<p>$$u = g \quad \text{on } \Gamma_D \subset \partial\Omega \quad \text{(Dirichlet)}$$</p>
+<p>$$\nabla u \cdot \mathbf{n} = h \quad \text{on } \Gamma_N = \partial\Omega \setminus \Gamma_D \quad \text{(Neumann)}$$</p>
+<p>Where:</p>
+<ul>
+<li>$\mu$: Diffusion coefficient (scalar or tensor)</li>
+<li>$\beta$: Advection velocity field (vector)</li>
+<li>$\gamma$: Reaction coefficient (scalar, $\gamma \geq 0$)</li>
+<li>$f$: Source term</li>
+<li>$g$: Dirichlet boundary data</li>
+<li>$h$: Neumann boundary flux</li>
+</ul>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md2"></a>
+Weak Formulation</h1>
+<p>Multiplying by a test function $v \in H^1_0(\Omega)$ and integrating by parts:</p>
+<p>$$\int_\Omega \mu \nabla u \cdot \nabla v \, dx + \int_\Omega (\beta \cdot \nabla u) v \, dx + \int_\Omega \gamma u v \, dx = \int_\Omega f v \, dx + \int_{\Gamma_N} h v \, ds$$</p>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md3"></a>
+Building</h1>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md4"></a>
+Prerequisites</h2>
+<p>We recommend use <a href="https://spack.io">Spack</a> to manage dependencies. Spack is a package manager for supercomputers, Linux, macOS, and Windows. We can build deal.II automatically with Spack. Using the following commands to install Spack and deal.II:</p>
+<ul>
+<li>Install Spack</li>
+</ul>
+<div class="fragment"><div class="line">git clone --depth=2 https://github.com/spack/spack.git</div>
+<div class="line">. spack/share/spack/setup-env.sh</div>
+</div><!-- fragment --><ul>
+<li>Install deal.II with MPI and other dependencies</li>
+</ul>
+<div class="fragment"><div class="line">spack install dealii +mpi +petsc +p4est \</div>
+<div class="line">    &#39;~gmsh&#39; &#39;~arborx&#39; &#39;~taskflow&#39; &#39;~ginkgo&#39; &#39;~opencascade&#39; &#39;~cgal&#39; &#39;~trilinos&#39; \</div>
+<div class="line">    &#39;^petsc+hypre+metis+hdf5&#39; \</div>
+<div class="line">    &#39;^mpich&#39; \</div>
+<div class="line">    &#39;^python@3.11&#39;</div>
+<div class="line">    </div>
+<div class="line">spack install gtest</div>
+</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
+Compilation</h2>
+<ul>
+<li>Load deal.II environment</li>
+</ul>
+<div class="fragment"><div class="line">spack load dealii</div>
+</div><!-- fragment --><ul>
+<li>Build the project</li>
+</ul>
+<div class="fragment"><div class="line">mkdir build</div>
+<div class="line">cd build</div>
+<div class="line">cmake ..</div>
+<div class="line">make -j</div>
+</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md6"></a>
+Running</h2>
+<div class="fragment"><div class="line">./GalerkinSolver    # Galerkin solver</div>
+</div><!-- fragment --><h1 class="doxsection"><a class="anchor" id="autotoc_md7"></a>
+Mathematical Notes</h1>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md8"></a>
+Coercivity and Stability</h2>
+<p>For well-posedness, we require:</p>
+<ol type="1">
+<li>$\mu &gt; 0$ (positive diffusion)</li>
+<li>$\gamma \geq 0$ (non-negative reaction)</li>
+<li>$\nabla \cdot \beta$ bounded (divergence of convection)</li>
+</ol>
+<p>The bilinear form is coercive if:</p>
+<p>$$\gamma - \frac{1}{2}\nabla \cdot \beta \geq \gamma_0 &gt; 0$$</p>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md9"></a>
+Error Estimates</h2>
+<p>For sufficiently smooth solutions, the standard Galerkin method gives:</p>
+<p>$$|u - u_h|_{H^1} \leq C h^k |u|_{H^{k+1}}$$ </p>
+</div></div><!-- PageDoc -->
 <a href="doxygen_crawl.html"></a>
 </div><!-- contents -->
 </div><!-- doc-content -->
