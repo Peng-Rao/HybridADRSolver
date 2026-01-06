@@ -17,6 +17,15 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+window.MathJax = {
+  options: {
+    ignoreHtmlClass: 'tex2jax_ignore',
+    processHtmlClass: 'tex2jax_process'
+  }
+};
+</script>
+<script type="text/javascript" id="MathJax-script" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -165,7 +174,7 @@ Classes</h2></td></tr>
 <tr class="memitem:HybridADRSolver_3A_3AProblemInterface_3C_20dim_20_3E" id="r_HybridADRSolver_3A_3AProblemInterface_3C_20dim_20_3E"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHybridADRSolver_1_1ProblemInterface.html">HybridADRSolver::ProblemInterface&lt; dim &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Abstract interface for defining a physical problem.  <a href="classHybridADRSolver_1_1ProblemInterface.html#details">More...</a><br /></td></tr>
 <tr class="memitem:HybridADRSolver_3A_3AProblems_3A_3AExactSolution_3C_20dim_20_3E" id="r_HybridADRSolver_3A_3AProblems_3A_3AExactSolution_3C_20dim_20_3E"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHybridADRSolver_1_1Problems_1_1ExactSolution.html">HybridADRSolver::Problems::ExactSolution&lt; dim &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manufactured exact solution: <picture><source srcset="form_6_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$ u(\mathbf{x}) = \prod \sin(\pi x_i) $" src="form_6.png" width="99" height="14"/></picture>.  <a href="classHybridADRSolver_1_1Problems_1_1ExactSolution.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manufactured exact solution: \( u(\mathbf{x}) = \prod \sin(\pi x_i) \).  <a href="classHybridADRSolver_1_1Problems_1_1ExactSolution.html#details">More...</a><br /></td></tr>
 <tr class="memitem:HybridADRSolver_3A_3AProblems_3A_3ANeumannFluxRight_3C_20dim_20_3E" id="r_HybridADRSolver_3A_3AProblems_3A_3ANeumannFluxRight_3C_20dim_20_3E"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHybridADRSolver_1_1Problems_1_1NeumannFluxRight.html">HybridADRSolver::Problems::NeumannFluxRight&lt; dim &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Analytic Neumann flux for the Right boundary (x=1).  <a href="classHybridADRSolver_1_1Problems_1_1NeumannFluxRight.html#details">More...</a><br /></td></tr>
 <tr class="memitem:HybridADRSolver_3A_3AProblems_3A_3AADRProblem_3C_20dim_20_3E" id="r_HybridADRSolver_3A_3AProblems_3A_3AADRProblem_3C_20dim_20_3E"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHybridADRSolver_1_1Problems_1_1ADRProblem.html">HybridADRSolver::Problems::ADRProblem&lt; dim &gt;</a></td></tr>

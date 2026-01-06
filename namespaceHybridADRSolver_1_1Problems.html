@@ -17,6 +17,15 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+window.MathJax = {
+  options: {
+    ignoreHtmlClass: 'tex2jax_ignore',
+    processHtmlClass: 'tex2jax_process'
+  }
+};
+</script>
+<script type="text/javascript" id="MathJax-script" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -97,7 +106,7 @@ Classes</h2></td></tr>
 <tr class="memitem:ADRProblem" id="r_ADRProblem"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHybridADRSolver_1_1Problems_1_1ADRProblem.html">ADRProblem</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Concrete implementation of a steady-state Advection-Diffusion-Reaction problem.  <a href="classHybridADRSolver_1_1Problems_1_1ADRProblem.html#details">More...</a><br /></td></tr>
 <tr class="memitem:ExactSolution" id="r_ExactSolution"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHybridADRSolver_1_1Problems_1_1ExactSolution.html">ExactSolution</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manufactured exact solution: <picture><source srcset="form_6_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$ u(\mathbf{x}) = \prod \sin(\pi x_i) $" src="form_6.png" width="99" height="14"/></picture>.  <a href="classHybridADRSolver_1_1Problems_1_1ExactSolution.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manufactured exact solution: \( u(\mathbf{x}) = \prod \sin(\pi x_i) \).  <a href="classHybridADRSolver_1_1Problems_1_1ExactSolution.html#details">More...</a><br /></td></tr>
 <tr class="memitem:NeumannFluxRight" id="r_NeumannFluxRight"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHybridADRSolver_1_1Problems_1_1NeumannFluxRight.html">NeumannFluxRight</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Analytic Neumann flux for the Right boundary (x=1).  <a href="classHybridADRSolver_1_1Problems_1_1NeumannFluxRight.html#details">More...</a><br /></td></tr>
 </table>

@@ -17,6 +17,15 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+window.MathJax = {
+  options: {
+    ignoreHtmlClass: 'tex2jax_ignore',
+    processHtmlClass: 'tex2jax_process'
+  }
+};
+</script>
+<script type="text/javascript" id="MathJax-script" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -124,7 +133,7 @@ Public Member Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><div class="compoundTemplParams">template&lt;int dim&gt;<br />
 class HybridADRSolver::Problems::NeumannFluxRight&lt; dim &gt;</div><p>Analytic Neumann flux for the Right boundary (x=1). </p>
-<p>Calculates <picture><source srcset="form_7_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$ \nabla u \cdot \mathbf{n} $" src="form_7.png" width="35" height="11"/></picture> at x=1, where <picture><source srcset="form_8_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$ \mathbf{n} = (1, 0, \dots)^T $" src="form_8.png" width="80" height="15"/></picture>. Since <picture><source srcset="form_9_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$ \cos(\pi) = -1 $" src="form_9.png" width="68" height="14"/></picture>, the flux is negative. </p>
+<p>Calculates \( \nabla u \cdot \mathbf{n} \) at x=1, where \( \mathbf{n} = (1, 0, \dots)^T \). Since \( \cos(\pi) = -1 \), the flux is negative. </p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
 <a id="ab6f72de96970be6497ab326566d5dcfb" name="ab6f72de96970be6497ab326566d5dcfb"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab6f72de96970be6497ab326566d5dcfb">&#9670;&#160;</a></span>value()</h2>

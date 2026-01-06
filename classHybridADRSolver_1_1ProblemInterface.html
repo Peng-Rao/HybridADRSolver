@@ -17,6 +17,15 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+window.MathJax = {
+  options: {
+    ignoreHtmlClass: 'tex2jax_ignore',
+    processHtmlClass: 'tex2jax_process'
+  }
+};
+</script>
+<script type="text/javascript" id="MathJax-script" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -111,21 +120,21 @@ Inheritance diagram for HybridADRSolver::ProblemInterface&lt; dim &gt;:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a52fc548eccab5919f0e21f85fa61e5d1" id="r_a52fc548eccab5919f0e21f85fa61e5d1"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a52fc548eccab5919f0e21f85fa61e5d1">~ProblemInterface</a> ()=default</td></tr>
 <tr class="memitem:a7776571e28e92ba07754475855358678" id="r_a7776571e28e92ba07754475855358678"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7776571e28e92ba07754475855358678">diffusion_coefficient</a> (const Point&lt; dim &gt; &amp;p) const =0</td></tr>
-<tr class="memdesc:a7776571e28e92ba07754475855358678"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the diffusion coefficient <picture><source srcset="form_0_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$ \mu(\mathbf{x}) $" src="form_0.png" width="25" height="14"/></picture>.  <br /></td></tr>
+<tr class="memdesc:a7776571e28e92ba07754475855358678"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the diffusion coefficient \( \mu(\mathbf{x}) \).  <br /></td></tr>
 <tr class="memitem:a8cecfc89cc73098f866bda3ac15d28be" id="r_a8cecfc89cc73098f866bda3ac15d28be"><td class="memItemLeft" align="right" valign="top">virtual Tensor&lt; 1, dim &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8cecfc89cc73098f866bda3ac15d28be">advection_field</a> (const Point&lt; dim &gt; &amp;p) const =0</td></tr>
-<tr class="memdesc:a8cecfc89cc73098f866bda3ac15d28be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the advection velocity field <picture><source srcset="form_1_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$ \mathbf{\beta}(\mathbf{x}) $" src="form_1.png" width="25" height="14"/></picture>.  <br /></td></tr>
+<tr class="memdesc:a8cecfc89cc73098f866bda3ac15d28be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the advection velocity field \( \mathbf{\beta}(\mathbf{x}) \).  <br /></td></tr>
 <tr class="memitem:a5327d941efe76a20867935f0460e1cce" id="r_a5327d941efe76a20867935f0460e1cce"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5327d941efe76a20867935f0460e1cce">reaction_coefficient</a> (const Point&lt; dim &gt; &amp;p) const =0</td></tr>
-<tr class="memdesc:a5327d941efe76a20867935f0460e1cce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the reaction coefficient <picture><source srcset="form_2_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$ \gamma(\mathbf{x}) $" src="form_2.png" width="25" height="14"/></picture>.  <br /></td></tr>
+<tr class="memdesc:a5327d941efe76a20867935f0460e1cce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the reaction coefficient \( \gamma(\mathbf{x}) \).  <br /></td></tr>
 <tr class="memitem:ab51cd54979ec7cb91914b0f071d7f5bc" id="r_ab51cd54979ec7cb91914b0f071d7f5bc"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab51cd54979ec7cb91914b0f071d7f5bc">source_term</a> (const Point&lt; dim &gt; &amp;p) const =0</td></tr>
-<tr class="memdesc:ab51cd54979ec7cb91914b0f071d7f5bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the source term <picture><source srcset="form_3_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$ f(\mathbf{x}) $" src="form_3.png" width="24" height="14"/></picture>.  <br /></td></tr>
+<tr class="memdesc:ab51cd54979ec7cb91914b0f071d7f5bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the source term \( f(\mathbf{x}) \).  <br /></td></tr>
 <tr class="memitem:a2e664d9b1e8ffc970980679707bbd312" id="r_a2e664d9b1e8ffc970980679707bbd312"><td class="memItemLeft" align="right" valign="top">virtual std::set&lt; types::boundary_id &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2e664d9b1e8ffc970980679707bbd312">get_dirichlet_ids</a> () const =0</td></tr>
 <tr class="memdesc:a2e664d9b1e8ffc970980679707bbd312"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the set of boundary IDs where Dirichlet conditions are applied.  <br /></td></tr>
 <tr class="memitem:ad238d8e04bc4c436f10a14d9cd858bb5" id="r_ad238d8e04bc4c436f10a14d9cd858bb5"><td class="memItemLeft" align="right" valign="top">virtual std::set&lt; types::boundary_id &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad238d8e04bc4c436f10a14d9cd858bb5">get_neumann_ids</a> () const =0</td></tr>
 <tr class="memdesc:ad238d8e04bc4c436f10a14d9cd858bb5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the set of boundary IDs where Neumann conditions are applied.  <br /></td></tr>
 <tr class="memitem:a39cb4044cd015a879885e29e9a88bbbe" id="r_a39cb4044cd015a879885e29e9a88bbbe"><td class="memItemLeft" align="right" valign="top">virtual const Function&lt; dim &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a39cb4044cd015a879885e29e9a88bbbe">get_dirichlet_function</a> (types::boundary_id id) const =0</td></tr>
-<tr class="memdesc:a39cb4044cd015a879885e29e9a88bbbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the function describing the Dirichlet boundary value <picture><source srcset="form_4_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$ g_D(\mathbf{x}) $" src="form_4.png" width="33" height="14"/></picture> for a specific boundary ID.  <br /></td></tr>
+<tr class="memdesc:a39cb4044cd015a879885e29e9a88bbbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the function describing the Dirichlet boundary value \( g_D(\mathbf{x}) \) for a specific boundary ID.  <br /></td></tr>
 <tr class="memitem:a5b2f1978ba57a13db9ad25222fb5a9ac" id="r_a5b2f1978ba57a13db9ad25222fb5a9ac"><td class="memItemLeft" align="right" valign="top">virtual const Function&lt; dim &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5b2f1978ba57a13db9ad25222fb5a9ac">get_neumann_function</a> (types::boundary_id id) const =0</td></tr>
-<tr class="memdesc:a5b2f1978ba57a13db9ad25222fb5a9ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the function describing the Neumann flux <picture><source srcset="form_5_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$ g_N(\mathbf{x}) = \nabla u \cdot \mathbf{n} $" src="form_5.png" width="85" height="14"/></picture> for a specific boundary ID.  <br /></td></tr>
+<tr class="memdesc:a5b2f1978ba57a13db9ad25222fb5a9ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the function describing the Neumann flux \( g_N(\mathbf{x}) = \nabla u \cdot \mathbf{n} \) for a specific boundary ID.  <br /></td></tr>
 <tr class="memitem:a77b635bd6c552e0f15b965099a826ad0" id="r_a77b635bd6c552e0f15b965099a826ad0"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a77b635bd6c552e0f15b965099a826ad0">has_exact_solution</a> () const =0</td></tr>
 <tr class="memdesc:a77b635bd6c552e0f15b965099a826ad0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if an analytical exact solution is available.  <br /></td></tr>
 <tr class="memitem:a1466d46f36839ce3eaba3ee3ff735827" id="r_a1466d46f36839ce3eaba3ee3ff735827"><td class="memItemLeft" align="right" valign="top">virtual const Function&lt; dim &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1466d46f36839ce3eaba3ee3ff735827">get_exact_solution</a> () const =0</td></tr>
@@ -199,7 +208,7 @@ template&lt;int dim&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Returns the advection velocity field <picture><source srcset="form_1_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$ \mathbf{\beta}(\mathbf{x}) $" src="form_1.png" width="25" height="14"/></picture>. </p>
+<p>Returns the advection velocity field \( \mathbf{\beta}(\mathbf{x}) \). </p>
 
 <p>Implemented in <a class="el" href="classHybridADRSolver_1_1Problems_1_1ADRProblem.html#a6140b4c8bf2af60e41d061f1dce92691">HybridADRSolver::Problems::ADRProblem&lt; dim &gt;</a>.</p>
 
@@ -230,7 +239,7 @@ template&lt;int dim&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Returns the diffusion coefficient <picture><source srcset="form_0_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$ \mu(\mathbf{x}) $" src="form_0.png" width="25" height="14"/></picture>. </p>
+<p>Returns the diffusion coefficient \( \mu(\mathbf{x}) \). </p>
 
 <p>Implemented in <a class="el" href="classHybridADRSolver_1_1Problems_1_1ADRProblem.html#a2bf2910f5a22536fa0f709a607a1ac5a">HybridADRSolver::Problems::ADRProblem&lt; dim &gt;</a>.</p>
 
@@ -261,7 +270,7 @@ template&lt;int dim&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Gets the function describing the Dirichlet boundary value <picture><source srcset="form_4_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$ g_D(\mathbf{x}) $" src="form_4.png" width="33" height="14"/></picture> for a specific boundary ID. </p>
+<p>Gets the function describing the Dirichlet boundary value \( g_D(\mathbf{x}) \) for a specific boundary ID. </p>
 
 <p>Implemented in <a class="el" href="classHybridADRSolver_1_1Problems_1_1ADRProblem.html#a349208226c415f9419159a93201cf820">HybridADRSolver::Problems::ADRProblem&lt; dim &gt;</a>.</p>
 
@@ -385,7 +394,7 @@ template&lt;int dim&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Gets the function describing the Neumann flux <picture><source srcset="form_5_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$ g_N(\mathbf{x}) = \nabla u \cdot \mathbf{n} $" src="form_5.png" width="85" height="14"/></picture> for a specific boundary ID. </p>
+<p>Gets the function describing the Neumann flux \( g_N(\mathbf{x}) = \nabla u \cdot \mathbf{n} \) for a specific boundary ID. </p>
 
 <p>Implemented in <a class="el" href="classHybridADRSolver_1_1Problems_1_1ADRProblem.html#a08a3b5bf3dfc316655a310b29952ca40">HybridADRSolver::Problems::ADRProblem&lt; dim &gt;</a>.</p>
 
@@ -510,7 +519,7 @@ template&lt;int dim&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Returns the reaction coefficient <picture><source srcset="form_2_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$ \gamma(\mathbf{x}) $" src="form_2.png" width="25" height="14"/></picture>. </p>
+<p>Returns the reaction coefficient \( \gamma(\mathbf{x}) \). </p>
 
 <p>Implemented in <a class="el" href="classHybridADRSolver_1_1Problems_1_1ADRProblem.html#af39f2fd3c88a607b4f91a73700caa033">HybridADRSolver::Problems::ADRProblem&lt; dim &gt;</a>.</p>
 
@@ -541,7 +550,7 @@ template&lt;int dim&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Returns the source term <picture><source srcset="form_3_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$ f(\mathbf{x}) $" src="form_3.png" width="24" height="14"/></picture>. </p>
+<p>Returns the source term \( f(\mathbf{x}) \). </p>
 
 <p>Implemented in <a class="el" href="classHybridADRSolver_1_1Problems_1_1ADRProblem.html#add125e85d1ffecaa56cb8895c5ebb284">HybridADRSolver::Problems::ADRProblem&lt; dim &gt;</a>.</p>
 

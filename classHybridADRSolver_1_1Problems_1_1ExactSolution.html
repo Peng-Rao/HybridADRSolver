@@ -17,6 +17,15 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+window.MathJax = {
+  options: {
+    ignoreHtmlClass: 'tex2jax_ignore',
+    processHtmlClass: 'tex2jax_process'
+  }
+};
+</script>
+<script type="text/javascript" id="MathJax-script" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -92,7 +101,7 @@ $(function(){initNavTree('classHybridADRSolver_1_1Problems_1_1ExactSolution.html
 </div><!--header-->
 <div class="contents">
 
-<p>Manufactured exact solution: <picture><source srcset="form_6_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$ u(\mathbf{x}) = \prod \sin(\pi x_i) $" src="form_6.png" width="99" height="14"/></picture>.  
+<p>Manufactured exact solution: \( u(\mathbf{x}) = \prod \sin(\pi x_i) \).  
  <a href="#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="problem__definition_8h_source.html">problem_definition.h</a>&gt;</code></p>
@@ -126,7 +135,7 @@ Public Member Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><div class="compoundTemplParams">template&lt;int dim&gt;<br />
-class HybridADRSolver::Problems::ExactSolution&lt; dim &gt;</div><p>Manufactured exact solution: <picture><source srcset="form_6_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$ u(\mathbf{x}) = \prod \sin(\pi x_i) $" src="form_6.png" width="99" height="14"/></picture>. </p>
+class HybridADRSolver::Problems::ExactSolution&lt; dim &gt;</div><p>Manufactured exact solution: \( u(\mathbf{x}) = \prod \sin(\pi x_i) \). </p>
 <p>This function is used to verify the solver accuracy. It satisfies homogeneous Dirichlet boundary conditions on the unit hypercube (except where we manually apply Neumann). </p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
 <a id="a67af345598fe5fe4714957a5e9f5fbd5" name="a67af345598fe5fe4714957a5e9f5fbd5"></a>

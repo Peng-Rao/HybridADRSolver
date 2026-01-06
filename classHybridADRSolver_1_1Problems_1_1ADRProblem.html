@@ -17,6 +17,15 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+window.MathJax = {
+  options: {
+    ignoreHtmlClass: 'tex2jax_ignore',
+    processHtmlClass: 'tex2jax_process'
+  }
+};
+</script>
+<script type="text/javascript" id="MathJax-script" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -121,13 +130,13 @@ Collaboration diagram for HybridADRSolver::Problems::ADRProblem&lt; dim &gt;:</d
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a9ad1e3d2dfbe361cde25ab5167f08033" id="r_a9ad1e3d2dfbe361cde25ab5167f08033"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9ad1e3d2dfbe361cde25ab5167f08033">ADRProblem</a> ()</td></tr>
 <tr class="memitem:a2bf2910f5a22536fa0f709a607a1ac5a" id="r_a2bf2910f5a22536fa0f709a607a1ac5a"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2bf2910f5a22536fa0f709a607a1ac5a">diffusion_coefficient</a> (const Point&lt; dim &gt; &amp;) const override</td></tr>
-<tr class="memdesc:a2bf2910f5a22536fa0f709a607a1ac5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constant diffusion coefficient <picture><source srcset="form_12_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$ \mu = 1.0 $" src="form_12.png" width="41" height="11"/></picture>.  <br /></td></tr>
+<tr class="memdesc:a2bf2910f5a22536fa0f709a607a1ac5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constant diffusion coefficient \( \mu = 1.0 \).  <br /></td></tr>
 <tr class="memitem:af39f2fd3c88a607b4f91a73700caa033" id="r_af39f2fd3c88a607b4f91a73700caa033"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af39f2fd3c88a607b4f91a73700caa033">reaction_coefficient</a> (const Point&lt; dim &gt; &amp;) const override</td></tr>
-<tr class="memdesc:af39f2fd3c88a607b4f91a73700caa033"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constant reaction coefficient <picture><source srcset="form_13_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$ \gamma = 0.1 $" src="form_13.png" width="40" height="11"/></picture>.  <br /></td></tr>
+<tr class="memdesc:af39f2fd3c88a607b4f91a73700caa033"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constant reaction coefficient \( \gamma = 0.1 \).  <br /></td></tr>
 <tr class="memitem:a6140b4c8bf2af60e41d061f1dce92691" id="r_a6140b4c8bf2af60e41d061f1dce92691"><td class="memItemLeft" align="right" valign="top">Tensor&lt; 1, dim &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6140b4c8bf2af60e41d061f1dce92691">advection_field</a> (const Point&lt; dim &gt; &amp;p) const override</td></tr>
-<tr class="memdesc:a6140b4c8bf2af60e41d061f1dce92691"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rotational advection field. 2D: <picture><source srcset="form_14_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$ \beta = (-y, x)^T $" src="form_14.png" width="71" height="15"/></picture> 3D: <picture><source srcset="form_15_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$ \beta = (-y, x, 0.1)^T $" src="form_15.png" width="93" height="15"/></picture>.  <br /></td></tr>
+<tr class="memdesc:a6140b4c8bf2af60e41d061f1dce92691"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rotational advection field. 2D: \( \beta = (-y, x)^T \) 3D: \( \beta = (-y, x, 0.1)^T \).  <br /></td></tr>
 <tr class="memitem:add125e85d1ffecaa56cb8895c5ebb284" id="r_add125e85d1ffecaa56cb8895c5ebb284"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#add125e85d1ffecaa56cb8895c5ebb284">source_term</a> (const Point&lt; dim &gt; &amp;p) const override</td></tr>
-<tr class="memdesc:add125e85d1ffecaa56cb8895c5ebb284"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the source term <picture><source srcset="form_16_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$ f $" src="form_16.png" width="8" height="13"/></picture> using the Method of Manufactured Solutions.  <br /></td></tr>
+<tr class="memdesc:add125e85d1ffecaa56cb8895c5ebb284"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the source term \( f \) using the Method of Manufactured Solutions.  <br /></td></tr>
 <tr class="memitem:ab7621e925dc74b833dc8d9090f37d6d4" id="r_ab7621e925dc74b833dc8d9090f37d6d4"><td class="memItemLeft" align="right" valign="top">std::set&lt; types::boundary_id &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab7621e925dc74b833dc8d9090f37d6d4">get_dirichlet_ids</a> () const override</td></tr>
 <tr class="memdesc:ab7621e925dc74b833dc8d9090f37d6d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines Dirichlet boundaries. All boundaries except Right (ID 1) are Dirichlet (0, 2, 3, 4, 5).  <br /></td></tr>
 <tr class="memitem:ace0cce9c0432ae46f774dc832b6b6d3d" id="r_ace0cce9c0432ae46f774dc832b6b6d3d"><td class="memItemLeft" align="right" valign="top">std::set&lt; types::boundary_id &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ace0cce9c0432ae46f774dc832b6b6d3d">get_neumann_ids</a> () const override</td></tr>
@@ -150,8 +159,8 @@ Public Member Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><div class="compoundTemplParams">template&lt;int dim&gt;<br />
 class HybridADRSolver::Problems::ADRProblem&lt; dim &gt;</div><p>Concrete implementation of a steady-state Advection-Diffusion-Reaction problem. </p>
-<p>Solves: <picture><source srcset="form_10_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$ -\mu \Delta u + \mathbf{\beta} \cdot \nabla u + \gamma u = f $" src="form_10.png" width="138" height="13"/></picture></p>
-<p>Domain: Unit Hypercube <picture><source srcset="form_11_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$ [0,1]^d $" src="form_11.png" width="30" height="15"/></picture>. BCs: Neumann on Right face (ID 1), Homogeneous Dirichlet elsewhere. </p>
+<p>Solves: \( -\mu \Delta u + \mathbf{\beta} \cdot \nabla u + \gamma u = f \)</p>
+<p>Domain: Unit Hypercube \( [0,1]^d \). BCs: Neumann on Right face (ID 1), Homogeneous Dirichlet elsewhere. </p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a9ad1e3d2dfbe361cde25ab5167f08033" name="a9ad1e3d2dfbe361cde25ab5167f08033"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9ad1e3d2dfbe361cde25ab5167f08033">&#9670;&#160;</a></span>ADRProblem()</h2>
@@ -206,7 +215,7 @@ template&lt;int dim&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Rotational advection field. 2D: <picture><source srcset="form_14_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$ \beta = (-y, x)^T $" src="form_14.png" width="71" height="15"/></picture> 3D: <picture><source srcset="form_15_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$ \beta = (-y, x, 0.1)^T $" src="form_15.png" width="93" height="15"/></picture>. </p>
+<p>Rotational advection field. 2D: \( \beta = (-y, x)^T \) 3D: \( \beta = (-y, x, 0.1)^T \). </p>
 
 <p>Implements <a class="el" href="classHybridADRSolver_1_1ProblemInterface.html#a8cecfc89cc73098f866bda3ac15d28be">HybridADRSolver::ProblemInterface&lt; dim &gt;</a>.</p>
 
@@ -237,7 +246,7 @@ template&lt;int dim&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Constant diffusion coefficient <picture><source srcset="form_12_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$ \mu = 1.0 $" src="form_12.png" width="41" height="11"/></picture>. </p>
+<p>Constant diffusion coefficient \( \mu = 1.0 \). </p>
 
 <p>Implements <a class="el" href="classHybridADRSolver_1_1ProblemInterface.html#a7776571e28e92ba07754475855358678">HybridADRSolver::ProblemInterface&lt; dim &gt;</a>.</p>
 
@@ -516,7 +525,7 @@ template&lt;int dim&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Constant reaction coefficient <picture><source srcset="form_13_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$ \gamma = 0.1 $" src="form_13.png" width="40" height="11"/></picture>. </p>
+<p>Constant reaction coefficient \( \gamma = 0.1 \). </p>
 
 <p>Implements <a class="el" href="classHybridADRSolver_1_1ProblemInterface.html#a5327d941efe76a20867935f0460e1cce">HybridADRSolver::ProblemInterface&lt; dim &gt;</a>.</p>
 
@@ -547,9 +556,9 @@ template&lt;int dim&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Computes the source term <picture><source srcset="form_16_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$ f $" src="form_16.png" width="8" height="13"/></picture> using the Method of Manufactured Solutions. </p>
-<p><picture><source srcset="form_17_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$ f = -\mu \Delta u + \mathbf{\beta} \cdot \nabla u + \gamma u $" src="form_17.png" width="138" height="13"/></picture></p>
-<p>where <picture><source srcset="form_18_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$ u $" src="form_18.png" width="9" height="6"/></picture> is the <a class="el" href="classHybridADRSolver_1_1Problems_1_1ExactSolution.html" title="Manufactured exact solution: .">ExactSolution</a>. </p>
+<p>Computes the source term \( f \) using the Method of Manufactured Solutions. </p>
+<p>\( f = -\mu \Delta u + \mathbf{\beta} \cdot \nabla u + \gamma u \)</p>
+<p>where \( u \) is the <a class="el" href="classHybridADRSolver_1_1Problems_1_1ExactSolution.html" title="Manufactured exact solution: .">ExactSolution</a>. </p>
 
 <p>Implements <a class="el" href="classHybridADRSolver_1_1ProblemInterface.html#ab51cd54979ec7cb91914b0f071d7f5bc">HybridADRSolver::ProblemInterface&lt; dim &gt;</a>.</p>
 
