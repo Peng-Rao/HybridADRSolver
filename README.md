@@ -1,6 +1,6 @@
 # Advection-Diffusion-Reaction Solver using deal.II
 
-[![CI](https://github.com/Peng-Rao/HybridADRSolver/actions/workflows/ci.yml/badge.svg)](https://github.com/Peng-Rao/HybridADRSolver/actions/workflows/ci.yml)
+[![CI](https://github.com/Peng-Rao/HybridADRSolver/actions/workflows/ci.yml/badge.svg)](https://github.com/Peng-Rao/HybridADRSolver/actions/workflows/ci.yml) [![docs-build-deployment](https://github.com/Peng-Rao/HybridADRSolver/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/Peng-Rao/HybridADRSolver/actions/workflows/pages/pages-build-deployment)
 
 This project implements a finite element solver for the steady-state advection-diffusion-reaction equation using
 the [deal.II](https://www.dealii.org/) library.
