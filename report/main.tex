@@ -17,6 +17,7 @@
 \usepackage[intlimits]{empheq}
 \usepackage[hidelinks]{hyperref}
 \usepackage{amsmath}
+ \usepackage{amssymb}
 
 \usepackage{tikz}
 \usetikzlibrary{positioning,3d}
@@ -84,29 +85,192 @@ backend=biber]{biblatex}
 
 \section{Problem statement} \label{sec:problem_statement}
 \subsection{Strong formulation}
-Consider the following \textbf{Advection-Diffusion-Reaction} equation:
+Consider the following \textbf{Advection-Diffusion-Reaction} equation with mixed Dirichlet-Neumann boundary conditions:
 \[
     \begin{cases}
-        -\nabla \cdot (\mu \nabla u) + \nabla \cdot (\beta u) + \gamma u = f
+        -\nabla \cdot (\mu \nabla u) + \nabla \cdot (\boldsymbol{\beta} u) + \gamma u = f
          & \text{in } \Omega,                                         \\[0.5em]
         u = g
          & \text{on } \Gamma_D \subset \partial \Omega,               \\[0.5em]
-        \nabla u \cdot n = h
+        \nabla u \cdot \boldsymbol{n} = h
          & \text{on } \Gamma_N = \partial \Omega \setminus \Gamma_D .
     \end{cases}
 \]
+where:
+\begin{itemize}
+    \item $\Omega \subset \mathbb{R}^d$ (with $d = 1, 2, 3$) is an open bounded domain with boundary $\partial \Omega$;
+    \item $\mu > 0$ is the diffusion coefficient;
+    \item $\boldsymbol{\beta} \in [L^{\infty}(\Omega)]^d$ is the advection velocity field;
+    \item $\gamma \geq 0$ is the reaction coefficient;
+    \item $f \in L^2(\Omega)$ is a source term;
+    \item $g \in H^{1/2}(\Gamma_D)$ is the Dirichlet boundary data;
+    \item $h \in L^2(\Gamma_N)$ is the Neumann boundary data;
+    \item $\boldsymbol{n}$ is the outward unit normal vector on the boundary $\partial \Omega$.
+    \item $u$ is the unknown scalar function to be solved for.
+    \item $\Gamma_D$ and $\Gamma_N$ are the Dirichlet and Neumann parts of the boundary, respectively.
+\end{itemize}
+
+
+It models how a scalar quantity u (such as concentration, temperature, or chemical potential) is distributed within a domain due to three competing physical processes: diffusion, advection, and reaction.
 
 \subsection{Weak formulation}
-First of all, we define the following function spaces:
-\[
-    V = H^1(\Omega) = \{ v \in L^2(\Omega) : \nabla v \in (L^2(\Omega))^d \},
-\]
-\[
-    V_g = \{ v \in H^1(\Omega) : v = g \text{ on } \Gamma_D \},
-\]
-\[
+First of all, we define the trial function space and test function space. For trial space, solution $u$ belongs to the Sobolev space $H^1(\Omega)$ with Dirichlet boundary conditions incorporated:
+\begin{equation}
+    V_g = \{ u \in H^1(\Omega) : u = g \text{ on } \Gamma_D \}.
+\end{equation}
+For test space, the test function $v$ belongs to the Sobolev space $H^1(\Omega)$ with homogeneous Dirichlet boundary conditions:
+\begin{equation}
     V_0 = \{ v \in H^1(\Omega) : v = 0 \text{ on } \Gamma_D \}.
-\]
+\end{equation}
+Multiply the governing equation by a test function $v \in V_0$ and integrate over the domain $\Omega$:
+\begin{equation}
+    \int_{\Omega} \left( -\nabla \cdot (\mu \nabla u) + \nabla \cdot (\boldsymbol{\beta} u) + \gamma u \right) v \, dx = \int_{\Omega} f v \, dx.
+\end{equation}
+Using the linearity of the integral, we separate the terms:
+\begin{equation}
+    -\int_{\Omega} \nabla \cdot (\mu \nabla u) v \, dx + \int_{\Omega} \nabla \cdot (\boldsymbol{\beta} u) v \, dx + \int_{\Omega} \gamma u v \, dx = \int_{\Omega} f v \, dx.
+\end{equation}
+We apply Green's first identity to the diffusion term to reduce the order of differentiation:
+\begin{equation}
+    -\int_{\Omega} \nabla \cdot (\mu \nabla u) v \, dx = \int_{\Omega} \mu \nabla u \cdot \nabla v \, dx - \int_{\partial \Omega} \mu (\nabla u \cdot \mathbf{n}) v \, ds.
+\end{equation}
+Substituting this back into the integral equation:
+\begin{equation}
+    \int_{\Omega} \mu \nabla u \cdot \nabla v \, dx - \int_{\partial \Omega} \mu (\nabla u \cdot \mathbf{n}) v \, ds + \int_{\Omega} \nabla \cdot (\boldsymbol{\beta} u) v \, dx + \int_{\Omega} \gamma u v \, dx = \int_{\Omega} f v \, dx.
+\end{equation}
+Split the boundary integral into Dirichlet ($\Gamma_D$) and Neumann ($\Gamma_N$) parts:
+\begin{equation}
+    \int_{\partial \Omega} \mu (\nabla u \cdot \mathbf{n}) v \, ds = \int_{\Gamma_D} \mu (\nabla u \cdot \mathbf{n}) v \, ds + \int_{\Gamma_N} \mu (\nabla u \cdot \mathbf{n}) v \, ds.
+\end{equation}
+Since $v = 0$ on $\Gamma_D$, the first term vanishes. On $\Gamma_N$, we use the Neumann condition $\nabla u \cdot \mathbf{n} = h$:
+\begin{equation}
+    \int_{\Gamma_N} \mu (\underbrace{\nabla u \cdot \mathbf{n}}_{h}) v \, ds = \int_{\Gamma_N} \mu h v \, ds.
+\end{equation}
+Find $u \in S_g$ such that for all $v \in V$:
+\begin{equation}
+    \int_{\Omega} \mu \nabla u \cdot \nabla v \, dx + \int_{\Omega} \nabla \cdot (\boldsymbol{\beta} u) v \, dx + \int_{\Omega} \gamma u v \, dx = \int_{\Omega} f v \, dx + \int_{\Gamma_N} \mu h v \, ds
+\end{equation}
+This can be written in the abstract form $a(u,v) = L(v)$ where:
+\begin{align}
+    a(u,v) & = \int_{\Omega} (\mu \nabla u \cdot \nabla v + \nabla \cdot (\boldsymbol{\beta} u) v + \gamma u v) \, dx, \\
+    L(v)   & = \int_{\Omega} f v \, dx + \int_{\Gamma_N} \mu h v \, ds.
+\end{align}
+Since $g$ may not be in the test space $V_0$, we introduce a lifting function $u_g \in V_g$ such that $u_g = g$ on $\Gamma_D$. We can express the solution as $u = u_0 + u_g$ where $u_0 \in V_0$. The weak formulation then becomes:
+\begin{equation}
+    \text{Find $u_0 \in V_0$ such that for all $v \in V_0$:} \quad
+    a(u_0, v) = L(v) - a(u_g, v).
+\end{equation}
+
+\subsection{Manufactured solution}
+We define the exact solution $u_{\text{ex}}: \Omega \to \mathbb{R}$ on the unit hypercube domain $\Omega = [0, 1]^d$ (where $d=2, 3$) as the product of sine functions:
+\begin{equation} \label{eq:exact_sol}
+    u_{\text{ex}}(\mathbf{x}) = \prod_{i=1}^{d} \sin(\pi x_i).
+\end{equation}
+This function vanishes on the boundary hyperplanes where $x_i = 0$ or $x_i = 1$, making it naturally suitable for homogeneous Dirichlet boundary conditions.
+
+% \subsection{Problem Parameters}
+The physical coefficients for the benchmark problem are chosen as follows:
+\begin{itemize}
+    \item \textbf{Diffusion:} A constant isotropic diffusion coefficient $\mu = 1.0$.
+    \item \textbf{Reaction:} A constant reaction coefficient $\gamma = 0.1$.
+    \item \textbf{Advection:} A rotational velocity field $\boldsymbol{\beta}(\mathbf{x})$, defined to make the problem non-symmetric:
+          \begin{equation}
+              \boldsymbol{\beta}(\mathbf{x}) =
+              \begin{cases}
+                  \begin{bmatrix} -x_2 \\ x_1 \end{bmatrix}        & \text{if } d=2, \\[1.5em]
+                  \begin{bmatrix} -x_2 \\ x_1 \\ 0.1 \end{bmatrix} & \text{if } d=3.
+              \end{cases}
+          \end{equation}
+\end{itemize}
+
+% \subsection{Derivation of the Source Term}
+Substituting $u_{\text{ex}}$ into the governing equation $-\nabla \cdot (\mu \nabla u) + \nabla \cdot (\boldsymbol{\beta} u) + \gamma u = f$, we compute the source term $f$.
+
+First, we observe that the Laplacian of the chosen exact solution is:
+\begin{equation}
+    \Delta u_{\text{ex}} = \sum_{i=1}^d \frac{\partial^2 u_{\text{ex}}}{\partial x_i^2} = \sum_{i=1}^d (-\pi^2 u_{\text{ex}}) = -d \pi^2 u_{\text{ex}}.
+\end{equation}
+Assuming $\boldsymbol{\beta}$ is divergence-free ($\nabla \cdot \boldsymbol{\beta} = 0$, which holds for the rotational field defined above), the advection term simplifies to $\boldsymbol{\beta} \cdot \nabla u_{\text{ex}}$. The source term $f$ is therefore implemented as:
+\begin{equation}
+    f(\mathbf{x}) = \mu d \pi^2 u_{\text{ex}}(\mathbf{x}) + \boldsymbol{\beta}(\mathbf{x}) \cdot \nabla u_{\text{ex}}(\mathbf{x}) + \gamma u_{\text{ex}}(\mathbf{x}).
+\end{equation}
+
+% \subsection{Boundary Conditions}
+The problem domain boundary $\partial \Omega$ is split into Dirichlet ($\Gamma_D$) and Neumann ($\Gamma_N$) portions to test mixed boundary conditions.
+
+\paragraph{Neumann Boundary ($\Gamma_N$)}
+We apply a Neumann condition on the ``Right'' face of the hypercube, defined as the plane $x_1 = 1$. The outward unit normal is $\mathbf{n} = (1, 0, \dots)^T$. The required flux $h$ is derived from the exact solution:
+\begin{equation}
+    h(\mathbf{x}) = \nabla u_{\text{ex}} \cdot \mathbf{n} \Big|_{x_1=1} = \frac{\partial u_{\text{ex}}}{\partial x_1} \Big|_{x_1=1}.
+\end{equation}
+Computing the partial derivative:
+\begin{align}
+    \frac{\partial u_{\text{ex}}}{\partial x_1} & = \pi \cos(\pi x_1) \prod_{j=2}^d \sin(\pi x_j).
+\end{align}
+Evaluated at $x_1 = 1$, where $\cos(\pi) = -1$, the Neumann data imposed is:
+\begin{equation}
+    h(\mathbf{x}) = -\pi \prod_{j=2}^d \sin(\pi x_j).
+\end{equation}
+
+\paragraph{Dirichlet Boundary ($\Gamma_D$)}
+On all other boundaries ($\partial \Omega \setminus \Gamma_N$), we enforce a homogeneous Dirichlet condition:
+\begin{equation}
+    u = 0 \quad \text{on } \Gamma_D.
+\end{equation}
+This is consistent with the exact solution, as $\sin(\pi x_i) = 0$ when $x_i \in \{0, 1\}$.
+
+\pagebreak
+
+\section{Finite Element Discretization} \label{sec:fem_discretization}
+
+To solve the weak formulation (\cref{sec:problem_statement}) numerically, we employ the Finite Element Method (FEM). This involves approximating the infinite-dimensional function spaces $V_g$ and $V_0$ with finite-dimensional subspaces defined on a computational mesh.
+
+\subsection{Triangulation and Finite Element Space}
+We consider a triangulation $\mathcal{T}_h = \{K\}$ of the domain $\Omega$, consisting of non-overlapping hexahedral (or quadrilateral in 2D) cells $K$ such that $\overline{\Omega} = \bigcup_{K \in \mathcal{T}_h} \overline{K}$. The parameter $h$ denotes the characteristic mesh size, $h = \max_{K \in \mathcal{T}_h} \text{diam}(K)$.
+
+We introduce the finite-dimensional space $V_h^k \subset H^1(\Omega)$ consisting of continuous piecewise polynomial functions of degree $k$. In the context of the \texttt{deal.II} library, we utilize Lagrangian finite elements (tensor product polynomials of degree $k$, denoted as $Q_k$). The discrete trial and test spaces are defined as:
+\begin{align}
+    V_{h,g} & = \{ u_h \in V_h^k : u_h|_{\Gamma_D} = I_h(g) \}, \\
+    V_{h,0} & = \{ v_h \in V_h^k : v_h|_{\Gamma_D} = 0 \},
+\end{align}
+where $I_h(g)$ is the nodal interpolation of the Dirichlet boundary data onto the mesh nodes on $\Gamma_D$.
+
+\subsection{Galerkin Approximation}
+The discrete problem is obtained by restricting the weak form to these subspaces. We seek $u_h \in V_{h,g}$ such that:
+\begin{equation} \label{eq:discrete_weak_form}
+    a(u_h, v_h) = L(v_h) \quad \forall v_h \in V_{h,0}.
+\end{equation}
+We expand the approximate solution $u_h$ in terms of the standard nodal basis functions $\{ \varphi_j \}_{j=1}^{N_{dof}}$. Let $u_h$ be decomposed into a part satisfying the homogeneous boundary conditions and a lifting of the Dirichlet data:
+\begin{equation}
+    u_h(\mathbf{x}) = \sum_{j \in \mathcal{I}_{free}} U_j \varphi_j(\mathbf{x}) + \sum_{j \in \mathcal{I}_{dir}} g_j \varphi_j(\mathbf{x}),
+\end{equation}
+where $U_j$ are the unknown coefficients (degrees of freedom), $\mathcal{I}_{free}$ is the set of indices for nodes not on $\Gamma_D$, and $\mathcal{I}_{dir}$ contains indices for nodes on the Dirichlet boundary with known values $g_j$.
+
+\subsection{Algebraic System}
+Substituting the basis expansion into \cref{eq:discrete_weak_form} and testing with each basis function $\varphi_i$ (for $i \in \mathcal{I}_{free}$), we obtain the linear system of equations:
+\begin{equation}
+    \mathbf{A} \mathbf{U} = \mathbf{F},
+\end{equation}
+where $\mathbf{U}$ is the vector of unknown coefficients. The entries of the global stiffness matrix $\mathbf{A}$ and the right-hand side vector $\mathbf{F}$ are computed by assembling contributions from each cell $K \in \mathcal{T}_h$.
+
+The matrix entries $A_{ij}$ correspond to the bilinear form $a(\varphi_j, \varphi_i)$:
+\begin{equation}
+    A_{ij} = \int_{\Omega} \left( \mu \nabla \varphi_j \cdot \nabla \varphi_i + (\boldsymbol{\beta} \cdot \nabla \varphi_j) \varphi_i + \gamma \varphi_j \varphi_i \right) \, dx.
+\end{equation}
+Using numerical quadrature, the integral over $\Omega$ is computed as the sum of integrals over cells $K$. For a specific cell $K$, the local matrix contributions are:
+\begin{equation}
+    A_{ij}^K = \sum_{q=1}^{N_q} \left( \mu \nabla \varphi_j(\mathbf{x}_q) \cdot \nabla \varphi_i(\mathbf{x}_q) + (\boldsymbol{\beta}(\mathbf{x}_q) \cdot \nabla \varphi_j(\mathbf{x}_q)) \varphi_i(\mathbf{x}_q) + \gamma \varphi_j(\mathbf{x}_q) \varphi_i(\mathbf{x}_q) \right) w_q |J_K(\mathbf{x}_q)|,
+\end{equation}
+where $\{\mathbf{x}_q\}$ and $\{w_q\}$ are the quadrature points and weights defined on the reference element, mapped to physical space via the Jacobian determinant $|J_K|$.
+
+The right-hand side vector $\mathbf{F}$ includes the source term, the Neumann boundary contributions, and the modifications due to the Dirichlet lifting:
+\begin{equation}
+    F_i = \int_{\Omega} f \varphi_i \, dx + \int_{\Gamma_N} \mu h \varphi_i \, ds - \sum_{j \in \mathcal{I}_{dir}} g_j A_{ij}.
+\end{equation}
+The Neumann term is only non-zero if the support of $\varphi_i$ intersects with $\Gamma_N$.
+
+\subsection{Treatment of Advection Dominance}
+It is well known that for convection-dominated problems (where the Péclet number $Pe = \frac{|\boldsymbol{\beta}|h}{2\mu} > 1$), the standard Galerkin formulation described above may produce spurious non-physical oscillations. While the manufactured solution chosen in \cref{sec:numerical_verification} allows for convergence testing, typical industrial applications often require stabilization techniques such as Streamline-Upwind Petrov-Galerkin (SUPG) to ensure robust solutions. For this verification benchmark, we utilize a sufficiently refined mesh to maintain stability within the standard Galerkin framework.
 
 \clearpage
 \printbibliography[heading=bibintoc, title = {References}]
