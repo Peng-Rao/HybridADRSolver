@@ -1,0 +1,251 @@
+#!/bin/bash
+#===============================================================================
+# PBS Job Script for Hybrid ADR Solver Benchmarks
+#===============================================================================
+# Submit with: qsub submit_benchmarks.pbs
+# Check status: qstat -u $USER
+# Delete job: qdel <job_id>
+#===============================================================================
+
+#-------------------------------------------------------------------------------
+# PBS Directives
+#-------------------------------------------------------------------------------
+#PBS -N adr_benchmark
+#PBS -l select=4:ncpus=32:mpiprocs=4:ompthreads=8
+#PBS -l walltime=04:00:00
+#PBS -q normal
+#PBS -A <PROJECT_ID>
+#PBS -j oe
+#PBS -o benchmark_output.log
+#PBS -m abe
+#PBS -M <YOUR_EMAIL>
+
+#-------------------------------------------------------------------------------
+# Resource Explanation:
+#   select=4      : Number of nodes
+#   ncpus=32      : CPUs per node (adjust to your system)
+#   mpiprocs=4    : MPI ranks per node
+#   ompthreads=8  : OpenMP/TBB threads per MPI rank
+#   walltime      : Maximum runtime (HH:MM:SS)
+#   queue         : Queue/partition name (normal, debug, large, etc.)
+#-------------------------------------------------------------------------------
+
+#===============================================================================
+# Environment Setup
+#===============================================================================
+
+# Move to submission directory
+cd ${PBS_O_WORKDIR:-$(pwd)}
+
+# Create results directory with timestamp
+TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+RESULTS_DIR="results_${TIMESTAMP}"
+mkdir -p ${RESULTS_DIR}
+
+# Log system info
+echo "==============================================================================="
+echo "PBS Job Information"
+echo "==============================================================================="
+echo "Job ID:        ${PBS_JOBID}"
+echo "Job Name:      ${PBS_JOBNAME}"
+echo "Queue:         ${PBS_QUEUE}"
+echo "Nodes File:    ${PBS_NODEFILE}"
+echo "Work Dir:      ${PBS_O_WORKDIR}"
+echo "Results Dir:   ${RESULTS_DIR}"
+echo "Date:          $(date)"
+echo "==============================================================================="
+
+#-------------------------------------------------------------------------------
+# Load Required Modules (adjust for your HPC system)
+#-------------------------------------------------------------------------------
+# Common module configurations - uncomment/modify for your system:
+
+# --- Option 1: Generic HPC ---
+# module purge
+# module load gcc/12.2.0
+# module load openmpi/4.1.4
+# module load petsc/3.18
+# module load dealii/9.5.0
+# module load cmake/3.26
+
+# --- Option 2: Intel-based system ---
+# module purge
+# module load intel/2023.0
+# module load intel-mpi/2021.8
+# module load petsc/3.18-intel
+# module load dealii/9.5.0-intel
+
+# --- Option 3: Cray system (e.g., NERSC Perlmutter) ---
+# module load PrgEnv-gnu
+# module load cray-mpich
+# module load petsc
+# module load dealii
+
+# --- Option 4: TACC systems (Frontera, Stampede) ---
+# module load gcc/11.2.0
+# module load impi/19.0.9
+# module load petsc/3.18
+# module load dealii/9.5.0
+
+echo ""
+echo "Loaded Modules:"
+module list 2>&1
+echo ""
+
+#-------------------------------------------------------------------------------
+# Set Environment Variables
+#-------------------------------------------------------------------------------
+
+# MPI settings
+export I_MPI_PIN=1
+export I_MPI_PIN_DOMAIN=omp
+export I_MPI_PIN_ORDER=scatter
+
+# OpenMP/Threading settings
+export OMP_NUM_THREADS=${OMP_NUM_THREADS:-8}
+export OMP_PROC_BIND=close
+export OMP_PLACES=cores
+export OMP_STACKSIZE=64M
+
+# TBB threading (used by deal.II matrix-free)
+export TBB_NUM_THREADS=${OMP_NUM_THREADS}
+
+# Memory settings
+ulimit -s unlimited
+
+# Calculate total resources
+NNODES=$(cat ${PBS_NODEFILE} | sort -u | wc -l)
+NRANKS_PER_NODE=${PBS_NUM_PPN:-4}
+TOTAL_RANKS=$((NNODES * NRANKS_PER_NODE))
+THREADS_PER_RANK=${OMP_NUM_THREADS}
+TOTAL_CORES=$((TOTAL_RANKS * THREADS_PER_RANK))
+
+echo "==============================================================================="
+echo "Resource Configuration"
+echo "==============================================================================="
+echo "Nodes:              ${NNODES}"
+echo "MPI Ranks/Node:     ${NRANKS_PER_NODE}"
+echo "Total MPI Ranks:    ${TOTAL_RANKS}"
+echo "Threads/Rank:       ${THREADS_PER_RANK}"
+echo "Total Parallelism:  ${TOTAL_CORES}"
+echo "==============================================================================="
+echo ""
+
+#===============================================================================
+# Build (if needed)
+#===============================================================================
+
+BUILD_DIR="build"
+if [ ! -f "${BUILD_DIR}/benchmark_strong_scaling" ]; then
+    echo "Building executables..."
+    mkdir -p ${BUILD_DIR}
+    cd ${BUILD_DIR}
+    cmake .. -DCMAKE_BUILD_TYPE=Release
+    make -j 8
+    cd ..
+fi
+
+#===============================================================================
+# Run Benchmarks
+#===============================================================================
+
+# MPI launcher command (adjust for your system)
+# Common options: mpirun, mpiexec, srun (SLURM), aprun (Cray)
+MPI_CMD="mpirun"
+# MPI_CMD="mpiexec"
+# MPI_CMD="srun"  # For SLURM-based systems
+# MPI_CMD="aprun" # For Cray systems
+
+echo "==============================================================================="
+echo "Running Strong Scaling Benchmark"
+echo "==============================================================================="
+
+for REFINEMENT in 3 4 5; do
+    echo ""
+    echo "--- Refinement Level: ${REFINEMENT} ---"
+
+    ${MPI_CMD} -np ${TOTAL_RANKS} \
+        --map-by ppr:${NRANKS_PER_NODE}:node:PE=${THREADS_PER_RANK} \
+        --bind-to core \
+        ${BUILD_DIR}/benchmark_strong_scaling ${REFINEMENT} \
+        2>&1 | tee ${RESULTS_DIR}/strong_scaling_ref${REFINEMENT}_${TOTAL_RANKS}ranks.log
+
+    # Move generated CSV to results
+    mv strong_scaling_*.csv ${RESULTS_DIR}/ 2>/dev/null || true
+done
+
+echo ""
+echo "==============================================================================="
+echo "Running Weak Scaling Benchmark"
+echo "==============================================================================="
+
+for BASE_REF in 2 3; do
+    echo ""
+    echo "--- Base Refinement: ${BASE_REF} ---"
+
+    ${MPI_CMD} -np ${TOTAL_RANKS} \
+        --map-by ppr:${NRANKS_PER_NODE}:node:PE=${THREADS_PER_RANK} \
+        --bind-to core \
+        ${BUILD_DIR}/benchmark_weak_scaling ${BASE_REF} \
+        2>&1 | tee ${RESULTS_DIR}/weak_scaling_base${BASE_REF}_${TOTAL_RANKS}ranks.log
+
+    # Move generated CSV to results
+    mv weak_scaling_*.csv ${RESULTS_DIR}/ 2>/dev/null || true
+done
+
+echo ""
+echo "==============================================================================="
+echo "Running Main Benchmark"
+echo "==============================================================================="
+
+${MPI_CMD} -np ${TOTAL_RANKS} \
+    --map-by ppr:${NRANKS_PER_NODE}:node:PE=${THREADS_PER_RANK} \
+    --bind-to core \
+    ${BUILD_DIR}/benchmark_main \
+    2>&1 | tee ${RESULTS_DIR}/benchmark_main_${TOTAL_RANKS}ranks.log
+
+# Move any additional output files
+mv *.csv ${RESULTS_DIR}/ 2>/dev/null || true
+mv *.vtu ${RESULTS_DIR}/ 2>/dev/null || true
+mv *.pvtu ${RESULTS_DIR}/ 2>/dev/null || true
+
+#===============================================================================
+# Post-processing
+#===============================================================================
+
+echo ""
+echo "==============================================================================="
+echo "Generating Analysis Plots"
+echo "==============================================================================="
+
+# Load Python if needed
+# module load python/3.10
+# module load matplotlib pandas numpy
+
+if command -v python3 &> /dev/null; then
+    python3 analyze_results.py \
+        --results-dir ${RESULTS_DIR} \
+        --output-dir ${RESULTS_DIR}/figures \
+        2>&1 | tee ${RESULTS_DIR}/analysis.log
+else
+    echo "Python not available for analysis. Run analyze_results.py manually."
+fi
+
+#===============================================================================
+# Cleanup and Summary
+#===============================================================================
+
+echo ""
+echo "==============================================================================="
+echo "Job Complete"
+echo "==============================================================================="
+echo "Results saved to: ${RESULTS_DIR}"
+echo "End time: $(date)"
+echo ""
+
+# List results
+echo "Generated files:"
+ls -la ${RESULTS_DIR}/
+
+echo ""
+echo "==============================================================================="

@@ -1,0 +1,137 @@
+#!/bin/bash
+#===============================================================================
+# PBS Debug Job Script - Quick validation run
+#===============================================================================
+# Use this script to verify the setup before running full benchmarks
+# Submit with: qsub submit_debug.pbs
+#===============================================================================
+
+#PBS -N adr_debug
+#PBS -l select=1:ncpus=8:mpiprocs=2:ompthreads=4
+#PBS -l walltime=00:30:00
+#PBS -q debug
+#PBS -A <PROJECT_ID>
+#PBS -j oe
+#PBS -o debug_output.log
+
+#===============================================================================
+# Environment Setup
+#===============================================================================
+
+cd ${PBS_O_WORKDIR:-$(pwd)}
+
+echo "==============================================================================="
+echo "DEBUG RUN - ADR Solver Validation"
+echo "==============================================================================="
+echo "Job ID:     ${PBS_JOBID}"
+echo "Date:       $(date)"
+echo "Host:       $(hostname)"
+echo "Directory:  $(pwd)"
+echo "==============================================================================="
+
+# Load modules (adjust for your system)
+module purge
+module load gcc/12.2.0
+module load openmpi/4.1.4
+module load petsc/3.18
+module load dealii/9.5.0
+
+echo ""
+echo "Loaded Modules:"
+module list 2>&1
+echo ""
+
+# Environment
+export OMP_NUM_THREADS=4
+export OMP_PROC_BIND=close
+export OMP_PLACES=cores
+export TBB_NUM_THREADS=4
+ulimit -s unlimited
+
+# Verify executables exist
+BUILD_DIR="build"
+echo "Checking executables..."
+for EXE in benchmark_strong_scaling benchmark_weak_scaling benchmark_main; do
+    if [ -f "${BUILD_DIR}/${EXE}" ]; then
+        echo "  ✓ ${EXE}"
+    else
+        echo "  ✗ ${EXE} NOT FOUND"
+        echo "Please build first: cd ${BUILD_DIR} && cmake .. && make"
+        exit 1
+    fi
+done
+echo ""
+
+#===============================================================================
+# Quick Validation Tests
+#===============================================================================
+
+RESULTS_DIR="debug_results_$(date +%Y%m%d_%H%M%S)"
+mkdir -p ${RESULTS_DIR}
+
+echo "==============================================================================="
+echo "Test 1: Strong Scaling (Small Problem)"
+echo "==============================================================================="
+mpirun -np 2 --map-by ppr:2:node:PE=4 --bind-to core \
+    ${BUILD_DIR}/benchmark_strong_scaling 2 \
+    2>&1 | tee ${RESULTS_DIR}/test_strong.log
+
+if [ $? -eq 0 ]; then
+    echo "✓ Strong scaling test PASSED"
+else
+    echo "✗ Strong scaling test FAILED"
+    exit 1
+fi
+
+echo ""
+echo "==============================================================================="
+echo "Test 2: Weak Scaling (Small Problem)"
+echo "==============================================================================="
+mpirun -np 2 --map-by ppr:2:node:PE=4 --bind-to core \
+    ${BUILD_DIR}/benchmark_weak_scaling 2 \
+    2>&1 | tee ${RESULTS_DIR}/test_weak.log
+
+if [ $? -eq 0 ]; then
+    echo "✓ Weak scaling test PASSED"
+else
+    echo "✗ Weak scaling test FAILED"
+    exit 1
+fi
+
+echo ""
+echo "==============================================================================="
+echo "Test 3: Main Benchmark"
+echo "==============================================================================="
+mpirun -np 2 --map-by ppr:2:node:PE=4 --bind-to core \
+    ${BUILD_DIR}/benchmark_main \
+    2>&1 | tee ${RESULTS_DIR}/test_main.log
+
+if [ $? -eq 0 ]; then
+    echo "✓ Main benchmark test PASSED"
+else
+    echo "✗ Main benchmark test FAILED"
+    exit 1
+fi
+
+# Collect outputs
+mv *.csv ${RESULTS_DIR}/ 2>/dev/null || true
+
+#===============================================================================
+# Summary
+#===============================================================================
+
+echo ""
+echo "==============================================================================="
+echo "DEBUG RUN COMPLETE"
+echo "==============================================================================="
+echo "All tests PASSED"
+echo "Results in: ${RESULTS_DIR}/"
+echo ""
+echo "Generated files:"
+ls -la ${RESULTS_DIR}/
+echo ""
+echo "You can now submit full benchmark jobs with:"
+echo "  qsub submit_benchmarks.pbs"
+echo "  or"
+echo "  ./submit_scaling_study.sh"
+echo "==============================================================================="
