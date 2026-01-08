@@ -5,9 +5,10 @@
 spack:
   # add package specs to the `specs` list
   specs:
-  - googletest
-  - dealii~arborx~cgal~ginkgo~gmsh+mpi~opencascade+p4est+petsc~taskflow~trilinos ^mpich ^petsc+hdf5+hypre+metis
-  - ninja
+    - googletest
+    - dealii
+    - ninja
   view: true
   concretizer:
     unify: true
+    reuse: true

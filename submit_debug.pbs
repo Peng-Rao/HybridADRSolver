@@ -10,7 +10,7 @@
 #PBS -l select=1:ncpus=8:mpiprocs=2:ompthreads=4
 #PBS -l walltime=00:30:00
 #PBS -q debug
-#PBS -A <PROJECT_ID>
+#PBS -A Hybrid-Parallelism-ADR-Solver-PDE2025
 #PBS -j oe
 #PBS -o debug_output.log
 
@@ -18,8 +18,7 @@
 # Environment Setup
 #===============================================================================
 
-cd ${PBS_O_WORKDIR:-$(pwd)}
-
+cd "${PBS_O_WORKDIR:-$(pwd)}" || exit
 echo "==============================================================================="
 echo "DEBUG RUN - ADR Solver Validation"
 echo "==============================================================================="
@@ -30,8 +29,8 @@ echo "Directory:  $(pwd)"
 echo "==============================================================================="
 
 # Spack Environment Setup
-if [ -f "${HOME}/spack/share/spack/setup-env.sh" ]; then
-    source ${HOME}/spack/share/spack/setup-env.sh
+if [ -f "${HOME}/spack-v1.0/share/spack/setup-env.sh" ]; then
+    source "${HOME}"/spack-v1.0/share/spack/setup-env.sh
 elif [ -f "/opt/spack/share/spack/setup-env.sh" ]; then
     source /opt/spack/share/spack/setup-env.sh
 else
@@ -75,14 +74,14 @@ echo ""
 #===============================================================================
 
 RESULTS_DIR="debug_results_$(date +%Y%m%d_%H%M%S)"
-mkdir -p ${RESULTS_DIR}
+mkdir -p "${RESULTS_DIR}"
 
 echo "==============================================================================="
 echo "Test 1: Strong Scaling (Small Problem)"
 echo "==============================================================================="
 mpirun -np 2 --map-by ppr:2:node:PE=4 --bind-to core \
     ${BUILD_DIR}/benchmark_strong_scaling 2 \
-    2>&1 | tee ${RESULTS_DIR}/test_strong.log
+    2>&1 | tee "${RESULTS_DIR}"/test_strong.log
 
 if [ $? -eq 0 ]; then
     echo "✓ Strong scaling test PASSED"
@@ -97,7 +96,7 @@ echo "Test 2: Weak Scaling (Small Problem)"
 echo "==============================================================================="
 mpirun -np 2 --map-by ppr:2:node:PE=4 --bind-to core \
     ${BUILD_DIR}/benchmark_weak_scaling 2 \
-    2>&1 | tee ${RESULTS_DIR}/test_weak.log
+    2>&1 | tee "${RESULTS_DIR}"/test_weak.log
 
 if [ $? -eq 0 ]; then
     echo "✓ Weak scaling test PASSED"
@@ -112,7 +111,7 @@ echo "Test 3: Main Benchmark"
 echo "==============================================================================="
 mpirun -np 2 --map-by ppr:2:node:PE=4 --bind-to core \
     ${BUILD_DIR}/benchmark_main \
-    2>&1 | tee ${RESULTS_DIR}/test_main.log
+    2>&1 | tee "${RESULTS_DIR}"/test_main.log
 
 if [ $? -eq 0 ]; then
     echo "✓ Main benchmark test PASSED"
@@ -122,7 +121,7 @@ else
 fi
 
 # Collect outputs
-mv *.csv ${RESULTS_DIR}/ 2>/dev/null || true
+mv *.csv "${RESULTS_DIR}"/ 2>/dev/null || true
 
 #===============================================================================
 # Summary
@@ -136,10 +135,4 @@ echo "All tests PASSED"
 echo "Results in: ${RESULTS_DIR}/"
 echo ""
 echo "Generated files:"
-ls -la ${RESULTS_DIR}/
-echo ""
-echo "You can now submit full benchmark jobs with:"
-echo "  qsub submit_benchmarks.pbs"
-echo "  or"
-echo "  ./submit_scaling_study.sh"
-echo "==============================================================================="
+ls -la "${RESULTS_DIR}"/
