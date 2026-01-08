@@ -5,9 +5,9 @@
 spack:
   # add package specs to the `specs` list
   specs:
-    - googletest
-    - dealii
     - ninja
+    - googletest
+    - dealii@9.7.1+mpi+p4est+petsc~trilinos ^mpich ^petsc
   view: true
   concretizer:
     unify: true
