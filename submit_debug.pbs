@@ -29,16 +29,24 @@ echo "Host:       $(hostname)"
 echo "Directory:  $(pwd)"
 echo "==============================================================================="
 
-# Load modules (adjust for your system)
-module purge
-module load gcc/12.2.0
-module load openmpi/4.1.4
-module load petsc/3.18
-module load dealii/9.5.0
+# Spack Environment Setup
+if [ -f "${HOME}/spack/share/spack/setup-env.sh" ]; then
+    source ${HOME}/spack/share/spack/setup-env.sh
+elif [ -f "/opt/spack/share/spack/setup-env.sh" ]; then
+    source /opt/spack/share/spack/setup-env.sh
+else
+    echo "ERROR: Spack not found"
+    exit 1
+fi
+
+# Activate environment
+SPACK_ENV_NAME="adr-solver"
+spack env activate ${SPACK_ENV_NAME}
 
 echo ""
-echo "Loaded Modules:"
-module list 2>&1
+echo "Spack Environment: $(spack env status)"
+echo "Loaded Packages:"
+spack find --loaded
 echo ""
 
 # Environment
