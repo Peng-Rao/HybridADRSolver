@@ -5,11 +5,14 @@
 spack:
   # add package specs to the `specs` list
   specs:
-    - llvm
+    - llvm@17.0.6
     - ninja
     - googletest
-    - dealii+mpi+p4est+petsc~trilinos ^mpich ^petsc
+    - dealii+mpi+p4est+petsc~trilinos~arborx ^mpich ^petsc
   view: true
   concretizer:
     unify: true
-    reuse: true
+  packages:
+    llvm:
+      externals: []
+      buildable: true
