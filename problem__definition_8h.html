@@ -103,30 +103,30 @@ $(function(){initNavTree('problem__definition_8h.html','',''); });
 
 <p>Defines the problem interface and a concrete Advection-Diffusion-Reaction (ADR) problem.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;deal.II/base/function.h&gt;</code><br />
+<div class="textblock"><code>#include &lt;cmath&gt;</code><br />
+<code>#include &lt;deal.II/base/function.h&gt;</code><br />
 <code>#include &lt;deal.II/base/point.h&gt;</code><br />
 <code>#include &lt;deal.II/base/tensor.h&gt;</code><br />
 <code>#include &lt;set&gt;</code><br />
-<code>#include &lt;cmath&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for problem_definition.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="problem__definition_8h__incl.png" border="0" usemap="#asrc_2include_2core_2problem__definition_8h" loading="lazy" alt=""/></div>
 <map name="asrc_2include_2core_2problem__definition_8h" id="asrc_2include_2core_2problem__definition_8h">
-<area shape="rect" title="Defines the problem interface and a concrete Advection&#45;Diffusion&#45;Reaction (ADR) problem." alt="" coords="380,5,544,44"/>
-<area shape="rect" title=" " alt="" coords="5,92,156,117"/>
-<area shape="poly" title=" " alt="" coords="380,45,153,91,152,86,379,40"/>
-<area shape="rect" title=" " alt="" coords="180,92,312,117"/>
-<area shape="poly" title=" " alt="" coords="410,47,293,89,292,84,409,42"/>
-<area shape="rect" title=" " alt="" coords="336,92,476,117"/>
-<area shape="poly" title=" " alt="" coords="450,46,425,81,421,78,446,43"/>
-<area shape="rect" title=" " alt="" coords="500,92,539,117"/>
-<area shape="poly" title=" " alt="" coords="478,43,504,78,499,81,474,46"/>
-<area shape="rect" title=" " alt="" coords="562,92,620,117"/>
-<area shape="poly" title=" " alt="" coords="495,42,560,82,558,86,492,47"/>
-<area shape="rect" title=" " alt="" coords="644,92,698,117"/>
-<area shape="poly" title=" " alt="" coords="513,42,631,85,629,90,512,47"/>
+<area shape="rect" title="Defines the problem interface and a concrete Advection&#45;Diffusion&#45;Reaction (ADR) problem." alt="" coords="326,5,489,44"/>
+<area shape="rect" title=" " alt="" coords="5,92,63,117"/>
+<area shape="poly" title=" " alt="" coords="326,43,79,94,78,89,325,38"/>
+<area shape="rect" title=" " alt="" coords="87,92,237,117"/>
+<area shape="poly" title=" " alt="" coords="349,47,214,89,213,84,347,42"/>
+<area shape="rect" title=" " alt="" coords="262,92,393,117"/>
+<area shape="poly" title=" " alt="" coords="390,47,352,83,348,79,386,43"/>
+<area shape="rect" title=" " alt="" coords="417,92,558,117"/>
+<area shape="poly" title=" " alt="" coords="429,43,466,79,463,83,425,47"/>
+<area shape="rect" title=" " alt="" coords="581,92,620,117"/>
+<area shape="poly" title=" " alt="" coords="455,42,568,87,566,92,453,47"/>
+<area shape="rect" title=" " alt="" coords="645,92,698,117"/>
+<area shape="poly" title=" " alt="" coords="472,42,630,88,629,93,470,47"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -174,7 +174,8 @@ Classes</h2></td></tr>
 <tr class="memitem:HybridADRSolver_3A_3AProblemInterface_3C_20dim_20_3E" id="r_HybridADRSolver_3A_3AProblemInterface_3C_20dim_20_3E"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHybridADRSolver_1_1ProblemInterface.html">HybridADRSolver::ProblemInterface&lt; dim &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Abstract interface for defining a physical problem.  <a href="classHybridADRSolver_1_1ProblemInterface.html#details">More...</a><br /></td></tr>
 <tr class="memitem:HybridADRSolver_3A_3AProblems_3A_3AExactSolution_3C_20dim_20_3E" id="r_HybridADRSolver_3A_3AProblems_3A_3AExactSolution_3C_20dim_20_3E"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHybridADRSolver_1_1Problems_1_1ExactSolution.html">HybridADRSolver::Problems::ExactSolution&lt; dim &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manufactured exact solution: \( u(\mathbf{x}) = \prod \sin(\pi x_i) \).  <a href="classHybridADRSolver_1_1Problems_1_1ExactSolution.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manufactured exact solution:  \( u(\mathbf{x}) = \prod \sin(\pi x_i)
+\).  <a href="classHybridADRSolver_1_1Problems_1_1ExactSolution.html#details">More...</a><br /></td></tr>
 <tr class="memitem:HybridADRSolver_3A_3AProblems_3A_3ANeumannFluxRight_3C_20dim_20_3E" id="r_HybridADRSolver_3A_3AProblems_3A_3ANeumannFluxRight_3C_20dim_20_3E"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHybridADRSolver_1_1Problems_1_1NeumannFluxRight.html">HybridADRSolver::Problems::NeumannFluxRight&lt; dim &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Analytic Neumann flux for the Right boundary (x=1).  <a href="classHybridADRSolver_1_1Problems_1_1NeumannFluxRight.html#details">More...</a><br /></td></tr>
 <tr class="memitem:HybridADRSolver_3A_3AProblems_3A_3AADRProblem_3C_20dim_20_3E" id="r_HybridADRSolver_3A_3AProblems_3A_3AADRProblem_3C_20dim_20_3E"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHybridADRSolver_1_1Problems_1_1ADRProblem.html">HybridADRSolver::Problems::ADRProblem&lt; dim &gt;</a></td></tr>

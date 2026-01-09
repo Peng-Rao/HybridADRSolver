@@ -27,7 +27,7 @@ virtual \mbox{\hyperlink{classHybridADRSolver_1_1ProblemInterface_a52fc548eccab5
 virtual double \mbox{\hyperlink{classHybridADRSolver_1_1ProblemInterface_a7776571e28e92ba07754475855358678}{diffusion\+\_\+coefficient}} (const Point$<$ dim $>$ \&p) const =0
 \begin{DoxyCompactList}\small\item\em Returns the diffusion coefficient $ \mu(\mathbf{x}) $. \end{DoxyCompactList}\item 
 virtual Tensor$<$ 1, dim $>$ \mbox{\hyperlink{classHybridADRSolver_1_1ProblemInterface_a8cecfc89cc73098f866bda3ac15d28be}{advection\+\_\+field}} (const Point$<$ dim $>$ \&p) const =0
-\begin{DoxyCompactList}\small\item\em Returns the advection velocity field $ \mathbf{\beta}(\mathbf{x}) $. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Returns the advection velocity field  $\mathbf{\beta}(\mathbf{x}) $. \end{DoxyCompactList}\item 
 virtual double \mbox{\hyperlink{classHybridADRSolver_1_1ProblemInterface_a5327d941efe76a20867935f0460e1cce}{reaction\+\_\+coefficient}} (const Point$<$ dim $>$ \&p) const =0
 \begin{DoxyCompactList}\small\item\em Returns the reaction coefficient $ \gamma(\mathbf{x}) $. \end{DoxyCompactList}\item 
 virtual double \mbox{\hyperlink{classHybridADRSolver_1_1ProblemInterface_ab51cd54979ec7cb91914b0f071d7f5bc}{source\+\_\+term}} (const Point$<$ dim $>$ \&p) const =0
@@ -37,9 +37,10 @@ virtual std\+::set$<$ types\+::boundary\+\_\+id $>$ \mbox{\hyperlink{classHybrid
 virtual std\+::set$<$ types\+::boundary\+\_\+id $>$ \mbox{\hyperlink{classHybridADRSolver_1_1ProblemInterface_ad238d8e04bc4c436f10a14d9cd858bb5}{get\+\_\+neumann\+\_\+ids}} () const =0
 \begin{DoxyCompactList}\small\item\em Returns the set of boundary IDs where Neumann conditions are applied. \end{DoxyCompactList}\item 
 virtual const Function$<$ dim $>$ \& \mbox{\hyperlink{classHybridADRSolver_1_1ProblemInterface_a39cb4044cd015a879885e29e9a88bbbe}{get\+\_\+dirichlet\+\_\+function}} (types\+::boundary\+\_\+id id) const =0
-\begin{DoxyCompactList}\small\item\em Gets the function describing the Dirichlet boundary value $ g_D(\mathbf{x}) $ for a specific boundary ID. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Gets the function describing the Dirichlet boundary value  $g_D(\mathbf{x}) $ for a specific boundary ID. \end{DoxyCompactList}\item 
 virtual const Function$<$ dim $>$ \& \mbox{\hyperlink{classHybridADRSolver_1_1ProblemInterface_a5b2f1978ba57a13db9ad25222fb5a9ac}{get\+\_\+neumann\+\_\+function}} (types\+::boundary\+\_\+id id) const =0
-\begin{DoxyCompactList}\small\item\em Gets the function describing the Neumann flux $ g_N(\mathbf{x}) = \nabla u \cdot \mathbf{n} $ for a specific boundary ID. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Gets the function describing the Neumann flux  $ g_N(\mathbf{x})
+= \nabla u \cdot \mathbf{n} $ for a specific boundary ID. \end{DoxyCompactList}\item 
 virtual bool \mbox{\hyperlink{classHybridADRSolver_1_1ProblemInterface_a77b635bd6c552e0f15b965099a826ad0}{has\+\_\+exact\+\_\+solution}} () const =0
 \begin{DoxyCompactList}\small\item\em Checks if an analytical exact solution is available. \end{DoxyCompactList}\item 
 virtual const Function$<$ dim $>$ \& \mbox{\hyperlink{classHybridADRSolver_1_1ProblemInterface_a1466d46f36839ce3eaba3ee3ff735827}{get\+\_\+exact\+\_\+solution}} () const =0
@@ -88,7 +89,7 @@ virtual Tensor$<$ 1, dim $>$ \mbox{\hyperlink{classHybridADRSolver_1_1ProblemInt
 
 
 
-Returns the advection velocity field $ \mathbf{\beta}(\mathbf{x}) $. 
+Returns the advection velocity field  $\mathbf{\beta}(\mathbf{x}) $. 
 
 
 
@@ -118,7 +119,7 @@ virtual const Function$<$ dim $>$ \& \mbox{\hyperlink{classHybridADRSolver_1_1Pr
 
 
 
-Gets the function describing the Dirichlet boundary value $ g_D(\mathbf{x}) $ for a specific boundary ID. 
+Gets the function describing the Dirichlet boundary value  $g_D(\mathbf{x}) $ for a specific boundary ID. 
 
 
 
@@ -178,7 +179,8 @@ virtual const Function$<$ dim $>$ \& \mbox{\hyperlink{classHybridADRSolver_1_1Pr
 
 
 
-Gets the function describing the Neumann flux $ g_N(\mathbf{x}) = \nabla u \cdot \mathbf{n} $ for a specific boundary ID. 
+Gets the function describing the Neumann flux  $ g_N(\mathbf{x})
+= \nabla u \cdot \mathbf{n} $ for a specific boundary ID. 
 
 
 

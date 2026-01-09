@@ -5,11 +5,11 @@
 Defines the problem interface and a concrete Advection-\/\+Diffusion-\/\+Reaction (ADR) problem.  
 
 
+{\ttfamily \#include $<$cmath$>$}\newline
 {\ttfamily \#include $<$deal.\+II/base/function.\+h$>$}\newline
 {\ttfamily \#include $<$deal.\+II/base/point.\+h$>$}\newline
 {\ttfamily \#include $<$deal.\+II/base/tensor.\+h$>$}\newline
 {\ttfamily \#include $<$set$>$}\newline
-{\ttfamily \#include $<$cmath$>$}\newline
 {\ttfamily \#include $<$string$>$}\newline
 Include dependency graph for problem\+\_\+definition.\+h\+:
 \nopagebreak
@@ -33,7 +33,8 @@ This graph shows which files directly or indirectly include this file\+:
 class \mbox{\hyperlink{classHybridADRSolver_1_1ProblemInterface}{Hybrid\+ADRSolver\+::\+Problem\+Interface$<$ dim $>$}}
 \begin{DoxyCompactList}\small\item\em Abstract interface for defining a physical problem. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{classHybridADRSolver_1_1Problems_1_1ExactSolution}{Hybrid\+ADRSolver\+::\+Problems\+::\+Exact\+Solution$<$ dim $>$}}
-\begin{DoxyCompactList}\small\item\em Manufactured exact solution\+: $ u(\mathbf{x}) = \prod \sin(\pi x_i) $. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Manufactured exact solution\+:  $ u(\mathbf{x}) = \prod \sin(\pi x_i)
+$. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{classHybridADRSolver_1_1Problems_1_1NeumannFluxRight}{Hybrid\+ADRSolver\+::\+Problems\+::\+Neumann\+Flux\+Right$<$ dim $>$}}
 \begin{DoxyCompactList}\small\item\em Analytic Neumann flux for the Right boundary (x=1). \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{classHybridADRSolver_1_1Problems_1_1ADRProblem}{Hybrid\+ADRSolver\+::\+Problems\+::\+ADRProblem$<$ dim $>$}}
