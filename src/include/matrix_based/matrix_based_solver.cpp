@@ -311,6 +311,9 @@ template <int dim> void MatrixBasedSolver<dim>::solve() {
     solution = dist_solution;
     solution.update_ghost_values();
 
+    // Store iteration count
+    this->timing_results.n_iterations = solver_control.last_step();
+
     if (this->parameters.verbose) {
         this->pcout << "   Converged in " << solver_control.last_step()
                     << " iterations." << std::endl;
@@ -388,6 +391,8 @@ template <int dim> void MatrixBasedSolver<dim>::run(unsigned int n_ref) {
     output_results(0);
     double err = compute_l2_error();
     this->timing_results.memory_mb = compute_memory_usage();
+
+    this->timing_results.n_dofs = this->dof_handler.n_dofs();
 
     if (this->parameters.verbose) {
         this->pcout << "   Setup time:    "
