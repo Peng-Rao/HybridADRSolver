@@ -88,11 +88,24 @@ echo ""
 RESULTS_DIR="debug_results_${TIMESTAMP}"
 mkdir -p "${RESULTS_DIR}"
 
+# Detect MPI implementation and set appropriate options
+if mpirun --version 2>&1 | grep -q "Open MPI"; then
+    MPI_OPTS="-np 2 --map-by ppr:2:node:PE=4 --bind-to core"
+elif mpirun --version 2>&1 | grep -q "HYDRA\|MPICH"; then
+    # MPICH/HYDRA syntax
+    MPI_OPTS="-np 2 -ppn 2 -bind-to core"
+else
+    # Fallback - simple options
+    MPI_OPTS="-np 2"
+fi
+
+echo "MPI Options: ${MPI_OPTS}"
+echo ""
+
 echo "==============================================================================="
 echo "Test 1: Strong Scaling (Small Problem)"
 echo "==============================================================================="
-mpirun -np 2 --map-by ppr:2:node:PE=4 --bind-to core \
-    "${BUILD_DIR}/benchmark_strong_scaling" 2
+mpirun ${MPI_OPTS} "${BUILD_DIR}/benchmark_strong_scaling" 2
 
 if [ $? -eq 0 ]; then
     echo "✓ Strong scaling test PASSED"
@@ -105,8 +118,7 @@ echo ""
 echo "==============================================================================="
 echo "Test 2: Weak Scaling (Small Problem)"
 echo "==============================================================================="
-mpirun -np 2 --map-by ppr:2:node:PE=4 --bind-to core \
-    "${BUILD_DIR}/benchmark_weak_scaling" 2
+mpirun ${MPI_OPTS} "${BUILD_DIR}/benchmark_weak_scaling" 2
 
 if [ $? -eq 0 ]; then
     echo "✓ Weak scaling test PASSED"
@@ -119,8 +131,7 @@ echo ""
 echo "==============================================================================="
 echo "Test 3: Main Benchmark"
 echo "==============================================================================="
-mpirun -np 2 --map-by ppr:2:node:PE=4 --bind-to core \
-    "${BUILD_DIR}/benchmark_main"
+mpirun ${MPI_OPTS} "${BUILD_DIR}/benchmark_main"
 
 if [ $? -eq 0 ]; then
     echo "✓ Main benchmark test PASSED"
