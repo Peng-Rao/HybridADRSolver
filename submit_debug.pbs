@@ -11,14 +11,26 @@
 #PBS -l walltime=00:30:00
 #PBS -q cpu
 #PBS -A Hybrid-Parallelism-ADR-Solver-PDE2025
-#PBS -j oe
-#PBS -o debug_output.log
+
+#===============================================================================
+# Setup Logging
+#===============================================================================
+
+cd "${PBS_O_WORKDIR:-$(pwd)}" || exit
+
+# Create log directory and file with timestamp
+LOG_DIR="logs"
+mkdir -p "${LOG_DIR}"
+TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+LOG_FILE="${LOG_DIR}/debug_${PBS_JOBID:-local}_${TIMESTAMP}.log"
+
+# Redirect all output to log file while also displaying to stdout
+exec > >(tee -a "${LOG_FILE}") 2>&1
 
 #===============================================================================
 # Environment Setup
 #===============================================================================
 
-cd "${PBS_O_WORKDIR:-$(pwd)}" || exit
 echo "==============================================================================="
 echo "DEBUG RUN - ADR Solver Validation"
 echo "==============================================================================="
@@ -26,10 +38,11 @@ echo "Job ID:     ${PBS_JOBID}"
 echo "Date:       $(date)"
 echo "Host:       $(hostname)"
 echo "Directory:  $(pwd)"
+echo "Log File:   ${LOG_FILE}"
 echo "==============================================================================="
 
 # Spack Environment Setup
-if [ -f "source /work/u11022931/spack/share/spack/setup-env.sh" ]; then
+if [ -f "/work/u11022931/spack/share/spack/setup-env.sh" ]; then
     source /work/u11022931/spack/share/spack/setup-env.sh
 elif [ -f "/opt/spack/share/spack/setup-env.sh" ]; then
     source /opt/spack/share/spack/setup-env.sh
@@ -72,15 +85,14 @@ echo ""
 # Quick Validation Tests
 #===============================================================================
 
-RESULTS_DIR="debug_results_$(date +%Y%m%d_%H%M%S)"
+RESULTS_DIR="debug_results_${TIMESTAMP}"
 mkdir -p "${RESULTS_DIR}"
 
 echo "==============================================================================="
 echo "Test 1: Strong Scaling (Small Problem)"
 echo "==============================================================================="
 mpirun -np 2 --map-by ppr:2:node:PE=4 --bind-to core \
-    ${BUILD_DIR}/benchmark_strong_scaling 2 \
-    2>&1 | tee "${RESULTS_DIR}"/test_strong.log
+    "${BUILD_DIR}/benchmark_strong_scaling" 2
 
 if [ $? -eq 0 ]; then
     echo "✓ Strong scaling test PASSED"
@@ -94,8 +106,7 @@ echo "==========================================================================
 echo "Test 2: Weak Scaling (Small Problem)"
 echo "==============================================================================="
 mpirun -np 2 --map-by ppr:2:node:PE=4 --bind-to core \
-    ${BUILD_DIR}/benchmark_weak_scaling 2 \
-    2>&1 | tee "${RESULTS_DIR}"/test_weak.log
+    "${BUILD_DIR}/benchmark_weak_scaling" 2
 
 if [ $? -eq 0 ]; then
     echo "✓ Weak scaling test PASSED"
@@ -109,8 +120,7 @@ echo "==========================================================================
 echo "Test 3: Main Benchmark"
 echo "==============================================================================="
 mpirun -np 2 --map-by ppr:2:node:PE=4 --bind-to core \
-    ${BUILD_DIR}/benchmark_main \
-    2>&1 | tee "${RESULTS_DIR}"/test_main.log
+    "${BUILD_DIR}/benchmark_main"
 
 if [ $? -eq 0 ]; then
     echo "✓ Main benchmark test PASSED"
@@ -120,7 +130,7 @@ else
 fi
 
 # Collect outputs
-mv *.csv "${RESULTS_DIR}"/ 2>/dev/null || true
+mv ./*.csv "${RESULTS_DIR}"/ 2>/dev/null || true
 
 #===============================================================================
 # Summary
@@ -131,7 +141,10 @@ echo "==========================================================================
 echo "DEBUG RUN COMPLETE"
 echo "==============================================================================="
 echo "All tests PASSED"
+echo "End time: $(date)"
 echo "Results in: ${RESULTS_DIR}/"
+echo "Log file:   ${LOG_FILE}"
 echo ""
 echo "Generated files:"
 ls -la "${RESULTS_DIR}"/
+echo "==============================================================================="
