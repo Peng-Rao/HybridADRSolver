@@ -29,8 +29,8 @@ echo "Directory:  $(pwd)"
 echo "==============================================================================="
 
 # Spack Environment Setup
-if [ -f "${HOME}/spack-v1.0/share/spack/setup-env.sh" ]; then
-    source "${HOME}"/spack-v1.0/share/spack/setup-env.sh
+if [ -f "source /work/u11022931/spack/share/spack/setup-env.sh" ]; then
+    source /work/u11022931/spack/share/spack/setup-env.sh
 elif [ -f "/opt/spack/share/spack/setup-env.sh" ]; then
     source /opt/spack/share/spack/setup-env.sh
 else
@@ -39,8 +39,7 @@ else
 fi
 
 # Activate environment
-SPACK_ENV_NAME="adr-solver"
-spack env activate ${SPACK_ENV_NAME}
+spack env activate .
 
 echo ""
 echo "Spack Environment: $(spack env status)"

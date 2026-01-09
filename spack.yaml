@@ -5,9 +5,10 @@
 spack:
   # add package specs to the `specs` list
   specs:
+    - llvm
     - ninja
     - googletest
-    - dealii@9.7.1+mpi+p4est+petsc~trilinos ^mpich ^petsc
+    - dealii+mpi+p4est+petsc~trilinos ^mpich ^petsc
   view: true
   concretizer:
     unify: true
