@@ -2,12 +2,13 @@
 #===============================================================================
 # PBS Debug Job Script - Quick validation run
 #===============================================================================
-# Use this script to verify the setup before running full benchmarks
+# Cluster: 5 nodes × 112 cores/node = 560 total cores
+# Threading: TBB (deal.II matrix-free)
 # Submit with: qsub submit_debug.pbs
 #===============================================================================
 
 #PBS -N adr_debug
-#PBS -l select=1:ncpus=8:mpiprocs=2:ompthreads=4
+#PBS -l select=1:ncpus=112:mpiprocs=4:ompthreads=28
 #PBS -l walltime=00:30:00
 #PBS -q cpu
 #PBS -A Hybrid-Parallelism-ADR-Solver-PDE2025
@@ -60,15 +61,20 @@ echo "Loaded Packages:"
 spack find --loaded
 echo ""
 
-# Environment
-export OMP_NUM_THREADS=4
+# TBB Threading Configuration (4 MPI ranks × 28 threads = 112 cores)
+# TBB is used by deal.II matrix-free, not OpenMP
+export TBB_NUM_THREADS=28
+export OMP_NUM_THREADS=28      # Set for compatibility, but TBB is primary
 export OMP_PROC_BIND=close
 export OMP_PLACES=cores
-export TBB_NUM_THREADS=4
 ulimit -s unlimited
+
+echo "Threading: TBB with ${TBB_NUM_THREADS} threads per MPI rank"
+echo "Parallelization: 4 MPI ranks × 28 threads = 112 cores"
 
 # Verify executables exist
 BUILD_DIR="build"
+echo ""
 echo "Checking executables..."
 for EXE in benchmark_strong_scaling benchmark_weak_scaling benchmark_main; do
     if [ -f "${BUILD_DIR}/${EXE}" ]; then
@@ -89,23 +95,26 @@ RESULTS_DIR="debug_results_${TIMESTAMP}"
 mkdir -p "${RESULTS_DIR}"
 
 # Detect MPI implementation and set appropriate options
-if mpirun --version 2>&1 | grep -q "Open MPI"; then
-    MPI_OPTS="-np 2 --map-by ppr:2:node:PE=4 --bind-to core"
-elif mpirun --version 2>&1 | grep -q "HYDRA\|MPICH"; then
-    # MPICH/HYDRA syntax
-    MPI_OPTS="-np 2 -ppn 2 -bind-to core"
+MPI_CMD="mpirun"
+NPROCS=4
+NRANKS_PER_NODE=4
+THREADS=28
+
+if ${MPI_CMD} --version 2>&1 | grep -q "Open MPI"; then
+    MPI_OPTS="-np ${NPROCS} --map-by ppr:${NRANKS_PER_NODE}:node:PE=${THREADS} --bind-to core"
+elif ${MPI_CMD} --version 2>&1 | grep -q "HYDRA\|MPICH"; then
+    MPI_OPTS="-np ${NPROCS} -ppn ${NRANKS_PER_NODE} -bind-to core"
 else
-    # Fallback - simple options
-    MPI_OPTS="-np 2"
+    MPI_OPTS="-np ${NPROCS}"
 fi
 
-echo "MPI Options: ${MPI_OPTS}"
+echo "MPI Command: ${MPI_CMD} ${MPI_OPTS}"
 echo ""
 
 echo "==============================================================================="
 echo "Test 1: Strong Scaling (Small Problem)"
 echo "==============================================================================="
-mpirun ${MPI_OPTS} "${BUILD_DIR}/benchmark_strong_scaling" 2
+${MPI_CMD} ${MPI_OPTS} "${BUILD_DIR}/benchmark_strong_scaling" 2
 
 if [ $? -eq 0 ]; then
     echo "✓ Strong scaling test PASSED"
@@ -118,7 +127,7 @@ echo ""
 echo "==============================================================================="
 echo "Test 2: Weak Scaling (Small Problem)"
 echo "==============================================================================="
-mpirun ${MPI_OPTS} "${BUILD_DIR}/benchmark_weak_scaling" 2
+${MPI_CMD} ${MPI_OPTS} "${BUILD_DIR}/benchmark_weak_scaling" 2
 
 if [ $? -eq 0 ]; then
     echo "✓ Weak scaling test PASSED"
@@ -131,7 +140,7 @@ echo ""
 echo "==============================================================================="
 echo "Test 3: Main Benchmark"
 echo "==============================================================================="
-mpirun ${MPI_OPTS} "${BUILD_DIR}/benchmark_main"
+${MPI_CMD} ${MPI_OPTS} "${BUILD_DIR}/benchmark_main"
 
 if [ $? -eq 0 ]; then
     echo "✓ Main benchmark test PASSED"
