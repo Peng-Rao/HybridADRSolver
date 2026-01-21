@@ -114,52 +114,58 @@ where:
 It models how a scalar quantity u (such as concentration, temperature, or chemical potential) is distributed within a domain due to three competing physical processes: diffusion, advection, and reaction.
 
 \subsection{Weak formulation}
-First of all, we define the trial function space and test function space. For trial space, solution $u$ belongs to the Sobolev space $H^1(\Omega)$ with Dirichlet boundary conditions incorporated:
-\begin{equation}
-    V_g = \{ u \in H^1(\Omega) : u = g \text{ on } \Gamma_D \}.
-\end{equation}
-For test space, the test function $v$ belongs to the Sobolev space $H^1(\Omega)$ with homogeneous Dirichlet boundary conditions:
-\begin{equation}
-    V_0 = \{ v \in H^1(\Omega) : v = 0 \text{ on } \Gamma_D \}.
-\end{equation}
-Multiply the governing equation by a test function $v \in V_0$ and integrate over the domain $\Omega$:
-\begin{equation}
-    \int_{\Omega} \left( -\nabla \cdot (\mu \nabla u) + \nabla \cdot (\boldsymbol{\beta} u) + \gamma u \right) v \, dx = \int_{\Omega} f v \, dx.
-\end{equation}
+We begin by defining the trial and test function spaces. To accommodate the non-homogeneous Dirichlet boundary condition, we introduce a \textit{lifting function} $u_g \in H^1(\Omega)$ such that $u_g = g$ on $\Gamma_D$:
+\[
+    V_g := \{ v \in H^1(\Omega) : v = g \quad \text{on } \Gamma_D \}
+\]
+The test space is the linear subspace of $H^1(\Omega)$ with homogeneous Dirichlet boundary conditions:
+\[
+    V_0 := \{ v \in H^1(\Omega) : v = 0 \quad \text{on } \Gamma_D \}
+\]
+Consequently, we decompose the solution as $u = u_0 + u_g$, where the unknown $u_0 \in V_0$.
+\
+Multiply the equation by a test function $v \in V_0$ and integrate over the domain $\Omega$:
+\[
+    \int_\Omega \left( -\nabla \cdot (\mu \nabla u) + \nabla \cdot (\boldsymbol{\beta} u) + \gamma u \right) v \, d\Omega = \int_\Omega f v \, d\Omega
+\]
 Using the linearity of the integral, we separate the terms:
-\begin{equation}
-    -\int_{\Omega} \nabla \cdot (\mu \nabla u) v \, dx + \int_{\Omega} \nabla \cdot (\boldsymbol{\beta} u) v \, dx + \int_{\Omega} \gamma u v \, dx = \int_{\Omega} f v \, dx.
-\end{equation}
+\[
+    -\int_\Omega \nabla \cdot (\mu \nabla u) v \, d\Omega + \int_\Omega \nabla \cdot (\boldsymbol{\beta} u) v \, d\Omega + \int_\Omega \gamma u v \, d\Omega = \int_\Omega f v \, d\Omega
+\]
 We apply Green's first identity to the diffusion term to reduce the order of differentiation:
-\begin{equation}
-    -\int_{\Omega} \nabla \cdot (\mu \nabla u) v \, dx = \int_{\Omega} \mu \nabla u \cdot \nabla v \, dx - \int_{\partial \Omega} \mu (\nabla u \cdot \mathbf{n}) v \, ds.
-\end{equation}
+\[
+    -\int_\Omega \nabla \cdot (\mu \nabla u) v \, d\Omega = \int_\Omega \mu \nabla u \cdot \nabla v \, d\Omega - \int_{\partial \Omega} (\mu \nabla u \cdot \mathbf{n}) v \, d\Gamma
+\]
 Substituting this back into the integral equation:
-\begin{equation}
-    \int_{\Omega} \mu \nabla u \cdot \nabla v \, dx - \int_{\partial \Omega} \mu (\nabla u \cdot \mathbf{n}) v \, ds + \int_{\Omega} \nabla \cdot (\boldsymbol{\beta} u) v \, dx + \int_{\Omega} \gamma u v \, dx = \int_{\Omega} f v \, dx.
-\end{equation}
-Split the boundary integral into Dirichlet ($\Gamma_D$) and Neumann ($\Gamma_N$) parts:
-\begin{equation}
-    \int_{\partial \Omega} \mu (\nabla u \cdot \mathbf{n}) v \, ds = \int_{\Gamma_D} \mu (\nabla u \cdot \mathbf{n}) v \, ds + \int_{\Gamma_N} \mu (\nabla u \cdot \mathbf{n}) v \, ds.
-\end{equation}
+\[
+    \int_\Omega \mu \nabla u \cdot \nabla v \, d\Omega - \int_{\partial \Omega} (\mu \nabla u \cdot \mathbf{n}) v \, d\Gamma + \int_\Omega \nabla \cdot (\boldsymbol{\beta} u) v \, d\Omega + \int_\Omega \gamma u v \, d\Omega = \int_\Omega f v \, d\Omega
+\]
+Split the boundary integral into contributions from $\Gamma_D$ and $\Gamma_N$:
+\[
+    \int_{\partial \Omega} (\mu \nabla u \cdot \mathbf{n}) v \, d\Gamma = \int_{\Gamma_D} (\mu \nabla u \cdot \mathbf{n}) v \, d\Gamma + \int_{\Gamma_N} (\mu \nabla u \cdot \mathbf{n}) v \, d\Gamma
+\]
 Since $v = 0$ on $\Gamma_D$, the first term vanishes. On $\Gamma_N$, we use the Neumann condition $\nabla u \cdot \mathbf{n} = h$:
-\begin{equation}
-    \int_{\Gamma_N} \mu (\underbrace{\nabla u \cdot \mathbf{n}}_{h}) v \, ds = \int_{\Gamma_N} \mu h v \, ds.
-\end{equation}
-Find $u \in S_g$ such that for all $v \in V$:
-\begin{equation}
-    \int_{\Omega} \mu \nabla u \cdot \nabla v \, dx + \int_{\Omega} \nabla \cdot (\boldsymbol{\beta} u) v \, dx + \int_{\Omega} \gamma u v \, dx = \int_{\Omega} f v \, dx + \int_{\Gamma_N} \mu h v \, ds
-\end{equation}
-This can be written in the abstract form $a(u,v) = L(v)$ where:
-\begin{align}
-    a(u,v) & = \int_{\Omega} (\mu \nabla u \cdot \nabla v + \nabla \cdot (\boldsymbol{\beta} u) v + \gamma u v) \, dx, \\
-    L(v)   & = \int_{\Omega} f v \, dx + \int_{\Gamma_N} \mu h v \, ds.
-\end{align}
-Since $g$ may not be in the test space $V_0$, we introduce a lifting function $u_g \in V_g$ such that $u_g = g$ on $\Gamma_D$. We can express the solution as $u = u_0 + u_g$ where $u_0 \in V_0$. The weak formulation then becomes:
-\begin{equation}
-    \text{Find $u_0 \in V_0$ such that for all $v \in V_0$:} \quad
-    a(u_0, v) = L(v) - a(u_g, v).
-\end{equation}
+\[
+    \int_{\Gamma_N} (\mu \nabla u \cdot \mathbf{n}) v \, d\Gamma = \int_{\Gamma_N} \mu h v \, d\Gamma
+\]
+Substituting back, we have:
+\[
+    \int_\Omega \mu \nabla u \cdot \nabla v \, d\Omega + \int_\Omega \nabla \cdot (\boldsymbol{\beta} u) v \, d\Omega + \int_\Omega \gamma u v \, d\Omega = \int_\Omega f v \, d\Omega + \int_{\Gamma_N} \mu h v \, d\Gamma
+\]
+Substituting $u = u_0 + u_g$ into the equation, we get:
+
+\noindent\textit{Find $u_0 \in V_0$ such that}
+\[
+    a(u_0, v) = F(v), \quad \forall v \in V_0
+\]
+where the \textit{bilinear form} $a: V_0 \times V_0 \to \mathbb{R}$ is defined as:
+\[
+    a(u, v) = \int_\Omega \mu \nabla u \cdot \nabla v \, d\Omega + \int_\Omega \nabla \cdot (\boldsymbol{\beta} u) v \, d\Omega + \int_\Omega \gamma u v \, d\Omega
+\]
+and the \textit{linear functional} $F: V_0 \to \mathbb{R}$ is given by:
+\[
+    F(v) = \int_\Omega f v \, d\Omega + \int_{\Gamma_N} \mu h v \, d\Gamma - a(u_g, v)
+\]
 
 \subsection{Manufactured solution}
 We define the exact solution $u_{\text{ex}}: \Omega \to \mathbb{R}$ on the unit hypercube domain $\Omega = [0, 1]^d$ (where $d=2, 3$) as the product of sine functions:
