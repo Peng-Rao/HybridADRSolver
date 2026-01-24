@@ -9,6 +9,8 @@ spack:
     - ninja
     - googletest
     - dealii+mpi+p4est+petsc~trilinos~arborx ^mpich ^petsc
+    - py-matplotlib
+    - py-pandas
   view: true
   concretizer:
     unify: true
