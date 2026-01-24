@@ -47,7 +47,7 @@ int main(int argc, char* argv[]) {
 
         // --- Study Parameters ---
         const int start_ref = 3;
-        const int total_cycles = 5;
+        const int total_cycles = 2;
 
         SolverParameters params;
         params.verbose = false;

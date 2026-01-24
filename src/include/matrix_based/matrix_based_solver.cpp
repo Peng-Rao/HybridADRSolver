@@ -308,7 +308,7 @@ template <int dim> void MatrixBasedSolver<dim>::solve() {
         solver.solve(system_matrix, dist_solution, system_rhs, prec);
     } else {
         LADistributed::SolverGMRES solver(solver_control);
-        LADistributed::MPI::PreconditionJacobi prec;
+        LADistributed::MPI::PreconditionAMG prec;
         prec.initialize(system_matrix);
         solver.solve(system_matrix, dist_solution, system_rhs, prec);
     }
