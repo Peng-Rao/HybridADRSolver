@@ -55,7 +55,7 @@ protected:
      * Setup the mesh/triangulation
      * @param n_refinements Number of global refinements
      */
-    virtual void setup_grid(const unsigned int n_refinements);
+    virtual void setup_grid(unsigned int n_refinements);
 
     /**
      * Distribute degrees of freedom and setup constraints

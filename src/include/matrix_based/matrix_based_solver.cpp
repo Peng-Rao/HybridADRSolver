@@ -118,6 +118,13 @@ template <int dim> double MatrixBasedSolver<dim>::compute_memory_usage() const {
 template <int dim> void MatrixBasedSolver<dim>::setup_dofs() {
     // Distribute degrees of freedom based on the finite element
     this->dof_handler.distribute_dofs(*this->fe);
+    // Record DoF count for reporting
+    this->timing_results.n_dofs = this->dof_handler.n_dofs();
+
+    if (this->parameters.verbose) {
+        this->pcout << "   Number of DoFs: " << this->dof_handler.n_dofs()
+                    << std::endl;
+    }
 
     // Renumber DoFs to minimize matrix bandwidth (improves ILU/solver
     // performance)
@@ -392,7 +399,19 @@ template <int dim> void MatrixBasedSolver<dim>::run(unsigned int n_ref) {
     double err = compute_l2_error();
     this->timing_results.memory_mb = compute_memory_usage();
 
+    // Record timing breakdowns (consistent with matrix-free solver)
+    this->timing_results.setup_time =
+        std::chrono::duration<double>(t1 - t0).count();
+    this->timing_results.assembly_time =
+        std::chrono::duration<double>(t2 - t1).count();
+    this->timing_results.solve_time =
+        std::chrono::duration<double>(t3 - t2).count();
+    this->timing_results.total_time =
+        std::chrono::duration<double>(t3 - t0).count();
     this->timing_results.n_dofs = this->dof_handler.n_dofs();
+
+    this->timing_results.l2_error = err;
+    this->timing_results.n_cells = this->triangulation.n_global_active_cells();
 
     if (this->parameters.verbose) {
         this->pcout << "   Setup time:    "

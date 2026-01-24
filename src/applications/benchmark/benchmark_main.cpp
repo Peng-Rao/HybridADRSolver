@@ -84,6 +84,8 @@ BenchmarkResult run_matrix_based_benchmark(const ProblemInterface<dim>& problem,
     result.n_iterations = timing.n_iterations;
     result.memory_mb = timing.memory_mb;
     result.n_dofs = timing.n_dofs;
+    result.n_cells = timing.n_cells;
+    result.l2_error = timing.l2_error;
 
     // Compute throughput
     result.dofs_per_second =
@@ -134,6 +136,8 @@ BenchmarkResult run_matrix_free_benchmark(const ProblemInterface<dim>& problem,
     result.n_iterations = timing.n_iterations;
     result.memory_mb = timing.memory_mb;
     result.n_dofs = timing.n_dofs;
+    result.n_cells = timing.n_cells;
+    result.l2_error = timing.l2_error;
 
     // Compute throughput
     result.dofs_per_second =
@@ -204,8 +208,8 @@ void run_strong_scaling_benchmark(ResultCollector& collector, int n_refinements,
 void run_weak_scaling_benchmark(ResultCollector& collector,
                                 int base_refinements, int degree,
                                 MPI_Comm comm) {
-    const int rank = Utilities::MPI::this_mpi_process(comm);
-    const int n_procs = Utilities::MPI::n_mpi_processes(comm);
+    auto rank = Utilities::MPI::this_mpi_process(comm);
+    auto n_procs = Utilities::MPI::n_mpi_processes(comm);
 
     // For weak scaling, increase refinements based on number of processes
     // Each doubling of processes should handle 2^dim more cells
@@ -252,7 +256,7 @@ void run_weak_scaling_benchmark(ResultCollector& collector,
  */
 void run_memory_benchmark(ResultCollector& collector, int min_refs,
                           int max_refs, int degree, MPI_Comm comm) {
-    const int rank = Utilities::MPI::this_mpi_process(comm);
+    auto rank = Utilities::MPI::this_mpi_process(comm);
 
     if (rank == 0) {
         std::cout << "\n" << std::string(60, '=') << "\n";

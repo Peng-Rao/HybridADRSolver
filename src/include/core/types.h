@@ -75,6 +75,9 @@ struct TimingResults {
     unsigned int n_iterations = 0;
     double memory_mb = 0.0;
     unsigned int n_dofs = 0;
+
+    unsigned int n_cells = 0;
+    double l2_error = 0.0;
 };
 
 } // namespace HybridADRSolver

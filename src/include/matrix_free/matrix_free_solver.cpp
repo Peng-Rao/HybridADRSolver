@@ -386,6 +386,9 @@ void MatrixFreeSolver<dim, fe_degree>::run(unsigned int n_ref) {
     this->timing_results.memory_mb = get_memory_usage();
     this->timing_results.n_dofs = this->dof_handler.n_dofs();
 
+    this->timing_results.l2_error = err;
+    this->timing_results.n_cells = this->triangulation.n_global_active_cells();
+
     if (this->parameters.verbose) {
         this->pcout << "   Setup time:    " << this->timing_results.setup_time
                     << "s" << std::endl;
