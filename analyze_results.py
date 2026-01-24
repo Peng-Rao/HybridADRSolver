@@ -81,85 +81,66 @@ def load_results(results_dir):
 
 
 def plot_strong_scaling(df, output_dir):
-    """Generate strong scaling plots."""
-    # Filter for strong scaling data
-    strong_df = df[df["source_file"].str.contains("strong", case=False, na=False)]
+    """Generate strong scaling plots with defensive checks."""
+    strong_df = df[
+        df["source_file"].str.contains("strong", case=False, na=False)
+    ].copy()
 
     if strong_df.empty:
         print("No strong scaling data found")
         return
 
+    # Clean data: remove rows where solver is NaN
+    strong_df = strong_df.dropna(subset=["solver"])
     time_col = "mean_time" if "mean_time" in strong_df.columns else "total_time"
 
     fig, axes = plt.subplots(1, 2, figsize=(14, 5))
+    ax1, ax2 = axes
 
-    # Plot 1: Execution time vs cores
-    ax1 = axes[0]
-    for solver in ["matrix_based", "matrix_free"]:
-        solver_df = strong_df[strong_df["solver"] == solver]
-        if not solver_df.empty:
-            solver_df = solver_df.sort_values("total_cores")
-            ax1.plot(
-                solver_df["total_cores"],
-                solver_df[time_col],
-                marker=MARKERS.get(solver, "o"),
-                color=COLORS.get(solver, "gray"),
-                label=LABELS.get(solver, solver),
-                linewidth=2,
-                markersize=8,
-            )
-
-    ax1.set_xlabel("Number of Cores")
-    ax1.set_ylabel("Execution Time (s)")
-    ax1.set_title("Strong Scaling: Execution Time")
-    ax1.legend()
-    ax1.grid(True, alpha=0.3)
-    ax1.set_xscale("log", base=2)
-    ax1.set_yscale("log")
-
-    # Plot 2: Speedup
-    ax2 = axes[1]
-
-    # Calculate speedup relative to single-core baseline
     for solver in ["matrix_based", "matrix_free"]:
         solver_df = strong_df[strong_df["solver"] == solver].sort_values("total_cores")
-        if not solver_df.empty and len(solver_df) > 0:
-            t1 = solver_df[solver_df["total_cores"] == solver_df["total_cores"].min()][
-                time_col
-            ].values[0]
+
+        if solver_df.empty:
+            continue
+
+        # Plot 1: Execution Time
+        ax1.plot(
+            solver_df["total_cores"],
+            solver_df[time_col],
+            marker=MARKERS.get(solver, "o"),
+            label=LABELS.get(solver, solver),
+        )
+
+        # Plot 2: Speedup (Defensive Check)
+        min_core_val = solver_df["total_cores"].min()
+        baseline_rows = solver_df[solver_df["total_cores"] == min_core_val]
+
+        if not baseline_rows.empty:
+            t1 = baseline_rows[time_col].values[0]
             speedup = t1 / solver_df[time_col]
             ax2.plot(
                 solver_df["total_cores"],
                 speedup,
                 marker=MARKERS.get(solver, "o"),
-                color=COLORS.get(solver, "gray"),
                 label=LABELS.get(solver, solver),
-                linewidth=2,
-                markersize=8,
             )
 
-    # Ideal speedup line
-    cores = sorted(strong_df["total_cores"].unique())
-    ax2.plot(
-        cores, cores, "--", color=COLORS["ideal"], label="Ideal Speedup", linewidth=2
-    )
+    # Formatting
+    ax1.set_title("Strong Scaling: Time")
+    ax1.set_xscale("log", base=2)
+    ax1.set_yscale("log")
 
-    ax2.set_xlabel("Number of Cores")
-    ax2.set_ylabel("Speedup")
     ax2.set_title("Strong Scaling: Speedup")
-    ax2.legend()
-    ax2.grid(True, alpha=0.3)
+    cores = sorted(strong_df["total_cores"].unique())
+    ax2.plot(cores, cores, "--", color=COLORS["ideal"], label="Ideal")
     ax2.set_xscale("log", base=2)
     ax2.set_yscale("log", base=2)
 
+    for ax in axes:
+        ax.legend()
+        ax.grid(True, alpha=0.3)
     plt.tight_layout()
-    plt.savefig(
-        os.path.join(output_dir, "strong_scaling.png"), dpi=150, bbox_inches="tight"
-    )
-    plt.savefig(os.path.join(output_dir, "strong_scaling.pdf"), bbox_inches="tight")
-    plt.close()
-
-    print(f"Strong scaling plots saved to {output_dir}")
+    plt.savefig(os.path.join(output_dir, "strong_scaling.png"))
 
 
 def plot_weak_scaling(df, output_dir):

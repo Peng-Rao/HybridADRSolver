@@ -136,17 +136,35 @@ echo "==========================================================================
 echo ""
 
 #===============================================================================
-# Build (if needed)
+# Build
 #===============================================================================
 
 BUILD_DIR="build"
-if [ ! -f "${BUILD_DIR}/benchmark_strong_scaling" ]; then
-    echo "Building executables..."
+EXECUTABLE="${BUILD_DIR}/benchmark_strong_scaling"
+REBUILD_REQUIRED=false
+
+if [ ! -f "$EXECUTABLE" ]; then
+    echo "EXE: Executable not found. Building..."
+    REBUILD_REQUIRED=true
+else
+    # Check if any .cpp or .h files in the current dir/include/src are newer than the binary
+    # This ensures that if you change the code, the script detects it.
+    NEWEST_SOURCE=$(find . -maxdepth 2 -name "*.cpp" -o -name "*.h" -o -name "CMakeLists.txt" | xargs ls -t | head -n 1)
+    if [ "$NEWEST_SOURCE" -nt "$EXECUTABLE" ]; then
+        echo "EXE: Source code change detected ($NEWEST_SOURCE is newer than binary). Rebuilding..."
+        REBUILD_REQUIRED=true
+    fi
+fi
+
+if [ "$REBUILD_REQUIRED" = true ]; then
     mkdir -p ${BUILD_DIR}
     cd ${BUILD_DIR}
     cmake .. -DCMAKE_BUILD_TYPE=Release
-    make -j 8
+    make -j ${NCPUS} || exit 1  # Use all available cores for fast build
     cd ..
+    echo "EXE: Build complete."
+else
+    echo "EXE: Binary is up to date. Skipping build."
 fi
 
 #===============================================================================
