@@ -13,7 +13,7 @@
 # PBS Directives
 #-------------------------------------------------------------------------------
 #PBS -N adr_benchmark
-#PBS -l select=4:ncpus=112:mpiprocs=4:ompthreads=28
+#PBS -l select=4:ncpus=28:mpiprocs=1:ompthreads=28
 #PBS -l walltime=04:00:00
 #PBS -q cpu
 #PBS -A Hybrid-Parallelism-ADR-Solver-PDE2025

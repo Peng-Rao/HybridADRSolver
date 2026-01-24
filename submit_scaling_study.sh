@@ -18,7 +18,7 @@ PROJECT_ID="Hybrid-Parallelism-ADR-Solver-PDE2025"
 EMAIL="peng.rao@mail.polimi.it"
 QUEUE="cpu"
 WALLTIME="02:00:00"
-CPUS_PER_NODE=112      # 112 cores per node
+CPUS_PER_NODE=28      # 112 cores per node
 MAX_NODES=5            # 5 nodes available
 BUILD_DIR="build"
 
