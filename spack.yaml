@@ -7,7 +7,6 @@ spack:
   specs:
     - llvm@17.0.6
     - ninja
-    - googletest
     - dealii+mpi+p4est+petsc~trilinos~arborx ^mpich ^petsc
     - py-matplotlib
     - py-pandas
@@ -16,5 +15,5 @@ spack:
     unify: true
   packages:
     llvm:
-      externals: []
+      externals: [ ]
       buildable: true

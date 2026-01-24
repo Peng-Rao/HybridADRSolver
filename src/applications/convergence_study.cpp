@@ -70,8 +70,8 @@ int main(int argc, char* argv[]) {
             // 1. Run Matrix Based Solver
             // ------------------------------------------
             params.output_prefix = "sol_mb_" + std::to_string(r);
-            MatrixBasedSolver solver_mb(problem, fe_degree, MPI_COMM_WORLD,
-                                        params);
+            MatrixBasedSolver<2> solver_mb(problem, fe_degree, MPI_COMM_WORLD,
+                                           params);
 
             // Timer for total wall time
             Timer timer_mb;

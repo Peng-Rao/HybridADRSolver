@@ -1,176 +1,362 @@
 #!/bin/bash
+
 #===============================================================================
-# PBS Job Script for Hybrid ADR Solver - Strategy Sweep (28 Cores)
+# PBS Job Script for Hybrid ADR Solver Benchmarks (weak scaling)
 #===============================================================================
-# Cluster: 5 nodes × 28 cores/node
-# Goal: Sweep through Pure MPI vs Hybrid TBB configs & Scaling
+# Cluster Configuration: 5 nodes × 28 cores/node = 140 total cores
+# Threading: TBB (deal.II matrix-free) - optimized for fewer ranks, more threads
+# Submit with: qsub submit_benchmarks.pbs
+# Check status: qstat -u $USER
+# Delete job: qdel <job_id>
 #===============================================================================
 
 #-------------------------------------------------------------------------------
 # PBS Directives
 #-------------------------------------------------------------------------------
-#PBS -N adr_hybrid_sweep
-# We request mpiprocs=28 to reserve ALL slots on the node.
-#PBS -l select=1:ncpus=28:mpiprocs=28:ompthreads=1
-#PBS -l walltime=06:00:00
+#PBS -N adr_benchmark_hybrid
+#PBS -l select=5:ncpus=28
+#PBS -l walltime=24:00:00
 #PBS -q cpu
 #PBS -A Hybrid-Parallelism-ADR-Solver-PDE2025
 #PBS -m abe
 #PBS -M peng.rao@mail.polimi.it
 
 #-------------------------------------------------------------------------------
-# Setup & Logging
+# Resource Explanation:
+# select=5       : 5 nodes (cpu01-cpu05)
+# ncpus=28       : 28 cores per node
+# mpiprocs=28    : Initial MPI ranks per node (will be varied in tests)
+# ompthreads=1   : Initial threads per rank (will be varied in tests)
+#
+# Cluster limits:
+# - Max nodes: 5
+# - Max CPUs per node: 28
+# - Max walltime: 72:00:00
+# - Max user concurrent jobs: 4
 #-------------------------------------------------------------------------------
-cd ${PBS_O_WORKDIR:-$(pwd)}
-TIMESTAMP=$(date +%Y%m%d_%H%M%S)
-RESULTS_DIR="results_sweep_${TIMESTAMP}"
-LOG_FILE="${RESULTS_DIR}/job_${PBS_JOBID%%.*}.log"
 
+#===============================================================================
+# Setup Logging and Results Directories
+#===============================================================================
+
+# Move to submission directory
+cd ${PBS_O_WORKDIR:-$(pwd)}
+
+# Create timestamp for this run
+TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+
+# Create log directory and file
+LOG_DIR="logs"
+mkdir -p ${LOG_DIR}
+LOG_FILE="${LOG_DIR}/benchmark_${PBS_JOBID:-local}_${TIMESTAMP}.log"
+
+# Create results directory
+RESULTS_DIR="results_${TIMESTAMP}"
 mkdir -p ${RESULTS_DIR}
+
+# Redirect all output to log file while also displaying to stdout
 exec > >(tee -a "${LOG_FILE}") 2>&1
 
+# Log system info
 echo "==============================================================================="
-echo "Job: ${PBS_JOBID} | Nodes: $(cat ${PBS_NODEFILE} | sort -u | wc -l)"
-echo "Detected Physical Cores Per Node: 28"
+echo "PBS Job Information"
+echo "==============================================================================="
+echo "Job ID: ${PBS_JOBID}"
+echo "Job Name: ${PBS_JOBNAME}"
+echo "Queue: ${PBS_QUEUE}"
+echo "Nodes File: ${PBS_NODEFILE}"
+echo "Work Dir: ${PBS_O_WORKDIR}"
+echo "Results Dir: ${RESULTS_DIR}"
+echo "Log File: ${LOG_FILE}"
+echo "Date: $(date)"
 echo "==============================================================================="
 
 #-------------------------------------------------------------------------------
-# Spack & Environment
+# Spack Environment Setup
 #-------------------------------------------------------------------------------
+# Source Spack from user's installation
 if [ -f "/work/u11022931/spack/share/spack/setup-env.sh" ]; then
     source /work/u11022931/spack/share/spack/setup-env.sh
 elif [ -f "/opt/spack/share/spack/setup-env.sh" ]; then
     source /opt/spack/share/spack/setup-env.sh
+else
+    echo "ERROR: Spack not found. Please update the path."
+    exit 1
 fi
+
+# Activate the Spack environment (directory-based)
 spack env activate .
 
-# Standard Environment Limits
-ulimit -s unlimited
-export OMP_PROC_BIND=close
-export OMP_PLACES=cores
-export OMP_STACKSIZE=64M
-
-#-------------------------------------------------------------------------------
-# Build (Ensure Release Mode)
-#-------------------------------------------------------------------------------
-BUILD_DIR="build"
-mkdir -p ${BUILD_DIR}
-cd ${BUILD_DIR}
-# Re-run cmake to ensure flags are correct if needed
-# cmake .. -DCMAKE_BUILD_TYPE=Release 
-# Build using 28 cores (matching the node)
-make -j 28 benchmark_strong_scaling benchmark_weak_scaling
-cd ..
-
-#-------------------------------------------------------------------------------
-# BENCHMARK CONFIGURATION LOOPS
-#-------------------------------------------------------------------------------
-
-# Define strategies as "RANKS_PER_NODE  THREADS_PER_RANK"
-# RULES: RANKS_PER_NODE * THREADS_PER_RANK must equal 28.
-CONFIGS=(
-    "28 1"    # Pure MPI: 28 Ranks, 1 Thread (Baseline)
-    "14 2"    # Light Hybrid: 14 Ranks, 2 Threads
-    "7 4"     # Moderate Hybrid: 7 Ranks, 4 Threads (Common Sweet Spot)
-    "4 7"     # Deep Hybrid: 4 Ranks, 7 Threads
-    "2 14"    # Very Deep Hybrid: 2 Ranks, 14 Threads
-    "1 28"    # Pure Threading: 1 Rank, 28 Threads (Fat node style)
-)
-
-# Refinement Levels (Adjust if Level 7 is too heavy for 28 cores RAM)
-REFINEMENTS=(5 6 7) 
-WEAK_SCALING_BASE_REFS=(3 4)
-
-NODES=$(cat ${PBS_NODEFILE} | sort -u | wc -l)
-
-echo "Starting Benchmarks across ${NODES} Node(s)..."
-
-#===============================================================================
-# LOOP 1: STRATEGY SWEEP (Strong Scaling logic inside)
-#===============================================================================
-
-for CONFIG in "${CONFIGS[@]}"; do
-    # Parse configuration
-    read -r PPN THREADS <<< "$CONFIG"
-    
-    # Calculate MPI Geometry
-    TOTAL_RANKS=$(( NODES * PPN ))
-    
-    # Export Threading Environment
-    export TBB_NUM_THREADS=${THREADS}
-    export OMP_NUM_THREADS=${THREADS}
-    
-    # Label for logs
-    STRAT_NAME="N${NODES}_Ranks${TOTAL_RANKS}_Threads${THREADS}"
-    
-    echo ""
-    echo ">>> Testing Strategy: ${PPN} Ranks/Node x ${THREADS} Threads/Rank (${STRAT_NAME})"
-    
-    # Setup MPI Command based on current PPN
-    MPI_CMD="mpirun -np ${TOTAL_RANKS} -ppn ${PPN}"
-    
-    # Intel MPI specific binding
-    if mpirun --version 2>&1 | grep -q "Intel"; then
-        # Intel MPI: use -genv to pass variables
-        MPI_CMD="mpirun -np ${TOTAL_RANKS} -ppn ${PPN} -genv TBB_NUM_THREADS=${THREADS} -genv OMP_NUM_THREADS=${THREADS}"
-        MPI_OPTS="-genv I_MPI_PIN_DOMAIN=omp -genv I_MPI_PIN_ORDER=scatter"
-    else
-        # OpenMPI/MPICH: use -x to export variables
-        MPI_CMD="mpirun -np ${TOTAL_RANKS} -ppn ${PPN} -x TBB_NUM_THREADS -x OMP_NUM_THREADS"
-        # Map-by helps ensure the ranks are spaced out correctly for the threads
-        MPI_OPTS="--map-by ppr:${PPN}:node:PE=${THREADS}"
-    fi
-
-    # --- Run Strong Scaling for this strategy ---
-    for REF in "${REFINEMENTS[@]}"; do
-        echo "   -> Running Refinement Level ${REF}..."
-        
-        LOG_NAME="${RESULTS_DIR}/strong_${STRAT_NAME}_ref${REF}.log"
-        
-        ${MPI_CMD} ${MPI_OPTS} \
-            ${BUILD_DIR}/benchmark_strong_scaling ${REF} \
-            > "${LOG_NAME}" 2>&1
-            
-        # Quick check if run succeeded
-        if [ $? -eq 0 ]; then
-            echo "      [SUCCESS] Log: ${LOG_NAME}"
-        else
-            echo "      [FAILED] See ${LOG_NAME}"
-        fi
-    done
-done
-
-#===============================================================================
-# LOOP 2: WEAK SCALING (Selected Strategy)
-#===============================================================================
-# We assume "7 Ranks x 4 Threads" is a likely candidate for success on 28-core nodes
-# because it divides evenly (28/4 = 7) and keeps MPI comms manageable.
-
-BEST_PPN=7
-BEST_THREADS=4
-TOTAL_RANKS=$(( NODES * BEST_PPN ))
-export TBB_NUM_THREADS=${BEST_THREADS}
-export OMP_NUM_THREADS=${BEST_THREADS}
-
+# Verify environment is loaded
 echo ""
-echo ">>> Running Weak Scaling with Fixed Strategy (${BEST_PPN}R x ${BEST_THREADS}T)"
+echo "Spack Environment: $(spack env status)"
+echo ""
+echo "Loaded Packages:"
+spack find --loaded
+echo ""
 
-MPI_CMD="mpirun -np ${TOTAL_RANKS} -ppn ${BEST_PPN}"
-if mpirun --version 2>&1 | grep -q "Intel"; then
-    MPI_OPTS="-genv I_MPI_PIN_DOMAIN=omp"
+#-------------------------------------------------------------------------------
+# Memory settings
+#-------------------------------------------------------------------------------
+ulimit -s unlimited
+
+#===============================================================================
+# Build
+#===============================================================================
+
+BUILD_DIR="build"
+EXECUTABLE_STRONG="${BUILD_DIR}/benchmark_strong_scaling"
+EXECUTABLE_WEAK="${BUILD_DIR}/benchmark_weak_scaling"
+EXECUTABLE_MAIN="${BUILD_DIR}/benchmark_main"
+REBUILD_REQUIRED=false
+
+if [ ! -f "$EXECUTABLE_STRONG" ] || [ ! -f "$EXECUTABLE_WEAK" ] || [ ! -f "$EXECUTABLE_MAIN" ]; then
+    echo "EXE: Executable not found. Building..."
+    REBUILD_REQUIRED=true
 else
-    MPI_OPTS="--map-by ppr:${BEST_PPN}:node:PE=${BEST_THREADS}"
+    # Check if any .cpp or .h files are newer than the binary
+    NEWEST_SOURCE=$(find . -maxdepth 2 \( -name "*.cpp" -o -name "*.h" -o -name "CMakeLists.txt" \) 2>/dev/null | xargs ls -t 2>/dev/null | head -n 1)
+    if [ -n "$NEWEST_SOURCE" ] && [ "$NEWEST_SOURCE" -nt "$EXECUTABLE_STRONG" ]; then
+        echo "EXE: Source code change detected ($NEWEST_SOURCE is newer than binary). Rebuilding..."
+        REBUILD_REQUIRED=true
+    fi
 fi
 
-for BASE_REF in "${WEAK_SCALING_BASE_REFS[@]}"; do
-    echo "   -> Base Refinement ${BASE_REF}..."
+if [ "$REBUILD_REQUIRED" = true ]; then
+    mkdir -p ${BUILD_DIR}
+    cd ${BUILD_DIR}
+    cmake .. -DCMAKE_BUILD_TYPE=Release
+    make -j 28 || exit 1
+    cd ..
+    echo "EXE: Build complete."
+else
+    echo "EXE: Binary is up to date. Skipping build."
+fi
+
+#===============================================================================
+# Define Hybrid Parallelism Configurations
+#===============================================================================
+
+# Array of configurations: "nodes mpiprocs_per_node threads_per_rank description"
+# Total cores per node = 28, so mpiprocs × threads = 28
+declare -a CONFIGS=(
+    # Pure MPI configurations
+    "1 28 1 PureMPI_1node"
+    "2 28 1 PureMPI_2nodes"
+    "3 28 1 PureMPI_3nodes"
+    "4 28 1 PureMPI_4nodes"
+    "5 28 1 PureMPI_5nodes"
+    
+    # Hybrid: 14 ranks × 2 threads per node
+    "1 14 2 Hybrid_14x2_1node"
+    "2 14 2 Hybrid_14x2_2nodes"
+    "3 14 2 Hybrid_14x2_3nodes"
+    "4 14 2 Hybrid_14x2_4nodes"
+    "5 14 2 Hybrid_14x2_5nodes"
+    
+    # Hybrid: 7 ranks × 4 threads per node
+    "1 7 4 Hybrid_7x4_1node"
+    "2 7 4 Hybrid_7x4_2nodes"
+    "3 7 4 Hybrid_7x4_3nodes"
+    "4 7 4 Hybrid_7x4_4nodes"
+    "5 7 4 Hybrid_7x4_5nodes"
+    
+    # Hybrid: 4 ranks × 7 threads per node
+    "1 4 7 Hybrid_4x7_1node"
+    "2 4 7 Hybrid_4x7_2nodes"
+    "3 4 7 Hybrid_4x7_3nodes"
+    "4 4 7 Hybrid_4x7_4nodes"
+    "5 4 7 Hybrid_4x7_5nodes"
+    
+    # Hybrid: 2 ranks × 14 threads per node (TBB-optimized)
+    "1 2 14 Hybrid_2x14_1node"
+    "2 2 14 Hybrid_2x14_2nodes"
+    "3 2 14 Hybrid_2x14_3nodes"
+    "4 2 14 Hybrid_2x14_4nodes"
+    "5 2 14 Hybrid_2x14_5nodes"
+    
+    # Hybrid: 1 rank × 28 threads per node (Pure threading)
+    "1 1 28 PureThread_1node"
+    "2 1 28 PureThread_2nodes"
+    "3 1 28 PureThread_3nodes"
+    "4 1 28 PureThread_4nodes"
+    "5 1 28 PureThread_5nodes"
+)
+
+# Refinement levels to test
+REFINEMENT_LEVELS=(3 4 5 6 7)
+
+# MPI command for MPICH
+MPI_CMD="mpirun"
+
+echo "==============================================================================="
+echo "Detected MPI Implementation"
+echo "==============================================================================="
+${MPI_CMD} --version
+echo ""
+
+#===============================================================================
+# Run Hybrid Parallelism Benchmarks
+#===============================================================================
+
+echo "==============================================================================="
+echo "Starting Comprehensive Hybrid Parallelism Benchmarks"
+echo "==============================================================================="
+echo "Total configurations: ${#CONFIGS[@]}"
+echo "Refinement levels: ${REFINEMENT_LEVELS[@]}"
+echo ""
+
+CONFIG_COUNT=0
+TOTAL_CONFIGS=${#CONFIGS[@]}
+
+for CONFIG in "${CONFIGS[@]}"; do
+    CONFIG_COUNT=$((CONFIG_COUNT + 1))
+    
+    # Parse configuration
+    read -r NNODES NRANKS_PER_NODE THREADS_PER_RANK CONFIG_NAME <<< "$CONFIG"
+    TOTAL_RANKS=$((NNODES * NRANKS_PER_NODE))
+    
+    echo ""
+    echo "==============================================================================="
+    echo "Configuration ${CONFIG_COUNT}/${TOTAL_CONFIGS}: ${CONFIG_NAME}"
+    echo "==============================================================================="
+    echo "Nodes: ${NNODES}"
+    echo "MPI Ranks/Node: ${NRANKS_PER_NODE}"
+    echo "Total MPI Ranks: ${TOTAL_RANKS}"
+    echo "TBB Threads/Rank: ${THREADS_PER_RANK}"
+    echo "Total Parallelism: $((TOTAL_RANKS * THREADS_PER_RANK))"
+    echo "==============================================================================="
+    
+    # Set threading environment variables
+    export TBB_NUM_THREADS=${THREADS_PER_RANK}
+    export OMP_NUM_THREADS=${THREADS_PER_RANK}
+    export OMP_PROC_BIND=close
+    export OMP_PLACES=cores
+    export OMP_STACKSIZE=64M
+    
+    # MPICH process binding
+    MPI_OPTS="-n ${TOTAL_RANKS}"
+    
+    # Create subdirectory for this configuration
+    CONFIG_RESULTS_DIR="${RESULTS_DIR}/${CONFIG_NAME}"
+    mkdir -p ${CONFIG_RESULTS_DIR}
+    
+    #---------------------------------------------------------------------------
+    # Strong Scaling Benchmark
+    #---------------------------------------------------------------------------
+    echo ""
+    echo "--- Strong Scaling Benchmark (${CONFIG_NAME}) ---"
+    
+    for REFINEMENT in "${REFINEMENT_LEVELS[@]}"; do
+        echo "  Refinement Level: ${REFINEMENT}"
+        
+        OUTPUT_FILE="${CONFIG_RESULTS_DIR}/strong_scaling_ref${REFINEMENT}.log"
+        
+        ${MPI_CMD} ${MPI_OPTS} \
+            ${EXECUTABLE_STRONG} ${REFINEMENT} \
+            2>&1 | tee ${OUTPUT_FILE}
+        
+        # Move generated CSV to results
+        mv strong_scaling_*.csv ${CONFIG_RESULTS_DIR}/ 2>/dev/null || true
+    done
+    
+    #---------------------------------------------------------------------------
+    # Weak Scaling Benchmark
+    #---------------------------------------------------------------------------
+    echo ""
+    echo "--- Weak Scaling Benchmark (${CONFIG_NAME}) ---"
+    
+    for BASE_REF in 2 3; do
+        echo "  Base Refinement: ${BASE_REF}"
+        
+        OUTPUT_FILE="${CONFIG_RESULTS_DIR}/weak_scaling_base${BASE_REF}.log"
+        
+        ${MPI_CMD} ${MPI_OPTS} \
+            ${EXECUTABLE_WEAK} ${BASE_REF} \
+            2>&1 | tee ${OUTPUT_FILE}
+        
+        # Move generated CSV to results
+        mv weak_scaling_*.csv ${CONFIG_RESULTS_DIR}/ 2>/dev/null || true
+    done
+    
+    #---------------------------------------------------------------------------
+    # Main Benchmark
+    #---------------------------------------------------------------------------
+    echo ""
+    echo "--- Main Benchmark (${CONFIG_NAME}) ---"
+    
+    OUTPUT_FILE="${CONFIG_RESULTS_DIR}/benchmark_main.log"
+    
     ${MPI_CMD} ${MPI_OPTS} \
-        ${BUILD_DIR}/benchmark_weak_scaling ${BASE_REF} \
-        2>&1 | tee ${RESULTS_DIR}/weak_N${NODES}_base${BASE_REF}_hybrid.log
+        ${EXECUTABLE_MAIN} \
+        2>&1 | tee ${OUTPUT_FILE}
+    
+    # Move any additional output files
+    mv *.csv ${CONFIG_RESULTS_DIR}/ 2>/dev/null || true
+    mv *.vtu ${CONFIG_RESULTS_DIR}/ 2>/dev/null || true
+    mv *.pvtu ${CONFIG_RESULTS_DIR}/ 2>/dev/null || true
+    
+    echo ""
+    echo "Configuration ${CONFIG_NAME} completed."
+    echo "==============================================================================="
 done
+
+#===============================================================================
+# Summary Statistics
+#===============================================================================
 
 echo ""
 echo "==============================================================================="
-echo "Benchmark Sweep Complete."
-echo "Results stored in: ${RESULTS_DIR}"
+echo "Generating Summary Statistics"
+echo "==============================================================================="
+
+SUMMARY_FILE="${RESULTS_DIR}/benchmark_summary.txt"
+
+cat > ${SUMMARY_FILE} << EOF
+Hybrid Parallelism Benchmark Summary
+=====================================
+Date: $(date)
+Job ID: ${PBS_JOBID}
+
+Cluster Configuration:
+- Total Nodes: 5 (cpu01-cpu05)
+- Cores per Node: 28
+- Total Available Cores: 140
+
+Configurations Tested: ${TOTAL_CONFIGS}
+Refinement Levels: ${REFINEMENT_LEVELS[@]}
+
+Configuration Details:
+EOF
+
+for CONFIG in "${CONFIGS[@]}"; do
+    read -r NNODES NRANKS_PER_NODE THREADS_PER_RANK CONFIG_NAME <<< "$CONFIG"
+    TOTAL_RANKS=$((NNODES * NRANKS_PER_NODE))
+    echo "  ${CONFIG_NAME}: ${NNODES} nodes, ${TOTAL_RANKS} ranks, ${THREADS_PER_RANK} threads/rank" >> ${SUMMARY_FILE}
+done
+
+echo "" >> ${SUMMARY_FILE}
+echo "Results Directory: ${RESULTS_DIR}" >> ${SUMMARY_FILE}
+
+cat ${SUMMARY_FILE}
+
+#===============================================================================
+# Cleanup and Final Summary
+#===============================================================================
+
+echo ""
+echo "==============================================================================="
+echo "Job Complete"
+echo "==============================================================================="
+echo "Results saved to: ${RESULTS_DIR}"
+echo "Log file: ${LOG_FILE}"
+echo "Summary file: ${SUMMARY_FILE}"
+echo "End time: $(date)"
+echo ""
+
+# List results structure
+echo "Generated directory structure:"
+tree -L 2 ${RESULTS_DIR}/ 2>/dev/null || find ${RESULTS_DIR}/ -type d
+
+echo ""
 echo "==============================================================================="

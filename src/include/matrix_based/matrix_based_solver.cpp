@@ -8,6 +8,7 @@
  */
 
 #include "matrix_based/matrix_based_solver.h"
+
 #include <deal.II/base/work_stream.h>
 #include <deal.II/dofs/dof_renumbering.h>
 #include <deal.II/dofs/dof_tools.h>
@@ -372,8 +373,12 @@ void MatrixBasedSolver<dim>::output_results(unsigned int cycle) const {
 }
 
 template <int dim> void MatrixBasedSolver<dim>::run(unsigned int n_ref) {
-    this->pcout << "Running: " << problem.get_name() << std::endl;
-
+    this->pcout << "Running: " << problem.get_name()
+                << " (Matrix-Based, Hybrid MPI+Threading)" << std::endl;
+    this->pcout << "   Using " << this->n_mpi_processes << " MPI processes"
+                << std::endl;
+    this->pcout << "   Threading: " << MultithreadInfo::n_threads()
+                << " threads per process" << std::endl;
     const auto t0 = std::chrono::high_resolution_clock::now();
 
     // setup grid

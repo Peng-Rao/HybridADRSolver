@@ -32,11 +32,12 @@ int main(int argc, char* argv[]) {
         params.tolerance = 1e-10;
 
         // Define the problem
-        const Problems::ADRProblem<2> problem;
+        const Problems::ADRProblem<3> problem;
 
         // Create and run the matrix-free solver with polynomial degree 2
         constexpr int fe_degree = 2;
-        MatrixFreeSolver<2, fe_degree> solver(problem, MPI_COMM_WORLD, params);
+        MatrixFreeSolver<3, fe_degree> solver(problem, MPI_COMM_WORLD, params);
+
         // Run with 4 global refinements
         solver.run(4);
 

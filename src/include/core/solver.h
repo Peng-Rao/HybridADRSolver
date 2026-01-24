@@ -17,6 +17,8 @@
 #include <deal.II/grid/grid_generator.h>
 #include <deal.II/lac/affine_constraints.h>
 
+#include <utility>
+
 namespace HybridADRSolver {
 using namespace dealii;
 template <int dim> class ParallelSolverBase {
@@ -26,7 +28,7 @@ public:
      * @param comm MPI communicator
      * @param params Solver parameters
      */
-    ParallelSolverBase(MPI_Comm comm, const SolverParameters& params);
+    ParallelSolverBase(MPI_Comm comm, SolverParameters params);
     virtual ~ParallelSolverBase() = default;
 
     /**
@@ -76,7 +78,7 @@ protected:
      * Output results to files
      * @param cycle Current refinement cycle
      */
-    virtual void output_results(const unsigned int cycle) const = 0;
+    virtual void output_results(unsigned int cycle) const = 0;
 
     // MPI communication
     MPI_Comm mpi_communicator;
@@ -109,14 +111,14 @@ protected:
 
 template <int dim>
 ParallelSolverBase<dim>::ParallelSolverBase(MPI_Comm comm,
-                                            const SolverParameters& params)
+                                            SolverParameters params)
     : mpi_communicator(comm),
       n_mpi_processes(Utilities::MPI::n_mpi_processes(comm)),
       this_mpi_process(Utilities::MPI::this_mpi_process(comm)),
       triangulation(comm, typename Triangulation<dim>::MeshSmoothing(
                               Triangulation<dim>::smoothing_on_refinement |
                               Triangulation<dim>::smoothing_on_coarsening)),
-      dof_handler(triangulation), parameters(params),
+      dof_handler(triangulation), parameters(std::move(params)),
       pcout(std::cout, this_mpi_process == 0),
       computing_timer(comm, pcout, TimerOutput::never,
                       TimerOutput::wall_times) {

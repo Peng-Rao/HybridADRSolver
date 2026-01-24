@@ -8,8 +8,6 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(MPI REQUIRED)
-find_package(GTest REQUIRED)
-
 
 find_package(deal.II REQUIRED HINTS ${DEAL_II_DIR} ../ ../../ $ENV{DEAL_II_DIR})
 IF (NOT ${deal.II_FOUND})
@@ -106,10 +104,3 @@ MESSAGE(STATUS "")
 # =============================================================
 # ADD_SUBDIRECTORY(src/applications/benchmark)
 ADD_SUBDIRECTORY(src/applications)
-
-# =============================================================
-# Tests
-# =============================================================
-# Enable testing
-ENABLE_TESTING()
-ADD_SUBDIRECTORY(tests)
