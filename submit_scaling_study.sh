@@ -15,7 +15,7 @@ set -e
 
 # Cluster Configuration
 PROJECT_ID="Hybrid-Parallelism-ADR-Solver-PDE2025"
-EMAIL="<YOUR_EMAIL>"
+EMAIL="peng.rao@mail.polimi.it"
 QUEUE="cpu"
 WALLTIME="02:00:00"
 CPUS_PER_NODE=112      # 112 cores per node

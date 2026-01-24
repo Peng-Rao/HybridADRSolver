@@ -18,7 +18,7 @@
 #PBS -q cpu
 #PBS -A Hybrid-Parallelism-ADR-Solver-PDE2025
 #PBS -m abe
-#PBS -M <YOUR_EMAIL>
+#PBS -M peng.rao@mail.polimi.it
 
 #-------------------------------------------------------------------------------
 # Resource Explanation (5 nodes × 112 cores/node cluster):
