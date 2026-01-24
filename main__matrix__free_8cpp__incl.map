@@ -1,5 +1,5 @@
-<map id="src/applications/main_matrix_free.cpp" name="src/applications/main_matrix_free.cpp">
-<area shape="rect" id="Node000001" title="Main driver for the matrix&#45;free ADR solver with hybrid parallelization." alt="" coords="995,5,1139,44"/>
+<map id="src/applications/main/main_matrix_free.cpp" name="src/applications/main/main_matrix_free.cpp">
+<area shape="rect" id="Node000001" title="Main driver for the matrix&#45;free ADR solver with hybrid parallelization." alt="" coords="992,5,1142,44"/>
 <area shape="rect" id="Node000002" href="$problem__definition_8h.html" title="Defines the problem interface and a concrete Advection&#45;Diffusion&#45;Reaction (ADR) problem." alt="" coords="296,272,462,297"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1018,47,425,269,423,264,1017,42"/>
 <area shape="rect" id="Node000009" href="$types_8h.html" title="Common type definitions for the hybrid solver framework." alt="" coords="1367,272,1460,297"/>

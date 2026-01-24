@@ -1,36 +1,36 @@
 <map id="src/include/core/problem_definition.h" name="src/include/core/problem_definition.h">
-<area shape="rect" id="Node000001" title="Defines the problem interface and a concrete Advection&#45;Diffusion&#45;Reaction (ADR) problem." alt="" coords="633,5,796,44"/>
-<area shape="rect" id="Node000002" href="$benchmark__main_8cpp.html" title="Main benchmark driver for comparing hybrid vs fully distributed solvers." alt="" coords="558,286,739,325"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="708,60,699,93,655,287,649,285,694,91,703,58"/>
-<area shape="rect" id="Node000003" href="$strong__scaling_8cpp.html" title="Strong scaling benchmark for hybrid vs distributed solvers." alt="" coords="763,286,944,325"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="722,59,739,140,756,186,778,230,803,260,830,284,826,288,799,263,774,233,751,189,734,142,716,60"/>
-<area shape="rect" id="Node000004" href="$weak__scaling_8cpp.html" title="Weak scaling benchmark for hybrid vs distributed solvers." alt="" coords="968,286,1150,325"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="812,39,872,58,901,72,927,90,952,112,974,137,1011,192,1038,245,1055,285,1050,287,1033,247,1007,195,970,141,948,116,924,94,898,77,870,63,811,44"/>
-<area shape="rect" id="Node000005" href="$convergence__study_8cpp.html" title="Drivers for calculating convergence rates of Matrix&#45;Based and Matrix&#45;Free solvers." alt="" coords="174,286,363,325"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="674,55,610,94,299,288,296,284,607,90,671,50"/>
-<area shape="rect" id="Node000006" href="$main__matrix__based_8cpp.html" title=" " alt="" coords="5,286,150,325"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="651,52,544,94,300,202,117,288,115,283,298,198,542,90,649,47"/>
-<area shape="rect" id="Node000007" href="$main__matrix__free_8cpp.html" title="Main driver for the matrix&#45;free ADR solver with hybrid parallelization." alt="" coords="1384,286,1528,325"/>
-<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="812,46,887,65,964,89,1097,140,1227,194,1420,283,1417,288,1224,199,1095,145,962,95,885,71,811,51"/>
-<area shape="rect" id="Node000008" href="$matrix__based__solver_8h.html" title="Matrix&#45;based solver using WorkStream for hybrid parallelization." alt="" coords="481,179,626,231"/>
-<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="685,56,647,94,575,180,571,176,644,90,681,53"/>
-<area shape="rect" id="Node000010" href="$adr__operator_8h.html" title=" " alt="" coords="753,92,890,131"/>
-<area shape="poly" id="edge14_Node000001_Node000010" title=" " alt="" coords="752,52,800,89,796,94,749,56"/>
-<area shape="rect" id="Node000011" href="$matrix__free__solver_8h.html" title="Matrix&#45;free solver with hybrid MPI+threading parallelization." alt="" coords="788,186,959,224"/>
-<area shape="poly" id="edge22_Node000001_Node000011" title=" " alt="" coords="813,34,864,54,886,70,905,91,914,115,911,141,901,166,889,187,884,184,896,164,906,140,908,116,901,93,883,74,861,59,811,39"/>
-<area shape="poly" id="edge8_Node000008_Node000002" title=" " alt="" coords="590,241,632,284,629,288,586,244"/>
-<area shape="poly" id="edge9_Node000008_Node000003" title=" " alt="" coords="642,232,798,283,796,288,640,237"/>
-<area shape="poly" id="edge10_Node000008_Node000004" title=" " alt="" coords="642,218,789,244,957,277,986,283,984,288,956,282,788,249,641,223"/>
-<area shape="poly" id="edge11_Node000008_Node000005" title=" " alt="" coords="467,239,323,288,321,283,465,234"/>
-<area shape="poly" id="edge12_Node000008_Node000006" title=" " alt="" coords="466,223,323,248,162,282,138,288,137,283,161,277,322,243,465,217"/>
-<area shape="rect" id="Node000009" href="$matrix__based__solver_8cpp.html" title="Implementation of the Matrix&#45;based Finite Element solver." alt="" coords="388,279,533,332"/>
-<area shape="poly" id="edge13_Node000008_Node000009" title=" " alt="" coords="521,245,486,281,483,277,517,241"/>
-<area shape="poly" id="edge15_Node000010_Node000011" title=" " alt="" coords="842,143,865,184,861,187,837,145"/>
-<area shape="poly" id="edge16_Node000011_Node000002" title=" " alt="" coords="818,233,692,288,690,283,816,229"/>
-<area shape="poly" id="edge17_Node000011_Node000003" title=" " alt="" coords="869,240,860,287,855,285,864,239"/>
-<area shape="poly" id="edge18_Node000011_Node000004" title=" " alt="" coords="924,230,1025,283,1022,288,921,234"/>
-<area shape="poly" id="edge19_Node000011_Node000005" title=" " alt="" coords="773,221,588,247,375,282,344,288,343,283,374,277,587,241,772,216"/>
-<area shape="poly" id="edge20_Node000011_Node000007" title=" " alt="" coords="975,214,1161,238,1267,256,1373,277,1398,283,1397,288,1372,282,1266,261,1160,244,975,219"/>
-<area shape="rect" id="Node000012" href="$matrix__free__solver_8cpp.html" title="Implementation of the Matrix&#45;free solver." alt="" coords="1174,286,1360,325"/>
-<area shape="poly" id="edge21_Node000011_Node000012" title=" " alt="" coords="964,226,1193,283,1192,288,963,231"/>
+<area shape="rect" id="Node000001" title="Defines the problem interface and a concrete Advection&#45;Diffusion&#45;Reaction (ADR) problem." alt="" coords="644,5,807,44"/>
+<area shape="rect" id="Node000002" href="$benchmark__main_8cpp.html" title="Main benchmark driver for comparing hybrid vs fully distributed solvers." alt="" coords="568,286,750,325"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="718,60,710,93,665,287,660,285,704,91,713,58"/>
+<area shape="rect" id="Node000003" href="$convergence__study_8cpp.html" title="Drivers for calculating convergence rates of Matrix&#45;Based and Matrix&#45;Free solvers." alt="" coords="774,286,955,325"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="732,59,750,140,767,186,789,230,814,260,841,284,837,288,810,263,785,233,762,189,745,142,727,60"/>
+<area shape="rect" id="Node000004" href="$strong__scaling_8cpp.html" title="Strong scaling benchmark for hybrid vs distributed solvers." alt="" coords="979,286,1160,325"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="823,39,882,58,911,72,938,90,963,112,985,137,1022,192,1049,245,1066,285,1061,287,1044,247,1018,195,981,141,959,116,935,94,909,77,880,63,822,44"/>
+<area shape="rect" id="Node000005" href="$weak__scaling_8cpp.html" title="Weak scaling benchmark for hybrid vs distributed solvers." alt="" coords="192,286,374,325"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="684,55,620,94,482,181,313,288,310,284,479,176,618,90,682,50"/>
+<area shape="rect" id="Node000006" href="$main__matrix__based_8cpp.html" title=" " alt="" coords="5,286,169,325"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="661,52,553,94,309,202,126,288,124,283,307,197,551,90,659,47"/>
+<area shape="rect" id="Node000007" href="$main__matrix__free_8cpp.html" title="Main driver for the matrix&#45;free ADR solver with hybrid parallelization." alt="" coords="1394,286,1545,325"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="823,46,975,89,1109,140,1239,194,1433,283,1431,288,1237,199,1107,145,973,95,821,51"/>
+<area shape="rect" id="Node000008" href="$matrix__based__solver_8h.html" title="Matrix&#45;based solver using WorkStream for hybrid parallelization." alt="" coords="492,179,637,231"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="696,56,658,94,586,180,582,176,654,90,692,53"/>
+<area shape="rect" id="Node000010" href="$adr__operator_8h.html" title=" " alt="" coords="764,92,901,131"/>
+<area shape="poly" id="edge14_Node000001_Node000010" title=" " alt="" coords="763,52,810,89,807,94,760,56"/>
+<area shape="rect" id="Node000011" href="$matrix__free__solver_8h.html" title="Matrix&#45;free solver with hybrid MPI+threading parallelization." alt="" coords="799,186,970,224"/>
+<area shape="poly" id="edge22_Node000001_Node000011" title=" " alt="" coords="823,34,874,54,897,70,916,91,924,115,922,141,912,166,900,187,895,184,907,164,916,140,919,116,911,93,894,74,872,59,821,39"/>
+<area shape="poly" id="edge8_Node000008_Node000002" title=" " alt="" coords="601,241,643,284,639,288,597,244"/>
+<area shape="poly" id="edge9_Node000008_Node000003" title=" " alt="" coords="653,232,808,283,807,288,651,237"/>
+<area shape="poly" id="edge10_Node000008_Node000004" title=" " alt="" coords="653,218,800,244,968,277,996,283,995,288,966,282,799,249,652,223"/>
+<area shape="poly" id="edge11_Node000008_Node000005" title=" " alt="" coords="478,239,337,288,335,283,476,234"/>
+<area shape="poly" id="edge12_Node000008_Node000006" title=" " alt="" coords="476,224,337,249,181,282,155,288,154,283,180,277,336,244,476,219"/>
+<area shape="rect" id="Node000009" href="$matrix__based__solver_8cpp.html" title="Implementation of the Matrix&#45;based Finite Element solver." alt="" coords="398,279,544,332"/>
+<area shape="poly" id="edge13_Node000008_Node000009" title=" " alt="" coords="532,245,497,281,493,277,528,241"/>
+<area shape="poly" id="edge15_Node000010_Node000011" title=" " alt="" coords="853,143,876,184,872,187,848,145"/>
+<area shape="poly" id="edge16_Node000011_Node000002" title=" " alt="" coords="829,233,703,288,701,283,827,229"/>
+<area shape="poly" id="edge17_Node000011_Node000003" title=" " alt="" coords="880,240,871,287,865,285,875,239"/>
+<area shape="poly" id="edge18_Node000011_Node000004" title=" " alt="" coords="934,230,1036,283,1033,288,932,234"/>
+<area shape="poly" id="edge19_Node000011_Node000005" title=" " alt="" coords="784,221,598,246,386,282,356,288,355,283,385,277,597,241,783,216"/>
+<area shape="poly" id="edge20_Node000011_Node000007" title=" " alt="" coords="986,214,1172,239,1384,277,1409,283,1408,288,1382,282,1171,244,985,220"/>
+<area shape="rect" id="Node000012" href="$matrix__free__solver_8cpp.html" title="Implementation of the Matrix&#45;free solver." alt="" coords="1185,286,1370,325"/>
+<area shape="poly" id="edge21_Node000011_Node000012" title=" " alt="" coords="975,226,1204,283,1202,288,973,231"/>
 </map>
