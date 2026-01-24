@@ -129,7 +129,7 @@ Collaboration diagram for HybridADRSolver::ParallelSolverBase&lt; dim &gt;:</div
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a77ab963e0e19f20b7796391228249776" id="r_a77ab963e0e19f20b7796391228249776"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a77ab963e0e19f20b7796391228249776">ParallelSolverBase</a> (MPI_Comm comm, const <a class="el" href="structHybridADRSolver_1_1SolverParameters.html">SolverParameters</a> &amp;params)</td></tr>
+<tr class="memitem:a7041a10316760de354c3898fc542f35c" id="r_a7041a10316760de354c3898fc542f35c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7041a10316760de354c3898fc542f35c">ParallelSolverBase</a> (MPI_Comm comm, <a class="el" href="structHybridADRSolver_1_1SolverParameters.html">SolverParameters</a> params)</td></tr>
 <tr class="memitem:a4715a01d1a6e0953ad0fee821f1551c0" id="r_a4715a01d1a6e0953ad0fee821f1551c0"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4715a01d1a6e0953ad0fee821f1551c0">~ParallelSolverBase</a> ()=default</td></tr>
 <tr class="memitem:a292eb2256eb64421c621ceb4fce5a70e" id="r_a292eb2256eb64421c621ceb4fce5a70e"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a292eb2256eb64421c621ceb4fce5a70e">run</a> (unsigned int n_refinements)=0</td></tr>
 <tr class="memitem:a189b05a7ddae0a51cdf40835ab3530bf" id="r_a189b05a7ddae0a51cdf40835ab3530bf"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="structHybridADRSolver_1_1TimingResults.html">TimingResults</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a189b05a7ddae0a51cdf40835ab3530bf">get_timing_results</a> () const</td></tr>
@@ -142,7 +142,7 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:ad78ad9c73638fe3e8e0ca020453b41e5" id="r_ad78ad9c73638fe3e8e0ca020453b41e5"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad78ad9c73638fe3e8e0ca020453b41e5">setup_dofs</a> ()=0</td></tr>
 <tr class="memitem:a1c0394fd4e16b7a0c321f8d6f23fa867" id="r_a1c0394fd4e16b7a0c321f8d6f23fa867"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1c0394fd4e16b7a0c321f8d6f23fa867">assemble_system</a> ()=0</td></tr>
 <tr class="memitem:a98b341d0949ede6584d02d3520eb1642" id="r_a98b341d0949ede6584d02d3520eb1642"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a98b341d0949ede6584d02d3520eb1642">solve</a> ()=0</td></tr>
-<tr class="memitem:a1cabfab934aea3b3c0db0573e0291a63" id="r_a1cabfab934aea3b3c0db0573e0291a63"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1cabfab934aea3b3c0db0573e0291a63">output_results</a> (const unsigned int cycle) const =0</td></tr>
+<tr class="memitem:a186e59630482325dce51e425a349783b" id="r_a186e59630482325dce51e425a349783b"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a186e59630482325dce51e425a349783b">output_results</a> (unsigned int cycle) const =0</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pro-attribs" class="groupheader"><a id="pro-attribs" name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -162,8 +162,8 @@ Protected Attributes</h2></td></tr>
 <tr class="memitem:a952f68312d883f472887719276289a6d" id="r_a952f68312d883f472887719276289a6d"><td class="memItemLeft" align="right" valign="top">TimerOutput&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a952f68312d883f472887719276289a6d">computing_timer</a></td></tr>
 </table>
 <a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a77ab963e0e19f20b7796391228249776" name="a77ab963e0e19f20b7796391228249776"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a77ab963e0e19f20b7796391228249776">&#9670;&#160;</a></span>ParallelSolverBase()</h2>
+<a id="a7041a10316760de354c3898fc542f35c" name="a7041a10316760de354c3898fc542f35c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7041a10316760de354c3898fc542f35c">&#9670;&#160;</a></span>ParallelSolverBase()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -178,7 +178,7 @@ template&lt;int dim&gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="structHybridADRSolver_1_1SolverParameters.html">SolverParameters</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>params</em></span>&#160;)</td>
+          <td class="paramtype"><a class="el" href="structHybridADRSolver_1_1SolverParameters.html">SolverParameters</a></td>          <td class="paramname"><span class="paramname"><em>params</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -338,8 +338,8 @@ template&lt;int dim&gt; </div>
 
 </div>
 </div>
-<a id="a1cabfab934aea3b3c0db0573e0291a63" name="a1cabfab934aea3b3c0db0573e0291a63"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1cabfab934aea3b3c0db0573e0291a63">&#9670;&#160;</a></span>output_results()</h2>
+<a id="a186e59630482325dce51e425a349783b" name="a186e59630482325dce51e425a349783b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a186e59630482325dce51e425a349783b">&#9670;&#160;</a></span>output_results()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -352,7 +352,7 @@ template&lt;int dim&gt; </div>
         <tr>
           <td class="memname">virtual void <a class="el" href="classHybridADRSolver_1_1ParallelSolverBase.html">HybridADRSolver::ParallelSolverBase</a>&lt; dim &gt;::output_results </td>
           <td>(</td>
-          <td class="paramtype">const unsigned int</td>          <td class="paramname"><span class="paramname"><em>cycle</em></span></td><td>)</td>
+          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>cycle</em></span></td><td>)</td>
           <td> const</td>
         </tr>
       </table>

@@ -27,7 +27,7 @@ Collaboration diagram for Hybrid\+ADRSolver\+::Parallel\+Solver\+Base\texorpdfst
 \doxysubsubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{classHybridADRSolver_1_1ParallelSolverBase_a77ab963e0e19f20b7796391228249776}{Parallel\+Solver\+Base}} (MPI\+\_\+\+Comm comm, const \mbox{\hyperlink{structHybridADRSolver_1_1SolverParameters}{Solver\+Parameters}} \&params)
+\mbox{\hyperlink{classHybridADRSolver_1_1ParallelSolverBase_a7041a10316760de354c3898fc542f35c}{Parallel\+Solver\+Base}} (MPI\+\_\+\+Comm comm, \mbox{\hyperlink{structHybridADRSolver_1_1SolverParameters}{Solver\+Parameters}} params)
 \item 
 virtual \mbox{\hyperlink{classHybridADRSolver_1_1ParallelSolverBase_a4715a01d1a6e0953ad0fee821f1551c0}{\texorpdfstring{$\sim$}{\string~}\+Parallel\+Solver\+Base}} ()=default
 \item 
@@ -50,7 +50,7 @@ virtual void \mbox{\hyperlink{classHybridADRSolver_1_1ParallelSolverBase_a1c0394
 \item 
 virtual void \mbox{\hyperlink{classHybridADRSolver_1_1ParallelSolverBase_a98b341d0949ede6584d02d3520eb1642}{solve}} ()=0
 \item 
-virtual void \mbox{\hyperlink{classHybridADRSolver_1_1ParallelSolverBase_a1cabfab934aea3b3c0db0573e0291a63}{output\+\_\+results}} (const unsigned int cycle) const =0
+virtual void \mbox{\hyperlink{classHybridADRSolver_1_1ParallelSolverBase_a186e59630482325dce51e425a349783b}{output\+\_\+results}} (unsigned int cycle) const =0
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Protected Attributes}
 \begin{DoxyCompactItemize}
@@ -88,12 +88,12 @@ Timer\+Output \mbox{\hyperlink{classHybridADRSolver_1_1ParallelSolverBase_a952f6
 \label{doc-constructors}
 \Hypertarget{classHybridADRSolver_1_1ParallelSolverBase_doc-constructors}
 \doxysubsection{Constructor \& Destructor Documentation}
-\Hypertarget{classHybridADRSolver_1_1ParallelSolverBase_a77ab963e0e19f20b7796391228249776}\index{HybridADRSolver::ParallelSolverBase$<$ dim $>$@{HybridADRSolver::ParallelSolverBase$<$ dim $>$}!ParallelSolverBase@{ParallelSolverBase}}
+\Hypertarget{classHybridADRSolver_1_1ParallelSolverBase_a7041a10316760de354c3898fc542f35c}\index{HybridADRSolver::ParallelSolverBase$<$ dim $>$@{HybridADRSolver::ParallelSolverBase$<$ dim $>$}!ParallelSolverBase@{ParallelSolverBase}}
 \index{ParallelSolverBase@{ParallelSolverBase}!HybridADRSolver::ParallelSolverBase$<$ dim $>$@{HybridADRSolver::ParallelSolverBase$<$ dim $>$}}
 \doxysubsubsection{\texorpdfstring{ParallelSolverBase()}{ParallelSolverBase()}}
-{\footnotesize\ttfamily \label{classHybridADRSolver_1_1ParallelSolverBase_a77ab963e0e19f20b7796391228249776} 
+{\footnotesize\ttfamily \label{classHybridADRSolver_1_1ParallelSolverBase_a7041a10316760de354c3898fc542f35c} 
 template$<$int dim$>$ \\
-\mbox{\hyperlink{classHybridADRSolver_1_1ParallelSolverBase}{Hybrid\+ADRSolver\+::\+Parallel\+Solver\+Base}}$<$ dim $>$\+::\+Parallel\+Solver\+Base (\begin{DoxyParamCaption}\item[{MPI\+\_\+\+Comm}]{comm}{, }\item[{const \mbox{\hyperlink{structHybridADRSolver_1_1SolverParameters}{Solver\+Parameters}} \&}]{params}{}\end{DoxyParamCaption})}
+\mbox{\hyperlink{classHybridADRSolver_1_1ParallelSolverBase}{Hybrid\+ADRSolver\+::\+Parallel\+Solver\+Base}}$<$ dim $>$\+::\+Parallel\+Solver\+Base (\begin{DoxyParamCaption}\item[{MPI\+\_\+\+Comm}]{comm}{, }\item[{\mbox{\hyperlink{structHybridADRSolver_1_1SolverParameters}{Solver\+Parameters}}}]{params}{}\end{DoxyParamCaption})}
 
 Constructor 
 \begin{DoxyParams}{Parameters}
@@ -154,12 +154,12 @@ Implemented in \mbox{\hyperlink{classHybridADRSolver_1_1MatrixBasedSolver_ae4d8a
 template$<$int dim$>$ \\
 const \mbox{\hyperlink{structHybridADRSolver_1_1TimingResults}{Timing\+Results}} \& \mbox{\hyperlink{classHybridADRSolver_1_1ParallelSolverBase}{Hybrid\+ADRSolver\+::\+Parallel\+Solver\+Base}}$<$ dim $>$\+::get\+\_\+timing\+\_\+results (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
 
-Get timing results from the last run \Hypertarget{classHybridADRSolver_1_1ParallelSolverBase_a1cabfab934aea3b3c0db0573e0291a63}\index{HybridADRSolver::ParallelSolverBase$<$ dim $>$@{HybridADRSolver::ParallelSolverBase$<$ dim $>$}!output\_results@{output\_results}}
+Get timing results from the last run \Hypertarget{classHybridADRSolver_1_1ParallelSolverBase_a186e59630482325dce51e425a349783b}\index{HybridADRSolver::ParallelSolverBase$<$ dim $>$@{HybridADRSolver::ParallelSolverBase$<$ dim $>$}!output\_results@{output\_results}}
 \index{output\_results@{output\_results}!HybridADRSolver::ParallelSolverBase$<$ dim $>$@{HybridADRSolver::ParallelSolverBase$<$ dim $>$}}
 \doxysubsubsection{\texorpdfstring{output\_results()}{output\_results()}}
-{\footnotesize\ttfamily \label{classHybridADRSolver_1_1ParallelSolverBase_a1cabfab934aea3b3c0db0573e0291a63} 
+{\footnotesize\ttfamily \label{classHybridADRSolver_1_1ParallelSolverBase_a186e59630482325dce51e425a349783b} 
 template$<$int dim$>$ \\
-virtual void \mbox{\hyperlink{classHybridADRSolver_1_1ParallelSolverBase}{Hybrid\+ADRSolver\+::\+Parallel\+Solver\+Base}}$<$ dim $>$\+::output\+\_\+results (\begin{DoxyParamCaption}\item[{const unsigned int}]{cycle}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [pure virtual]}}
+virtual void \mbox{\hyperlink{classHybridADRSolver_1_1ParallelSolverBase}{Hybrid\+ADRSolver\+::\+Parallel\+Solver\+Base}}$<$ dim $>$\+::output\+\_\+results (\begin{DoxyParamCaption}\item[{unsigned int}]{cycle}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [pure virtual]}}
 
 Output results to files 
 \begin{DoxyParams}{Parameters}
