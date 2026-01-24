@@ -9,7 +9,7 @@ var classHybridADRSolver_1_1ParallelSolverBase =
     [ "output_results", "classHybridADRSolver_1_1ParallelSolverBase.html#a1cabfab934aea3b3c0db0573e0291a63", null ],
     [ "run", "classHybridADRSolver_1_1ParallelSolverBase.html#a292eb2256eb64421c621ceb4fce5a70e", null ],
     [ "setup_dofs", "classHybridADRSolver_1_1ParallelSolverBase.html#ad78ad9c73638fe3e8e0ca020453b41e5", null ],
-    [ "setup_grid", "classHybridADRSolver_1_1ParallelSolverBase.html#a1a8f8a07786c68b12898e58ad345a4cc", null ],
+    [ "setup_grid", "classHybridADRSolver_1_1ParallelSolverBase.html#af7d316d4fc92d6847a571a50bd2a4ac4", null ],
     [ "solve", "classHybridADRSolver_1_1ParallelSolverBase.html#a98b341d0949ede6584d02d3520eb1642", null ],
     [ "computing_timer", "classHybridADRSolver_1_1ParallelSolverBase.html#a952f68312d883f472887719276289a6d", null ],
     [ "constraints", "classHybridADRSolver_1_1ParallelSolverBase.html#a3b8db48a6033374edcd9cc98fc44ed4a", null ],

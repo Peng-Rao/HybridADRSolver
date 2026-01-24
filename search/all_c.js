@@ -1,7 +1,7 @@
 var searchData=
 [
   ['n_0',['n',['../classHybridADRSolver_1_1ADROperator.html#ae19d0ff622fc22e79b192bf9e4ade2da',1,'HybridADRSolver::ADROperator']]],
-  ['n_5fcells_1',['n_cells',['../structBenchmarkUtils_1_1BenchmarkResult.html#a0b3dab71332f3ee193496ac24dd03311',1,'BenchmarkUtils::BenchmarkResult']]],
+  ['n_5fcells_1',['n_cells',['../structBenchmarkUtils_1_1BenchmarkResult.html#a0b3dab71332f3ee193496ac24dd03311',1,'BenchmarkUtils::BenchmarkResult::n_cells'],['../structHybridADRSolver_1_1TimingResults.html#a75108e6f61ec8ecbc8c529ba7925d1cd',1,'HybridADRSolver::TimingResults::n_cells']]],
   ['n_5fdofs_2',['n_dofs',['../structBenchmarkUtils_1_1BenchmarkResult.html#a6c2d9111fbe7112333b999f476f3f3af',1,'BenchmarkUtils::BenchmarkResult::n_dofs'],['../structWeakScalingResult.html#ab4656da5f8492561653729b25072c28c',1,'WeakScalingResult::n_dofs'],['../structHybridADRSolver_1_1TimingResults.html#a198c3720d7233dea6fd319224ecf14e0',1,'HybridADRSolver::TimingResults::n_dofs']]],
   ['n_5fiterations_3',['n_iterations',['../structBenchmarkUtils_1_1BenchmarkResult.html#a9460334f0e84cd59ef2b9631164c3231',1,'BenchmarkUtils::BenchmarkResult::n_iterations'],['../structHybridADRSolver_1_1TimingResults.html#aa1cc78b0a55a8e261222be1ab7f7dc28',1,'HybridADRSolver::TimingResults::n_iterations']]],
   ['n_5fmpi_5fprocesses_4',['n_mpi_processes',['../structBenchmarkUtils_1_1BenchmarkResult.html#af604f2d3e9d3a9a16802f1cda353f9a7',1,'BenchmarkUtils::BenchmarkResult::n_mpi_processes'],['../structWeakScalingResult.html#ac87436084ecd4910485d24a068451f13',1,'WeakScalingResult::n_mpi_processes'],['../classHybridADRSolver_1_1ParallelSolverBase.html#abc7c45717266a9e94f0fa6666d192d42',1,'HybridADRSolver::ParallelSolverBase::n_mpi_processes']]],

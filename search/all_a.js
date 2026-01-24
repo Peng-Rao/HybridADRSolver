@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['l2_5ferror_0',['l2_error',['../structBenchmarkUtils_1_1BenchmarkResult.html#adfecfb6aa95210406190f893f29d87a1',1,'BenchmarkUtils::BenchmarkResult']]],
+  ['l2_5ferror_0',['l2_error',['../structBenchmarkUtils_1_1BenchmarkResult.html#adfecfb6aa95210406190f893f29d87a1',1,'BenchmarkUtils::BenchmarkResult::l2_error'],['../structHybridADRSolver_1_1TimingResults.html#a1ab6998c1b5b7e80122fa053f69c17f3',1,'HybridADRSolver::TimingResults::l2_error']]],
   ['linear_5fsolver_1',['linear_solver',['../structHybridADRSolver_1_1SolverParameters.html#a8f070d4c82159eeae6bcf8da6240c650',1,'HybridADRSolver::SolverParameters']]],
   ['linearsolvertype_2',['LinearSolverType',['../namespaceHybridADRSolver.html#a222b7a02326125bfc0eec6713f38e5ff',1,'HybridADRSolver']]],
   ['local_5fdof_5findices_3',['local_dof_indices',['../structHybridADRSolver_1_1CopyData.html#a18386802eee1a404cfb9299bfb62b3fc',1,'HybridADRSolver::CopyData']]],
