@@ -70,6 +70,10 @@ backend=biber]{biblatex}
         \vspace{1cm}
 
         \large{\textbf{Peng Rao}, \textbf{Jiali Claudio Huang}, \textbf{Ruiying Jiao}}
+
+        \vspace{1cm}
+
+        \small{\textbf{Repo: \href{https://github.com/Peng-Rao/HybridADRSolver}{https://github.com/Peng-Rao/HybridADRSolver}}}
     \end{center}
 
 \end{titlingpage}
@@ -109,9 +113,6 @@ where:
     \item $u$ is the unknown scalar function to be solved for.
     \item $\Gamma_D$ and $\Gamma_N$ are the Dirichlet and Neumann parts of the boundary, respectively.
 \end{itemize}
-
-
-It models how a scalar quantity u (such as concentration, temperature, or chemical potential) is distributed within a domain due to three competing physical processes: diffusion, advection, and reaction.
 
 \subsection{Weak formulation}
 We begin by defining the trial and test function spaces. To accommodate the non-homogeneous Dirichlet boundary condition, we introduce a \textit{lifting function} $u_g \in H^1(\Omega)$ such that $u_g = g$ on $\Gamma_D$:
@@ -202,7 +203,7 @@ Assuming $\boldsymbol{\beta}$ is divergence-free ($\nabla \cdot \boldsymbol{\bet
 \end{equation}
 
 % \subsection{Boundary Conditions}
-The problem domain boundary $\partial \Omega$ is split into Dirichlet ($\Gamma_D$) and Neumann ($\Gamma_N$) portions to test mixed boundary conditions.
+The problem domain boundary $\partial \Omega$ is split into Dirichlet ($\Gamma_D$) and Neumann ($\Gamma_N$) portions to test mixed boundary conditions. Figure \ref{fig:boundary_conditions} illustrates the boundary conditions on a 2D unit square domain.
 
 \paragraph{Neumann Boundary ($\Gamma_N$)}
 We apply a Neumann condition on the ``Right'' face of the hypercube, defined as the plane $x_1 = 1$. The outward unit normal is $\mathbf{n} = (1, 0, \dots)^T$. The required flux $h$ is derived from the exact solution:
@@ -225,11 +226,74 @@ On all other boundaries ($\partial \Omega \setminus \Gamma_N$), we enforce a hom
 \end{equation}
 This is consistent with the exact solution, as $\sin(\pi x_i) = 0$ when $x_i \in \{0, 1\}$.
 
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[scale=5]
+        % Define coordinates for the unit square corners
+        \coordinate (O) at (0,0); % Bottom-left
+        \coordinate (A) at (1,0); % Bottom-right
+        \coordinate (B) at (1,1); % Top-right
+        \coordinate (C) at (0,1); % Top-left
+
+        % Draw Axes for context
+        \draw[->, thick, gray] (-0.2,0) -- (1.3,0) node[right, black] {$x_1$};
+        \draw[->, thick, gray] (0,-0.2) -- (0,1.3) node[above, black] {$x_2$};
+
+        % --- Draw Dirichlet Boundaries ($\Gamma_D$) ---
+        % Left ($x_1=0$), Bottom ($x_2=0$), Top ($x_2=1$)
+        % Using thick blue lines
+        \draw[line width=2.5pt, blue] (C) -- (O) -- (A);
+        \draw[line width=2.5pt, blue] (C) -- (B);
+
+        % --- Draw Neumann Boundary ($\Gamma_N$) ---
+        % Right face ($x_1=1$)
+        % Using thick red line
+        \draw[line width=2.5pt, red] (A) -- (B);
+
+        % --- Labels and Annotations ---
+
+        % Domain label
+        \node at (0.5, 0.5) {\Huge $\Omega$};
+
+        % Corner coordinate labels
+        \node[below left] at (O) {$(0,0)$};
+        \node[below] at (A) {$(1,0)$};
+        \node[above] at (B) {$(1,1)$};
+        \node[left] at (C) {$(0,1)$};
+
+        % Dirichlet boundary labels
+        % Labeling the regions
+        \node[blue, left, font=\large] at (0, 0.5) {$\Gamma_D$};
+        \node[blue, below, font=\large] at (0.5, 0) {$\Gamma_D$};
+        \node[blue, above, font=\large] at (0.5, 1) {$\Gamma_D$};
+        % Labeling the condition
+        \node[blue, fill=white, rounded corners=2pt, inner sep=2pt] at (0.25, 0.25) {\large $u=0$};
+
+
+        % Neumann boundary annotations
+        % Labeling the region
+        \node[red, right, font=\large] at (1, 0.8) {$\Gamma_N$};
+
+        % Drawing outward normal vector n = (1,0)
+        \draw[->, line width=1.5pt, black] (1, 0.5) -- (1.25, 0.5) node[midway, above] {$\mathbf{n}$};
+
+        % Labeling the flux condition
+        \node[right, red, align=left] at (1.25, 0.5) {$\nabla u \cdot \mathbf{n} = h$};
+
+        % Optional Legend/Title (commented out, but useful if needed)
+        %\node[above, font=\bfseries] at (0.5, 1.4) {2D Boundary Conditions on Unit Square};
+
+    \end{tikzpicture}
+    \caption{2D Domain with Mixed Boundary Conditions}
+    \label{fig:boundary_conditions}
+\end{figure}
+
 \pagebreak
 
 \section{Finite Element Discretization} \label{sec:fem_discretization}
 
-To solve the weak formulation (\cref{sec:problem_statement}) numerically, we employ the Finite Element Method (FEM). This involves approximating the infinite-dimensional function spaces $V_g$ and $V_0$ with finite-dimensional subspaces defined on a computational mesh.
+To solve the weak formulation numerically, we employ the Finite Element Method (FEM). This involves approximating the infinite-dimensional function spaces $V_g$ and $V_0$ with finite-dimensional subspaces defined on a computational mesh.
 
 \subsection{Triangulation and Finite Element Space}
 We consider a triangulation $\mathcal{T}_h = \{K\}$ of the domain $\Omega$, consisting of non-overlapping hexahedral (or quadrilateral in 2D) cells $K$ such that $\overline{\Omega} = \bigcup_{K \in \mathcal{T}_h} \overline{K}$. The parameter $h$ denotes the characteristic mesh size, $h = \max_{K \in \mathcal{T}_h} \text{diam}(K)$.
@@ -275,8 +339,60 @@ The right-hand side vector $\mathbf{F}$ includes the source term, the Neumann bo
 \end{equation}
 The Neumann term is only non-zero if the support of $\varphi_i$ intersects with $\Gamma_N$.
 
-\subsection{Treatment of Advection Dominance}
-It is well known that for convection-dominated problems (where the Péclet number $Pe = \frac{|\boldsymbol{\beta}|h}{2\mu} > 1$), the standard Galerkin formulation described above may produce spurious non-physical oscillations. While the manufactured solution chosen in \cref{sec:numerical_verification} allows for convergence testing, typical industrial applications often require stabilization techniques such as Streamline-Upwind Petrov-Galerkin (SUPG) to ensure robust solutions. For this verification benchmark, we utilize a sufficiently refined mesh to maintain stability within the standard Galerkin framework.
+\subsection{Convergence and Error Estimation}
+The finite element solution $u_h$ converges to the exact solution $u$ as the mesh is refined ($h \to 0$). Under appropriate regularity assumptions on the solution and the domain, classical a priori error estimates provide bounds on the discretization error.
+
+\paragraph{Error Norms}\label{par:error_norms}
+We measure the approximation error in the standard Sobolev norms:
+\begin{itemize}
+    \item \textbf{$L^2$-norm (energy norm for the solution):}
+          \begin{equation}
+              \| u - u_h \|_{L^2(\Omega)} = \left( \int_{\Omega} |u - u_h|^2 \, dx \right)^{1/2}.
+          \end{equation}
+    \item \textbf{$H^1$-seminorm (energy norm for the gradient):}
+          \begin{equation}
+              | u - u_h |_{H^1(\Omega)} = \left( \int_{\Omega} |\nabla(u - u_h)|^2 \, dx \right)^{1/2}.
+          \end{equation}
+\end{itemize}
+
+\paragraph{A Priori Error Estimates}
+Assuming the exact solution $u \in H^{k+1}(\Omega)$ and the bilinear form $a(\cdot, \cdot)$ is coercive and continuous, the following error estimates hold for Lagrangian finite elements of polynomial degree $k$:
+
+\begin{itemize}
+    \item \textbf{$H^1$-error estimate:} By Céa's lemma and standard interpolation theory,
+          \begin{equation}
+              | u - u_h |_{H^1(\Omega)} \leq C h^k | u |_{H^{k+1}(\Omega)},
+          \end{equation}
+          where $C > 0$ is a constant independent of $h$.
+
+    \item \textbf{$L^2$-error estimate:} Using the Aubin-Nitsche duality argument,
+          \begin{equation}
+              \| u - u_h \|_{L^2(\Omega)} \leq C h^{k+1} | u |_{H^{k+1}(\Omega)}.
+          \end{equation}
+\end{itemize}
+
+These estimates indicate that for smooth solutions, increasing the polynomial degree $k$ or refining the mesh (decreasing $h$) improves accuracy. Specifically:
+\begin{itemize}
+    \item The $H^1$-error converges at rate $\mathcal{O}(h^k)$.
+    \item The $L^2$-error converges at rate $\mathcal{O}(h^{k+1})$.
+\end{itemize}
+
+\pagebreak
+
+\section{Experiments}
+\subsection{Convergence}
+To verify the theoretical convergence rates, we conduct a series of numerical experiments using the manufactured solution defined in \cref{eq:exact_sol}. We define dimensions $d=2$ and use polynomial degree $k=2$ for the finite element space. The resulting convergence plots are shown in Figure \ref{fig:convergence_plot}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/convergence_plot.pdf}
+    \caption{Convergence plot showing $L^2$ errors for Matrix-Based and Matrix-Free implementations.}
+    \label{fig:convergence_plot}
+\end{figure}
+The results confirm the expected convergence rates in section \ref{par:error_norms} for both implementations, demonstrating the correctness of the finite element discretization and the solver implementations.
+
+\subsection{Time Complexity}
+
 
 \clearpage
 \printbibliography[heading=bibintoc, title = {References}]

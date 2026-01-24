@@ -104,7 +104,8 @@ MESSAGE(STATUS "")
 # =============================================================
 # Benchmarks
 # =============================================================
-ADD_SUBDIRECTORY(src/applications/benchmark)
+# ADD_SUBDIRECTORY(src/applications/benchmark)
+ADD_SUBDIRECTORY(src/applications)
 
 # =============================================================
 # Tests

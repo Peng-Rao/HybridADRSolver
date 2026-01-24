@@ -86,6 +86,11 @@ public:
      */
     double get_memory_usage() const;
 
+    /**
+     * @brief Compute the L2 error against the exact solution.
+     */
+    double compute_l2_error() const;
+
 protected:
     void setup_dofs() override;
     void assemble_system() override;
@@ -101,11 +106,6 @@ protected:
      * @brief Assemble the right-hand side vector.
      */
     void assemble_rhs();
-
-    /**
-     * @brief Compute the L2 error against the exact solution.
-     */
-    double compute_l2_error() const;
 
     /**
      * @brief Solve using GMRES with Jacobi preconditioning.

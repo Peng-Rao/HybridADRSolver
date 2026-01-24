@@ -13,7 +13,7 @@
 # PBS Directives
 #-------------------------------------------------------------------------------
 #PBS -N adr_benchmark
-#PBS -l select=4:ncpus=28:mpiprocs=1:ompthreads=28
+#PBS -l select=1:ncpus=28:mpiprocs=1:ompthreads=28
 #PBS -l walltime=04:00:00
 #PBS -q cpu
 #PBS -A Hybrid-Parallelism-ADR-Solver-PDE2025
@@ -22,10 +22,10 @@
 
 #-------------------------------------------------------------------------------
 # Resource Explanation (5 nodes × 112 cores/node cluster):
-#   select=4          : Number of nodes (max 5 available)
-#   ncpus=112         : CPUs per node (112 cores/node)
-#   mpiprocs=4        : MPI ranks per node
-#   ompthreads=28     : Threads per MPI rank (4 × 28 = 112)
+#   select=1          : Number of nodes (max 5 available)
+#   ncpus=28          : CPUs per node (28 cores/node)
+#   mpiprocs=1        : MPI ranks per node
+#   ompthreads=28     : Threads per MPI rank (1 × 28 = 28)
 #   
 # TBB-optimized configurations (fewer ranks = better for TBB work-stealing):
 #   mpiprocs=2,  ompthreads=56   (2 ranks × 56 threads) - maximum threads

@@ -14,7 +14,7 @@ int main(int argc, char* argv[]) {
         params.verbose = true;
         params.output_prefix = "solution";
 
-        const Problems::ADRProblem<3> problem;
+        const Problems::ADRProblem<2> problem;
 
         MatrixBasedSolver solver(problem, 2, MPI_COMM_WORLD, params);
 

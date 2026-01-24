@@ -59,12 +59,16 @@ public:
      */
     double compute_memory_usage() const;
 
+    /**
+     * @brief Compute the L2 error of the solution.
+     */
+    double compute_l2_error();
+
 protected:
     void setup_dofs() override;
     void assemble_system() override;
     void solve() override;
     void output_results(unsigned int cycle) const override;
-    double compute_l2_error();
 
 private:
     const ProblemInterface<dim>& problem;
