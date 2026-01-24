@@ -111,10 +111,13 @@ for CONFIG in "${CONFIGS[@]}"; do
     
     # Intel MPI specific binding
     if mpirun --version 2>&1 | grep -q "Intel"; then
-        # 'scatter' usually spreads ranks across sockets/NUMA domains first
+        # Intel MPI: use -genv to pass variables
+        MPI_CMD="mpirun -np ${TOTAL_RANKS} -ppn ${PPN} -genv TBB_NUM_THREADS=${THREADS} -genv OMP_NUM_THREADS=${THREADS}"
         MPI_OPTS="-genv I_MPI_PIN_DOMAIN=omp -genv I_MPI_PIN_ORDER=scatter"
     else
-        # OpenMPI/Generic fallback
+        # OpenMPI/MPICH: use -x to export variables
+        MPI_CMD="mpirun -np ${TOTAL_RANKS} -ppn ${PPN} -x TBB_NUM_THREADS -x OMP_NUM_THREADS"
+        # Map-by helps ensure the ranks are spaced out correctly for the threads
         MPI_OPTS="--map-by ppr:${PPN}:node:PE=${THREADS}"
     fi
 
