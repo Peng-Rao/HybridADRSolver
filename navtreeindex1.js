@@ -2,6 +2,9 @@ var NAVTREEINDEX1 =
 {
 "classHybridADRSolver_1_1Problems_1_1NeumannFluxRight.html#ab6f72de96970be6497ab326566d5dcfb":[2,0,1,0,2,0],
 "classes.html":[2,1],
+"convergence__study_8cpp.html":[3,0,0,0,1],
+"convergence__study_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97":[3,0,0,0,1,1],
+"convergence__study_8cpp.html#a42f52e2c62b3f4f5dda28ba650790ab2":[3,0,0,0,1,0],
 "dir_30477247984cb555a61c036365bef8f7.html":[3,0,0,1,1],
 "dir_4cf372765f693cf540fc4810db0c309c.html":[3,0,0,1,0],
 "dir_5300cae3a1557603f8e561b18f8f3907.html":[3,0,0,0],
@@ -29,8 +32,6 @@ var NAVTREEINDEX1 =
 "index.html#autotoc_md7":[0,3],
 "index.html#autotoc_md8":[0,3,0],
 "index.html#autotoc_md9":[0,3,1],
-"main_8cpp.html":[3,0,0,0,1],
-"main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97":[3,0,0,0,1,0],
 "main__matrix__based_8cpp.html":[3,0,0,0,2],
 "main__matrix__based_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97":[3,0,0,0,2,0],
 "main__matrix__free_8cpp.html":[3,0,0,0,3],

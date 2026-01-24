@@ -52,7 +52,9 @@ const \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator}{ADROperator}}$<$ dim
 const \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_acf4d4ab462daaab95b3cbb415794dc00}{Vector\+Type}} \& \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_aabb1daa33f3c7ce6158c6a1acb83cdac}{get\+\_\+solution}} () const
 \begin{DoxyCompactList}\small\item\em Get the solution vector. \end{DoxyCompactList}\item 
 double \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_a62f3f05e99546132549e10775099f2aa}{get\+\_\+memory\+\_\+usage}} () const
-\begin{DoxyCompactList}\small\item\em Compute memory usage in MB. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Compute memory usage in MB. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_a7e1164501a435b6cd65d89b39a616572}{compute\+\_\+l2\+\_\+error}} () const
+\begin{DoxyCompactList}\small\item\em Compute the L2 error against the exact solution. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classHybridADRSolver_1_1ParallelSolverBase}{Hybrid\+ADRSolver\+::\+Parallel\+Solver\+Base$<$ dim $>$}}}
 \begin{DoxyCompactItemize}
 \item 
@@ -77,8 +79,6 @@ void \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_ad418a87a46d518b6
 \begin{DoxyCompactList}\small\item\em Setup the Matrix\+Free data structure. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_aaf685380fa1b47b1dbc66fbbc2acac4b}{assemble\+\_\+rhs}} ()
 \begin{DoxyCompactList}\small\item\em Assemble the right-\/hand side vector. \end{DoxyCompactList}\item 
-double \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_a7e1164501a435b6cd65d89b39a616572}{compute\+\_\+l2\+\_\+error}} () const
-\begin{DoxyCompactList}\small\item\em Compute the L2 error against the exact solution. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_afd1177cf465fbbe999000e03d0511b99}{solve\+\_\+gmres\+\_\+jacobi}} ()
 \begin{DoxyCompactList}\small\item\em Solve using GMRES with Jacobi preconditioning. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_a2049313665cbe93c8e75318afa72edde}{solve\+\_\+cg}} ()
@@ -218,7 +218,7 @@ Implements \mbox{\hyperlink{classHybridADRSolver_1_1ParallelSolverBase_a1c0394fd
 \doxysubsubsection{\texorpdfstring{compute\_l2\_error()}{compute\_l2\_error()}}
 {\footnotesize\ttfamily \label{classHybridADRSolver_1_1MatrixFreeSolver_a7e1164501a435b6cd65d89b39a616572} 
 template$<$int dim, int fe\+\_\+degree$>$ \\
-double \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver}{Hybrid\+ADRSolver\+::\+Matrix\+Free\+Solver}}$<$ dim, fe\+\_\+degree $>$\+::compute\+\_\+l2\+\_\+error (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [protected]}}
+double \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver}{Hybrid\+ADRSolver\+::\+Matrix\+Free\+Solver}}$<$ dim, fe\+\_\+degree $>$\+::compute\+\_\+l2\+\_\+error (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
 
 
 

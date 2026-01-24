@@ -1,0 +1,54 @@
+\doxysection{src/applications/convergence\+\_\+study.cpp File Reference}
+\hypertarget{convergence__study_8cpp}{}\label{convergence__study_8cpp}\index{src/applications/convergence\_study.cpp@{src/applications/convergence\_study.cpp}}
+
+
+Drivers for calculating convergence rates of Matrix-\/\+Based and Matrix-\/\+Free solvers.  
+
+
+{\ttfamily \#include $<$cmath$>$}\newline
+{\ttfamily \#include $<$fstream$>$}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include "{}core/problem\+\_\+definition.\+h"{}}\newline
+{\ttfamily \#include "{}core/types.\+h"{}}\newline
+{\ttfamily \#include "{}matrix\+\_\+based/matrix\+\_\+based\+\_\+solver.\+h"{}}\newline
+{\ttfamily \#include "{}matrix\+\_\+free/matrix\+\_\+free\+\_\+solver.\+h"{}}\newline
+{\ttfamily \#include $<$deal.\+II/base/mpi.\+h$>$}\newline
+{\ttfamily \#include $<$deal.\+II/base/utilities.\+h$>$}\newline
+Include dependency graph for convergence\+\_\+study.\+cpp\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{convergence__study_8cpp__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+double \mbox{\hyperlink{convergence__study_8cpp_a42f52e2c62b3f4f5dda28ba650790ab2}{compute\+\_\+h}} (int refinement\+\_\+level)
+\item 
+int \mbox{\hyperlink{convergence__study_8cpp_a0ddf1224851353fc92bfbff6f499fa97}{main}} (int argc, char \texorpdfstring{$\ast$}{*}argv\mbox{[}$\,$\mbox{]})
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Drivers for calculating convergence rates of Matrix-\/\+Based and Matrix-\/\+Free solvers. 
+
+
+
+\label{doc-func-members}
+\Hypertarget{convergence__study_8cpp_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{convergence__study_8cpp_a42f52e2c62b3f4f5dda28ba650790ab2}\index{convergence\_study.cpp@{convergence\_study.cpp}!compute\_h@{compute\_h}}
+\index{compute\_h@{compute\_h}!convergence\_study.cpp@{convergence\_study.cpp}}
+\doxysubsubsection{\texorpdfstring{compute\_h()}{compute\_h()}}
+{\footnotesize\ttfamily \label{convergence__study_8cpp_a42f52e2c62b3f4f5dda28ba650790ab2} 
+double compute\+\_\+h (\begin{DoxyParamCaption}\item[{int}]{refinement\+\_\+level}{}\end{DoxyParamCaption})}
+
+\Hypertarget{convergence__study_8cpp_a0ddf1224851353fc92bfbff6f499fa97}\index{convergence\_study.cpp@{convergence\_study.cpp}!main@{main}}
+\index{main@{main}!convergence\_study.cpp@{convergence\_study.cpp}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily \label{convergence__study_8cpp_a0ddf1224851353fc92bfbff6f499fa97} 
+int main (\begin{DoxyParamCaption}\item[{int}]{argc}{, }\item[{char \texorpdfstring{$\ast$}{*}}]{argv}{\mbox{[}$\,$\mbox{]}}\end{DoxyParamCaption})}
+

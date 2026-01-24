@@ -43,7 +43,9 @@ std\+::string \mbox{\hyperlink{classHybridADRSolver_1_1MatrixBasedSolver_a1ef875
 const LADistributed\+::\+MPI\+::\+Sparse\+Matrix \& \mbox{\hyperlink{classHybridADRSolver_1_1MatrixBasedSolver_aaaff7f655ceff25801a96e1942eec2ca}{get\+\_\+system\+\_\+matrix}} () const
 \item 
 double \mbox{\hyperlink{classHybridADRSolver_1_1MatrixBasedSolver_adc3b6f54bac3a70f3f1a4e63bc62e858}{compute\+\_\+memory\+\_\+usage}} () const
-\begin{DoxyCompactList}\small\item\em Compute memory usage in MB. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Compute memory usage in MB. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classHybridADRSolver_1_1MatrixBasedSolver_a73a1b346ee13ee32237a25baa5fd91ba}{compute\+\_\+l2\+\_\+error}} ()
+\begin{DoxyCompactList}\small\item\em Compute the L2 error of the solution. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classHybridADRSolver_1_1ParallelSolverBase}{Hybrid\+ADRSolver\+::\+Parallel\+Solver\+Base$<$ dim $>$}}}
 \begin{DoxyCompactItemize}
 \item 
@@ -63,8 +65,6 @@ void \mbox{\hyperlink{classHybridADRSolver_1_1MatrixBasedSolver_ad9e2e2bf2704651
 void \mbox{\hyperlink{classHybridADRSolver_1_1MatrixBasedSolver_a42698f5fb46f66c40aeccd03c277c05e}{solve}} () override
 \item 
 void \mbox{\hyperlink{classHybridADRSolver_1_1MatrixBasedSolver_a8d28cb187f683255906fe85103f51e07}{output\+\_\+results}} (unsigned int cycle) const override
-\item 
-double \mbox{\hyperlink{classHybridADRSolver_1_1MatrixBasedSolver_a73a1b346ee13ee32237a25baa5fd91ba}{compute\+\_\+l2\+\_\+error}} ()
 \end{DoxyCompactItemize}
 \doxysubsection*{Protected Member Functions inherited from \mbox{\hyperlink{classHybridADRSolver_1_1ParallelSolverBase}{Hybrid\+ADRSolver\+::\+Parallel\+Solver\+Base$<$ dim $>$}}}
 \begin{DoxyCompactItemize}
@@ -167,7 +167,11 @@ Implements \mbox{\hyperlink{classHybridADRSolver_1_1ParallelSolverBase_a1c0394fd
 \doxysubsubsection{\texorpdfstring{compute\_l2\_error()}{compute\_l2\_error()}}
 {\footnotesize\ttfamily \label{classHybridADRSolver_1_1MatrixBasedSolver_a73a1b346ee13ee32237a25baa5fd91ba} 
 template$<$int dim$>$ \\
-double \mbox{\hyperlink{classHybridADRSolver_1_1MatrixBasedSolver}{Hybrid\+ADRSolver\+::\+Matrix\+Based\+Solver}}$<$ dim $>$\+::compute\+\_\+l2\+\_\+error (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+double \mbox{\hyperlink{classHybridADRSolver_1_1MatrixBasedSolver}{Hybrid\+ADRSolver\+::\+Matrix\+Based\+Solver}}$<$ dim $>$\+::compute\+\_\+l2\+\_\+error (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Compute the L2 error of the solution. 
 
 \Hypertarget{classHybridADRSolver_1_1MatrixBasedSolver_adc3b6f54bac3a70f3f1a4e63bc62e858}\index{HybridADRSolver::MatrixBasedSolver$<$ dim $>$@{HybridADRSolver::MatrixBasedSolver$<$ dim $>$}!compute\_memory\_usage@{compute\_memory\_usage}}
 \index{compute\_memory\_usage@{compute\_memory\_usage}!HybridADRSolver::MatrixBasedSolver$<$ dim $>$@{HybridADRSolver::MatrixBasedSolver$<$ dim $>$}}
