@@ -392,7 +392,34 @@ To verify the theoretical convergence rates, we conduct a series of numerical ex
 The results confirm the expected convergence rates in section \ref{par:error_norms} for both implementations, demonstrating the correctness of the finite element discretization and the solver implementations.
 
 \subsection{Time Complexity}
+We compare the performance of Algebraic Multigrid (AMG) matrix-based solver and Geometric Multigrid (GMG) matrix-free solver for solving the linear system arising from the finite element discretization of the ADR equation. The experiments are conducted on a series of uniformly refined meshes in 2D, with polynomial degree $k=2$. The timing results for both setup and assembly, as well as the solve phase, are summarized in Table \ref{tab:solver_performance}.
+\begin{table}[ht]
+    \centering
+    \caption{Performance comparison of Multigrid Matrix-based and Matrix-free solvers.}
+    \label{tab:solver_performance}
+    \begin{tabular}{l rr rr}
+        \toprule
+                   & \multicolumn{2}{c}{AMG Matrix-based} & \multicolumn{2}{c}{GMG Matrix-free}                                \\
+        \cmidrule(lr){2-3} \cmidrule(lr){4-5}
+        $n_{dofs}$ & Setup+Assem. (s)                     & Solve (s)                           & Setup+Assem. (s) & Solve (s) \\
+        \midrule
+        81         & 0.0279                               & 0.0121                              & 0.0549           & 0.0091    \\
+        289        & 0.0200                               & 0.0039                              & 0.0529           & 0.0097    \\
+        1,089      & 0.0260                               & 0.0080                              & 0.0845           & 0.0134    \\
+        4,225      & 0.0412                               & 0.0213                              & 0.1002           & 0.0220    \\
+        16,641     & 0.1233                               & 0.0718                              & 0.1573           & 0.1218    \\
+        66,049     & 0.3952                               & 0.3021                              & 0.3382           & 0.3880    \\
+        263,169    & 1.5418                               & 1.0441                              & 0.8482           & 1.2239    \\
+        1,050,625  & 6.1596                               & 4.2531                              & 3.1118           & 3.6356    \\
+        4,198,401  & 25.3630                              & 18.7690                             & 12.0978          & 11.6747   \\
+        \bottomrule
+    \end{tabular}
+\end{table}
 
+\subsection{Scalability}
+
+\pagebreak
+\section{Conclusion}
 
 \clearpage
 \printbibliography[heading=bibintoc, title = {References}]

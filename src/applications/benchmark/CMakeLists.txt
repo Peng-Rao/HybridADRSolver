@@ -18,13 +18,13 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 #)
 #deal_ii_setup_target(benchmark_weak_scaling)
 #
-#ADD_EXECUTABLE(benchmark_main benchmark_main.cpp)
-#TARGET_SOURCES(benchmark_main PRIVATE ${SRC_FILES})
-#TARGET_INCLUDE_DIRECTORIES(benchmark_main
-#        PUBLIC
-#        ${CMAKE_SOURCE_DIR}/src/include
-#)
-#deal_ii_setup_target(benchmark_main)
+ADD_EXECUTABLE(scaling_study scaling_study.cpp)
+TARGET_SOURCES(scaling_study PRIVATE ${SRC_FILES})
+TARGET_INCLUDE_DIRECTORIES(scaling_study
+        PUBLIC
+        ${CMAKE_SOURCE_DIR}/src/include
+)
+deal_ii_setup_target(scaling_study)
 
 ADD_EXECUTABLE(convergence_study convergence_study.cpp)
 TARGET_SOURCES(convergence_study PRIVATE ${SRC_FILES})
