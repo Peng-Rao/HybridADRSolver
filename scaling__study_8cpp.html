@@ -100,6 +100,9 @@ $(function(){initNavTree('scaling__study_8cpp.html','',''); });
   <div class="headertitle"><div class="title">scaling_study.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Comprehensive strong and weak scaling benchmark for the Hybrid ADR Solver.  
+<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="problem__definition_8h_source.html">core/problem_definition.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="types_8h_source.html">core/types.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="matrix__based__solver_8h_source.html">matrix_based/matrix_based_solver.h</a>&quot;</code><br />
@@ -120,7 +123,7 @@ Include dependency graph for scaling_study.cpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="scaling__study_8cpp__incl.png" border="0" usemap="#asrc_2applications_2benchmark_2scaling__study_8cpp" loading="lazy" alt=""/></div>
 <map name="asrc_2applications_2benchmark_2scaling__study_8cpp" id="asrc_2applications_2benchmark_2scaling__study_8cpp">
-<area shape="rect" title=" " alt="" coords="902,5,1083,44"/>
+<area shape="rect" title="Comprehensive strong and weak scaling benchmark for the Hybrid ADR Solver." alt="" coords="902,5,1083,44"/>
 <area shape="rect" href="problem__definition_8h.html" title="Defines the problem interface and a concrete Advection&#45;Diffusion&#45;Reaction (ADR) problem." alt="" coords="1748,272,1914,297"/>
 <area shape="poly" title=" " alt="" coords="997,44,1004,85,1020,130,1038,160,1055,181,1075,199,1106,215,1163,233,1238,244,1324,251,1416,254,1596,256,1674,258,1736,263,1761,266,1760,272,1735,268,1673,263,1596,261,1416,259,1323,256,1237,250,1162,238,1104,220,1073,203,1051,185,1034,163,1016,132,999,86,991,45"/>
 <area shape="rect" title=" " alt="" coords="5,359,63,384"/>
@@ -272,7 +275,22 @@ Functions</h2></td></tr>
 <tr class="memdesc:ac7608332d002ef2745359f4cada4afc8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print usage information.  <br /></td></tr>
 <tr class="memitem:a0ddf1224851353fc92bfbff6f499fa97" id="r_a0ddf1224851353fc92bfbff6f499fa97"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0ddf1224851353fc92bfbff6f499fa97">main</a> (int argc, char *argv[])</td></tr>
 </table>
-<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Comprehensive strong and weak scaling benchmark for the Hybrid ADR Solver. </p>
+<p>This benchmark measures:</p><ol type="1">
+<li>Strong Scaling: Fixed problem size, varying core count<ul>
+<li>Speedup: S(p) = T(1) / T(p)</li>
+<li>Efficiency: E(p) = S(p) / p = T(1) / (p * T(p))</li>
+</ul>
+</li>
+<li>Weak Scaling: Problem size scales with core count (constant work per core)<ul>
+<li>Efficiency: E(p) = T(1) / T(p) (ideal = 1.0)</li>
+</ul>
+</li>
+</ol>
+<p>Usage: mpirun -np &lt;N&gt; ./scaling_benchmark [options]</p>
+<p>Options: &ndash;strong Run strong scaling test only &ndash;weak Run weak scaling test only &ndash;min-ref &lt;n&gt; Minimum refinements (default: 3) &ndash;max-ref &lt;n&gt; Maximum refinements (default: 7) &ndash;degree &lt;n&gt; Polynomial degree (default: 2) &ndash;output &lt;file&gt; Output CSV file prefix (default: scaling_results) &ndash;threads &lt;n&gt; Threads per MPI process (default: auto) &ndash;trials &lt;n&gt; Number of trials for averaging (default: 3) &ndash;warmup &lt;n&gt; Number of warmup runs (default: 1) &ndash;dim &lt;n&gt; Dimension 2 or 3 (default: 2) </p>
+</div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
 <a id="a0ddf1224851353fc92bfbff6f499fa97" name="a0ddf1224851353fc92bfbff6f499fa97"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0ddf1224851353fc92bfbff6f499fa97">&#9670;&#160;</a></span>main()</h2>
 
