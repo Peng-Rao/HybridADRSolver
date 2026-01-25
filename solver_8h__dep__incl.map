@@ -1,5 +1,5 @@
 <map id="src/include/core/solver.h" name="src/include/core/solver.h">
-<area shape="rect" id="Node000001" title="Abstract base class for all solvers with GMG support." alt="" coords="802,5,964,30"/>
+<area shape="rect" id="Node000001" title="Abstract base class for all solvers." alt="" coords="802,5,964,30"/>
 <area shape="rect" id="Node000002" href="$matrix__based__solver_8h.html" title="Matrix&#45;based solver using WorkStream for hybrid parallelization." alt="" coords="913,78,1059,131"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="910,38,956,75,953,79,907,42"/>
 <area shape="rect" id="Node000010" href="$matrix__free__solver_8h.html" title="Matrix&#45;free solver with hybrid MPI+threading parallelization and GMG." alt="" coords="707,85,878,124"/>

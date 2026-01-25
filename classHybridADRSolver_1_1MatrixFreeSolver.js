@@ -1,10 +1,10 @@
 var classHybridADRSolver_1_1MatrixFreeSolver =
 [
     [ "LevelMatrixType", "classHybridADRSolver_1_1MatrixFreeSolver.html#ad64523e5338bdefc820b30ace27441ae", null ],
-    [ "LevelNumber", "classHybridADRSolver_1_1MatrixFreeSolver.html#a69c7c6d7a16238c963b6133834dbd61e", null ],
+    [ "LevelNumber", "classHybridADRSolver_1_1MatrixFreeSolver.html#a147c04a6c8344b848a24aaeb88b03499", null ],
     [ "LevelVectorType", "classHybridADRSolver_1_1MatrixFreeSolver.html#a90d5ef66704dd43262361a5474e370c9", null ],
     [ "Number", "classHybridADRSolver_1_1MatrixFreeSolver.html#a7217c11ce8bebeb139faad0dc91209d7", null ],
-    [ "SmootherPreconditionerType", "classHybridADRSolver_1_1MatrixFreeSolver.html#a2a1f7cffde4ba2b0fe481adf61adbc99", null ],
+    [ "SmootherPreconditionerType", "classHybridADRSolver_1_1MatrixFreeSolver.html#a66fbb4fd84da9c277d731d3d0d2a6ea0", null ],
     [ "SmootherType", "classHybridADRSolver_1_1MatrixFreeSolver.html#a77ae5a03e9ff7866eddf1fec2ba300d2", null ],
     [ "SystemMatrixType", "classHybridADRSolver_1_1MatrixFreeSolver.html#ad85c80796a00a2921828219e84e622c2", null ],
     [ "VectorType", "classHybridADRSolver_1_1MatrixFreeSolver.html#acf4d4ab462daaab95b3cbb415794dc00", null ],

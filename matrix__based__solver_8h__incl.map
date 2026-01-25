@@ -2,7 +2,7 @@
 <area shape="rect" id="Node000001" title="Matrix&#45;based solver using WorkStream for hybrid parallelization." alt="" coords="681,5,827,58"/>
 <area shape="rect" id="Node000002" href="$problem__definition_8h.html" title="Defines the problem interface and a concrete Advection&#45;Diffusion&#45;Reaction (ADR) problem." alt="" coords="404,106,570,131"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="682,59,540,103,538,98,680,54"/>
-<area shape="rect" id="Node000009" href="$solver_8h.html" title="Abstract base class for all solvers with GMG support." alt="" coords="1425,106,1520,131"/>
+<area shape="rect" id="Node000009" href="$solver_8h.html" title="Abstract base class for all solvers." alt="" coords="1425,106,1520,131"/>
 <area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="828,39,1410,107,1409,112,827,44"/>
 <area shape="rect" id="Node000010" href="$types_8h.html" title="Common type definitions for the hybrid solver framework." alt="" coords="722,186,786,210"/>
 <area shape="poly" id="edge22_Node000001_Node000010" title=" " alt="" coords="757,59,757,170,751,170,751,59"/>

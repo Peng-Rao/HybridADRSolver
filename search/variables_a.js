@@ -1,8 +1,6 @@
 var searchData=
 [
-  ['parallel_5fefficiency_0',['parallel_efficiency',['../structBenchmarkUtils_1_1BenchmarkResult.html#a0c240dbe561087e66c30905dc11fc282',1,'BenchmarkUtils::BenchmarkResult']]],
-  ['parameters_1',['parameters',['../classHybridADRSolver_1_1ParallelSolverBase.html#ac26b34ab7425f0d756966efeb7801aaa',1,'HybridADRSolver::ParallelSolverBase']]],
-  ['pcout_2',['pcout',['../classHybridADRSolver_1_1ParallelSolverBase.html#a5d32995f237f5330f6455a45e7ac5383',1,'HybridADRSolver::ParallelSolverBase']]],
-  ['polynomial_5fdegree_3',['polynomial_degree',['../structStrongScalingConfig.html#ab579b0c1d82fa0c1b1d378380b4cedce',1,'StrongScalingConfig::polynomial_degree'],['../structBenchmarkUtils_1_1BenchmarkResult.html#a04d782248c44381d3fa606a38a070c35',1,'BenchmarkUtils::BenchmarkResult::polynomial_degree'],['../structBenchmarkUtils_1_1ScalingConfig.html#ab6d77f04e0c74b0740f2766cea4783dd',1,'BenchmarkUtils::ScalingConfig::polynomial_degree'],['../structWeakScalingConfig.html#afb0228af6320cd1a4e5445016d141960',1,'WeakScalingConfig::polynomial_degree']]],
-  ['preconditioner_4',['preconditioner',['../structHybridADRSolver_1_1SolverParameters.html#aec8061b1666d98e0615fad93755ec5c5',1,'HybridADRSolver::SolverParameters']]]
+  ['operator_5fapply_5ftime_0',['operator_apply_time',['../structHybridADRSolver_1_1TimingResults.html#a7ad366ecfdea278eac1e53720acd2f71',1,'HybridADRSolver::TimingResults']]],
+  ['output_5fprefix_1',['output_prefix',['../structStrongScalingConfig.html#a6ee07ff65b61f99d492eaffda4dd1bdb',1,'StrongScalingConfig::output_prefix'],['../structWeakScalingConfig.html#a4448fd42612d608afbd77f2d4165acdf',1,'WeakScalingConfig::output_prefix'],['../structHybridADRSolver_1_1SolverParameters.html#af21863e980587690c653330e4fcf6d4a',1,'HybridADRSolver::SolverParameters::output_prefix']]],
+  ['output_5fsolution_2',['output_solution',['../structHybridADRSolver_1_1SolverParameters.html#a89dbc5c399e8238cd1a78ab3c20038ac',1,'HybridADRSolver::SolverParameters']]]
 ];

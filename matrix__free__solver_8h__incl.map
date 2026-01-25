@@ -10,7 +10,7 @@
 <area shape="poly" id="edge35_Node000001_Node000016" title=" " alt="" coords="2137,34,1917,54,1786,71,1655,95,1503,134,1375,176,1373,171,1502,129,1653,89,1785,66,1917,49,2137,29"/>
 <area shape="rect" id="Node000018" title=" " alt="" coords="1396,179,1534,217"/>
 <area shape="poly" id="edge37_Node000001_Node000018" title=" " alt="" coords="2137,38,1979,60,1799,95,1654,135,1531,176,1529,170,1653,129,1797,89,1978,55,2137,33"/>
-<area shape="rect" id="Node000019" href="$solver_8h.html" title="Abstract base class for all solvers with GMG support." alt="" coords="1941,99,2036,124"/>
+<area shape="rect" id="Node000019" href="$solver_8h.html" title="Abstract base class for all solvers." alt="" coords="1941,99,2036,124"/>
 <area shape="poly" id="edge20_Node000001_Node000019" title=" " alt="" coords="2172,47,2036,96,2034,91,2170,42"/>
 <area shape="rect" id="Node000030" title=" " alt="" coords="2060,99,2224,124"/>
 <area shape="poly" id="edge33_Node000001_Node000030" title=" " alt="" coords="2207,46,2166,90,2162,86,2203,43"/>

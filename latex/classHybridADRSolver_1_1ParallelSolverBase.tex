@@ -32,7 +32,7 @@ Collaboration diagram for Hybrid\+ADRSolver\+::Parallel\+Solver\+Base\texorpdfst
 \doxysubsubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{classHybridADRSolver_1_1ParallelSolverBase_a7041a10316760de354c3898fc542f35c}{Parallel\+Solver\+Base}} (MPI\+\_\+\+Comm comm, \mbox{\hyperlink{structHybridADRSolver_1_1SolverParameters}{Solver\+Parameters}} params)
+\mbox{\hyperlink{classHybridADRSolver_1_1ParallelSolverBase_a4cdefae1c5f994c3d31da7b131f5c8b7}{Parallel\+Solver\+Base}} (MPI\+\_\+\+Comm comm, \mbox{\hyperlink{structHybridADRSolver_1_1SolverParameters}{Solver\+Parameters}} params, bool construct\+\_\+mg\+\_\+hierarchy=false)
 \item 
 virtual \mbox{\hyperlink{classHybridADRSolver_1_1ParallelSolverBase_a4715a01d1a6e0953ad0fee821f1551c0}{\texorpdfstring{$\sim$}{\string~}\+Parallel\+Solver\+Base}} ()=default
 \item 
@@ -87,6 +87,8 @@ Index\+Set \mbox{\hyperlink{classHybridADRSolver_1_1ParallelSolverBase_afe388909
 Conditional\+OStream \mbox{\hyperlink{classHybridADRSolver_1_1ParallelSolverBase_a5d32995f237f5330f6455a45e7ac5383}{pcout}}
 \item 
 Timer\+Output \mbox{\hyperlink{classHybridADRSolver_1_1ParallelSolverBase_a952f68312d883f472887719276289a6d}{computing\+\_\+timer}}
+\item 
+bool \mbox{\hyperlink{classHybridADRSolver_1_1ParallelSolverBase_ae61e938f43cfcdd2c5c2c60a53c3c715}{has\+\_\+mg\+\_\+hierarchy}}
 \end{DoxyCompactItemize}
 
 
@@ -98,7 +100,7 @@ Abstract base class for parallel solvers.
 This class provides the common infrastructure for matrix-\/based and matrix-\/free solvers, including\+:
 \begin{DoxyItemize}
 \item MPI communication setup
-\item Triangulation with multigrid hierarchy support
+\item Triangulation (optionally with multigrid hierarchy support)
 \item DoF handler and constraints
 \item Timing and output utilities
 \end{DoxyItemize}
@@ -113,18 +115,20 @@ This class provides the common infrastructure for matrix-\/based and matrix-\/fr
 \label{doc-constructors}
 \Hypertarget{classHybridADRSolver_1_1ParallelSolverBase_doc-constructors}
 \doxysubsection{Constructor \& Destructor Documentation}
-\Hypertarget{classHybridADRSolver_1_1ParallelSolverBase_a7041a10316760de354c3898fc542f35c}\index{HybridADRSolver::ParallelSolverBase$<$ dim $>$@{HybridADRSolver::ParallelSolverBase$<$ dim $>$}!ParallelSolverBase@{ParallelSolverBase}}
+\Hypertarget{classHybridADRSolver_1_1ParallelSolverBase_a4cdefae1c5f994c3d31da7b131f5c8b7}\index{HybridADRSolver::ParallelSolverBase$<$ dim $>$@{HybridADRSolver::ParallelSolverBase$<$ dim $>$}!ParallelSolverBase@{ParallelSolverBase}}
 \index{ParallelSolverBase@{ParallelSolverBase}!HybridADRSolver::ParallelSolverBase$<$ dim $>$@{HybridADRSolver::ParallelSolverBase$<$ dim $>$}}
 \doxysubsubsection{\texorpdfstring{ParallelSolverBase()}{ParallelSolverBase()}}
-{\footnotesize\ttfamily \label{classHybridADRSolver_1_1ParallelSolverBase_a7041a10316760de354c3898fc542f35c} 
+{\footnotesize\ttfamily \label{classHybridADRSolver_1_1ParallelSolverBase_a4cdefae1c5f994c3d31da7b131f5c8b7} 
 template$<$int dim$>$ \\
-\mbox{\hyperlink{classHybridADRSolver_1_1ParallelSolverBase}{Hybrid\+ADRSolver\+::\+Parallel\+Solver\+Base}}$<$ dim $>$\+::\+Parallel\+Solver\+Base (\begin{DoxyParamCaption}\item[{MPI\+\_\+\+Comm}]{comm}{, }\item[{\mbox{\hyperlink{structHybridADRSolver_1_1SolverParameters}{Solver\+Parameters}}}]{params}{}\end{DoxyParamCaption})}
+\mbox{\hyperlink{classHybridADRSolver_1_1ParallelSolverBase}{Hybrid\+ADRSolver\+::\+Parallel\+Solver\+Base}}$<$ dim $>$\+::\+Parallel\+Solver\+Base (\begin{DoxyParamCaption}\item[{MPI\+\_\+\+Comm}]{comm}{, }\item[{\mbox{\hyperlink{structHybridADRSolver_1_1SolverParameters}{Solver\+Parameters}}}]{params}{, }\item[{bool}]{construct\+\_\+mg\+\_\+hierarchy}{ = {\ttfamily false}}\end{DoxyParamCaption})}
 
 Constructor 
 \begin{DoxyParams}{Parameters}
 {\em comm} & MPI communicator \\
 \hline
 {\em params} & Solver parameters \\
+\hline
+{\em construct\+\_\+mg\+\_\+hierarchy} & Whether to construct multigrid hierarchy (set to true for matrix-\/free GMG, false for matrix-\/based) \\
 \hline
 \end{DoxyParams}
 \Hypertarget{classHybridADRSolver_1_1ParallelSolverBase_a4715a01d1a6e0953ad0fee821f1551c0}\index{HybridADRSolver::ParallelSolverBase$<$ dim $>$@{HybridADRSolver::ParallelSolverBase$<$ dim $>$}!````~ParallelSolverBase@{\texorpdfstring{$\sim$}{\string~}ParallelSolverBase}}
@@ -229,7 +233,7 @@ Implemented in \mbox{\hyperlink{classHybridADRSolver_1_1MatrixBasedSolver_a43b39
 template$<$int dim$>$ \\
 void \mbox{\hyperlink{classHybridADRSolver_1_1ParallelSolverBase}{Hybrid\+ADRSolver\+::\+Parallel\+Solver\+Base}}$<$ dim $>$\+::setup\+\_\+grid (\begin{DoxyParamCaption}\item[{unsigned int}]{n\+\_\+refinements}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}
 
-Setup the mesh/triangulation with multigrid hierarchy 
+Setup the mesh/triangulation 
 \begin{DoxyParams}{Parameters}
 {\em n\+\_\+refinements} & Number of global refinements \\
 \hline
@@ -277,6 +281,13 @@ Do\+FHandler$<$dim$>$ \mbox{\hyperlink{classHybridADRSolver_1_1ParallelSolverBas
 {\footnotesize\ttfamily \label{classHybridADRSolver_1_1ParallelSolverBase_a4eed9758b19581e33d38010437888939} 
 template$<$int dim$>$ \\
 std\+::unique\+\_\+ptr$<$Finite\+Element$<$dim$>$ $>$ \mbox{\hyperlink{classHybridADRSolver_1_1ParallelSolverBase}{Hybrid\+ADRSolver\+::\+Parallel\+Solver\+Base}}$<$ dim $>$\+::fe\hspace{0.3cm}{\ttfamily [protected]}}
+
+\Hypertarget{classHybridADRSolver_1_1ParallelSolverBase_ae61e938f43cfcdd2c5c2c60a53c3c715}\index{HybridADRSolver::ParallelSolverBase$<$ dim $>$@{HybridADRSolver::ParallelSolverBase$<$ dim $>$}!has\_mg\_hierarchy@{has\_mg\_hierarchy}}
+\index{has\_mg\_hierarchy@{has\_mg\_hierarchy}!HybridADRSolver::ParallelSolverBase$<$ dim $>$@{HybridADRSolver::ParallelSolverBase$<$ dim $>$}}
+\doxysubsubsection{\texorpdfstring{has\_mg\_hierarchy}{has\_mg\_hierarchy}}
+{\footnotesize\ttfamily \label{classHybridADRSolver_1_1ParallelSolverBase_ae61e938f43cfcdd2c5c2c60a53c3c715} 
+template$<$int dim$>$ \\
+bool \mbox{\hyperlink{classHybridADRSolver_1_1ParallelSolverBase}{Hybrid\+ADRSolver\+::\+Parallel\+Solver\+Base}}$<$ dim $>$\+::has\+\_\+mg\+\_\+hierarchy\hspace{0.3cm}{\ttfamily [protected]}}
 
 \Hypertarget{classHybridADRSolver_1_1ParallelSolverBase_a28468f5a5c268418a5049b5b375175e6}\index{HybridADRSolver::ParallelSolverBase$<$ dim $>$@{HybridADRSolver::ParallelSolverBase$<$ dim $>$}!locally\_owned\_dofs@{locally\_owned\_dofs}}
 \index{locally\_owned\_dofs@{locally\_owned\_dofs}!HybridADRSolver::ParallelSolverBase$<$ dim $>$@{HybridADRSolver::ParallelSolverBase$<$ dim $>$}}

@@ -132,7 +132,7 @@ Collaboration diagram for HybridADRSolver::ParallelSolverBase&lt; dim &gt;:</div
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a7041a10316760de354c3898fc542f35c" id="r_a7041a10316760de354c3898fc542f35c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7041a10316760de354c3898fc542f35c">ParallelSolverBase</a> (MPI_Comm comm, <a class="el" href="structHybridADRSolver_1_1SolverParameters.html">SolverParameters</a> params)</td></tr>
+<tr class="memitem:a4cdefae1c5f994c3d31da7b131f5c8b7" id="r_a4cdefae1c5f994c3d31da7b131f5c8b7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4cdefae1c5f994c3d31da7b131f5c8b7">ParallelSolverBase</a> (MPI_Comm comm, <a class="el" href="structHybridADRSolver_1_1SolverParameters.html">SolverParameters</a> params, bool construct_mg_hierarchy=false)</td></tr>
 <tr class="memitem:a4715a01d1a6e0953ad0fee821f1551c0" id="r_a4715a01d1a6e0953ad0fee821f1551c0"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4715a01d1a6e0953ad0fee821f1551c0">~ParallelSolverBase</a> ()=default</td></tr>
 <tr class="memitem:a292eb2256eb64421c621ceb4fce5a70e" id="r_a292eb2256eb64421c621ceb4fce5a70e"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a292eb2256eb64421c621ceb4fce5a70e">run</a> (unsigned int n_refinements)=0</td></tr>
 <tr class="memitem:a189b05a7ddae0a51cdf40835ab3530bf" id="r_a189b05a7ddae0a51cdf40835ab3530bf"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="structHybridADRSolver_1_1TimingResults.html">TimingResults</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a189b05a7ddae0a51cdf40835ab3530bf">get_timing_results</a> () const</td></tr>
@@ -163,13 +163,14 @@ Protected Attributes</h2></td></tr>
 <tr class="memitem:ab5fc3e24c1cd5ba7ed09629195817e5c" id="r_ab5fc3e24c1cd5ba7ed09629195817e5c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structHybridADRSolver_1_1TimingResults.html">TimingResults</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab5fc3e24c1cd5ba7ed09629195817e5c">timing_results</a></td></tr>
 <tr class="memitem:a5d32995f237f5330f6455a45e7ac5383" id="r_a5d32995f237f5330f6455a45e7ac5383"><td class="memItemLeft" align="right" valign="top">ConditionalOStream&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5d32995f237f5330f6455a45e7ac5383">pcout</a></td></tr>
 <tr class="memitem:a952f68312d883f472887719276289a6d" id="r_a952f68312d883f472887719276289a6d"><td class="memItemLeft" align="right" valign="top">TimerOutput&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a952f68312d883f472887719276289a6d">computing_timer</a></td></tr>
+<tr class="memitem:ae61e938f43cfcdd2c5c2c60a53c3c715" id="r_ae61e938f43cfcdd2c5c2c60a53c3c715"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae61e938f43cfcdd2c5c2c60a53c3c715">has_mg_hierarchy</a></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><div class="compoundTemplParams">template&lt;int dim&gt;<br />
 class HybridADRSolver::ParallelSolverBase&lt; dim &gt;</div><p>Abstract base class for parallel solvers. </p>
 <p>This class provides the common infrastructure for matrix-based and matrix-free solvers, including:</p><ul>
 <li>MPI communication setup</li>
-<li>Triangulation with multigrid hierarchy support</li>
+<li>Triangulation (optionally with multigrid hierarchy support)</li>
 <li>DoF handler and constraints</li>
 <li>Timing and output utilities</li>
 </ul>
@@ -180,8 +181,8 @@ class HybridADRSolver::ParallelSolverBase&lt; dim &gt;</div><p>Abstract base cla
   </dd>
 </dl>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a7041a10316760de354c3898fc542f35c" name="a7041a10316760de354c3898fc542f35c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7041a10316760de354c3898fc542f35c">&#9670;&#160;</a></span>ParallelSolverBase()</h2>
+<a id="a4cdefae1c5f994c3d31da7b131f5c8b7" name="a4cdefae1c5f994c3d31da7b131f5c8b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4cdefae1c5f994c3d31da7b131f5c8b7">&#9670;&#160;</a></span>ParallelSolverBase()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -196,7 +197,12 @@ template&lt;int dim&gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="structHybridADRSolver_1_1SolverParameters.html">SolverParameters</a></td>          <td class="paramname"><span class="paramname"><em>params</em></span>&#160;)</td>
+          <td class="paramtype"><a class="el" href="structHybridADRSolver_1_1SolverParameters.html">SolverParameters</a></td>          <td class="paramname"><span class="paramname"><em>params</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>construct_mg_hierarchy</em></span><span class="paramdefsep"> = </span><span class="paramdefval">false</span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -204,6 +210,7 @@ template&lt;int dim&gt; </div>
   <table class="params">
     <tr><td class="paramname">comm</td><td>MPI communicator </td></tr>
     <tr><td class="paramname">params</td><td>Solver parameters </td></tr>
+    <tr><td class="paramname">construct_mg_hierarchy</td><td>Whether to construct multigrid hierarchy (set to true for matrix-free GMG, false for matrix-based) </td></tr>
   </table>
   </dd>
 </dl>
@@ -480,7 +487,7 @@ template&lt;int dim&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Setup the mesh/triangulation with multigrid hierarchy </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Setup the mesh/triangulation </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">n_refinements</td><td>Number of global refinements </td></tr>
   </table>
@@ -605,6 +612,30 @@ template&lt;int dim&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">std::unique_ptr&lt;FiniteElement&lt;dim&gt; &gt; <a class="el" href="classHybridADRSolver_1_1ParallelSolverBase.html">HybridADRSolver::ParallelSolverBase</a>&lt; dim &gt;::fe</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae61e938f43cfcdd2c5c2c60a53c3c715" name="ae61e938f43cfcdd2c5c2c60a53c3c715"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae61e938f43cfcdd2c5c2c60a53c3c715">&#9670;&#160;</a></span>has_mg_hierarchy</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;int dim&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classHybridADRSolver_1_1ParallelSolverBase.html">HybridADRSolver::ParallelSolverBase</a>&lt; dim &gt;::has_mg_hierarchy</td>
         </tr>
       </table>
   </td>

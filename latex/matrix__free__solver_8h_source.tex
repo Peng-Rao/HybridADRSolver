@@ -28,20 +28,20 @@
 \DoxyCodeLine{00027\ \textcolor{keyword}{using\ namespace\ }dealii;}
 \DoxyCodeLine{00028\ }
 \DoxyCodeLine{00043\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{int}\ dim,\ \textcolor{keywordtype}{int}\ fe\_degree>}
-\DoxyCodeLine{00044\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_a37d7f2febcfcaad3da232997fd648620}{MatrixFreeSolver}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classHybridADRSolver_1_1ParallelSolverBase_a7041a10316760de354c3898fc542f35c}{ParallelSolverBase}}<dim>\ \{}
+\DoxyCodeLine{00044\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_a37d7f2febcfcaad3da232997fd648620}{MatrixFreeSolver}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classHybridADRSolver_1_1ParallelSolverBase_a4cdefae1c5f994c3d31da7b131f5c8b7}{ParallelSolverBase}}<dim>\ \{}
 \DoxyCodeLine{00045\ \textcolor{keyword}{public}:}
 \DoxyCodeLine{00046\ \ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_a7217c11ce8bebeb139faad0dc91209d7}{Number}}\ =\ double;}
-\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_a69c7c6d7a16238c963b6133834dbd61e}{LevelNumber}}\ =}
-\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ float;\ \textcolor{comment}{//\ Use\ float\ for\ level\ matrices\ (memory\ efficiency)}}
-\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_acf4d4ab462daaab95b3cbb415794dc00}{VectorType}}\ =\ LinearAlgebra::distributed::Vector<Number>;}
-\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_a90d5ef66704dd43262361a5474e370c9}{LevelVectorType}}\ =\ LinearAlgebra::distributed::Vector<LevelNumber>;}
-\DoxyCodeLine{00051\ }
-\DoxyCodeLine{00052\ \ \ \ \ \textcolor{comment}{//\ Type\ aliases\ for\ multigrid\ components}}
-\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_ad85c80796a00a2921828219e84e622c2}{SystemMatrixType}}\ =\ \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator}{ADROperator<dim,\ fe\_degree,\ Number>}};}
-\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_ad64523e5338bdefc820b30ace27441ae}{LevelMatrixType}}\ =\ \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator}{ADROperator<dim,\ fe\_degree,\ LevelNumber>}};}
-\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_a77ae5a03e9ff7866eddf1fec2ba300d2}{SmootherType}}\ =}
-\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ PreconditionChebyshev<LevelMatrixType,\ LevelVectorType>;}
-\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_a2a1f7cffde4ba2b0fe481adf61adbc99}{SmootherPreconditionerType}}\ =\ DiagonalMatrix<LevelVectorType>;}
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_a147c04a6c8344b848a24aaeb88b03499}{LevelNumber}}\ =\ float;\ \textcolor{comment}{//\ Use\ float\ for\ level\ matrices\ (memory\ efficiency)}}
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_acf4d4ab462daaab95b3cbb415794dc00}{VectorType}}\ =\ LinearAlgebra::distributed::Vector<Number>;}
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_a90d5ef66704dd43262361a5474e370c9}{LevelVectorType}}\ =\ LinearAlgebra::distributed::Vector<LevelNumber>;}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{comment}{//\ Type\ aliases\ for\ multigrid\ components}}
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_ad85c80796a00a2921828219e84e622c2}{SystemMatrixType}}\ =\ \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator}{ADROperator<dim,\ fe\_degree,\ Number>}};}
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_ad64523e5338bdefc820b30ace27441ae}{LevelMatrixType}}\ =\ \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator}{ADROperator<dim,\ fe\_degree,\ LevelNumber>}};}
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_a77ae5a03e9ff7866eddf1fec2ba300d2}{SmootherType}}\ =}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ PreconditionChebyshev<LevelMatrixType,\ LevelVectorType>;}
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_a66fbb4fd84da9c277d731d3d0d2a6ea0}{SmootherPreconditionerType}}\ =}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ DiagonalMatrix<LevelVectorType>;}
 \DoxyCodeLine{00058\ }
 \DoxyCodeLine{00066\ \ \ \ \ \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_a37d7f2febcfcaad3da232997fd648620}{MatrixFreeSolver}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classHybridADRSolver_1_1ProblemInterface}{ProblemInterface<dim>}}\&\ problem,\ MPI\_Comm\ comm,}
 \DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{structHybridADRSolver_1_1SolverParameters}{SolverParameters}}\&\ params\ =\ \mbox{\hyperlink{structHybridADRSolver_1_1SolverParameters}{SolverParameters}}());}

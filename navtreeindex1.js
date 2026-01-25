@@ -1,5 +1,7 @@
 var NAVTREEINDEX1 =
 {
+"classHybridADRSolver_1_1Problems_1_1ADRProblem.html#add125e85d1ffecaa56cb8895c5ebb284":[2,0,1,0,0,12],
+"classHybridADRSolver_1_1Problems_1_1ADRProblem.html#af39f2fd3c88a607b4f91a73700caa033":[1,0,1,2,0,11],
 "classHybridADRSolver_1_1Problems_1_1ADRProblem.html#af39f2fd3c88a607b4f91a73700caa033":[2,0,1,0,0,11],
 "classHybridADRSolver_1_1Problems_1_1ExactSolution.html":[1,0,1,2,1],
 "classHybridADRSolver_1_1Problems_1_1ExactSolution.html":[2,0,1,0,1],
@@ -247,7 +249,5 @@ var NAVTREEINDEX1 =
 "structWeakScalingResult.html#ac87436084ecd4910485d24a068451f13":[2,0,5,5],
 "types_8h.html":[3,0,0,1,0,2],
 "types_8h_source.html":[3,0,0,1,0,2],
-"utils_8h.html":[3,0,0,0,0,4],
-"utils_8h_source.html":[3,0,0,0,0,4],
-"weak__scaling_8cpp.html":[3,0,0,0,0,5]
+"utils_8h.html":[3,0,0,0,0,4]
 };

@@ -1,6 +1,6 @@
 var classHybridADRSolver_1_1ParallelSolverBase =
 [
-    [ "ParallelSolverBase", "classHybridADRSolver_1_1ParallelSolverBase.html#a7041a10316760de354c3898fc542f35c", null ],
+    [ "ParallelSolverBase", "classHybridADRSolver_1_1ParallelSolverBase.html#a4cdefae1c5f994c3d31da7b131f5c8b7", null ],
     [ "~ParallelSolverBase", "classHybridADRSolver_1_1ParallelSolverBase.html#a4715a01d1a6e0953ad0fee821f1551c0", null ],
     [ "assemble_system", "classHybridADRSolver_1_1ParallelSolverBase.html#a1c0394fd4e16b7a0c321f8d6f23fa867", null ],
     [ "get_name", "classHybridADRSolver_1_1ParallelSolverBase.html#a81a0595ff4a42d68c353d5ba01614be4", null ],
@@ -15,6 +15,7 @@ var classHybridADRSolver_1_1ParallelSolverBase =
     [ "constraints", "classHybridADRSolver_1_1ParallelSolverBase.html#a3b8db48a6033374edcd9cc98fc44ed4a", null ],
     [ "dof_handler", "classHybridADRSolver_1_1ParallelSolverBase.html#a62c7367a6d02e64c37eb8f634f9b01a8", null ],
     [ "fe", "classHybridADRSolver_1_1ParallelSolverBase.html#a4eed9758b19581e33d38010437888939", null ],
+    [ "has_mg_hierarchy", "classHybridADRSolver_1_1ParallelSolverBase.html#ae61e938f43cfcdd2c5c2c60a53c3c715", null ],
     [ "locally_owned_dofs", "classHybridADRSolver_1_1ParallelSolverBase.html#a28468f5a5c268418a5049b5b375175e6", null ],
     [ "locally_relevant_dofs", "classHybridADRSolver_1_1ParallelSolverBase.html#afe388909303ab450e4322101e4c9d293", null ],
     [ "mapping", "classHybridADRSolver_1_1ParallelSolverBase.html#af51632f9ad52571236ae744dc943029b", null ],
