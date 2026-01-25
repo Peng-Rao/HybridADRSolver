@@ -1,0 +1,28 @@
+var structScalingResult =
+[
+    [ "to_csv", "structScalingResult.html#ac8d1418d043a73cd1f3a9dace5bca525", null ],
+    [ "assembly_time_avg", "structScalingResult.html#a98a2f2de8367aa2401ce8c3b1394c26d", null ],
+    [ "assembly_time_std", "structScalingResult.html#af79e77cfd48ddb586ab7c98b9997ec06", null ],
+    [ "dimension", "structScalingResult.html#a900f4eb8c5cb49018347446bca051f82", null ],
+    [ "dofs_per_second", "structScalingResult.html#aaec1a80ef0af330baef7d54406ff7ba2", null ],
+    [ "l2_error_avg", "structScalingResult.html#ae4117d6c59983aa44644a4431b6251ba", null ],
+    [ "memory_mb_avg", "structScalingResult.html#a84db733bf9336de1c83bf5637e1ca76e", null ],
+    [ "n_cells", "structScalingResult.html#a06544dcd9b0f5585e02735f9889996f1", null ],
+    [ "n_dofs", "structScalingResult.html#a7dbab6e1dcf8e89e94ff29ac5cc99a2b", null ],
+    [ "n_iterations_avg", "structScalingResult.html#a3f075df835de733d788127f5f8dc3f0d", null ],
+    [ "n_mpi_processes", "structScalingResult.html#a19a34364792ed844df279a0842598d04", null ],
+    [ "n_refinements", "structScalingResult.html#a06bc456654a3c49ec8b5975970dde664", null ],
+    [ "n_threads_per_process", "structScalingResult.html#aefd5063d6c0e12903bee9c4c638c9366", null ],
+    [ "parallel_efficiency", "structScalingResult.html#ac58ca668994123ea1ed0f0a36d0da6d4", null ],
+    [ "polynomial_degree", "structScalingResult.html#ae7346b36465f3814402395e667c3c6c7", null ],
+    [ "setup_time_avg", "structScalingResult.html#a99a965e5cd4239c77fd5386a3a7fd5cc", null ],
+    [ "setup_time_std", "structScalingResult.html#a8cf128e5ca1de18d277ac9e137ae8df3", null ],
+    [ "solve_time_avg", "structScalingResult.html#a1c7900ff71a3230567ae7f3054d23dca", null ],
+    [ "solve_time_std", "structScalingResult.html#a83bdd3567d77e4951438365cfc473de2", null ],
+    [ "solver_type", "structScalingResult.html#ad3782fd037cc0e4204e4605723a1b8e9", null ],
+    [ "speedup", "structScalingResult.html#a8d278c19cb98debb661ecdbff7642198", null ],
+    [ "test_type", "structScalingResult.html#a8295a271824d9b644ac74c6402d2cf2f", null ],
+    [ "total_cores", "structScalingResult.html#a2feeb2f362ed465af471fafdb0a72db4", null ],
+    [ "total_time_avg", "structScalingResult.html#af7f48e6eff59b454c03aaae31ddc5290", null ],
+    [ "total_time_std", "structScalingResult.html#a90d869295ede9488010383968bdcdd85", null ]
+];

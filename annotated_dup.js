@@ -23,6 +23,8 @@ var annotated_dup =
       [ "SolverParameters", "structHybridADRSolver_1_1SolverParameters.html", "structHybridADRSolver_1_1SolverParameters" ],
       [ "TimingResults", "structHybridADRSolver_1_1TimingResults.html", "structHybridADRSolver_1_1TimingResults" ]
     ] ],
+    [ "ScalingResult", "structScalingResult.html", "structScalingResult" ],
+    [ "Statistics", "structStatistics.html", null ],
     [ "StrongScalingConfig", "structStrongScalingConfig.html", "structStrongScalingConfig" ],
     [ "TimingStats", "structTimingStats.html", "structTimingStats" ],
     [ "WeakScalingConfig", "structWeakScalingConfig.html", "structWeakScalingConfig" ],

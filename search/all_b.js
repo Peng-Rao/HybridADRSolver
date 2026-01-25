@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['main_0',['main',['../benchmark__main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97',1,'main(int argc, char *argv[]):&#160;benchmark_main.cpp'],['../convergence__study_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97',1,'main(int argc, char *argv[]):&#160;convergence_study.cpp'],['../main__2d_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97',1,'main(int argc, char *argv[]):&#160;main_2d.cpp'],['../strong__scaling_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97',1,'main(int argc, char *argv[]):&#160;strong_scaling.cpp'],['../weak__scaling_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97',1,'main(int argc, char *argv[]):&#160;weak_scaling.cpp'],['../main__matrix__based_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97',1,'main(int argc, char *argv[]):&#160;main_matrix_based.cpp'],['../main__matrix__free_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97',1,'main(int argc, char *argv[]):&#160;main_matrix_free.cpp']]],
+  ['main_0',['main',['../benchmark__main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97',1,'main(int argc, char *argv[]):&#160;benchmark_main.cpp'],['../convergence__study_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97',1,'main(int argc, char *argv[]):&#160;convergence_study.cpp'],['../main__2d_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97',1,'main(int argc, char *argv[]):&#160;main_2d.cpp'],['../scaling__study_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97',1,'main(int argc, char *argv[]):&#160;scaling_study.cpp'],['../strong__scaling_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97',1,'main(int argc, char *argv[]):&#160;strong_scaling.cpp'],['../weak__scaling_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97',1,'main(int argc, char *argv[]):&#160;weak_scaling.cpp'],['../main__matrix__based_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97',1,'main(int argc, char *argv[]):&#160;main_matrix_based.cpp'],['../main__matrix__free_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97',1,'main(int argc, char *argv[]):&#160;main_matrix_free.cpp']]],
   ['main_5f2d_2ecpp_1',['main_2d.cpp',['../main__2d_8cpp.html',1,'']]],
   ['main_5fmatrix_5fbased_2ecpp_2',['main_matrix_based.cpp',['../main__matrix__based_8cpp.html',1,'']]],
   ['main_5fmatrix_5ffree_2ecpp_3',['main_matrix_free.cpp',['../main__matrix__free_8cpp.html',1,'']]],
@@ -17,12 +17,13 @@ var searchData=
   ['max_14',['max',['../structTimingStats.html#acd4ac1a9462f5000df2d4cd069b36b98',1,'TimingStats']]],
   ['max_5fiterations_15',['max_iterations',['../structHybridADRSolver_1_1SolverParameters.html#a4c2b9a60536c6d95ad2e46ddfa091d44',1,'HybridADRSolver::SolverParameters']]],
   ['max_5frefinements_16',['max_refinements',['../structBenchmarkUtils_1_1ScalingConfig.html#a7a0d701c240e1b701c2d8d5a8b2b1b04',1,'BenchmarkUtils::ScalingConfig']]],
-  ['mean_17',['mean',['../structTimingStats.html#aae46f06b71488e7dcac6dd8be4e133dc',1,'TimingStats']]],
+  ['mean_17',['mean',['../structTimingStats.html#aae46f06b71488e7dcac6dd8be4e133dc',1,'TimingStats::mean'],['../structStatistics.html#aa0f45db1880d8494a1f31fbfa28a131c',1,'Statistics::mean()']]],
   ['memory_5fmb_18',['memory_mb',['../structBenchmarkUtils_1_1BenchmarkResult.html#aaac71f03215c16e3027b3ed0c99114dd',1,'BenchmarkUtils::BenchmarkResult::memory_mb'],['../structWeakScalingResult.html#a444756b6fb25382f230a11b959764697',1,'WeakScalingResult::memory_mb'],['../structHybridADRSolver_1_1TimingResults.html#ac710bc7c2a51c6b6c71d9b79c10c7244',1,'HybridADRSolver::TimingResults::memory_mb']]],
-  ['memory_5fper_5fprocess_5fmb_19',['memory_per_process_mb',['../structWeakScalingResult.html#a32041bb345a7930f12040c5182485879',1,'WeakScalingResult']]],
-  ['mg_5fsmoother_5fdegree_20',['mg_smoother_degree',['../structHybridADRSolver_1_1SolverParameters.html#a5cd8990db2e3930ce7dccfd21ba733ec',1,'HybridADRSolver::SolverParameters']]],
-  ['mg_5fsmoothing_5frange_21',['mg_smoothing_range',['../structHybridADRSolver_1_1SolverParameters.html#ac9175838602a5b277b384e7a1a6b9c57',1,'HybridADRSolver::SolverParameters']]],
-  ['min_22',['min',['../structTimingStats.html#afde8de5d1579a1b3c9a9881719363622',1,'TimingStats']]],
-  ['min_5frefinements_23',['min_refinements',['../structBenchmarkUtils_1_1ScalingConfig.html#a323cf26deae1492d287b7ecc9532632e',1,'BenchmarkUtils::ScalingConfig']]],
-  ['mpi_5fcommunicator_24',['mpi_communicator',['../classHybridADRSolver_1_1ParallelSolverBase.html#a8eae4688d8ad928945d283be5fb77157',1,'HybridADRSolver::ParallelSolverBase']]]
+  ['memory_5fmb_5favg_19',['memory_mb_avg',['../structScalingResult.html#a84db733bf9336de1c83bf5637e1ca76e',1,'ScalingResult']]],
+  ['memory_5fper_5fprocess_5fmb_20',['memory_per_process_mb',['../structWeakScalingResult.html#a32041bb345a7930f12040c5182485879',1,'WeakScalingResult']]],
+  ['mg_5fsmoother_5fdegree_21',['mg_smoother_degree',['../structHybridADRSolver_1_1SolverParameters.html#a5cd8990db2e3930ce7dccfd21ba733ec',1,'HybridADRSolver::SolverParameters']]],
+  ['mg_5fsmoothing_5frange_22',['mg_smoothing_range',['../structHybridADRSolver_1_1SolverParameters.html#ac9175838602a5b277b384e7a1a6b9c57',1,'HybridADRSolver::SolverParameters']]],
+  ['min_23',['min',['../structTimingStats.html#afde8de5d1579a1b3c9a9881719363622',1,'TimingStats']]],
+  ['min_5frefinements_24',['min_refinements',['../structBenchmarkUtils_1_1ScalingConfig.html#a323cf26deae1492d287b7ecc9532632e',1,'BenchmarkUtils::ScalingConfig']]],
+  ['mpi_5fcommunicator_25',['mpi_communicator',['../classHybridADRSolver_1_1ParallelSolverBase.html#a8eae4688d8ad928945d283be5fb77157',1,'HybridADRSolver::ParallelSolverBase']]]
 ];

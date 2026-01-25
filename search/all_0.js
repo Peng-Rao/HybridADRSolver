@@ -12,5 +12,7 @@ var searchData=
   ['and_20stability_9',['Coercivity and Stability',['../index.html#autotoc_md8',1,'']]],
   ['assemble_5frhs_10',['assemble_rhs',['../classHybridADRSolver_1_1MatrixFreeSolver.html#aaf685380fa1b47b1dbc66fbbc2acac4b',1,'HybridADRSolver::MatrixFreeSolver']]],
   ['assemble_5fsystem_11',['assemble_system',['../classHybridADRSolver_1_1ParallelSolverBase.html#a1c0394fd4e16b7a0c321f8d6f23fa867',1,'HybridADRSolver::ParallelSolverBase::assemble_system()'],['../classHybridADRSolver_1_1MatrixBasedSolver.html#ad9e2e2bf2704651f102d06e87594055b',1,'HybridADRSolver::MatrixBasedSolver::assemble_system()'],['../classHybridADRSolver_1_1MatrixFreeSolver.html#ae4860dd100f034b79eba6f08403e30e2',1,'HybridADRSolver::MatrixFreeSolver::assemble_system()']]],
-  ['assembly_5ftime_12',['assembly_time',['../structBenchmarkUtils_1_1BenchmarkResult.html#a5ddafcf3365f34c84b97421dc0fb0cc1',1,'BenchmarkUtils::BenchmarkResult::assembly_time'],['../structHybridADRSolver_1_1TimingResults.html#a498e3a034c3a1058a34a1b7926d8c6ff',1,'HybridADRSolver::TimingResults::assembly_time']]]
+  ['assembly_5ftime_12',['assembly_time',['../structBenchmarkUtils_1_1BenchmarkResult.html#a5ddafcf3365f34c84b97421dc0fb0cc1',1,'BenchmarkUtils::BenchmarkResult::assembly_time'],['../structHybridADRSolver_1_1TimingResults.html#a498e3a034c3a1058a34a1b7926d8c6ff',1,'HybridADRSolver::TimingResults::assembly_time']]],
+  ['assembly_5ftime_5favg_13',['assembly_time_avg',['../structScalingResult.html#a98a2f2de8367aa2401ce8c3b1394c26d',1,'ScalingResult']]],
+  ['assembly_5ftime_5fstd_14',['assembly_time_std',['../structScalingResult.html#af79e77cfd48ddb586ab7c98b9997ec06',1,'ScalingResult']]]
 ];

@@ -1,0 +1,250 @@
+\doxysection{Scaling\+Result Struct Reference}
+\hypertarget{structScalingResult}{}\label{structScalingResult}\index{ScalingResult@{ScalingResult}}
+
+
+Extended benchmark result with scaling metrics.  
+
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string \mbox{\hyperlink{structScalingResult_ac8d1418d043a73cd1f3a9dace5bca525}{to\+\_\+csv}} () const
+\begin{DoxyCompactList}\small\item\em Convert to CSV line. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static std\+::string \mbox{\hyperlink{structScalingResult_a58aad0b0d265f9e7a022b9ff08d4b138}{csv\+\_\+header}} ()
+\begin{DoxyCompactList}\small\item\em CSV header. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string \mbox{\hyperlink{structScalingResult_ad3782fd037cc0e4204e4605723a1b8e9}{solver\+\_\+type}}
+\item 
+std\+::string \mbox{\hyperlink{structScalingResult_a8295a271824d9b644ac74c6402d2cf2f}{test\+\_\+type}}
+\item 
+int \mbox{\hyperlink{structScalingResult_a900f4eb8c5cb49018347446bca051f82}{dimension}}
+\item 
+int \mbox{\hyperlink{structScalingResult_a19a34364792ed844df279a0842598d04}{n\+\_\+mpi\+\_\+processes}}
+\item 
+int \mbox{\hyperlink{structScalingResult_aefd5063d6c0e12903bee9c4c638c9366}{n\+\_\+threads\+\_\+per\+\_\+process}}
+\item 
+int \mbox{\hyperlink{structScalingResult_a2feeb2f362ed465af471fafdb0a72db4}{total\+\_\+cores}}
+\item 
+int \mbox{\hyperlink{structScalingResult_a06bc456654a3c49ec8b5975970dde664}{n\+\_\+refinements}}
+\item 
+int \mbox{\hyperlink{structScalingResult_ae7346b36465f3814402395e667c3c6c7}{polynomial\+\_\+degree}}
+\item 
+unsigned int \mbox{\hyperlink{structScalingResult_a7dbab6e1dcf8e89e94ff29ac5cc99a2b}{n\+\_\+dofs}}
+\item 
+unsigned int \mbox{\hyperlink{structScalingResult_a06544dcd9b0f5585e02735f9889996f1}{n\+\_\+cells}}
+\item 
+double \mbox{\hyperlink{structScalingResult_a99a965e5cd4239c77fd5386a3a7fd5cc}{setup\+\_\+time\+\_\+avg}}
+\item 
+double \mbox{\hyperlink{structScalingResult_a8cf128e5ca1de18d277ac9e137ae8df3}{setup\+\_\+time\+\_\+std}}
+\item 
+double \mbox{\hyperlink{structScalingResult_a98a2f2de8367aa2401ce8c3b1394c26d}{assembly\+\_\+time\+\_\+avg}}
+\item 
+double \mbox{\hyperlink{structScalingResult_af79e77cfd48ddb586ab7c98b9997ec06}{assembly\+\_\+time\+\_\+std}}
+\item 
+double \mbox{\hyperlink{structScalingResult_a1c7900ff71a3230567ae7f3054d23dca}{solve\+\_\+time\+\_\+avg}}
+\item 
+double \mbox{\hyperlink{structScalingResult_a83bdd3567d77e4951438365cfc473de2}{solve\+\_\+time\+\_\+std}}
+\item 
+double \mbox{\hyperlink{structScalingResult_af7f48e6eff59b454c03aaae31ddc5290}{total\+\_\+time\+\_\+avg}}
+\item 
+double \mbox{\hyperlink{structScalingResult_a90d869295ede9488010383968bdcdd85}{total\+\_\+time\+\_\+std}}
+\item 
+double \mbox{\hyperlink{structScalingResult_a3f075df835de733d788127f5f8dc3f0d}{n\+\_\+iterations\+\_\+avg}}
+\item 
+double \mbox{\hyperlink{structScalingResult_ae4117d6c59983aa44644a4431b6251ba}{l2\+\_\+error\+\_\+avg}}
+\item 
+double \mbox{\hyperlink{structScalingResult_a84db733bf9336de1c83bf5637e1ca76e}{memory\+\_\+mb\+\_\+avg}}
+\item 
+double \mbox{\hyperlink{structScalingResult_a8d278c19cb98debb661ecdbff7642198}{speedup}}
+\item 
+double \mbox{\hyperlink{structScalingResult_ac58ca668994123ea1ed0f0a36d0da6d4}{parallel\+\_\+efficiency}}
+\item 
+double \mbox{\hyperlink{structScalingResult_aaec1a80ef0af330baef7d54406ff7ba2}{dofs\+\_\+per\+\_\+second}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Extended benchmark result with scaling metrics. 
+
+\label{doc-func-members}
+\Hypertarget{structScalingResult_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{structScalingResult_a58aad0b0d265f9e7a022b9ff08d4b138}\index{ScalingResult@{ScalingResult}!csv\_header@{csv\_header}}
+\index{csv\_header@{csv\_header}!ScalingResult@{ScalingResult}}
+\doxysubsubsection{\texorpdfstring{csv\_header()}{csv\_header()}}
+{\footnotesize\ttfamily \label{structScalingResult_a58aad0b0d265f9e7a022b9ff08d4b138} 
+std\+::string Scaling\+Result\+::csv\+\_\+header (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+CSV header. 
+
+\Hypertarget{structScalingResult_ac8d1418d043a73cd1f3a9dace5bca525}\index{ScalingResult@{ScalingResult}!to\_csv@{to\_csv}}
+\index{to\_csv@{to\_csv}!ScalingResult@{ScalingResult}}
+\doxysubsubsection{\texorpdfstring{to\_csv()}{to\_csv()}}
+{\footnotesize\ttfamily \label{structScalingResult_ac8d1418d043a73cd1f3a9dace5bca525} 
+std\+::string Scaling\+Result\+::to\+\_\+csv (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Convert to CSV line. 
+
+
+
+\label{doc-variable-members}
+\Hypertarget{structScalingResult_doc-variable-members}
+\doxysubsection{Member Data Documentation}
+\Hypertarget{structScalingResult_a98a2f2de8367aa2401ce8c3b1394c26d}\index{ScalingResult@{ScalingResult}!assembly\_time\_avg@{assembly\_time\_avg}}
+\index{assembly\_time\_avg@{assembly\_time\_avg}!ScalingResult@{ScalingResult}}
+\doxysubsubsection{\texorpdfstring{assembly\_time\_avg}{assembly\_time\_avg}}
+{\footnotesize\ttfamily \label{structScalingResult_a98a2f2de8367aa2401ce8c3b1394c26d} 
+double Scaling\+Result\+::assembly\+\_\+time\+\_\+avg}
+
+\Hypertarget{structScalingResult_af79e77cfd48ddb586ab7c98b9997ec06}\index{ScalingResult@{ScalingResult}!assembly\_time\_std@{assembly\_time\_std}}
+\index{assembly\_time\_std@{assembly\_time\_std}!ScalingResult@{ScalingResult}}
+\doxysubsubsection{\texorpdfstring{assembly\_time\_std}{assembly\_time\_std}}
+{\footnotesize\ttfamily \label{structScalingResult_af79e77cfd48ddb586ab7c98b9997ec06} 
+double Scaling\+Result\+::assembly\+\_\+time\+\_\+std}
+
+\Hypertarget{structScalingResult_a900f4eb8c5cb49018347446bca051f82}\index{ScalingResult@{ScalingResult}!dimension@{dimension}}
+\index{dimension@{dimension}!ScalingResult@{ScalingResult}}
+\doxysubsubsection{\texorpdfstring{dimension}{dimension}}
+{\footnotesize\ttfamily \label{structScalingResult_a900f4eb8c5cb49018347446bca051f82} 
+int Scaling\+Result\+::dimension}
+
+\Hypertarget{structScalingResult_aaec1a80ef0af330baef7d54406ff7ba2}\index{ScalingResult@{ScalingResult}!dofs\_per\_second@{dofs\_per\_second}}
+\index{dofs\_per\_second@{dofs\_per\_second}!ScalingResult@{ScalingResult}}
+\doxysubsubsection{\texorpdfstring{dofs\_per\_second}{dofs\_per\_second}}
+{\footnotesize\ttfamily \label{structScalingResult_aaec1a80ef0af330baef7d54406ff7ba2} 
+double Scaling\+Result\+::dofs\+\_\+per\+\_\+second}
+
+\Hypertarget{structScalingResult_ae4117d6c59983aa44644a4431b6251ba}\index{ScalingResult@{ScalingResult}!l2\_error\_avg@{l2\_error\_avg}}
+\index{l2\_error\_avg@{l2\_error\_avg}!ScalingResult@{ScalingResult}}
+\doxysubsubsection{\texorpdfstring{l2\_error\_avg}{l2\_error\_avg}}
+{\footnotesize\ttfamily \label{structScalingResult_ae4117d6c59983aa44644a4431b6251ba} 
+double Scaling\+Result\+::l2\+\_\+error\+\_\+avg}
+
+\Hypertarget{structScalingResult_a84db733bf9336de1c83bf5637e1ca76e}\index{ScalingResult@{ScalingResult}!memory\_mb\_avg@{memory\_mb\_avg}}
+\index{memory\_mb\_avg@{memory\_mb\_avg}!ScalingResult@{ScalingResult}}
+\doxysubsubsection{\texorpdfstring{memory\_mb\_avg}{memory\_mb\_avg}}
+{\footnotesize\ttfamily \label{structScalingResult_a84db733bf9336de1c83bf5637e1ca76e} 
+double Scaling\+Result\+::memory\+\_\+mb\+\_\+avg}
+
+\Hypertarget{structScalingResult_a06544dcd9b0f5585e02735f9889996f1}\index{ScalingResult@{ScalingResult}!n\_cells@{n\_cells}}
+\index{n\_cells@{n\_cells}!ScalingResult@{ScalingResult}}
+\doxysubsubsection{\texorpdfstring{n\_cells}{n\_cells}}
+{\footnotesize\ttfamily \label{structScalingResult_a06544dcd9b0f5585e02735f9889996f1} 
+unsigned int Scaling\+Result\+::n\+\_\+cells}
+
+\Hypertarget{structScalingResult_a7dbab6e1dcf8e89e94ff29ac5cc99a2b}\index{ScalingResult@{ScalingResult}!n\_dofs@{n\_dofs}}
+\index{n\_dofs@{n\_dofs}!ScalingResult@{ScalingResult}}
+\doxysubsubsection{\texorpdfstring{n\_dofs}{n\_dofs}}
+{\footnotesize\ttfamily \label{structScalingResult_a7dbab6e1dcf8e89e94ff29ac5cc99a2b} 
+unsigned int Scaling\+Result\+::n\+\_\+dofs}
+
+\Hypertarget{structScalingResult_a3f075df835de733d788127f5f8dc3f0d}\index{ScalingResult@{ScalingResult}!n\_iterations\_avg@{n\_iterations\_avg}}
+\index{n\_iterations\_avg@{n\_iterations\_avg}!ScalingResult@{ScalingResult}}
+\doxysubsubsection{\texorpdfstring{n\_iterations\_avg}{n\_iterations\_avg}}
+{\footnotesize\ttfamily \label{structScalingResult_a3f075df835de733d788127f5f8dc3f0d} 
+double Scaling\+Result\+::n\+\_\+iterations\+\_\+avg}
+
+\Hypertarget{structScalingResult_a19a34364792ed844df279a0842598d04}\index{ScalingResult@{ScalingResult}!n\_mpi\_processes@{n\_mpi\_processes}}
+\index{n\_mpi\_processes@{n\_mpi\_processes}!ScalingResult@{ScalingResult}}
+\doxysubsubsection{\texorpdfstring{n\_mpi\_processes}{n\_mpi\_processes}}
+{\footnotesize\ttfamily \label{structScalingResult_a19a34364792ed844df279a0842598d04} 
+int Scaling\+Result\+::n\+\_\+mpi\+\_\+processes}
+
+\Hypertarget{structScalingResult_a06bc456654a3c49ec8b5975970dde664}\index{ScalingResult@{ScalingResult}!n\_refinements@{n\_refinements}}
+\index{n\_refinements@{n\_refinements}!ScalingResult@{ScalingResult}}
+\doxysubsubsection{\texorpdfstring{n\_refinements}{n\_refinements}}
+{\footnotesize\ttfamily \label{structScalingResult_a06bc456654a3c49ec8b5975970dde664} 
+int Scaling\+Result\+::n\+\_\+refinements}
+
+\Hypertarget{structScalingResult_aefd5063d6c0e12903bee9c4c638c9366}\index{ScalingResult@{ScalingResult}!n\_threads\_per\_process@{n\_threads\_per\_process}}
+\index{n\_threads\_per\_process@{n\_threads\_per\_process}!ScalingResult@{ScalingResult}}
+\doxysubsubsection{\texorpdfstring{n\_threads\_per\_process}{n\_threads\_per\_process}}
+{\footnotesize\ttfamily \label{structScalingResult_aefd5063d6c0e12903bee9c4c638c9366} 
+int Scaling\+Result\+::n\+\_\+threads\+\_\+per\+\_\+process}
+
+\Hypertarget{structScalingResult_ac58ca668994123ea1ed0f0a36d0da6d4}\index{ScalingResult@{ScalingResult}!parallel\_efficiency@{parallel\_efficiency}}
+\index{parallel\_efficiency@{parallel\_efficiency}!ScalingResult@{ScalingResult}}
+\doxysubsubsection{\texorpdfstring{parallel\_efficiency}{parallel\_efficiency}}
+{\footnotesize\ttfamily \label{structScalingResult_ac58ca668994123ea1ed0f0a36d0da6d4} 
+double Scaling\+Result\+::parallel\+\_\+efficiency}
+
+\Hypertarget{structScalingResult_ae7346b36465f3814402395e667c3c6c7}\index{ScalingResult@{ScalingResult}!polynomial\_degree@{polynomial\_degree}}
+\index{polynomial\_degree@{polynomial\_degree}!ScalingResult@{ScalingResult}}
+\doxysubsubsection{\texorpdfstring{polynomial\_degree}{polynomial\_degree}}
+{\footnotesize\ttfamily \label{structScalingResult_ae7346b36465f3814402395e667c3c6c7} 
+int Scaling\+Result\+::polynomial\+\_\+degree}
+
+\Hypertarget{structScalingResult_a99a965e5cd4239c77fd5386a3a7fd5cc}\index{ScalingResult@{ScalingResult}!setup\_time\_avg@{setup\_time\_avg}}
+\index{setup\_time\_avg@{setup\_time\_avg}!ScalingResult@{ScalingResult}}
+\doxysubsubsection{\texorpdfstring{setup\_time\_avg}{setup\_time\_avg}}
+{\footnotesize\ttfamily \label{structScalingResult_a99a965e5cd4239c77fd5386a3a7fd5cc} 
+double Scaling\+Result\+::setup\+\_\+time\+\_\+avg}
+
+\Hypertarget{structScalingResult_a8cf128e5ca1de18d277ac9e137ae8df3}\index{ScalingResult@{ScalingResult}!setup\_time\_std@{setup\_time\_std}}
+\index{setup\_time\_std@{setup\_time\_std}!ScalingResult@{ScalingResult}}
+\doxysubsubsection{\texorpdfstring{setup\_time\_std}{setup\_time\_std}}
+{\footnotesize\ttfamily \label{structScalingResult_a8cf128e5ca1de18d277ac9e137ae8df3} 
+double Scaling\+Result\+::setup\+\_\+time\+\_\+std}
+
+\Hypertarget{structScalingResult_a1c7900ff71a3230567ae7f3054d23dca}\index{ScalingResult@{ScalingResult}!solve\_time\_avg@{solve\_time\_avg}}
+\index{solve\_time\_avg@{solve\_time\_avg}!ScalingResult@{ScalingResult}}
+\doxysubsubsection{\texorpdfstring{solve\_time\_avg}{solve\_time\_avg}}
+{\footnotesize\ttfamily \label{structScalingResult_a1c7900ff71a3230567ae7f3054d23dca} 
+double Scaling\+Result\+::solve\+\_\+time\+\_\+avg}
+
+\Hypertarget{structScalingResult_a83bdd3567d77e4951438365cfc473de2}\index{ScalingResult@{ScalingResult}!solve\_time\_std@{solve\_time\_std}}
+\index{solve\_time\_std@{solve\_time\_std}!ScalingResult@{ScalingResult}}
+\doxysubsubsection{\texorpdfstring{solve\_time\_std}{solve\_time\_std}}
+{\footnotesize\ttfamily \label{structScalingResult_a83bdd3567d77e4951438365cfc473de2} 
+double Scaling\+Result\+::solve\+\_\+time\+\_\+std}
+
+\Hypertarget{structScalingResult_ad3782fd037cc0e4204e4605723a1b8e9}\index{ScalingResult@{ScalingResult}!solver\_type@{solver\_type}}
+\index{solver\_type@{solver\_type}!ScalingResult@{ScalingResult}}
+\doxysubsubsection{\texorpdfstring{solver\_type}{solver\_type}}
+{\footnotesize\ttfamily \label{structScalingResult_ad3782fd037cc0e4204e4605723a1b8e9} 
+std\+::string Scaling\+Result\+::solver\+\_\+type}
+
+\Hypertarget{structScalingResult_a8d278c19cb98debb661ecdbff7642198}\index{ScalingResult@{ScalingResult}!speedup@{speedup}}
+\index{speedup@{speedup}!ScalingResult@{ScalingResult}}
+\doxysubsubsection{\texorpdfstring{speedup}{speedup}}
+{\footnotesize\ttfamily \label{structScalingResult_a8d278c19cb98debb661ecdbff7642198} 
+double Scaling\+Result\+::speedup}
+
+\Hypertarget{structScalingResult_a8295a271824d9b644ac74c6402d2cf2f}\index{ScalingResult@{ScalingResult}!test\_type@{test\_type}}
+\index{test\_type@{test\_type}!ScalingResult@{ScalingResult}}
+\doxysubsubsection{\texorpdfstring{test\_type}{test\_type}}
+{\footnotesize\ttfamily \label{structScalingResult_a8295a271824d9b644ac74c6402d2cf2f} 
+std\+::string Scaling\+Result\+::test\+\_\+type}
+
+\Hypertarget{structScalingResult_a2feeb2f362ed465af471fafdb0a72db4}\index{ScalingResult@{ScalingResult}!total\_cores@{total\_cores}}
+\index{total\_cores@{total\_cores}!ScalingResult@{ScalingResult}}
+\doxysubsubsection{\texorpdfstring{total\_cores}{total\_cores}}
+{\footnotesize\ttfamily \label{structScalingResult_a2feeb2f362ed465af471fafdb0a72db4} 
+int Scaling\+Result\+::total\+\_\+cores}
+
+\Hypertarget{structScalingResult_af7f48e6eff59b454c03aaae31ddc5290}\index{ScalingResult@{ScalingResult}!total\_time\_avg@{total\_time\_avg}}
+\index{total\_time\_avg@{total\_time\_avg}!ScalingResult@{ScalingResult}}
+\doxysubsubsection{\texorpdfstring{total\_time\_avg}{total\_time\_avg}}
+{\footnotesize\ttfamily \label{structScalingResult_af7f48e6eff59b454c03aaae31ddc5290} 
+double Scaling\+Result\+::total\+\_\+time\+\_\+avg}
+
+\Hypertarget{structScalingResult_a90d869295ede9488010383968bdcdd85}\index{ScalingResult@{ScalingResult}!total\_time\_std@{total\_time\_std}}
+\index{total\_time\_std@{total\_time\_std}!ScalingResult@{ScalingResult}}
+\doxysubsubsection{\texorpdfstring{total\_time\_std}{total\_time\_std}}
+{\footnotesize\ttfamily \label{structScalingResult_a90d869295ede9488010383968bdcdd85} 
+double Scaling\+Result\+::total\+\_\+time\+\_\+std}
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/applications/benchmark/\mbox{\hyperlink{scaling__study_8cpp}{scaling\+\_\+study.\+cpp}}\end{DoxyCompactItemize}

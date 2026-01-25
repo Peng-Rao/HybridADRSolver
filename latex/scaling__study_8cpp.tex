@@ -1,0 +1,149 @@
+\doxysection{src/applications/benchmark/scaling\+\_\+study.cpp File Reference}
+\hypertarget{scaling__study_8cpp}{}\label{scaling__study_8cpp}\index{src/applications/benchmark/scaling\_study.cpp@{src/applications/benchmark/scaling\_study.cpp}}
+{\ttfamily \#include "{}core/problem\+\_\+definition.\+h"{}}\newline
+{\ttfamily \#include "{}core/types.\+h"{}}\newline
+{\ttfamily \#include "{}matrix\+\_\+based/matrix\+\_\+based\+\_\+solver.\+h"{}}\newline
+{\ttfamily \#include "{}matrix\+\_\+free/matrix\+\_\+free\+\_\+solver.\+h"{}}\newline
+{\ttfamily \#include "{}utils.\+h"{}}\newline
+{\ttfamily \#include $<$deal.\+II/base/mpi.\+h$>$}\newline
+{\ttfamily \#include $<$deal.\+II/base/multithread\+\_\+info.\+h$>$}\newline
+{\ttfamily \#include $<$algorithm$>$}\newline
+{\ttfamily \#include $<$cmath$>$}\newline
+{\ttfamily \#include $<$getopt.\+h$>$}\newline
+{\ttfamily \#include $<$iomanip$>$}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$numeric$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+Include dependency graph for scaling\+\_\+study.\+cpp\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{scaling__study_8cpp__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structScalingResult}{Scaling\+Result}}
+\begin{DoxyCompactList}\small\item\em Extended benchmark result with scaling metrics. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structStatistics}{Statistics}}
+\begin{DoxyCompactList}\small\item\em \doxylink{structStatistics}{Statistics} helper. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$int dim$>$ }\\\mbox{\hyperlink{structHybridADRSolver_1_1TimingResults}{Timing\+Results}} \mbox{\hyperlink{scaling__study_8cpp_af1ce327a322a1429b8f7d324253fbe77}{run\+\_\+matrix\+\_\+based\+\_\+single}} (const \mbox{\hyperlink{classHybridADRSolver_1_1ProblemInterface}{Problem\+Interface}}$<$ dim $>$ \&problem, int n\+\_\+refinements, int degree, MPI\+\_\+\+Comm comm)
+\begin{DoxyCompactList}\small\item\em Run matrix-\/based solver and collect timing. \end{DoxyCompactList}\item 
+{\footnotesize template$<$int dim, int fe\+\_\+degree$>$ }\\\mbox{\hyperlink{structHybridADRSolver_1_1TimingResults}{Timing\+Results}} \mbox{\hyperlink{scaling__study_8cpp_aa8a33b31774d4eff7ed340277863d8b4}{run\+\_\+matrix\+\_\+free\+\_\+single}} (const \mbox{\hyperlink{classHybridADRSolver_1_1ProblemInterface}{Problem\+Interface}}$<$ dim $>$ \&problem, int n\+\_\+refinements, MPI\+\_\+\+Comm comm)
+\begin{DoxyCompactList}\small\item\em Run matrix-\/free solver and collect timing. \end{DoxyCompactList}\item 
+{\footnotesize template$<$int dim$>$ }\\\mbox{\hyperlink{structScalingResult}{Scaling\+Result}} \mbox{\hyperlink{scaling__study_8cpp_a74367a10b0717daf6f1b500b11bdf271}{run\+\_\+benchmark\+\_\+with\+\_\+trials}} (const \mbox{\hyperlink{classHybridADRSolver_1_1ProblemInterface}{Problem\+Interface}}$<$ dim $>$ \&problem, const std\+::string \&solver\+\_\+type, const std\+::string \&test\+\_\+type, int n\+\_\+refinements, int degree, int n\+\_\+warmup, int n\+\_\+trials, MPI\+\_\+\+Comm comm)
+\begin{DoxyCompactList}\small\item\em Run multiple trials and compute statistics. \end{DoxyCompactList}\item 
+{\footnotesize template$<$int dim$>$ }\\void \mbox{\hyperlink{scaling__study_8cpp_adeca4ffe910adbe768c8bf6fe53f7fe7}{run\+\_\+strong\+\_\+scaling\+\_\+test}} (std\+::vector$<$ \mbox{\hyperlink{structScalingResult}{Scaling\+Result}} $>$ \&results, int n\+\_\+refinements, int degree, int n\+\_\+warmup, int n\+\_\+trials, double baseline\+\_\+time\+\_\+mb, double baseline\+\_\+time\+\_\+mf, MPI\+\_\+\+Comm comm)
+\begin{DoxyCompactList}\small\item\em Strong scaling test for a fixed problem size. \end{DoxyCompactList}\item 
+{\footnotesize template$<$int dim$>$ }\\void \mbox{\hyperlink{scaling__study_8cpp_adfab5fb4a37da388ec4f32d09d9d0785}{run\+\_\+weak\+\_\+scaling\+\_\+test}} (std\+::vector$<$ \mbox{\hyperlink{structScalingResult}{Scaling\+Result}} $>$ \&results, int base\+\_\+refinements, int degree, int n\+\_\+warmup, int n\+\_\+trials, double baseline\+\_\+time\+\_\+mb, double baseline\+\_\+time\+\_\+mf, MPI\+\_\+\+Comm comm)
+\begin{DoxyCompactList}\small\item\em Weak scaling test -\/ problem size grows with processor count. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{scaling__study_8cpp_a3e2227eee3044b9a7e14922628c1c1ec}{write\+\_\+results\+\_\+csv}} (const std\+::vector$<$ \mbox{\hyperlink{structScalingResult}{Scaling\+Result}} $>$ \&results, const std\+::string \&filename, MPI\+\_\+\+Comm comm)
+\begin{DoxyCompactList}\small\item\em Write results to CSV file. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{scaling__study_8cpp_aef3bf947020daa339ce9c61672b391c4}{print\+\_\+summary}} (const std\+::vector$<$ \mbox{\hyperlink{structScalingResult}{Scaling\+Result}} $>$ \&results, MPI\+\_\+\+Comm comm)
+\begin{DoxyCompactList}\small\item\em Print summary table. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{scaling__study_8cpp_ac7608332d002ef2745359f4cada4afc8}{print\+\_\+usage}} (const char \texorpdfstring{$\ast$}{*}program\+\_\+name)
+\begin{DoxyCompactList}\small\item\em Print usage information. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{scaling__study_8cpp_a0ddf1224851353fc92bfbff6f499fa97}{main}} (int argc, char \texorpdfstring{$\ast$}{*}argv\mbox{[}$\,$\mbox{]})
+\end{DoxyCompactItemize}
+
+
+\label{doc-func-members}
+\Hypertarget{scaling__study_8cpp_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{scaling__study_8cpp_a0ddf1224851353fc92bfbff6f499fa97}\index{scaling\_study.cpp@{scaling\_study.cpp}!main@{main}}
+\index{main@{main}!scaling\_study.cpp@{scaling\_study.cpp}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily \label{scaling__study_8cpp_a0ddf1224851353fc92bfbff6f499fa97} 
+int main (\begin{DoxyParamCaption}\item[{int}]{argc}{, }\item[{char \texorpdfstring{$\ast$}{*}}]{argv}{\mbox{[}$\,$\mbox{]}}\end{DoxyParamCaption})}
+
+\Hypertarget{scaling__study_8cpp_aef3bf947020daa339ce9c61672b391c4}\index{scaling\_study.cpp@{scaling\_study.cpp}!print\_summary@{print\_summary}}
+\index{print\_summary@{print\_summary}!scaling\_study.cpp@{scaling\_study.cpp}}
+\doxysubsubsection{\texorpdfstring{print\_summary()}{print\_summary()}}
+{\footnotesize\ttfamily \label{scaling__study_8cpp_aef3bf947020daa339ce9c61672b391c4} 
+void print\+\_\+summary (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ \mbox{\hyperlink{structScalingResult}{Scaling\+Result}} $>$ \&}]{results}{, }\item[{MPI\+\_\+\+Comm}]{comm}{}\end{DoxyParamCaption})}
+
+
+
+Print summary table. 
+
+\Hypertarget{scaling__study_8cpp_ac7608332d002ef2745359f4cada4afc8}\index{scaling\_study.cpp@{scaling\_study.cpp}!print\_usage@{print\_usage}}
+\index{print\_usage@{print\_usage}!scaling\_study.cpp@{scaling\_study.cpp}}
+\doxysubsubsection{\texorpdfstring{print\_usage()}{print\_usage()}}
+{\footnotesize\ttfamily \label{scaling__study_8cpp_ac7608332d002ef2745359f4cada4afc8} 
+void print\+\_\+usage (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{program\+\_\+name}{}\end{DoxyParamCaption})}
+
+
+
+Print usage information. 
+
+\Hypertarget{scaling__study_8cpp_a74367a10b0717daf6f1b500b11bdf271}\index{scaling\_study.cpp@{scaling\_study.cpp}!run\_benchmark\_with\_trials@{run\_benchmark\_with\_trials}}
+\index{run\_benchmark\_with\_trials@{run\_benchmark\_with\_trials}!scaling\_study.cpp@{scaling\_study.cpp}}
+\doxysubsubsection{\texorpdfstring{run\_benchmark\_with\_trials()}{run\_benchmark\_with\_trials()}}
+{\footnotesize\ttfamily \label{scaling__study_8cpp_a74367a10b0717daf6f1b500b11bdf271} 
+template$<$int dim$>$ \\
+\mbox{\hyperlink{structScalingResult}{Scaling\+Result}} run\+\_\+benchmark\+\_\+with\+\_\+trials (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classHybridADRSolver_1_1ProblemInterface}{Problem\+Interface}}$<$ dim $>$ \&}]{problem}{, }\item[{const std\+::string \&}]{solver\+\_\+type}{, }\item[{const std\+::string \&}]{test\+\_\+type}{, }\item[{int}]{n\+\_\+refinements}{, }\item[{int}]{degree}{, }\item[{int}]{n\+\_\+warmup}{, }\item[{int}]{n\+\_\+trials}{, }\item[{MPI\+\_\+\+Comm}]{comm}{}\end{DoxyParamCaption})}
+
+
+
+Run multiple trials and compute statistics. 
+
+\Hypertarget{scaling__study_8cpp_af1ce327a322a1429b8f7d324253fbe77}\index{scaling\_study.cpp@{scaling\_study.cpp}!run\_matrix\_based\_single@{run\_matrix\_based\_single}}
+\index{run\_matrix\_based\_single@{run\_matrix\_based\_single}!scaling\_study.cpp@{scaling\_study.cpp}}
+\doxysubsubsection{\texorpdfstring{run\_matrix\_based\_single()}{run\_matrix\_based\_single()}}
+{\footnotesize\ttfamily \label{scaling__study_8cpp_af1ce327a322a1429b8f7d324253fbe77} 
+template$<$int dim$>$ \\
+\mbox{\hyperlink{structHybridADRSolver_1_1TimingResults}{Timing\+Results}} run\+\_\+matrix\+\_\+based\+\_\+single (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classHybridADRSolver_1_1ProblemInterface}{Problem\+Interface}}$<$ dim $>$ \&}]{problem}{, }\item[{int}]{n\+\_\+refinements}{, }\item[{int}]{degree}{, }\item[{MPI\+\_\+\+Comm}]{comm}{}\end{DoxyParamCaption})}
+
+
+
+Run matrix-\/based solver and collect timing. 
+
+\Hypertarget{scaling__study_8cpp_aa8a33b31774d4eff7ed340277863d8b4}\index{scaling\_study.cpp@{scaling\_study.cpp}!run\_matrix\_free\_single@{run\_matrix\_free\_single}}
+\index{run\_matrix\_free\_single@{run\_matrix\_free\_single}!scaling\_study.cpp@{scaling\_study.cpp}}
+\doxysubsubsection{\texorpdfstring{run\_matrix\_free\_single()}{run\_matrix\_free\_single()}}
+{\footnotesize\ttfamily \label{scaling__study_8cpp_aa8a33b31774d4eff7ed340277863d8b4} 
+template$<$int dim, int fe\+\_\+degree$>$ \\
+\mbox{\hyperlink{structHybridADRSolver_1_1TimingResults}{Timing\+Results}} run\+\_\+matrix\+\_\+free\+\_\+single (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classHybridADRSolver_1_1ProblemInterface}{Problem\+Interface}}$<$ dim $>$ \&}]{problem}{, }\item[{int}]{n\+\_\+refinements}{, }\item[{MPI\+\_\+\+Comm}]{comm}{}\end{DoxyParamCaption})}
+
+
+
+Run matrix-\/free solver and collect timing. 
+
+\Hypertarget{scaling__study_8cpp_adeca4ffe910adbe768c8bf6fe53f7fe7}\index{scaling\_study.cpp@{scaling\_study.cpp}!run\_strong\_scaling\_test@{run\_strong\_scaling\_test}}
+\index{run\_strong\_scaling\_test@{run\_strong\_scaling\_test}!scaling\_study.cpp@{scaling\_study.cpp}}
+\doxysubsubsection{\texorpdfstring{run\_strong\_scaling\_test()}{run\_strong\_scaling\_test()}}
+{\footnotesize\ttfamily \label{scaling__study_8cpp_adeca4ffe910adbe768c8bf6fe53f7fe7} 
+template$<$int dim$>$ \\
+void run\+\_\+strong\+\_\+scaling\+\_\+test (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mbox{\hyperlink{structScalingResult}{Scaling\+Result}} $>$ \&}]{results}{, }\item[{int}]{n\+\_\+refinements}{, }\item[{int}]{degree}{, }\item[{int}]{n\+\_\+warmup}{, }\item[{int}]{n\+\_\+trials}{, }\item[{double}]{baseline\+\_\+time\+\_\+mb}{, }\item[{double}]{baseline\+\_\+time\+\_\+mf}{, }\item[{MPI\+\_\+\+Comm}]{comm}{}\end{DoxyParamCaption})}
+
+
+
+Strong scaling test for a fixed problem size. 
+
+\Hypertarget{scaling__study_8cpp_adfab5fb4a37da388ec4f32d09d9d0785}\index{scaling\_study.cpp@{scaling\_study.cpp}!run\_weak\_scaling\_test@{run\_weak\_scaling\_test}}
+\index{run\_weak\_scaling\_test@{run\_weak\_scaling\_test}!scaling\_study.cpp@{scaling\_study.cpp}}
+\doxysubsubsection{\texorpdfstring{run\_weak\_scaling\_test()}{run\_weak\_scaling\_test()}}
+{\footnotesize\ttfamily \label{scaling__study_8cpp_adfab5fb4a37da388ec4f32d09d9d0785} 
+template$<$int dim$>$ \\
+void run\+\_\+weak\+\_\+scaling\+\_\+test (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mbox{\hyperlink{structScalingResult}{Scaling\+Result}} $>$ \&}]{results}{, }\item[{int}]{base\+\_\+refinements}{, }\item[{int}]{degree}{, }\item[{int}]{n\+\_\+warmup}{, }\item[{int}]{n\+\_\+trials}{, }\item[{double}]{baseline\+\_\+time\+\_\+mb}{, }\item[{double}]{baseline\+\_\+time\+\_\+mf}{, }\item[{MPI\+\_\+\+Comm}]{comm}{}\end{DoxyParamCaption})}
+
+
+
+Weak scaling test -\/ problem size grows with processor count. 
+
+\Hypertarget{scaling__study_8cpp_a3e2227eee3044b9a7e14922628c1c1ec}\index{scaling\_study.cpp@{scaling\_study.cpp}!write\_results\_csv@{write\_results\_csv}}
+\index{write\_results\_csv@{write\_results\_csv}!scaling\_study.cpp@{scaling\_study.cpp}}
+\doxysubsubsection{\texorpdfstring{write\_results\_csv()}{write\_results\_csv()}}
+{\footnotesize\ttfamily \label{scaling__study_8cpp_a3e2227eee3044b9a7e14922628c1c1ec} 
+void write\+\_\+results\+\_\+csv (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ \mbox{\hyperlink{structScalingResult}{Scaling\+Result}} $>$ \&}]{results}{, }\item[{const std\+::string \&}]{filename}{, }\item[{MPI\+\_\+\+Comm}]{comm}{}\end{DoxyParamCaption})}
+
+
+
+Write results to CSV file. 
+

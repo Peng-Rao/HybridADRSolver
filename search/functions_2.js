@@ -9,5 +9,5 @@ var searchData=
   ['compute_5fmemory_5fusage_6',['compute_memory_usage',['../classHybridADRSolver_1_1MatrixBasedSolver.html#adc3b6f54bac3a70f3f1a4e63bc62e858',1,'HybridADRSolver::MatrixBasedSolver']]],
   ['compute_5fspeedup_7',['compute_speedup',['../namespaceBenchmarkUtils.html#a06c5ae8a2829968ce171149ab9aed0b7',1,'BenchmarkUtils']]],
   ['compute_5fweak_5fscaling_5frefinements_8',['compute_weak_scaling_refinements',['../weak__scaling_8cpp.html#a9d67efb6c98adf4a9285705a376fe0f4',1,'weak_scaling.cpp']]],
-  ['csv_5fheader_9',['csv_header',['../structBenchmarkUtils_1_1BenchmarkResult.html#a17fb92b2f308ca6bac91ebcb0e4c0a20',1,'BenchmarkUtils::BenchmarkResult']]]
+  ['csv_5fheader_9',['csv_header',['../structScalingResult.html#a58aad0b0d265f9e7a022b9ff08d4b138',1,'ScalingResult::csv_header()'],['../structBenchmarkUtils_1_1BenchmarkResult.html#a17fb92b2f308ca6bac91ebcb0e4c0a20',1,'BenchmarkUtils::BenchmarkResult::csv_header()']]]
 ];
