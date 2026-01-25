@@ -575,22 +575,20 @@ template <int dim, int fe_degree>
 double MatrixFreeSolver<dim, fe_degree>::get_memory_usage() const {
     double memory = 0.0;
 
-    // Solution and RHS vectors
     memory += solution.memory_consumption();
     memory += system_rhs.memory_consumption();
-
-    // MatrixFree data structure for finest level
     memory += matrix_free_data->memory_consumption();
 
-    // Level matrices
     for (unsigned int level = mg_matrices.min_level();
          level <= mg_matrices.max_level(); ++level) {
         if (mg_matrix_free_storage[level])
             memory += mg_matrix_free_storage[level]->memory_consumption();
     }
 
-    // Convert to MB
-    return memory / (1024.0 * 1024.0);
+    const double global_memory =
+        Utilities::MPI::sum(memory, this->mpi_communicator);
+
+    return global_memory / (1024.0 * 1024.0);
 }
 
 template <int dim, int fe_degree>
@@ -641,6 +639,7 @@ void MatrixFreeSolver<dim, fe_degree>::run(unsigned int n_ref) {
     this->timing_results.memory_mb = get_memory_usage();
     this->timing_results.n_dofs = this->dof_handler.n_dofs();
     this->timing_results.l2_error = err;
+    this->timing_results.n_cells = this->triangulation.n_global_active_cells();
 
     if (this->parameters.verbose) {
         this->pcout << "   Setup time:    " << this->timing_results.setup_time

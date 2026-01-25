@@ -1,0 +1,176 @@
+
+********************************************************************************
+  2D TIME COMPLEXITY BENCHMARK
+  Advection-Diffusion-Reaction Solver
+********************************************************************************
+
+Configuration:
+  MPI Processes:    3
+  Threads/Process:  9
+  Total Cores:      27
+  Refinements:      2 to 10
+  Polynomial Degree: 2
+  Output File:      results_2d_20260125_140108/complexity_Hybrid_3x9.csv
+
+================================================================================
+TIME COMPLEXITY BENCHMARK (2D)
+================================================================================
+MPI Processes: 3
+Threads/Rank:  9
+Refinements:   2 to 10
+Degree:        2
+================================================================================
+
+
+--- Refinement level 2 ---
+Running: Manufactured ADR (Dirichlet + Neumann) (Matrix-Based, Hybrid MPI+Threading)
+   Using 3 MPI processes
+   Threading: 9 threads per process
+Running: Manufactured ADR (Dirichlet + Neumann) (Matrix-Free, GMG + Hybrid MPI+Threading)
+   Using 3 MPI processes
+   Threading: 9 threads per process
+   Multigrid: Enabled
+  DoFs: 81, Cells: 16
+  Matrix-Based: 3.00s, 0.01 MB
+  Matrix-Free:  3.69s, 0.06 MB
+  Speedup: 0.81x
+
+--- Refinement level 3 ---
+Running: Manufactured ADR (Dirichlet + Neumann) (Matrix-Based, Hybrid MPI+Threading)
+   Using 3 MPI processes
+   Threading: 9 threads per process
+Running: Manufactured ADR (Dirichlet + Neumann) (Matrix-Free, GMG + Hybrid MPI+Threading)
+   Using 3 MPI processes
+   Threading: 9 threads per process
+   Multigrid: Enabled
+  DoFs: 289, Cells: 64
+  Matrix-Based: 3.01s, 0.01 MB
+  Matrix-Free:  5.74s, 0.08 MB
+  Speedup: 0.52x
+
+--- Refinement level 4 ---
+Running: Manufactured ADR (Dirichlet + Neumann) (Matrix-Based, Hybrid MPI+Threading)
+   Using 3 MPI processes
+   Threading: 9 threads per process
+Running: Manufactured ADR (Dirichlet + Neumann) (Matrix-Free, GMG + Hybrid MPI+Threading)
+   Using 3 MPI processes
+   Threading: 9 threads per process
+   Multigrid: Enabled
+  DoFs: 1089, Cells: 256
+  Matrix-Based: 3.83s, 0.04 MB
+  Matrix-Free:  7.46s, 0.11 MB
+  Speedup: 0.51x
+
+--- Refinement level 5 ---
+Running: Manufactured ADR (Dirichlet + Neumann) (Matrix-Based, Hybrid MPI+Threading)
+   Using 3 MPI processes
+   Threading: 9 threads per process
+Running: Manufactured ADR (Dirichlet + Neumann) (Matrix-Free, GMG + Hybrid MPI+Threading)
+   Using 3 MPI processes
+   Threading: 9 threads per process
+   Multigrid: Enabled
+  DoFs: 4225, Cells: 1024
+  Matrix-Based: 4.39s, 0.12 MB
+  Matrix-Free:  9.52s, 0.19 MB
+  Speedup: 0.46x
+
+--- Refinement level 6 ---
+Running: Manufactured ADR (Dirichlet + Neumann) (Matrix-Based, Hybrid MPI+Threading)
+   Using 3 MPI processes
+   Threading: 9 threads per process
+Running: Manufactured ADR (Dirichlet + Neumann) (Matrix-Free, GMG + Hybrid MPI+Threading)
+   Using 3 MPI processes
+   Threading: 9 threads per process
+   Multigrid: Enabled
+  DoFs: 16641, Cells: 4096
+  Matrix-Based: 5.40s, 0.39 MB
+  Matrix-Free:  12.13s, 0.46 MB
+  Speedup: 0.45x
+
+--- Refinement level 7 ---
+Running: Manufactured ADR (Dirichlet + Neumann) (Matrix-Based, Hybrid MPI+Threading)
+   Using 3 MPI processes
+   Threading: 9 threads per process
+Running: Manufactured ADR (Dirichlet + Neumann) (Matrix-Free, GMG + Hybrid MPI+Threading)
+   Using 3 MPI processes
+   Threading: 9 threads per process
+   Multigrid: Enabled
+  DoFs: 66049, Cells: 16384
+  Matrix-Based: 7.18s, 1.44 MB
+  Matrix-Free:  15.20s, 1.49 MB
+  Speedup: 0.47x
+
+--- Refinement level 8 ---
+Running: Manufactured ADR (Dirichlet + Neumann) (Matrix-Based, Hybrid MPI+Threading)
+   Using 3 MPI processes
+   Threading: 9 threads per process
+Running: Manufactured ADR (Dirichlet + Neumann) (Matrix-Free, GMG + Hybrid MPI+Threading)
+   Using 3 MPI processes
+   Threading: 9 threads per process
+   Multigrid: Enabled
+  DoFs: 263169, Cells: 65536
+  Matrix-Based: 10.72s, 5.50 MB
+  Matrix-Free:  18.47s, 5.54 MB
+  Speedup: 0.58x
+
+--- Refinement level 9 ---
+Running: Manufactured ADR (Dirichlet + Neumann) (Matrix-Based, Hybrid MPI+Threading)
+   Using 3 MPI processes
+   Threading: 9 threads per process
+Running: Manufactured ADR (Dirichlet + Neumann) (Matrix-Free, GMG + Hybrid MPI+Threading)
+   Using 3 MPI processes
+   Threading: 9 threads per process
+   Multigrid: Enabled
+  DoFs: 1050625, Cells: 262144
+  Matrix-Based: 20.01s, 21.47 MB
+  Matrix-Free:  25.20s, 21.60 MB
+  Speedup: 0.79x
+
+--- Refinement level 10 ---
+Running: Manufactured ADR (Dirichlet + Neumann) (Matrix-Based, Hybrid MPI+Threading)
+   Using 3 MPI processes
+   Threading: 9 threads per process
+Running: Manufactured ADR (Dirichlet + Neumann) (Matrix-Free, GMG + Hybrid MPI+Threading)
+   Using 3 MPI processes
+   Threading: 9 threads per process
+   Multigrid: Enabled
+  DoFs: 4198401, Cells: 1048576
+  Matrix-Based: 59.29s, 84.86 MB
+  Matrix-Free:  52.20s, 85.61 MB
+  Speedup: 1.14x
+
+================================================================================
+BENCHMARK SUMMARY
+================================================================================
+
+Solver         MPI       Threads   DoFs        Total(s)    Memory(MB)  DoFs/s         
+--------------------------------------------------------------------------------
+matrix_based   3         9         81          3.000       0.006       2.70e+01       
+matrix_free    3         9         81          3.687       0.058       2.20e+01       
+matrix_based   3         9         289         3.006       0.014       9.61e+01       
+matrix_free    3         9         289         5.739       0.076       5.04e+01       
+matrix_based   3         9         1089        3.831       0.037       2.84e+02       
+matrix_free    3         9         1089        7.460       0.106       1.46e+02       
+matrix_based   3         9         4225        4.391       0.119       9.62e+02       
+matrix_free    3         9         4225        9.523       0.187       4.44e+02       
+matrix_based   3         9         16641       5.404       0.391       3.08e+03       
+matrix_free    3         9         16641       12.128      0.461       1.37e+03       
+matrix_based   3         9         66049       7.179       1.438       9.20e+03       
+matrix_free    3         9         66049       15.200      1.494       4.35e+03       
+matrix_based   3         9         263169      10.716      5.496       2.46e+04       
+matrix_free    3         9         263169      18.474      5.543       1.42e+04       
+matrix_based   3         9         1050625     20.013      21.473      5.25e+04       
+matrix_free    3         9         1050625     25.203      21.603      4.17e+04       
+matrix_based   3         9         4198401     59.289      84.863      7.08e+04       
+matrix_free    3         9         4198401     52.201      85.614      8.04e+04       
+================================================================================
+
+Results written to: results_2d_20260125_140108/complexity_Hybrid_3x9.csv
+WARNING! There are options you set that were not used!
+WARNING! could be spelling mistake, etc!
+There are 5 unused database options. They are:
+Option left: name:--degree value: 2 source: command line
+Option left: name:--max-ref value: 10 source: command line
+Option left: name:--min-ref value: 2 source: command line
+Option left: name:--output value: results_2d_20260125_140108/complexity_Hybrid_3x9.csv source: command line
+Option left: name:--threads value: 9 source: command line

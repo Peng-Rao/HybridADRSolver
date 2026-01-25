@@ -1,0 +1,44 @@
+2D Time Complexity Benchmark Summary
+====================================
+Date: Sun Jan 25 17:06:30 CET 2026
+Job ID: 6996.login01
+
+System Configuration:
+- Node: 1
+- Total Cores: 28
+- Refinement Range: 2 to 10
+- Polynomial Degree: 2
+
+Parallelism Strategies Tested (13 configurations):
+----------------------------------------------------------------
+PureMPI_28ranks           MPI: 28 × Threads:  1 = 28 cores
+Hybrid_14x2               MPI: 14 × Threads:  2 = 28 cores
+Hybrid_7x4                MPI:  7 × Threads:  4 = 28 cores
+Hybrid_4x7                MPI:  4 × Threads:  7 = 28 cores
+Hybrid_2x14               MPI:  2 × Threads: 14 = 28 cores
+PureThreading_1x28        MPI:  1 × Threads: 28 = 28 cores
+Hybrid_8x3                MPI:  8 × Threads:  3 = 24 cores
+Hybrid_9x3                MPI:  9 × Threads:  3 = 27 cores
+MPI_20ranks               MPI: 20 × Threads:  1 = 20 cores
+MPI_16ranks               MPI: 16 × Threads:  1 = 16 cores
+Hybrid_12x2               MPI: 12 × Threads:  2 = 24 cores
+Hybrid_3x9                MPI:  3 × Threads:  9 = 27 cores
+Hybrid_2x12               MPI:  2 × Threads: 12 = 24 cores
+
+Results Directory: results_2d_20260125_140108
+
+Files Generated:
+----------------
+-rw------- 1 u11022931 u11022931 2.5K Jan 25 16:59 results_2d_20260125_140108/complexity_Hybrid_12x2.csv
+-rw------- 1 u11022931 u11022931 2.5K Jan 25 15:08 results_2d_20260125_140108/complexity_Hybrid_14x2.csv
+-rw------- 1 u11022931 u11022931 2.5K Jan 25 17:05 results_2d_20260125_140108/complexity_Hybrid_2x12.csv
+-rw------- 1 u11022931 u11022931 2.5K Jan 25 15:24 results_2d_20260125_140108/complexity_Hybrid_2x14.csv
+-rw------- 1 u11022931 u11022931 2.5K Jan 25 17:04 results_2d_20260125_140108/complexity_Hybrid_3x9.csv
+-rw------- 1 u11022931 u11022931 2.5K Jan 25 15:22 results_2d_20260125_140108/complexity_Hybrid_4x7.csv
+-rw------- 1 u11022931 u11022931 2.5K Jan 25 15:17 results_2d_20260125_140108/complexity_Hybrid_7x4.csv
+-rw------- 1 u11022931 u11022931 2.5K Jan 25 15:36 results_2d_20260125_140108/complexity_Hybrid_8x3.csv
+-rw------- 1 u11022931 u11022931 2.5K Jan 25 15:49 results_2d_20260125_140108/complexity_Hybrid_9x3.csv
+-rw------- 1 u11022931 u11022931 2.5K Jan 25 16:42 results_2d_20260125_140108/complexity_MPI_16ranks.csv
+-rw------- 1 u11022931 u11022931 2.5K Jan 25 16:19 results_2d_20260125_140108/complexity_MPI_20ranks.csv
+-rw------- 1 u11022931 u11022931 2.5K Jan 25 14:47 results_2d_20260125_140108/complexity_PureMPI_28ranks.csv
+-rw------- 1 u11022931 u11022931 2.5K Jan 25 15:26 results_2d_20260125_140108/complexity_PureThreading_1x28.csv
