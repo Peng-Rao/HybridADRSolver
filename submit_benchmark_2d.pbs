@@ -1,0 +1,265 @@
+#!/bin/bash
+
+#===============================================================================
+# PBS Job Script for 2D Time Complexity Benchmark
+#===============================================================================
+# Single Node: 28 cores
+# Tests various parallelism strategies with refinements 2-10
+#===============================================================================
+
+#PBS -N adr_2d_complexity
+#PBS -l select=1:ncpus=28
+#PBS -l walltime=24:00:00
+#PBS -q cpu
+#PBS -A Hybrid-Parallelism-ADR-Solver-PDE2025
+#PBS -m abe
+#PBS -M peng.rao@mail.polimi.it
+
+#===============================================================================
+# Setup
+#===============================================================================
+
+cd ${PBS_O_WORKDIR:-$(pwd)}
+
+TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+LOG_DIR="logs_2d"
+mkdir -p ${LOG_DIR}
+LOG_FILE="${LOG_DIR}/benchmark_2d_${PBS_JOBID:-local}_${TIMESTAMP}.log"
+
+RESULTS_DIR="results_2d_${TIMESTAMP}"
+mkdir -p ${RESULTS_DIR}
+
+exec > >(tee -a "${LOG_FILE}") 2>&1
+
+echo "==============================================================================="
+echo "2D TIME COMPLEXITY BENCHMARK"
+echo "==============================================================================="
+echo "Job ID: ${PBS_JOBID}"
+echo "Date: $(date)"
+echo "Results Dir: ${RESULTS_DIR}"
+echo "==============================================================================="
+
+#-------------------------------------------------------------------------------
+# Spack Environment
+#-------------------------------------------------------------------------------
+if [ -f "/work/u11022931/spack/share/spack/setup-env.sh" ]; then
+    source /work/u11022931/spack/share/spack/setup-env.sh
+elif [ -f "/opt/spack/share/spack/setup-env.sh" ]; then
+    source /opt/spack/share/spack/setup-env.sh
+else
+    echo "ERROR: Spack not found"
+    exit 1
+fi
+
+spack env activate .
+echo "Spack Environment: $(spack env status)"
+echo ""
+
+ulimit -s unlimited
+
+#===============================================================================
+# Build
+#===============================================================================
+
+BUILD_DIR="build"
+EXECUTABLE="${BUILD_DIR}/benchmark_2d"
+REBUILD_REQUIRED=false
+
+if [ ! -f "$EXECUTABLE" ]; then
+    REBUILD_REQUIRED=true
+else
+    NEWEST_SOURCE=$(find . -maxdepth 2 \( -name "*.cpp" -o -name "*.h" -o -name "CMakeLists.txt" \) 2>/dev/null | xargs ls -t 2>/dev/null | head -n 1)
+    if [ -n "$NEWEST_SOURCE" ] && [ "$NEWEST_SOURCE" -nt "$EXECUTABLE" ]; then
+        REBUILD_REQUIRED=true
+    fi
+fi
+
+if [ "$REBUILD_REQUIRED" = true ]; then
+    echo "Building 2D benchmark..."
+    mkdir -p ${BUILD_DIR}
+    cd ${BUILD_DIR}
+    cmake .. -DCMAKE_BUILD_TYPE=Release
+    make -j 28 || exit 1
+    cd ..
+    echo "Build complete."
+else
+    echo "Binary is up to date."
+fi
+
+#===============================================================================
+# Parallelism Strategy Configurations
+#===============================================================================
+# Format: "mpi_ranks threads_per_rank description"
+# Total cores = mpi_ranks × threads_per_rank = 28
+
+declare -a CONFIGS=(
+    # Pure MPI (no threading)
+    "28 1 PureMPI_28ranks"
+
+    # Hybrid configurations
+    "14 2 Hybrid_14x2"
+    "7 4 Hybrid_7x4"
+    "4 7 Hybrid_4x7"
+    "2 14 Hybrid_2x14"
+    "1 28 PureThreading_1x28"
+
+    # Additional balanced configurations
+    "8 3 Hybrid_8x3"    # 24 cores (close to 28)
+    "9 3 Hybrid_9x3"    # 27 cores (close to 28)
+
+    # MPI-heavy configurations
+    "20 1 MPI_20ranks"
+    "16 1 MPI_16ranks"
+    "12 2 Hybrid_12x2"  # 24 cores
+
+    # Thread-heavy configurations
+    "3 9 Hybrid_3x9"    # 27 cores
+    "2 12 Hybrid_2x12"  # 24 cores
+)
+
+# Refinement range for time complexity analysis
+MIN_REF=2
+MAX_REF=10
+DEGREE=2
+
+MPI_CMD="mpirun"
+
+echo "==============================================================================="
+echo "MPI Implementation"
+echo "==============================================================================="
+${MPI_CMD} --version
+echo ""
+
+#===============================================================================
+# Run Benchmarks for All Configurations
+#===============================================================================
+
+echo "==============================================================================="
+echo "Starting Time Complexity Benchmarks"
+echo "==============================================================================="
+echo "Total configurations: ${#CONFIGS[@]}"
+echo "Refinement range: ${MIN_REF} to ${MAX_REF}"
+echo "Polynomial degree: ${DEGREE}"
+echo ""
+
+CONFIG_COUNT=0
+TOTAL_CONFIGS=${#CONFIGS[@]}
+
+for CONFIG in "${CONFIGS[@]}"; do
+    CONFIG_COUNT=$((CONFIG_COUNT + 1))
+
+    read -r NRANKS NTHREADS CONFIG_NAME <<< "$CONFIG"
+    TOTAL_CORES=$((NRANKS * NTHREADS))
+
+    echo ""
+    echo "==============================================================================="
+    echo "Configuration ${CONFIG_COUNT}/${TOTAL_CONFIGS}: ${CONFIG_NAME}"
+    echo "==============================================================================="
+    echo "MPI Ranks:         ${NRANKS}"
+    echo "Threads/Rank:      ${NTHREADS}"
+    echo "Total Cores Used:  ${TOTAL_CORES}/28"
+    echo "==============================================================================="
+
+    # Set threading environment
+    export TBB_NUM_THREADS=${NTHREADS}
+    export OMP_NUM_THREADS=${NTHREADS}
+    export OMP_PROC_BIND=close
+    export OMP_PLACES=cores
+    export OMP_STACKSIZE=64M
+
+    # Output file for this configuration
+    OUTPUT_CSV="${RESULTS_DIR}/complexity_${CONFIG_NAME}.csv"
+    OUTPUT_LOG="${RESULTS_DIR}/log_${CONFIG_NAME}.txt"
+
+    echo "Running benchmark..."
+    echo "Output: ${OUTPUT_CSV}"
+    echo ""
+
+    # Run the benchmark
+    ${MPI_CMD} -n ${NRANKS} \
+        ${EXECUTABLE} \
+        --min-ref ${MIN_REF} \
+        --max-ref ${MAX_REF} \
+        --degree ${DEGREE} \
+        --output ${OUTPUT_CSV} \
+        --threads ${NTHREADS} \
+        2>&1 | tee ${OUTPUT_LOG}
+
+    EXIT_CODE=$?
+
+    if [ $EXIT_CODE -ne 0 ]; then
+        echo "WARNING: Configuration ${CONFIG_NAME} failed with exit code ${EXIT_CODE}"
+    else
+        echo "Configuration ${CONFIG_NAME} completed successfully."
+    fi
+
+    echo "==============================================================================="
+
+    # Small delay between runs
+    sleep 2
+done
+
+#===============================================================================
+# Generate Summary Report
+#===============================================================================
+
+echo ""
+echo "==============================================================================="
+echo "Generating Summary Report"
+echo "==============================================================================="
+
+SUMMARY_FILE="${RESULTS_DIR}/SUMMARY.txt"
+
+cat > ${SUMMARY_FILE} << EOF
+2D Time Complexity Benchmark Summary
+====================================
+Date: $(date)
+Job ID: ${PBS_JOBID}
+
+System Configuration:
+- Node: 1
+- Total Cores: 28
+- Refinement Range: ${MIN_REF} to ${MAX_REF}
+- Polynomial Degree: ${DEGREE}
+
+Parallelism Strategies Tested (${TOTAL_CONFIGS} configurations):
+----------------------------------------------------------------
+EOF
+
+for CONFIG in "${CONFIGS[@]}"; do
+    read -r NRANKS NTHREADS CONFIG_NAME <<< "$CONFIG"
+    TOTAL_CORES=$((NRANKS * NTHREADS))
+    printf "%-25s MPI: %2d × Threads: %2d = %2d cores\n" \
+        "${CONFIG_NAME}" ${NRANKS} ${NTHREADS} ${TOTAL_CORES} >> ${SUMMARY_FILE}
+done
+
+cat >> ${SUMMARY_FILE} << EOF
+
+Results Directory: ${RESULTS_DIR}
+
+Files Generated:
+----------------
+EOF
+
+ls -lh ${RESULTS_DIR}/*.csv >> ${SUMMARY_FILE} 2>/dev/null
+
+cat ${SUMMARY_FILE}
+
+#===============================================================================
+# Final Summary
+#===============================================================================
+
+echo ""
+echo "==============================================================================="
+echo "BENCHMARK COMPLETE"
+echo "==============================================================================="
+echo "Results Directory: ${RESULTS_DIR}"
+echo "Log File: ${LOG_FILE}"
+echo "Summary: ${SUMMARY_FILE}"
+echo ""
+echo "Total Configurations Tested: ${TOTAL_CONFIGS}"
+echo "Refinement Range: ${MIN_REF} to ${MAX_REF}"
+echo ""
+echo "End Time: $(date)"
+echo "==============================================================================="
+echo ""

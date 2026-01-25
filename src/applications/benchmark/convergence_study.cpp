@@ -4,7 +4,6 @@
  * Matrix-Free solvers.
  */
 
-#include <cmath>
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -15,7 +14,6 @@
 #include "matrix_free/matrix_free_solver.h"
 
 #include <deal.II/base/mpi.h>
-#include <deal.II/base/utilities.h>
 
 using namespace dealii;
 using namespace HybridADRSolver;
@@ -46,18 +44,17 @@ int main(int argc, char* argv[]) {
         }
 
         // --- Study Parameters ---
-        const int start_ref = 3;
-        const int total_cycles = 2;
+        constexpr int total_cycles = 2;
 
         SolverParameters params;
         params.verbose = false;
         params.tolerance = 1e-10;
         params.max_iterations = 10000;
 
-        const Problems::ADRProblem<2> problem;
-        constexpr int fe_degree = 2;
-
         for (int i = 0; i < total_cycles; ++i) {
+            const Problems::ADRProblem<2> problem;
+            constexpr int fe_degree = 2;
+            constexpr int start_ref = 3;
             int r = start_ref + i;
             double h = compute_h(r);
 

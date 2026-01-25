@@ -56,7 +56,7 @@ int compute_weak_scaling_refinements(const int base_refs,
     // Calculate additional refinements based on process count
     // Each refinement level increases cells by 2^dim
     // So to maintain constant cells/process, we add log_2^dim(n_procs) levels
-    double extra = std::log2(static_cast<double>(n_procs)) / dim;
+    const double extra = std::log2(static_cast<double>(n_procs)) / dim;
     return base_refs + static_cast<int>(std::round(extra));
 }
 

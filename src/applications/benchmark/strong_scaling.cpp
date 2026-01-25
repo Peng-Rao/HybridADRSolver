@@ -201,14 +201,13 @@ int main(int argc, char* argv[]) {
         pcout << "  StdDev: " << mb_stats.stddev << " s\n\n";
 
         pcout << "Matrix-Free Solver (Hybrid):\n";
-        pcout << "  Mean:   " << mf_stats.mean << " s\n";
+        pcout << "  Mean:   " << mf_sta << " s\n";
         pcout << "  Min:    " << mf_stats.min << " s\n";
         pcout << "  Max:    " << mf_stats.max << " s\n";
         pcout << "  StdDev: " << mf_stats.stddev << " s\n\n";
 
         pcout << "Comparison:\n";
-        pcout << "  Speedup (MB/MF): " << mb_stats.mean / mf_stats.mean
-              << "x\n";
+        pcout << "  Speedup (MB/MF): " << mb_stats.mean / mf_sta << "x\n";
 
         // Write results to CSV
         if (rank == 0) {
@@ -224,9 +223,8 @@ int main(int argc, char* argv[]) {
                 << mb_stats.min << "," << mb_stats.max << "," << mb_stats.stddev
                 << "\n";
             ofs << "matrix_free," << n_procs << "," << n_threads << ","
-                << config.n_refinements << "," << mf_stats.mean << ","
-                << mf_stats.min << "," << mf_stats.max << "," << mf_stats.stddev
-                << "\n";
+                << config.n_refinements << "," << mf_sta << "," << mf_stats.min
+                << "," << mf_stats.max << "," << mf_stats.stddev << "\n";
             ofs.close();
 
             std::cout << "\nResults written to: " << filename << "\n";
