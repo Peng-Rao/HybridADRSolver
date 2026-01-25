@@ -1,6 +1,6 @@
 /**
  * @file solver.h
- * @brief Abstract base class for all solvers with GMG support
+ * @brief Abstract base class for all solvers
  */
 #ifndef HYBRIDADRSOLVER_SOLVER_H
 #define HYBRIDADRSOLVER_SOLVER_H
@@ -28,7 +28,7 @@ using namespace dealii;
  * This class provides the common infrastructure for matrix-based and
  * matrix-free solvers, including:
  * - MPI communication setup
- * - Triangulation with multigrid hierarchy support
+ * - Triangulation (optionally with multigrid hierarchy support)
  * - DoF handler and constraints
  * - Timing and output utilities
  *
@@ -40,8 +40,11 @@ public:
      * Constructor
      * @param comm MPI communicator
      * @param params Solver parameters
+     * @param construct_mg_hierarchy Whether to construct multigrid hierarchy
+     *        (set to true for matrix-free GMG, false for matrix-based)
      */
-    ParallelSolverBase(MPI_Comm comm, SolverParameters params);
+    ParallelSolverBase(MPI_Comm comm, SolverParameters params,
+                       bool construct_mg_hierarchy = false);
     virtual ~ParallelSolverBase() = default;
 
     /**
@@ -67,7 +70,7 @@ public:
 
 protected:
     /**
-     * Setup the mesh/triangulation with multigrid hierarchy
+     * Setup the mesh/triangulation
      * @param n_refinements Number of global refinements
      */
     virtual void setup_grid(unsigned int n_refinements);
@@ -99,7 +102,6 @@ protected:
     unsigned int this_mpi_process;
 
     // Mesh and finite element
-    // Note: Triangulation is setup with multigrid hierarchy construction
     parallel::distributed::Triangulation<dim> triangulation;
     std::unique_ptr<FiniteElement<dim>> fe;
     DoFHandler<dim> dof_handler;
@@ -121,27 +123,41 @@ protected:
     // Output
     ConditionalOStream pcout;
     TimerOutput computing_timer;
+
+    // Whether multigrid hierarchy was constructed
+    bool has_mg_hierarchy;
+
+private:
+    /**
+     * Helper to get triangulation settings based on MG requirement
+     */
+    static typename parallel::distributed::Triangulation<dim>::Settings
+    get_triangulation_settings(bool construct_mg_hierarchy) {
+        if (construct_mg_hierarchy) {
+            return parallel::distributed::Triangulation<
+                dim>::construct_multigrid_hierarchy;
+        }
+        return parallel::distributed::Triangulation<dim>::default_setting;
+    }
 };
 
 template <int dim>
 ParallelSolverBase<dim>::ParallelSolverBase(MPI_Comm comm,
-                                            SolverParameters params)
+                                            SolverParameters params,
+                                            bool construct_mg_hierarchy)
     : mpi_communicator(comm),
       n_mpi_processes(Utilities::MPI::n_mpi_processes(comm)),
       this_mpi_process(Utilities::MPI::this_mpi_process(comm)),
-      // Initialize triangulation with multigrid hierarchy construction
       triangulation(comm,
                     typename Triangulation<dim>::MeshSmoothing(
                         Triangulation<dim>::limit_level_difference_at_vertices |
                         Triangulation<dim>::smoothing_on_refinement |
                         Triangulation<dim>::smoothing_on_coarsening),
-                    // Enable multigrid hierarchy construction for GMG
-                    parallel::distributed::Triangulation<
-                        dim>::construct_multigrid_hierarchy),
+                    get_triangulation_settings(construct_mg_hierarchy)),
       dof_handler(triangulation), parameters(std::move(params)),
       pcout(std::cout, this_mpi_process == 0),
-      computing_timer(comm, pcout, TimerOutput::never,
-                      TimerOutput::wall_times) {
+      computing_timer(comm, pcout, TimerOutput::never, TimerOutput::wall_times),
+      has_mg_hierarchy(construct_mg_hierarchy) {
     // Set thread limit
     if (parameters.n_threads != numbers::invalid_unsigned_int)
         MultithreadInfo::set_thread_limit(parameters.n_threads);
@@ -161,8 +177,10 @@ void ParallelSolverBase<dim>::setup_grid(const unsigned int n_refinements) {
     if (parameters.verbose) {
         pcout << "   Active cells: " << triangulation.n_global_active_cells()
               << std::endl;
-        pcout << "   MG levels:    " << triangulation.n_global_levels()
-              << std::endl;
+        if (has_mg_hierarchy) {
+            pcout << "   MG levels:    " << triangulation.n_global_levels()
+                  << std::endl;
+        }
     }
 }
 

@@ -44,8 +44,7 @@ template <int dim, int fe_degree>
 class MatrixFreeSolver : public ParallelSolverBase<dim> {
 public:
     using Number = double;
-    using LevelNumber =
-        float; // Use float for level matrices (memory efficiency)
+    using LevelNumber = float; // Use float for level matrices (memory efficiency)
     using VectorType = LinearAlgebra::distributed::Vector<Number>;
     using LevelVectorType = LinearAlgebra::distributed::Vector<LevelNumber>;
 
@@ -54,7 +53,8 @@ public:
     using LevelMatrixType = ADROperator<dim, fe_degree, LevelNumber>;
     using SmootherType =
         PreconditionChebyshev<LevelMatrixType, LevelVectorType>;
-    using SmootherPreconditionerType = DiagonalMatrix<LevelVectorType>;
+    using SmootherPreconditionerType =
+        DiagonalMatrix<LevelVectorType>;
 
     /**
      * @brief Constructor.

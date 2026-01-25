@@ -61,7 +61,6 @@ struct SolverParameters {
     SolverType solver_type = SolverType::MatrixFree;
     PreconditionerType preconditioner = PreconditionerType::GMG;
     LinearSolverType linear_solver = LinearSolverType::GMRES;
-
     // Multigrid settings
     bool enable_multigrid = true;        // Enable GMG preconditioning
     unsigned int mg_smoother_degree = 5; // Chebyshev smoother degree

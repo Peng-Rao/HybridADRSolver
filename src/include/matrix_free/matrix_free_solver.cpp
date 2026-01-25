@@ -21,7 +21,8 @@ template <int dim, int fe_degree>
 MatrixFreeSolver<dim, fe_degree>::MatrixFreeSolver(
     const ProblemInterface<dim>& problem, MPI_Comm comm,
     const SolverParameters& params)
-    : ParallelSolverBase<dim>(comm, params), problem(problem) {
+    : ParallelSolverBase<dim>(comm, params, params.enable_multigrid),
+      problem(problem) {
     // Initialize finite element and mapping
     this->fe = std::make_unique<FE_Q<dim>>(fe_degree);
     this->mapping = std::make_unique<MappingQ<dim>>(fe_degree);
