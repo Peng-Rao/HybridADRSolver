@@ -1,6 +1,6 @@
 /**
  * @file matrix_free_solver.h
- * @brief Matrix-free solver with hybrid MPI+threading parallelization.
+ * @brief Matrix-free solver with hybrid MPI+threading parallelization and GMG.
  */
 
 #ifndef HYBRIDADRSOLVER_MATRIX_FREE_SOLVER_H
@@ -11,8 +11,15 @@
 #include "core/solver.h"
 #include "core/types.h"
 
+#include <deal.II/lac/precondition.h>
 #include <deal.II/lac/solver_gmres.h>
 #include <deal.II/matrix_free/matrix_free.h>
+#include <deal.II/multigrid/mg_coarse.h>
+#include <deal.II/multigrid/mg_constrained_dofs.h>
+#include <deal.II/multigrid/mg_matrix.h>
+#include <deal.II/multigrid/mg_smoother.h>
+#include <deal.II/multigrid/mg_transfer_matrix_free.h>
+#include <deal.II/multigrid/multigrid.h>
 #include <deal.II/numerics/vector_tools.h>
 
 namespace HybridADRSolver {
@@ -20,13 +27,14 @@ namespace HybridADRSolver {
 using namespace dealii;
 
 /**
- * @brief Matrix-free solver with hybrid MPI+threading parallelization.
+ * @brief Matrix-free solver with hybrid MPI+threading parallelization and GMG.
  *
  * This class implements a matrix-free finite element solver that:
  * - Uses MatrixFree for efficient operator application
  * - Supports hybrid MPI (distributed) + threading (shared memory)
  * parallelization
- * - Implements GMRES/CG with Jacobi preconditioning
+ * - Implements Geometric Multigrid (GMG) preconditioning with Chebyshev
+ * smoother
  * - Achieves better memory efficiency and cache utilization than matrix-based
  *
  * @tparam dim Spatial dimension
@@ -36,7 +44,17 @@ template <int dim, int fe_degree>
 class MatrixFreeSolver : public ParallelSolverBase<dim> {
 public:
     using Number = double;
+    using LevelNumber =
+        float; // Use float for level matrices (memory efficiency)
     using VectorType = LinearAlgebra::distributed::Vector<Number>;
+    using LevelVectorType = LinearAlgebra::distributed::Vector<LevelNumber>;
+
+    // Type aliases for multigrid components
+    using SystemMatrixType = ADROperator<dim, fe_degree, Number>;
+    using LevelMatrixType = ADROperator<dim, fe_degree, LevelNumber>;
+    using SmootherType =
+        PreconditionChebyshev<LevelMatrixType, LevelVectorType>;
+    using SmootherPreconditionerType = DiagonalMatrix<LevelVectorType>;
 
     /**
      * @brief Constructor.
@@ -66,13 +84,13 @@ public:
      * @brief Returns a descriptive name for this solver.
      */
     std::string get_name() const override {
-        return "Matrix-Free Solver (Hybrid MPI+Threading)";
+        return "Matrix-Free Solver (GMG + Hybrid MPI+Threading)";
     }
 
     /**
      * @brief Get the system operator (for analysis/debugging).
      */
-    const ADROperator<dim, fe_degree, Number>& get_system_operator() const {
+    const SystemMatrixType& get_system_operator() const {
         return system_operator;
     }
 
@@ -98,9 +116,14 @@ protected:
     void output_results(unsigned int cycle) const override;
 
     /**
-     * @brief Setup the MatrixFree data structure.
+     * @brief Setup the MatrixFree data structure for the finest level.
      */
     void setup_matrix_free();
+
+    /**
+     * @brief Setup the multigrid hierarchy.
+     */
+    void setup_multigrid();
 
     /**
      * @brief Assemble the right-hand side vector.
@@ -108,27 +131,43 @@ protected:
     void assemble_rhs();
 
     /**
-     * @brief Solve using GMRES with Jacobi preconditioning.
+     * @brief Solve using GMRES with GMG preconditioning.
+     */
+    void solve_gmres_gmg();
+
+    /**
+     * @brief Solve using CG with GMG preconditioning (for symmetric problems).
+     */
+    void solve_cg_gmg();
+
+    /**
+     * @brief Solve using GMRES with Jacobi preconditioning (fallback).
      */
     void solve_gmres_jacobi();
 
     /**
-     * @brief Solve using CG (for symmetric problems).
+     * @brief Solve using CG with Jacobi preconditioning (fallback).
      */
-    void solve_cg();
+    void solve_cg_jacobi();
 
 private:
     const ProblemInterface<dim>& problem;
 
-    // MatrixFree data structure
+    // MatrixFree data structure for finest level
     std::shared_ptr<MatrixFree<dim, Number>> matrix_free_data;
 
-    // System operator (matrix-free)
-    ADROperator<dim, fe_degree, Number> system_operator;
+    // System operator (matrix-free) for finest level
+    SystemMatrixType system_operator;
 
     // Vectors
     VectorType solution;
     VectorType system_rhs;
+
+    // Multigrid components
+    MGConstrainedDoFs mg_constrained_dofs;
+    MGLevelObject<LevelMatrixType> mg_matrices;
+    MGLevelObject<std::shared_ptr<MatrixFree<dim, LevelNumber>>>
+        mg_matrix_free_storage;
 };
 
 // Explicit instantiation declarations

@@ -10,18 +10,20 @@
 #include <deal.II/matrix_free/fe_evaluation.h>
 #include <deal.II/matrix_free/matrix_free.h>
 #include <deal.II/matrix_free/operators.h>
+#include <deal.II/multigrid/mg_constrained_dofs.h>
 
 namespace HybridADRSolver {
 using namespace dealii;
 
 /**
- * @brief Matrix-free operator for the ADR problem.
+ * @brief Matrix-free operator for the ADR problem with multigrid support.
  *
  * This class implements the action of the system matrix on a vector without
  * explicitly storing the matrix. The computation uses:
  * - Sum factorization for efficient tensor-product evaluation
  * - Vectorization over multiple cells (SIMD)
  * - Hybrid MPI+threading parallelization
+ * - Geometric Multigrid (GMG) preconditioning support
  *
  * The weak form implemented is:
  * \f$ a(u,v) = (\mu \nabla u, \nabla v) + (\beta \cdot \nabla u, v) + (\gamma
@@ -32,16 +34,20 @@ using namespace dealii;
  * @tparam Number Floating point type (double or float)
  */
 template <int dim, int fe_degree, typename Number = double>
-class ADROperator : public Subscriptor {
+class ADROperator : public MatrixFreeOperators::Base<
+                        dim, LinearAlgebra::distributed::Vector<Number>> {
 public:
     using VectorType = LinearAlgebra::distributed::Vector<Number>;
     using value_type = Number;
     using size_type = types::global_dof_index;
+    using Base =
+        MatrixFreeOperators::Base<dim,
+                                  LinearAlgebra::distributed::Vector<Number>>;
 
     /**
      * @brief Default constructor.
      */
-    ADROperator() : problem_ptr(nullptr) {}
+    ADROperator() : problem_ptr(nullptr), is_mg_level(false), mg_level(-1) {}
 
     /**
      * @brief Initialize the operator with MatrixFree data and problem
@@ -52,117 +58,69 @@ public:
      */
     void initialize(std::shared_ptr<const MatrixFree<dim, Number>> data_in,
                     const ProblemInterface<dim>& problem) {
-        this->data = data_in;
+        Base::initialize(data_in);
         this->problem_ptr = &problem;
+        this->is_mg_level = false;
+        this->mg_level = -1;
+        precompute_coefficient_data();
+    }
+
+    /**
+     * @brief Initialize for a multigrid level.
+     *
+     * @param data_in Shared pointer to MatrixFree data structure for this level
+     * @param mg_constrained_dofs The MGConstrainedDoFs object
+     * @param level The multigrid level
+     * @param problem Reference to the problem interface
+     */
+    void initialize(std::shared_ptr<const MatrixFree<dim, Number>> data_in,
+                    const MGConstrainedDoFs& mg_constrained_dofs,
+                    unsigned int level, const ProblemInterface<dim>& problem) {
+        Base::initialize(data_in, mg_constrained_dofs, level);
+        this->problem_ptr = &problem;
+        this->is_mg_level = true;
+        this->mg_level = level;
         precompute_coefficient_data();
     }
 
     /**
      * @brief Clear all data.
      */
-    void clear() {
-        this->data.reset();
+    void clear() override {
+        Base::clear();
         problem_ptr = nullptr;
         diffusion_coefficients.clear();
         advection_coefficients.clear();
         reaction_coefficients.clear();
-    }
-
-    /**
-     * @brief Returns the number of rows (degrees of freedom).
-     */
-    size_type m() const {
-        Assert(this->data.get() != nullptr, ExcNotInitialized());
-        return this->data->get_dof_handler().n_dofs();
-    }
-
-    /**
-     * @brief Returns the number of columns (equals rows for square operator).
-     */
-    size_type n() const { return m(); }
-
-    /**
-     * @brief Applies the operator: dst = A * src
-     *
-     * @param dst Output vector
-     * @param src Input vector
-     */
-    void vmult(VectorType& dst, const VectorType& src) const {
-        Assert(this->data.get() != nullptr, ExcNotInitialized());
-        dst = 0;
-        vmult_add(dst, src);
-    }
-
-    /**
-     * @brief Adds the operator application: dst += A * src
-     *
-     * @param dst Output vector (accumulated)
-     * @param src Input vector
-     */
-    void vmult_add(VectorType& dst, const VectorType& src) const {
-        Assert(this->data.get() != nullptr, ExcNotInitialized());
-        this->data->cell_loop(&ADROperator::local_apply, this, dst, src);
-    }
-
-    /**
-     * @brief Applies the transpose operator: dst = A^T * src
-     *
-     * For the ADR problem with advection, the operator is non-symmetric,
-     * so Tvmult differs from vmult.
-     */
-    void Tvmult(VectorType& dst, const VectorType& src) const {
-        Assert(this->data.get() != nullptr, ExcNotInitialized());
-        dst = 0;
-        Tvmult_add(dst, src);
-    }
-
-    /**
-     * @brief Adds the transpose operator application: dst += A^T * src
-     */
-    void Tvmult_add(VectorType& dst, const VectorType& src) const {
-        Assert(this->data.get() != nullptr, ExcNotInitialized());
-        // For the transpose, we negate the advection term
-        this->data->cell_loop(&ADROperator::local_apply_transpose, this, dst,
-                              src);
+        is_mg_level = false;
+        mg_level = -1;
     }
 
     /**
      * @brief Computes the diagonal of the operator (for preconditioning).
      *
-     * @param diagonal Output vector containing the diagonal entries
+     * Uses MatrixFreeTools for efficient diagonal computation.
      */
-    void compute_diagonal(VectorType& diagonal) const {
-        Assert(this->data.get() != nullptr, ExcNotInitialized());
+    void compute_diagonal() override {
+        this->inverse_diagonal_entries.reset(new DiagonalMatrix<VectorType>());
+        VectorType& inverse_diagonal =
+            this->inverse_diagonal_entries->get_vector();
+        this->data->initialize_dof_vector(inverse_diagonal);
 
-        diagonal.reinit(this->data->get_dof_handler().locally_owned_dofs(),
-                        this->data->get_task_info().communicator);
+        MatrixFreeTools::compute_diagonal(*this->data, inverse_diagonal,
+                                          &ADROperator::local_compute_diagonal,
+                                          this);
 
-        // Use FEEvaluation to compute diagonal entries
-        this->data->initialize_dof_vector(diagonal);
-        diagonal = 0;
+        this->set_constrained_entries_to_one(inverse_diagonal);
 
-        // Apply to unit vectors to extract diagonal
-        VectorType ones;
-        this->data->initialize_dof_vector(ones);
-
-        // Compute diagonal using cell loop with special diagonal computation
-        this->data->cell_loop(&ADROperator::local_compute_diagonal, this,
-                              diagonal, ones);
-
-        diagonal.compress(VectorOperation::add);
-    }
-
-    /**
-     * @brief Returns the inverse of the diagonal (for Jacobi preconditioning).
-     *
-     * @param inverse_diagonal Output vector
-     */
-    void compute_inverse_diagonal(VectorType& inverse_diagonal) const {
-        compute_diagonal(inverse_diagonal);
-
-        // Invert diagonal entries, handling near-zero values
-        for (auto& val : inverse_diagonal)
-            val = (std::abs(val) > 1e-14) ? 1.0 / val : 1.0;
+        for (unsigned int i = 0; i < inverse_diagonal.locally_owned_size();
+             ++i) {
+            if (std::abs(inverse_diagonal.local_element(i)) > 1e-14)
+                inverse_diagonal.local_element(i) =
+                    1.0 / inverse_diagonal.local_element(i);
+            else
+                inverse_diagonal.local_element(i) = 1.0;
+        }
     }
 
     /**
@@ -173,13 +131,25 @@ public:
     }
 
     /**
-     * @brief Initialize a vector compatible with this operator.
+     * @brief Check if this is a multigrid level operator.
      */
-    void initialize_dof_vector(VectorType& vec) const {
-        this->data->initialize_dof_vector(vec);
-    }
+    bool is_multigrid_level() const { return is_mg_level; }
+
+    /**
+     * @brief Get the multigrid level (-1 if not a level operator).
+     */
+    int get_mg_level() const { return mg_level; }
 
 private:
+    /**
+     * @brief Applies the operator: dst += A * src
+     *
+     * This is called by the base class vmult/vmult_add methods.
+     */
+    void apply_add(VectorType& dst, const VectorType& src) const override {
+        this->data->cell_loop(&ADROperator::local_apply, this, dst, src);
+    }
+
     /**
      * @brief Precomputes coefficient values at quadrature points.
      *
@@ -285,107 +255,45 @@ private:
     }
 
     /**
-     * @brief Local cell operation for transpose vmult.
+     * @brief Local diagonal computation for MatrixFreeTools::compute_diagonal.
      *
-     * The transpose reverses the sign of the advection term.
-     */
-    void local_apply_transpose(
-        const MatrixFree<dim, Number>& mf_data, VectorType& dst,
-        const VectorType& src,
-        const std::pair<unsigned int, unsigned int>& cell_range) const {
-        FEEvaluation<dim, fe_degree, fe_degree + 1, 1, Number> phi(mf_data);
-
-        for (unsigned int cell = cell_range.first; cell < cell_range.second;
-             ++cell) {
-            phi.reinit(cell);
-            phi.gather_evaluate(src, EvaluationFlags::values |
-                                         EvaluationFlags::gradients);
-
-            for (unsigned int q = 0; q < phi.n_q_points; ++q) {
-                const VectorizedArray<Number> u_val = phi.get_value(q);
-                const Tensor<1, dim, VectorizedArray<Number>> grad_u =
-                    phi.get_gradient(q);
-
-                // Diffusion (symmetric)
-                Tensor<1, dim, VectorizedArray<Number>> flux =
-                    diffusion_coefficients[cell][q] * grad_u;
-
-                // Transpose of advection: -(beta · grad(v)) * u
-                // In weak form, this becomes +(div(beta) * u, v) - (beta * u,
-                // grad(v)) For divergence-free beta, this simplifies
-                VectorizedArray<Number> advection_val =
-                    -advection_coefficients[cell][q] * grad_u;
-
-                // Reaction (symmetric)
-                VectorizedArray<Number> val =
-                    reaction_coefficients[cell][q] * u_val + advection_val;
-
-                phi.submit_gradient(flux, q);
-                phi.submit_value(val, q);
-            }
-
-            phi.integrate_scatter(
-                EvaluationFlags::values | EvaluationFlags::gradients, dst);
-        }
-    }
-
-    /**
-     * @brief Computes diagonal entries using sum factorization.
+     * This function is called by MatrixFreeTools to compute the diagonal
+     * entries efficiently.
      */
     void local_compute_diagonal(
-        const MatrixFree<dim, Number>& mf_data, VectorType& dst,
-        const VectorType& /*src*/,
-        const std::pair<unsigned int, unsigned int>& cell_range) const {
-        FEEvaluation<dim, fe_degree, fe_degree + 1, 1, Number> phi(mf_data);
+        FEEvaluation<dim, fe_degree, fe_degree + 1, 1, Number>& phi) const {
+        const unsigned int cell = phi.get_current_cell_index();
 
-        AlignedVector<VectorizedArray<Number>> diagonal_values(
-            phi.dofs_per_cell);
+        phi.evaluate(EvaluationFlags::values | EvaluationFlags::gradients);
 
-        for (unsigned int cell = cell_range.first; cell < cell_range.second;
-             ++cell) {
-            phi.reinit(cell);
+        for (unsigned int q = 0; q < phi.n_q_points; ++q) {
+            const VectorizedArray<Number> u_val = phi.get_value(q);
+            const Tensor<1, dim, VectorizedArray<Number>> grad_u =
+                phi.get_gradient(q);
 
-            for (unsigned int i = 0; i < phi.dofs_per_cell; ++i) {
-                // Set unit vector
-                for (unsigned int j = 0; j < phi.dofs_per_cell; ++j)
-                    phi.submit_dof_value(VectorizedArray<Number>(), j);
-                phi.submit_dof_value(make_vectorized_array<Number>(1.0), i);
+            // Diffusion
+            Tensor<1, dim, VectorizedArray<Number>> flux =
+                diffusion_coefficients[cell][q] * grad_u;
 
-                phi.evaluate(EvaluationFlags::values |
-                             EvaluationFlags::gradients);
+            // Advection
+            VectorizedArray<Number> advection_val =
+                advection_coefficients[cell][q] * grad_u;
 
-                for (unsigned int q = 0; q < phi.n_q_points; ++q) {
-                    const VectorizedArray<Number> u_val = phi.get_value(q);
-                    const Tensor<1, dim, VectorizedArray<Number>> grad_u =
-                        phi.get_gradient(q);
+            // Reaction
+            VectorizedArray<Number> val =
+                reaction_coefficients[cell][q] * u_val + advection_val;
 
-                    Tensor<1, dim, VectorizedArray<Number>> flux =
-                        diffusion_coefficients[cell][q] * grad_u;
-
-                    VectorizedArray<Number> advection_val =
-                        advection_coefficients[cell][q] * grad_u;
-
-                    VectorizedArray<Number> val =
-                        reaction_coefficients[cell][q] * u_val + advection_val;
-
-                    phi.submit_gradient(flux, q);
-                    phi.submit_value(val, q);
-                }
-
-                phi.integrate(EvaluationFlags::values |
-                              EvaluationFlags::gradients);
-                diagonal_values[i] = phi.get_dof_value(i);
-            }
-
-            for (unsigned int i = 0; i < phi.dofs_per_cell; ++i)
-                phi.submit_dof_value(diagonal_values[i], i);
-            phi.distribute_local_to_global(dst);
+            phi.submit_gradient(flux, q);
+            phi.submit_value(val, q);
         }
+
+        phi.integrate(EvaluationFlags::values | EvaluationFlags::gradients);
     }
 
     // Data members
-    std::shared_ptr<const MatrixFree<dim, Number>> data;
     const ProblemInterface<dim>* problem_ptr;
+    bool is_mg_level;
+    int mg_level;
 
     // Precomputed coefficients at quadrature points
     std::vector<std::vector<VectorizedArray<Number>>> diffusion_coefficients;
@@ -408,7 +316,8 @@ public:
      * @brief Initialize with the operator.
      */
     void initialize(const ADROperator<dim, fe_degree, Number>& op) {
-        op.compute_inverse_diagonal(inverse_diagonal);
+        op.compute_diagonal();
+        inverse_diagonal = op.get_matrix_diagonal_inverse()->get_vector();
     }
 
     /**
@@ -422,6 +331,7 @@ public:
 private:
     VectorType inverse_diagonal;
 };
+
 } // namespace HybridADRSolver
 
 #endif // HYBRIDADRSOLVER_ADR_OPERATOR_H

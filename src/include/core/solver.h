@@ -1,6 +1,6 @@
 /**
  * @file solver.h
- * @brief Abstract base class for all solvers
+ * @brief Abstract base class for all solvers with GMG support
  */
 #ifndef HYBRIDADRSOLVER_SOLVER_H
 #define HYBRIDADRSOLVER_SOLVER_H
@@ -21,6 +21,19 @@
 
 namespace HybridADRSolver {
 using namespace dealii;
+
+/**
+ * @brief Abstract base class for parallel solvers.
+ *
+ * This class provides the common infrastructure for matrix-based and
+ * matrix-free solvers, including:
+ * - MPI communication setup
+ * - Triangulation with multigrid hierarchy support
+ * - DoF handler and constraints
+ * - Timing and output utilities
+ *
+ * @tparam dim Spatial dimension
+ */
 template <int dim> class ParallelSolverBase {
 public:
     /**
@@ -54,7 +67,7 @@ public:
 
 protected:
     /**
-     * Setup the mesh/triangulation
+     * Setup the mesh/triangulation with multigrid hierarchy
      * @param n_refinements Number of global refinements
      */
     virtual void setup_grid(unsigned int n_refinements);
@@ -86,6 +99,7 @@ protected:
     unsigned int this_mpi_process;
 
     // Mesh and finite element
+    // Note: Triangulation is setup with multigrid hierarchy construction
     parallel::distributed::Triangulation<dim> triangulation;
     std::unique_ptr<FiniteElement<dim>> fe;
     DoFHandler<dim> dof_handler;
@@ -115,9 +129,15 @@ ParallelSolverBase<dim>::ParallelSolverBase(MPI_Comm comm,
     : mpi_communicator(comm),
       n_mpi_processes(Utilities::MPI::n_mpi_processes(comm)),
       this_mpi_process(Utilities::MPI::this_mpi_process(comm)),
-      triangulation(comm, typename Triangulation<dim>::MeshSmoothing(
-                              Triangulation<dim>::smoothing_on_refinement |
-                              Triangulation<dim>::smoothing_on_coarsening)),
+      // Initialize triangulation with multigrid hierarchy construction
+      triangulation(comm,
+                    typename Triangulation<dim>::MeshSmoothing(
+                        Triangulation<dim>::limit_level_difference_at_vertices |
+                        Triangulation<dim>::smoothing_on_refinement |
+                        Triangulation<dim>::smoothing_on_coarsening),
+                    // Enable multigrid hierarchy construction for GMG
+                    parallel::distributed::Triangulation<
+                        dim>::construct_multigrid_hierarchy),
       dof_handler(triangulation), parameters(std::move(params)),
       pcout(std::cout, this_mpi_process == 0),
       computing_timer(comm, pcout, TimerOutput::never,
@@ -129,12 +149,19 @@ ParallelSolverBase<dim>::ParallelSolverBase(MPI_Comm comm,
 
 template <int dim>
 void ParallelSolverBase<dim>::setup_grid(const unsigned int n_refinements) {
+    // Create unit hypercube domain [0,1]^dim
+    // The 'true' parameter sets boundary IDs:
+    // - 2D: left=0, right=1, bottom=2, top=3
+    // - 3D: left=0, right=1, front=2, back=3, bottom=4, top=5
     GridGenerator::hyper_cube(triangulation, 0.0, 1.0, true);
 
+    // Refine globally
     triangulation.refine_global(n_refinements);
 
     if (parameters.verbose) {
         pcout << "   Active cells: " << triangulation.n_global_active_cells()
+              << std::endl;
+        pcout << "   MG levels:    " << triangulation.n_global_levels()
               << std::endl;
     }
 }

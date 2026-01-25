@@ -36,23 +36,41 @@ enum class SolverType { MatrixBased, MatrixFree };
 /**
  * Enum for preconditioner type
  */
-enum class PreconditionerType { None, Jacobi, ILU, AMG, Chebyshev, GMG };
+enum class PreconditionerType {
+    None,      // No preconditioning
+    Jacobi,    // Diagonal/Jacobi preconditioning
+    ILU,       // Incomplete LU (matrix-based only)
+    AMG,       // Algebraic Multigrid (matrix-based only)
+    Chebyshev, // Chebyshev polynomial preconditioning
+    GMG        // Geometric Multigrid (matrix-free)
+};
 
 /**
- * Enum for linear solver type, use matrix-based methods
+ * Enum for linear solver type
  */
-enum class LinearSolverType { CG, GMRES, BiCGStab };
+enum class LinearSolverType {
+    CG,      // Conjugate Gradient (symmetric positive definite)
+    GMRES,   // Generalized Minimal Residual (general)
+    BiCGStab // BiConjugate Gradient Stabilized
+};
 
 /**
  * Structure for solver parameters
  */
 struct SolverParameters {
-    SolverType solver_type = SolverType::MatrixBased;
-    PreconditionerType preconditioner = PreconditionerType::ILU;
+    SolverType solver_type = SolverType::MatrixFree;
+    PreconditionerType preconditioner = PreconditionerType::GMG;
     LinearSolverType linear_solver = LinearSolverType::GMRES;
 
+    // Multigrid settings
+    bool enable_multigrid = true;        // Enable GMG preconditioning
+    unsigned int mg_smoother_degree = 5; // Chebyshev smoother degree
+    double mg_smoothing_range = 15.0;    // Smoothing range
+
+    // Linear solver settings
     unsigned int max_iterations = 1000;
     double tolerance = 1e-10;
+
     // Threading parameters
     unsigned int n_threads = dealii::numbers::invalid_unsigned_int;
 
