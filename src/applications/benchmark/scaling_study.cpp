@@ -1,6 +1,7 @@
 /**
- * @file scaling_benchmark_main.cpp
- * @brief Comprehensive strong and weak scaling benchmark for the Hybrid ADR Solver
+ * @file scaling_study.cpp
+ * @brief Comprehensive strong and weak scaling benchmark for the Hybrid ADR
+ * Solver
  *
  * This benchmark measures:
  * 1. Strong Scaling: Fixed problem size, varying core count
@@ -82,7 +83,7 @@ struct ScalingResult {
     double memory_mb_avg;
 
     // Scaling metrics
-    double speedup;            // T(1) / T(p) for strong scaling
+    double speedup;             // T(1) / T(p) for strong scaling
     double parallel_efficiency; // S(p) / p for strong, T(1)/T(p) for weak
     double dofs_per_second;
 
@@ -146,8 +147,8 @@ struct Statistics {
  */
 template <int dim>
 TimingResults run_matrix_based_single(const ProblemInterface<dim>& problem,
-                                       int n_refinements, int degree,
-                                       MPI_Comm comm) {
+                                      int n_refinements, int degree,
+                                      MPI_Comm comm) {
     SolverParameters params;
     params.verbose = false;
     params.output_solution = false;
@@ -165,7 +166,7 @@ TimingResults run_matrix_based_single(const ProblemInterface<dim>& problem,
  */
 template <int dim, int fe_degree>
 TimingResults run_matrix_free_single(const ProblemInterface<dim>& problem,
-                                      int n_refinements, MPI_Comm comm) {
+                                     int n_refinements, MPI_Comm comm) {
     SolverParameters params;
     params.verbose = false;
     params.output_solution = false;
@@ -185,11 +186,11 @@ TimingResults run_matrix_free_single(const ProblemInterface<dim>& problem,
  */
 template <int dim>
 ScalingResult run_benchmark_with_trials(const ProblemInterface<dim>& problem,
-                                         const std::string& solver_type,
-                                         const std::string& test_type,
-                                         int n_refinements, int degree,
-                                         int n_warmup, int n_trials,
-                                         MPI_Comm comm) {
+                                        const std::string& solver_type,
+                                        const std::string& test_type,
+                                        int n_refinements, int degree,
+                                        int n_warmup, int n_trials,
+                                        MPI_Comm comm) {
     ScalingResult result;
     result.solver_type = solver_type;
     result.test_type = test_type;
@@ -225,18 +226,18 @@ ScalingResult run_benchmark_with_trials(const ProblemInterface<dim>& problem,
         TimingResults timing;
 
         if (solver_type == "matrix_based") {
-            timing =
-                run_matrix_based_single<dim>(problem, n_refinements, degree, comm);
+            timing = run_matrix_based_single<dim>(problem, n_refinements,
+                                                  degree, comm);
         } else {
             if (degree == 1) {
-                timing =
-                    run_matrix_free_single<dim, 1>(problem, n_refinements, comm);
+                timing = run_matrix_free_single<dim, 1>(problem, n_refinements,
+                                                        comm);
             } else if (degree == 2) {
-                timing =
-                    run_matrix_free_single<dim, 2>(problem, n_refinements, comm);
+                timing = run_matrix_free_single<dim, 2>(problem, n_refinements,
+                                                        comm);
             } else if (degree == 3) {
-                timing =
-                    run_matrix_free_single<dim, 3>(problem, n_refinements, comm);
+                timing = run_matrix_free_single<dim, 3>(problem, n_refinements,
+                                                        comm);
             }
         }
 
@@ -271,8 +272,9 @@ ScalingResult run_benchmark_with_trials(const ProblemInterface<dim>& problem,
     result.memory_mb_avg = Statistics::mean(memories);
 
     // Compute throughput
-    result.dofs_per_second =
-        (result.total_time_avg > 0) ? result.n_dofs / result.total_time_avg : 0.0;
+    result.dofs_per_second = (result.total_time_avg > 0)
+                                 ? result.n_dofs / result.total_time_avg
+                                 : 0.0;
 
     return result;
 }
@@ -282,9 +284,9 @@ ScalingResult run_benchmark_with_trials(const ProblemInterface<dim>& problem,
  */
 template <int dim>
 void run_strong_scaling_test(std::vector<ScalingResult>& results,
-                              int n_refinements, int degree, int n_warmup,
-                              int n_trials, double baseline_time_mb,
-                              double baseline_time_mf, MPI_Comm comm) {
+                             int n_refinements, int degree, int n_warmup,
+                             int n_trials, double baseline_time_mb,
+                             double baseline_time_mf, MPI_Comm comm) {
     const int rank = Utilities::MPI::this_mpi_process(comm);
     const int n_procs = Utilities::MPI::n_mpi_processes(comm);
 
@@ -365,9 +367,9 @@ void run_strong_scaling_test(std::vector<ScalingResult>& results,
  */
 template <int dim>
 void run_weak_scaling_test(std::vector<ScalingResult>& results,
-                            int base_refinements, int degree, int n_warmup,
-                            int n_trials, double baseline_time_mb,
-                            double baseline_time_mf, MPI_Comm comm) {
+                           int base_refinements, int degree, int n_warmup,
+                           int n_trials, double baseline_time_mb,
+                           double baseline_time_mf, MPI_Comm comm) {
     const int rank = Utilities::MPI::this_mpi_process(comm);
     const int n_procs = Utilities::MPI::n_mpi_processes(comm);
 
@@ -400,8 +402,8 @@ void run_weak_scaling_test(std::vector<ScalingResult>& results,
         std::cout << "\n  Testing Matrix-Based Solver...\n";
 
     auto mb_result = run_benchmark_with_trials<dim>(
-        problem, "matrix_based", "weak_scaling", n_refinements, degree, n_warmup,
-        n_trials, comm);
+        problem, "matrix_based", "weak_scaling", n_refinements, degree,
+        n_warmup, n_trials, comm);
 
     // For weak scaling, efficiency = T(1)/T(p) (ideal = 1.0)
     if (baseline_time_mb > 0) {
@@ -453,7 +455,7 @@ void run_weak_scaling_test(std::vector<ScalingResult>& results,
  * @brief Write results to CSV file
  */
 void write_results_csv(const std::vector<ScalingResult>& results,
-                        const std::string& filename, MPI_Comm comm) {
+                       const std::string& filename, MPI_Comm comm) {
     int rank;
     MPI_Comm_rank(comm, &rank);
     if (rank != 0)
@@ -490,14 +492,14 @@ void print_summary(const std::vector<ScalingResult>& results, MPI_Comm comm) {
     std::cout << std::string(100, '-') << "\n";
 
     for (const auto& r : results) {
-        std::cout << std::left << std::setw(12) << r.solver_type << std::setw(12)
-                  << r.test_type << std::setw(6) << r.dimension << std::setw(8)
-                  << r.total_cores << std::setw(12) << r.n_dofs << std::fixed
-                  << std::setprecision(4) << std::setw(12) << r.total_time_avg
-                  << std::setprecision(3) << std::setw(10) << r.speedup
-                  << std::setw(12) << r.parallel_efficiency << std::scientific
-                  << std::setprecision(2) << std::setw(15) << r.dofs_per_second
-                  << "\n";
+        std::cout << std::left << std::setw(12) << r.solver_type
+                  << std::setw(12) << r.test_type << std::setw(6) << r.dimension
+                  << std::setw(8) << r.total_cores << std::setw(12) << r.n_dofs
+                  << std::fixed << std::setprecision(4) << std::setw(12)
+                  << r.total_time_avg << std::setprecision(3) << std::setw(10)
+                  << r.speedup << std::setw(12) << r.parallel_efficiency
+                  << std::scientific << std::setprecision(2) << std::setw(15)
+                  << r.dofs_per_second << "\n";
     }
     std::cout << std::string(100, '=') << "\n";
 }
@@ -514,7 +516,8 @@ void print_usage(const char* program_name) {
         << "  --min-ref <n>     Minimum refinements (default: 3)\n"
         << "  --max-ref <n>     Maximum refinements for sweep (default: 7)\n"
         << "  --degree <n>      Polynomial degree 1, 2, or 3 (default: 2)\n"
-        << "  --output <file>   Output CSV file prefix (default: scaling_results)\n"
+        << "  --output <file>   Output CSV file prefix (default: "
+           "scaling_results)\n"
         << "  --threads <n>     Threads per MPI process (default: auto)\n"
         << "  --trials <n>      Number of timed trials (default: 3)\n"
         << "  --warmup <n>      Number of warmup runs (default: 1)\n"
@@ -525,8 +528,8 @@ void print_usage(const char* program_name) {
 int main(int argc, char* argv[]) {
     try {
         // Initialize MPI with threading support
-        Utilities::MPI::MPI_InitFinalize mpi_init(argc, argv,
-                                                   numbers::invalid_unsigned_int);
+        Utilities::MPI::MPI_InitFinalize mpi_init(
+            argc, argv, numbers::invalid_unsigned_int);
 
         MPI_Comm comm = MPI_COMM_WORLD;
         const int rank = Utilities::MPI::this_mpi_process(comm);
@@ -561,51 +564,51 @@ int main(int argc, char* argv[]) {
 
         int opt;
         bool explicit_test = false;
-        while ((opt = getopt_long(argc, argv, "swm:M:d:o:t:n:W:D:h", long_options,
-                                  nullptr)) != -1) {
+        while ((opt = getopt_long(argc, argv, "swm:M:d:o:t:n:W:D:h",
+                                  long_options, nullptr)) != -1) {
             switch (opt) {
-            case 's':
-                run_strong = true;
-                run_weak = false;
-                explicit_test = true;
-                break;
-            case 'w':
-                run_weak = true;
-                run_strong = false;
-                explicit_test = true;
-                break;
-            case 'm':
-                min_refinements = std::atoi(optarg);
-                break;
-            case 'M':
-                max_refinements = std::atoi(optarg);
-                break;
-            case 'd':
-                degree = std::atoi(optarg);
-                break;
-            case 'o':
-                output_prefix = optarg;
-                break;
-            case 't':
-                n_threads = std::atoi(optarg);
-                break;
-            case 'n':
-                n_trials = std::atoi(optarg);
-                break;
-            case 'W':
-                n_warmup = std::atoi(optarg);
-                break;
-            case 'D':
-                dimension = std::atoi(optarg);
-                break;
-            case 'h':
-                if (rank == 0)
-                    print_usage(argv[0]);
-                return 0;
-            default:
-                if (rank == 0)
-                    print_usage(argv[0]);
-                return 1;
+                case 's':
+                    run_strong = true;
+                    run_weak = false;
+                    explicit_test = true;
+                    break;
+                case 'w':
+                    run_weak = true;
+                    run_strong = false;
+                    explicit_test = true;
+                    break;
+                case 'm':
+                    min_refinements = std::atoi(optarg);
+                    break;
+                case 'M':
+                    max_refinements = std::atoi(optarg);
+                    break;
+                case 'd':
+                    degree = std::atoi(optarg);
+                    break;
+                case 'o':
+                    output_prefix = optarg;
+                    break;
+                case 't':
+                    n_threads = std::atoi(optarg);
+                    break;
+                case 'n':
+                    n_trials = std::atoi(optarg);
+                    break;
+                case 'W':
+                    n_warmup = std::atoi(optarg);
+                    break;
+                case 'D':
+                    dimension = std::atoi(optarg);
+                    break;
+                case 'h':
+                    if (rank == 0)
+                        print_usage(argv[0]);
+                    return 0;
+                default:
+                    if (rank == 0)
+                        print_usage(argv[0]);
+                    return 1;
             }
         }
 
@@ -628,8 +631,8 @@ int main(int argc, char* argv[]) {
             std::cout << std::string(70, '*') << "\n\n";
             std::cout << "Configuration:\n";
             std::cout << "  MPI Processes:      " << n_procs << "\n";
-            std::cout << "  Threads/Process:    " << MultithreadInfo::n_threads()
-                      << "\n";
+            std::cout << "  Threads/Process:    "
+                      << MultithreadInfo::n_threads() << "\n";
             std::cout << "  Total Cores:        "
                       << n_procs * MultithreadInfo::n_threads() << "\n";
             std::cout << "  Dimension:          " << dimension << "D\n";
@@ -649,7 +652,8 @@ int main(int argc, char* argv[]) {
 
         // Note: baseline times would typically be gathered from a reference run
         // with 1 core. For this single-run benchmark, we set them to 0 to
-        // indicate "no baseline" and report efficiency as 1.0 for the first run.
+        // indicate "no baseline" and report efficiency as 1.0 for the first
+        // run.
         double baseline_mb = 0.0;
         double baseline_mf = 0.0;
 
@@ -657,20 +661,21 @@ int main(int argc, char* argv[]) {
         if (dimension == 2) {
             // Strong scaling: test multiple refinement levels
             if (run_strong) {
-                for (int refs = min_refinements; refs <= max_refinements; ++refs) {
+                for (int refs = min_refinements; refs <= max_refinements;
+                     ++refs) {
                     run_strong_scaling_test<2>(results, refs, degree, n_warmup,
-                                                n_trials, baseline_mb, baseline_mf,
-                                                comm);
+                                               n_trials, baseline_mb,
+                                               baseline_mf, comm);
                 }
             }
 
             // Weak scaling
             if (run_weak) {
-                for (int base_refs = min_refinements; base_refs <= max_refinements - 2;
-                     ++base_refs) {
-                    run_weak_scaling_test<2>(results, base_refs, degree, n_warmup,
-                                              n_trials, baseline_mb, baseline_mf,
-                                              comm);
+                for (int base_refs = min_refinements;
+                     base_refs <= max_refinements - 2; ++base_refs) {
+                    run_weak_scaling_test<2>(results, base_refs, degree,
+                                             n_warmup, n_trials, baseline_mb,
+                                             baseline_mf, comm);
                 }
             }
         } else if (dimension == 3) {
@@ -680,8 +685,8 @@ int main(int argc, char* argv[]) {
             if (run_strong) {
                 for (int refs = min_refinements; refs <= max_ref_3d; ++refs) {
                     run_strong_scaling_test<3>(results, refs, degree, n_warmup,
-                                                n_trials, baseline_mb, baseline_mf,
-                                                comm);
+                                               n_trials, baseline_mb,
+                                               baseline_mf, comm);
                 }
             }
 
@@ -689,9 +694,9 @@ int main(int argc, char* argv[]) {
                 for (int base_refs = min_refinements;
                      base_refs <= std::max(min_refinements, max_ref_3d - 2);
                      ++base_refs) {
-                    run_weak_scaling_test<3>(results, base_refs, degree, n_warmup,
-                                              n_trials, baseline_mb, baseline_mf,
-                                              comm);
+                    run_weak_scaling_test<3>(results, base_refs, degree,
+                                             n_warmup, n_trials, baseline_mb,
+                                             baseline_mf, comm);
                 }
             }
         } else {

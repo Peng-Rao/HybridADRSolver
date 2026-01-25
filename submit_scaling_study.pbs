@@ -10,7 +10,7 @@
 # Weak Scaling: Problem size scales with core count
 #===============================================================================
 
-#PBS -N adr_scaling_benchmark
+#PBS -N adr_scaling_study
 #PBS -l select=1:ncpus=28
 #PBS -l walltime=24:00:00
 #PBS -q cpu
@@ -65,7 +65,7 @@ ulimit -s unlimited
 #===============================================================================
 
 BUILD_DIR="build"
-EXECUTABLE="${BUILD_DIR}/scaling_benchmark"
+EXECUTABLE="${BUILD_DIR}/scaling_study"
 REBUILD_REQUIRED=false
 
 if [ ! -f "$EXECUTABLE" ]; then
@@ -82,7 +82,7 @@ if [ "$REBUILD_REQUIRED" = true ]; then
     mkdir -p ${BUILD_DIR}
     cd ${BUILD_DIR}
     cmake .. -DCMAKE_BUILD_TYPE=Release
-    make -j 28 scaling_benchmark || exit 1
+    make -j 28 scaling_study || exit 1
     cd ..
     echo "Build complete."
 else

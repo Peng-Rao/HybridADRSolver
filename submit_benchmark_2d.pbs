@@ -119,7 +119,7 @@ declare -a CONFIGS=(
 
 # Refinement range for time complexity analysis
 MIN_REF=2
-MAX_REF=10
+MAX_REF=13
 DEGREE=2
 
 MPI_CMD="mpirun"
