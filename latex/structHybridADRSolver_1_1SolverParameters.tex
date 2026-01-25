@@ -7,11 +7,17 @@
 \doxysubsubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{namespaceHybridADRSolver_afe6d3d39f0c710383621e32a46108cb1}{Solver\+Type}} \mbox{\hyperlink{structHybridADRSolver_1_1SolverParameters_a5207ef56005b1952eea4eb4b03c205f0}{solver\+\_\+type}} = \mbox{\hyperlink{namespaceHybridADRSolver_afe6d3d39f0c710383621e32a46108cb1a50c8f7f1f99ac14228f9f78516b7dd07}{Solver\+Type\+::\+Matrix\+Based}}
+\mbox{\hyperlink{namespaceHybridADRSolver_afe6d3d39f0c710383621e32a46108cb1}{Solver\+Type}} \mbox{\hyperlink{structHybridADRSolver_1_1SolverParameters_a5207ef56005b1952eea4eb4b03c205f0}{solver\+\_\+type}} = \mbox{\hyperlink{namespaceHybridADRSolver_afe6d3d39f0c710383621e32a46108cb1af2674a258348188d6a3ee81d2669255a}{Solver\+Type\+::\+Matrix\+Free}}
 \item 
-\mbox{\hyperlink{namespaceHybridADRSolver_aa3fd5a2bb73d19a55b178e5a35b5b341}{Preconditioner\+Type}} \mbox{\hyperlink{structHybridADRSolver_1_1SolverParameters_aec8061b1666d98e0615fad93755ec5c5}{preconditioner}} = \mbox{\hyperlink{namespaceHybridADRSolver_aa3fd5a2bb73d19a55b178e5a35b5b341af77d68d6b47fa42d89a943d976a0759d}{Preconditioner\+Type\+::\+ILU}}
+\mbox{\hyperlink{namespaceHybridADRSolver_aa3fd5a2bb73d19a55b178e5a35b5b341}{Preconditioner\+Type}} \mbox{\hyperlink{structHybridADRSolver_1_1SolverParameters_aec8061b1666d98e0615fad93755ec5c5}{preconditioner}} = \mbox{\hyperlink{namespaceHybridADRSolver_aa3fd5a2bb73d19a55b178e5a35b5b341a21b63b129f9c31f7f6de494305abc108}{Preconditioner\+Type\+::\+GMG}}
 \item 
 \mbox{\hyperlink{namespaceHybridADRSolver_a222b7a02326125bfc0eec6713f38e5ff}{Linear\+Solver\+Type}} \mbox{\hyperlink{structHybridADRSolver_1_1SolverParameters_a8f070d4c82159eeae6bcf8da6240c650}{linear\+\_\+solver}} = \mbox{\hyperlink{namespaceHybridADRSolver_a222b7a02326125bfc0eec6713f38e5ffac1bfd84e7215afa3204b8e1cdb21a2bd}{Linear\+Solver\+Type\+::\+GMRES}}
+\item 
+bool \mbox{\hyperlink{structHybridADRSolver_1_1SolverParameters_a2b9581189c9a3f9fee2a7962379c36c0}{enable\+\_\+multigrid}} = true
+\item 
+unsigned int \mbox{\hyperlink{structHybridADRSolver_1_1SolverParameters_a5cd8990db2e3930ce7dccfd21ba733ec}{mg\+\_\+smoother\+\_\+degree}} = 5
+\item 
+double \mbox{\hyperlink{structHybridADRSolver_1_1SolverParameters_ac9175838602a5b277b384e7a1a6b9c57}{mg\+\_\+smoothing\+\_\+range}} = 15.\+0
 \item 
 unsigned int \mbox{\hyperlink{structHybridADRSolver_1_1SolverParameters_a4c2b9a60536c6d95ad2e46ddfa091d44}{max\+\_\+iterations}} = 1000
 \item 
@@ -33,6 +39,12 @@ Structure for solver parameters
 \label{doc-variable-members}
 \Hypertarget{structHybridADRSolver_1_1SolverParameters_doc-variable-members}
 \doxysubsection{Member Data Documentation}
+\Hypertarget{structHybridADRSolver_1_1SolverParameters_a2b9581189c9a3f9fee2a7962379c36c0}\index{HybridADRSolver::SolverParameters@{HybridADRSolver::SolverParameters}!enable\_multigrid@{enable\_multigrid}}
+\index{enable\_multigrid@{enable\_multigrid}!HybridADRSolver::SolverParameters@{HybridADRSolver::SolverParameters}}
+\doxysubsubsection{\texorpdfstring{enable\_multigrid}{enable\_multigrid}}
+{\footnotesize\ttfamily \label{structHybridADRSolver_1_1SolverParameters_a2b9581189c9a3f9fee2a7962379c36c0} 
+bool Hybrid\+ADRSolver\+::\+Solver\+Parameters\+::enable\+\_\+multigrid = true}
+
 \Hypertarget{structHybridADRSolver_1_1SolverParameters_a8f070d4c82159eeae6bcf8da6240c650}\index{HybridADRSolver::SolverParameters@{HybridADRSolver::SolverParameters}!linear\_solver@{linear\_solver}}
 \index{linear\_solver@{linear\_solver}!HybridADRSolver::SolverParameters@{HybridADRSolver::SolverParameters}}
 \doxysubsubsection{\texorpdfstring{linear\_solver}{linear\_solver}}
@@ -44,6 +56,18 @@ Structure for solver parameters
 \doxysubsubsection{\texorpdfstring{max\_iterations}{max\_iterations}}
 {\footnotesize\ttfamily \label{structHybridADRSolver_1_1SolverParameters_a4c2b9a60536c6d95ad2e46ddfa091d44} 
 unsigned int Hybrid\+ADRSolver\+::\+Solver\+Parameters\+::max\+\_\+iterations = 1000}
+
+\Hypertarget{structHybridADRSolver_1_1SolverParameters_a5cd8990db2e3930ce7dccfd21ba733ec}\index{HybridADRSolver::SolverParameters@{HybridADRSolver::SolverParameters}!mg\_smoother\_degree@{mg\_smoother\_degree}}
+\index{mg\_smoother\_degree@{mg\_smoother\_degree}!HybridADRSolver::SolverParameters@{HybridADRSolver::SolverParameters}}
+\doxysubsubsection{\texorpdfstring{mg\_smoother\_degree}{mg\_smoother\_degree}}
+{\footnotesize\ttfamily \label{structHybridADRSolver_1_1SolverParameters_a5cd8990db2e3930ce7dccfd21ba733ec} 
+unsigned int Hybrid\+ADRSolver\+::\+Solver\+Parameters\+::mg\+\_\+smoother\+\_\+degree = 5}
+
+\Hypertarget{structHybridADRSolver_1_1SolverParameters_ac9175838602a5b277b384e7a1a6b9c57}\index{HybridADRSolver::SolverParameters@{HybridADRSolver::SolverParameters}!mg\_smoothing\_range@{mg\_smoothing\_range}}
+\index{mg\_smoothing\_range@{mg\_smoothing\_range}!HybridADRSolver::SolverParameters@{HybridADRSolver::SolverParameters}}
+\doxysubsubsection{\texorpdfstring{mg\_smoothing\_range}{mg\_smoothing\_range}}
+{\footnotesize\ttfamily \label{structHybridADRSolver_1_1SolverParameters_ac9175838602a5b277b384e7a1a6b9c57} 
+double Hybrid\+ADRSolver\+::\+Solver\+Parameters\+::mg\+\_\+smoothing\+\_\+range = 15.\+0}
 
 \Hypertarget{structHybridADRSolver_1_1SolverParameters_a13ae3739a9e42d8fdbec7ad3cb29c1c2}\index{HybridADRSolver::SolverParameters@{HybridADRSolver::SolverParameters}!n\_threads@{n\_threads}}
 \index{n\_threads@{n\_threads}!HybridADRSolver::SolverParameters@{HybridADRSolver::SolverParameters}}
@@ -67,13 +91,13 @@ bool Hybrid\+ADRSolver\+::\+Solver\+Parameters\+::output\+\_\+solution = true}
 \index{preconditioner@{preconditioner}!HybridADRSolver::SolverParameters@{HybridADRSolver::SolverParameters}}
 \doxysubsubsection{\texorpdfstring{preconditioner}{preconditioner}}
 {\footnotesize\ttfamily \label{structHybridADRSolver_1_1SolverParameters_aec8061b1666d98e0615fad93755ec5c5} 
-\mbox{\hyperlink{namespaceHybridADRSolver_aa3fd5a2bb73d19a55b178e5a35b5b341}{Preconditioner\+Type}} Hybrid\+ADRSolver\+::\+Solver\+Parameters\+::preconditioner = \mbox{\hyperlink{namespaceHybridADRSolver_aa3fd5a2bb73d19a55b178e5a35b5b341af77d68d6b47fa42d89a943d976a0759d}{Preconditioner\+Type\+::\+ILU}}}
+\mbox{\hyperlink{namespaceHybridADRSolver_aa3fd5a2bb73d19a55b178e5a35b5b341}{Preconditioner\+Type}} Hybrid\+ADRSolver\+::\+Solver\+Parameters\+::preconditioner = \mbox{\hyperlink{namespaceHybridADRSolver_aa3fd5a2bb73d19a55b178e5a35b5b341a21b63b129f9c31f7f6de494305abc108}{Preconditioner\+Type\+::\+GMG}}}
 
 \Hypertarget{structHybridADRSolver_1_1SolverParameters_a5207ef56005b1952eea4eb4b03c205f0}\index{HybridADRSolver::SolverParameters@{HybridADRSolver::SolverParameters}!solver\_type@{solver\_type}}
 \index{solver\_type@{solver\_type}!HybridADRSolver::SolverParameters@{HybridADRSolver::SolverParameters}}
 \doxysubsubsection{\texorpdfstring{solver\_type}{solver\_type}}
 {\footnotesize\ttfamily \label{structHybridADRSolver_1_1SolverParameters_a5207ef56005b1952eea4eb4b03c205f0} 
-\mbox{\hyperlink{namespaceHybridADRSolver_afe6d3d39f0c710383621e32a46108cb1}{Solver\+Type}} Hybrid\+ADRSolver\+::\+Solver\+Parameters\+::solver\+\_\+type = \mbox{\hyperlink{namespaceHybridADRSolver_afe6d3d39f0c710383621e32a46108cb1a50c8f7f1f99ac14228f9f78516b7dd07}{Solver\+Type\+::\+Matrix\+Based}}}
+\mbox{\hyperlink{namespaceHybridADRSolver_afe6d3d39f0c710383621e32a46108cb1}{Solver\+Type}} Hybrid\+ADRSolver\+::\+Solver\+Parameters\+::solver\+\_\+type = \mbox{\hyperlink{namespaceHybridADRSolver_afe6d3d39f0c710383621e32a46108cb1af2674a258348188d6a3ee81d2669255a}{Solver\+Type\+::\+Matrix\+Free}}}
 
 \Hypertarget{structHybridADRSolver_1_1SolverParameters_a3c788c37a7f69132d2301356408071b0}\index{HybridADRSolver::SolverParameters@{HybridADRSolver::SolverParameters}!tolerance@{tolerance}}
 \index{tolerance@{tolerance}!HybridADRSolver::SolverParameters@{HybridADRSolver::SolverParameters}}

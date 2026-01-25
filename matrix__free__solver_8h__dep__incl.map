@@ -1,5 +1,5 @@
 <map id="src/include/matrix_free/matrix_free_solver.h" name="src/include/matrix_free/matrix_free_solver.h">
-<area shape="rect" id="Node000001" title="Matrix&#45;free solver with hybrid MPI+threading parallelization." alt="" coords="626,5,798,44"/>
+<area shape="rect" id="Node000001" title="Matrix&#45;free solver with hybrid MPI+threading parallelization and GMG." alt="" coords="626,5,798,44"/>
 <area shape="rect" id="Node000002" href="$benchmark__main_8cpp.html" title="Main benchmark driver for comparing hybrid vs fully distributed solvers." alt="" coords="5,92,187,131"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="611,40,420,64,199,95,188,96,187,91,198,89,419,59,611,35"/>
 <area shape="rect" id="Node000003" href="$convergence__study_8cpp.html" title="Drivers for calculating convergence rates of Matrix&#45;Based and Matrix&#45;Free solvers." alt="" coords="211,92,392,131"/>
@@ -12,6 +12,6 @@
 <area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="773,48,873,89,871,94,771,53"/>
 <area shape="rect" id="Node000007" href="$main__matrix__free_8cpp.html" title="Main driver for the matrix&#45;free ADR solver with hybrid parallelization." alt="" coords="1032,92,1182,131"/>
 <area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="813,45,1032,91,1031,97,812,50"/>
-<area shape="rect" id="Node000008" href="$matrix__free__solver_8cpp.html" title="Implementation of the Matrix&#45;free solver." alt="" coords="1206,92,1391,131"/>
+<area shape="rect" id="Node000008" href="$matrix__free__solver_8cpp.html" title="Implementation of the Matrix&#45;free solver with GMG preconditioning." alt="" coords="1206,92,1391,131"/>
 <area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="814,36,1194,89,1206,91,1205,97,1193,95,813,42"/>
 </map>

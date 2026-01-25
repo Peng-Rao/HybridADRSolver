@@ -110,7 +110,7 @@ Namespaces</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:ADROperator" id="r_ADROperator"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHybridADRSolver_1_1ADROperator.html">ADROperator</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Matrix-free operator for the ADR problem.  <a href="classHybridADRSolver_1_1ADROperator.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Matrix-free operator for the ADR problem with multigrid support.  <a href="classHybridADRSolver_1_1ADROperator.html#details">More...</a><br /></td></tr>
 <tr class="memitem:CopyData" id="r_CopyData"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structHybridADRSolver_1_1CopyData.html">CopyData</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy data for the <span class="tt">WorkStream</span> assembly.  <a href="structHybridADRSolver_1_1CopyData.html#details">More...</a><br /></td></tr>
 <tr class="memitem:JacobiPreconditioner" id="r_JacobiPreconditioner"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHybridADRSolver_1_1JacobiPreconditioner.html">JacobiPreconditioner</a></td></tr>
@@ -118,8 +118,9 @@ Classes</h2></td></tr>
 <tr class="memitem:MatrixBasedSolver" id="r_MatrixBasedSolver"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHybridADRSolver_1_1MatrixBasedSolver.html">MatrixBasedSolver</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Matrix-based solver with hybrid MPI+threading parallelization.  <a href="classHybridADRSolver_1_1MatrixBasedSolver.html#details">More...</a><br /></td></tr>
 <tr class="memitem:MatrixFreeSolver" id="r_MatrixFreeSolver"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHybridADRSolver_1_1MatrixFreeSolver.html">MatrixFreeSolver</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Matrix-free solver with hybrid MPI+threading parallelization.  <a href="classHybridADRSolver_1_1MatrixFreeSolver.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Matrix-free solver with hybrid MPI+threading parallelization and GMG.  <a href="classHybridADRSolver_1_1MatrixFreeSolver.html#details">More...</a><br /></td></tr>
 <tr class="memitem:ParallelSolverBase" id="r_ParallelSolverBase"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHybridADRSolver_1_1ParallelSolverBase.html">ParallelSolverBase</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Abstract base class for parallel solvers.  <a href="classHybridADRSolver_1_1ParallelSolverBase.html#details">More...</a><br /></td></tr>
 <tr class="memitem:ProblemInterface" id="r_ProblemInterface"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHybridADRSolver_1_1ProblemInterface.html">ProblemInterface</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Abstract interface for defining a physical problem.  <a href="classHybridADRSolver_1_1ProblemInterface.html#details">More...</a><br /></td></tr>
 <tr class="memitem:ScratchData" id="r_ScratchData"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structHybridADRSolver_1_1ScratchData.html">ScratchData</a></td></tr>
@@ -167,7 +168,7 @@ Enumerations</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Enum for linear solver type, use matrix-based methods </p>
+<p>Enum for linear solver type </p>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a222b7a02326125bfc0eec6713f38e5ffa5202c6586cac8bee468e86d1ff854231" name="a222b7a02326125bfc0eec6713f38e5ffa5202c6586cac8bee468e86d1ff854231"></a>CG&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a222b7a02326125bfc0eec6713f38e5ffac1bfd84e7215afa3204b8e1cdb21a2bd" name="a222b7a02326125bfc0eec6713f38e5ffac1bfd84e7215afa3204b8e1cdb21a2bd"></a>GMRES&#160;</td><td class="fielddoc"></td></tr>

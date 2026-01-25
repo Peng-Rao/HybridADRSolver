@@ -2,15 +2,22 @@
 \hypertarget{matrix__free__solver_8h}{}\label{matrix__free__solver_8h}\index{src/include/matrix\_free/matrix\_free\_solver.h@{src/include/matrix\_free/matrix\_free\_solver.h}}
 
 
-Matrix-\/free solver with hybrid MPI+threading parallelization.  
+Matrix-\/free solver with hybrid MPI+threading parallelization and GMG.  
 
 
 {\ttfamily \#include "{}adr\+\_\+operator.\+h"{}}\newline
 {\ttfamily \#include "{}core/problem\+\_\+definition.\+h"{}}\newline
 {\ttfamily \#include "{}core/solver.\+h"{}}\newline
 {\ttfamily \#include "{}core/types.\+h"{}}\newline
+{\ttfamily \#include $<$deal.\+II/lac/precondition.\+h$>$}\newline
 {\ttfamily \#include $<$deal.\+II/lac/solver\+\_\+gmres.\+h$>$}\newline
 {\ttfamily \#include $<$deal.\+II/matrix\+\_\+free/matrix\+\_\+free.\+h$>$}\newline
+{\ttfamily \#include $<$deal.\+II/multigrid/mg\+\_\+coarse.\+h$>$}\newline
+{\ttfamily \#include $<$deal.\+II/multigrid/mg\+\_\+constrained\+\_\+dofs.\+h$>$}\newline
+{\ttfamily \#include $<$deal.\+II/multigrid/mg\+\_\+matrix.\+h$>$}\newline
+{\ttfamily \#include $<$deal.\+II/multigrid/mg\+\_\+smoother.\+h$>$}\newline
+{\ttfamily \#include $<$deal.\+II/multigrid/mg\+\_\+transfer\+\_\+matrix\+\_\+free.\+h$>$}\newline
+{\ttfamily \#include $<$deal.\+II/multigrid/multigrid.\+h$>$}\newline
 {\ttfamily \#include $<$deal.\+II/numerics/vector\+\_\+tools.\+h$>$}\newline
 Include dependency graph for matrix\+\_\+free\+\_\+solver.\+h\+:
 \nopagebreak
@@ -32,7 +39,7 @@ This graph shows which files directly or indirectly include this file\+:
 \begin{DoxyCompactItemize}
 \item 
 class \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver}{Hybrid\+ADRSolver\+::\+Matrix\+Free\+Solver$<$ dim, fe\+\_\+degree $>$}}
-\begin{DoxyCompactList}\small\item\em Matrix-\/free solver with hybrid MPI+threading parallelization. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Matrix-\/free solver with hybrid MPI+threading parallelization and GMG. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Namespaces}
 \begin{DoxyCompactItemize}
 \item 
@@ -41,5 +48,5 @@ namespace \mbox{\hyperlink{namespaceHybridADRSolver}{Hybrid\+ADRSolver}}
 
 
 \doxysubsection{Detailed Description}
-Matrix-\/free solver with hybrid MPI+threading parallelization. 
+Matrix-\/free solver with hybrid MPI+threading parallelization and GMG. 
 

@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['initialize_0',['initialize',['../classHybridADRSolver_1_1ADROperator.html#aa468d145511e54150a5bf8c022caeff2',1,'HybridADRSolver::ADROperator::initialize()'],['../classHybridADRSolver_1_1JacobiPreconditioner.html#aca6fead7d20eb49cae04755ff052af55',1,'HybridADRSolver::JacobiPreconditioner::initialize()']]],
-  ['initialize_5fdof_5fvector_1',['initialize_dof_vector',['../classHybridADRSolver_1_1ADROperator.html#a6856d8ccbe8b4616afa229c22fb66f10',1,'HybridADRSolver::ADROperator']]],
+  ['initialize_0',['initialize',['../classHybridADRSolver_1_1ADROperator.html#aa468d145511e54150a5bf8c022caeff2',1,'HybridADRSolver::ADROperator::initialize(std::shared_ptr&lt; const MatrixFree&lt; dim, Number &gt; &gt; data_in, const ProblemInterface&lt; dim &gt; &amp;problem)'],['../classHybridADRSolver_1_1ADROperator.html#abab164c83f75cfaa78f7208e49cb2b03',1,'HybridADRSolver::ADROperator::initialize(std::shared_ptr&lt; const MatrixFree&lt; dim, Number &gt; &gt; data_in, const MGConstrainedDoFs &amp;mg_constrained_dofs, unsigned int level, const ProblemInterface&lt; dim &gt; &amp;problem)'],['../classHybridADRSolver_1_1JacobiPreconditioner.html#aca6fead7d20eb49cae04755ff052af55',1,'HybridADRSolver::JacobiPreconditioner::initialize()']]],
+  ['is_5fmultigrid_5flevel_1',['is_multigrid_level',['../classHybridADRSolver_1_1ADROperator.html#a56284fc258e0da2500ae67def28d125b',1,'HybridADRSolver::ADROperator']]],
   ['is_5fsymmetric_2',['is_symmetric',['../classHybridADRSolver_1_1ProblemInterface.html#acf8b02176ebbf5cd77776e47c5d067b3',1,'HybridADRSolver::ProblemInterface::is_symmetric()'],['../classHybridADRSolver_1_1Problems_1_1ADRProblem.html#a10147739ab222b8b792b9cdbc19e96a3',1,'HybridADRSolver::Problems::ADRProblem::is_symmetric()']]]
 ];

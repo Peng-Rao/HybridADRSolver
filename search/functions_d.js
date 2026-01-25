@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['to_5fcsv_0',['to_csv',['../structBenchmarkUtils_1_1BenchmarkResult.html#a33193037e2c2bff4c6862d198eea8bf5',1,'BenchmarkUtils::BenchmarkResult']]],
-  ['tvmult_1',['Tvmult',['../classHybridADRSolver_1_1ADROperator.html#aa4a1e6777fef75161fcf6f4c1501b0fa',1,'HybridADRSolver::ADROperator']]],
-  ['tvmult_5fadd_2',['Tvmult_add',['../classHybridADRSolver_1_1ADROperator.html#a0fef8e8e00fbc3e17c11726b3d67422f',1,'HybridADRSolver::ADROperator']]]
+  ['value_0',['value',['../classHybridADRSolver_1_1Problems_1_1ExactSolution.html#ac8980c0d2cdb14a4e98a8f9e75d7dec9',1,'HybridADRSolver::Problems::ExactSolution::value()'],['../classHybridADRSolver_1_1Problems_1_1NeumannFluxRight.html#ab6f72de96970be6497ab326566d5dcfb',1,'HybridADRSolver::Problems::NeumannFluxRight::value()']]],
+  ['vmult_1',['vmult',['../classHybridADRSolver_1_1JacobiPreconditioner.html#ad5b1a748a6bf6df9d00878742f8dae67',1,'HybridADRSolver::JacobiPreconditioner']]]
 ];

@@ -1,5 +1,5 @@
 <map id="HybridADRSolver::ParallelSolverBase&lt; dim &gt;" name="HybridADRSolver::ParallelSolverBase&lt; dim &gt;">
-<area shape="rect" id="Node000001" title=" " alt="" coords="160,100,333,139"/>
+<area shape="rect" id="Node000001" title="Abstract base class for parallel solvers." alt="" coords="160,100,333,139"/>
 <area shape="rect" id="Node000002" href="$structHybridADRSolver_1_1SolverParameters.html" title=" " alt="" coords="5,5,240,30"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="150,38,225,97,222,101,147,42"/>
 <area shape="rect" id="Node000003" href="$structHybridADRSolver_1_1TimingResults.html" title=" " alt="" coords="264,5,477,30"/>

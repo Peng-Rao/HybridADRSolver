@@ -2,7 +2,7 @@
 \hypertarget{matrix__free__solver_8cpp}{}\label{matrix__free__solver_8cpp}\index{src/include/matrix\_free/matrix\_free\_solver.cpp@{src/include/matrix\_free/matrix\_free\_solver.cpp}}
 
 
-Implementation of the Matrix-\/free solver.  
+Implementation of the Matrix-\/free solver with GMG preconditioning.  
 
 
 {\ttfamily \#include "{}matrix\+\_\+free/matrix\+\_\+free\+\_\+solver.\+h"{}}\newline
@@ -10,6 +10,7 @@ Implementation of the Matrix-\/free solver.
 {\ttfamily \#include $<$deal.\+II/base/timer.\+h$>$}\newline
 {\ttfamily \#include $<$deal.\+II/dofs/dof\+\_\+tools.\+h$>$}\newline
 {\ttfamily \#include $<$deal.\+II/matrix\+\_\+free/fe\+\_\+evaluation.\+h$>$}\newline
+{\ttfamily \#include $<$deal.\+II/multigrid/mg\+\_\+tools.\+h$>$}\newline
 {\ttfamily \#include $<$deal.\+II/numerics/data\+\_\+out.\+h$>$}\newline
 {\ttfamily \#include $<$deal.\+II/lac/solver\+\_\+cg.\+h$>$}\newline
 Include dependency graph for matrix\+\_\+free\+\_\+solver.\+cpp\+:
@@ -28,5 +29,5 @@ namespace \mbox{\hyperlink{namespaceHybridADRSolver}{Hybrid\+ADRSolver}}
 
 
 \doxysubsection{Detailed Description}
-Implementation of the Matrix-\/free solver. 
+Implementation of the Matrix-\/free solver with GMG preconditioning. 
 

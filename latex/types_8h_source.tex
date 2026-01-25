@@ -22,43 +22,61 @@
 \DoxyCodeLine{00030\ }
 \DoxyCodeLine{00034\ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespaceHybridADRSolver_afe6d3d39f0c710383621e32a46108cb1}{SolverType}}\ \{\ \mbox{\hyperlink{namespaceHybridADRSolver_afe6d3d39f0c710383621e32a46108cb1a50c8f7f1f99ac14228f9f78516b7dd07}{MatrixBased}},\ \mbox{\hyperlink{namespaceHybridADRSolver_afe6d3d39f0c710383621e32a46108cb1af2674a258348188d6a3ee81d2669255a}{MatrixFree}}\ \};}
 \DoxyCodeLine{00035\ }
-\DoxyCodeLine{00039\ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespaceHybridADRSolver_aa3fd5a2bb73d19a55b178e5a35b5b341}{PreconditionerType}}\ \{\ \mbox{\hyperlink{namespaceHybridADRSolver_aa3fd5a2bb73d19a55b178e5a35b5b341a6adf97f83acf6453d4a6a4b1070f3754}{None}},\ \mbox{\hyperlink{namespaceHybridADRSolver_aa3fd5a2bb73d19a55b178e5a35b5b341a2ba38a7b398cfd9360591c3a1a25ba39}{Jacobi}},\ \mbox{\hyperlink{namespaceHybridADRSolver_aa3fd5a2bb73d19a55b178e5a35b5b341af77d68d6b47fa42d89a943d976a0759d}{ILU}},\ \mbox{\hyperlink{namespaceHybridADRSolver_aa3fd5a2bb73d19a55b178e5a35b5b341a378ff3b4a7e82873638b320c4b5578a0}{AMG}},\ \mbox{\hyperlink{namespaceHybridADRSolver_aa3fd5a2bb73d19a55b178e5a35b5b341a7672163939be25b939905898298d3648}{Chebyshev}},\ \mbox{\hyperlink{namespaceHybridADRSolver_aa3fd5a2bb73d19a55b178e5a35b5b341a21b63b129f9c31f7f6de494305abc108}{GMG}}\ \};}
-\DoxyCodeLine{00040\ }
-\DoxyCodeLine{00044\ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespaceHybridADRSolver_a222b7a02326125bfc0eec6713f38e5ff}{LinearSolverType}}\ \{\ \mbox{\hyperlink{namespaceHybridADRSolver_a222b7a02326125bfc0eec6713f38e5ffa5202c6586cac8bee468e86d1ff854231}{CG}},\ \mbox{\hyperlink{namespaceHybridADRSolver_a222b7a02326125bfc0eec6713f38e5ffac1bfd84e7215afa3204b8e1cdb21a2bd}{GMRES}},\ \mbox{\hyperlink{namespaceHybridADRSolver_a222b7a02326125bfc0eec6713f38e5ffa17f477cd947340d28b9a4d6f49c1e43b}{BiCGStab}}\ \};}
-\DoxyCodeLine{00045\ }
-\DoxyCodeLine{00049\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structHybridADRSolver_1_1SolverParameters}{SolverParameters}}\ \{}
-\DoxyCodeLine{00050\ \ \ \ \ \mbox{\hyperlink{namespaceHybridADRSolver_afe6d3d39f0c710383621e32a46108cb1}{SolverType}}\ \mbox{\hyperlink{structHybridADRSolver_1_1SolverParameters_a5207ef56005b1952eea4eb4b03c205f0}{solver\_type}}\ =\ \mbox{\hyperlink{namespaceHybridADRSolver_afe6d3d39f0c710383621e32a46108cb1a50c8f7f1f99ac14228f9f78516b7dd07}{SolverType::MatrixBased}};}
-\DoxyCodeLine{00051\ \ \ \ \ \mbox{\hyperlink{namespaceHybridADRSolver_aa3fd5a2bb73d19a55b178e5a35b5b341}{PreconditionerType}}\ \mbox{\hyperlink{structHybridADRSolver_1_1SolverParameters_aec8061b1666d98e0615fad93755ec5c5}{preconditioner}}\ =\ \mbox{\hyperlink{namespaceHybridADRSolver_aa3fd5a2bb73d19a55b178e5a35b5b341af77d68d6b47fa42d89a943d976a0759d}{PreconditionerType::ILU}};}
-\DoxyCodeLine{00052\ \ \ \ \ \mbox{\hyperlink{namespaceHybridADRSolver_a222b7a02326125bfc0eec6713f38e5ff}{LinearSolverType}}\ \mbox{\hyperlink{structHybridADRSolver_1_1SolverParameters_a8f070d4c82159eeae6bcf8da6240c650}{linear\_solver}}\ =\ \mbox{\hyperlink{namespaceHybridADRSolver_a222b7a02326125bfc0eec6713f38e5ffac1bfd84e7215afa3204b8e1cdb21a2bd}{LinearSolverType::GMRES}};}
-\DoxyCodeLine{00053\ }
-\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structHybridADRSolver_1_1SolverParameters_a4c2b9a60536c6d95ad2e46ddfa091d44}{max\_iterations}}\ =\ 1000;}
-\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structHybridADRSolver_1_1SolverParameters_a3c788c37a7f69132d2301356408071b0}{tolerance}}\ =\ 1e-\/10;}
-\DoxyCodeLine{00056\ \ \ \ \ \textcolor{comment}{//\ Threading\ parameters}}
-\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structHybridADRSolver_1_1SolverParameters_a13ae3739a9e42d8fdbec7ad3cb29c1c2}{n\_threads}}\ =\ dealii::numbers::invalid\_unsigned\_int;}
-\DoxyCodeLine{00058\ }
-\DoxyCodeLine{00059\ \ \ \ \ \textcolor{comment}{//\ Output\ options}}
-\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structHybridADRSolver_1_1SolverParameters_a11a6732017c2dd35824c7108f80b4f5b}{verbose}}\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structHybridADRSolver_1_1SolverParameters_a89dbc5c399e8238cd1a78ab3c20038ac}{output\_solution}}\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00062\ \ \ \ \ std::string\ \mbox{\hyperlink{structHybridADRSolver_1_1SolverParameters_af21863e980587690c653330e4fcf6d4a}{output\_prefix}}\ =\ \textcolor{stringliteral}{"{}solution"{}};}
-\DoxyCodeLine{00063\ \};}
+\DoxyCodeLine{00039\ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespaceHybridADRSolver_aa3fd5a2bb73d19a55b178e5a35b5b341}{PreconditionerType}}\ \{}
+\DoxyCodeLine{00040\ \ \ \ \ \mbox{\hyperlink{namespaceHybridADRSolver_aa3fd5a2bb73d19a55b178e5a35b5b341a6adf97f83acf6453d4a6a4b1070f3754}{None}},\ \ \ \ \ \ \textcolor{comment}{//\ No\ preconditioning}}
+\DoxyCodeLine{00041\ \ \ \ \ \mbox{\hyperlink{namespaceHybridADRSolver_aa3fd5a2bb73d19a55b178e5a35b5b341a2ba38a7b398cfd9360591c3a1a25ba39}{Jacobi}},\ \ \ \ \textcolor{comment}{//\ Diagonal/Jacobi\ preconditioning}}
+\DoxyCodeLine{00042\ \ \ \ \ \mbox{\hyperlink{namespaceHybridADRSolver_aa3fd5a2bb73d19a55b178e5a35b5b341af77d68d6b47fa42d89a943d976a0759d}{ILU}},\ \ \ \ \ \ \ \textcolor{comment}{//\ Incomplete\ LU\ (matrix-\/based\ only)}}
+\DoxyCodeLine{00043\ \ \ \ \ \mbox{\hyperlink{namespaceHybridADRSolver_aa3fd5a2bb73d19a55b178e5a35b5b341a378ff3b4a7e82873638b320c4b5578a0}{AMG}},\ \ \ \ \ \ \ \textcolor{comment}{//\ Algebraic\ Multigrid\ (matrix-\/based\ only)}}
+\DoxyCodeLine{00044\ \ \ \ \ \mbox{\hyperlink{namespaceHybridADRSolver_aa3fd5a2bb73d19a55b178e5a35b5b341a7672163939be25b939905898298d3648}{Chebyshev}},\ \textcolor{comment}{//\ Chebyshev\ polynomial\ preconditioning}}
+\DoxyCodeLine{00045\ \ \ \ \ \mbox{\hyperlink{namespaceHybridADRSolver_aa3fd5a2bb73d19a55b178e5a35b5b341a21b63b129f9c31f7f6de494305abc108}{GMG}}\ \ \ \ \ \ \ \ \textcolor{comment}{//\ Geometric\ Multigrid\ (matrix-\/free)}}
+\DoxyCodeLine{00046\ \};}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00051\ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespaceHybridADRSolver_a222b7a02326125bfc0eec6713f38e5ff}{LinearSolverType}}\ \{}
+\DoxyCodeLine{00052\ \ \ \ \ \mbox{\hyperlink{namespaceHybridADRSolver_a222b7a02326125bfc0eec6713f38e5ffa5202c6586cac8bee468e86d1ff854231}{CG}},\ \ \ \ \ \ \textcolor{comment}{//\ Conjugate\ Gradient\ (symmetric\ positive\ definite)}}
+\DoxyCodeLine{00053\ \ \ \ \ \mbox{\hyperlink{namespaceHybridADRSolver_a222b7a02326125bfc0eec6713f38e5ffac1bfd84e7215afa3204b8e1cdb21a2bd}{GMRES}},\ \ \ \textcolor{comment}{//\ Generalized\ Minimal\ Residual\ (general)}}
+\DoxyCodeLine{00054\ \ \ \ \ \mbox{\hyperlink{namespaceHybridADRSolver_a222b7a02326125bfc0eec6713f38e5ffa17f477cd947340d28b9a4d6f49c1e43b}{BiCGStab}}\ \textcolor{comment}{//\ BiConjugate\ Gradient\ Stabilized}}
+\DoxyCodeLine{00055\ \};}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00060\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structHybridADRSolver_1_1SolverParameters}{SolverParameters}}\ \{}
+\DoxyCodeLine{00061\ \ \ \ \ \mbox{\hyperlink{namespaceHybridADRSolver_afe6d3d39f0c710383621e32a46108cb1}{SolverType}}\ \mbox{\hyperlink{structHybridADRSolver_1_1SolverParameters_a5207ef56005b1952eea4eb4b03c205f0}{solver\_type}}\ =\ \mbox{\hyperlink{namespaceHybridADRSolver_afe6d3d39f0c710383621e32a46108cb1af2674a258348188d6a3ee81d2669255a}{SolverType::MatrixFree}};}
+\DoxyCodeLine{00062\ \ \ \ \ \mbox{\hyperlink{namespaceHybridADRSolver_aa3fd5a2bb73d19a55b178e5a35b5b341}{PreconditionerType}}\ \mbox{\hyperlink{structHybridADRSolver_1_1SolverParameters_aec8061b1666d98e0615fad93755ec5c5}{preconditioner}}\ =\ \mbox{\hyperlink{namespaceHybridADRSolver_aa3fd5a2bb73d19a55b178e5a35b5b341a21b63b129f9c31f7f6de494305abc108}{PreconditionerType::GMG}};}
+\DoxyCodeLine{00063\ \ \ \ \ \mbox{\hyperlink{namespaceHybridADRSolver_a222b7a02326125bfc0eec6713f38e5ff}{LinearSolverType}}\ \mbox{\hyperlink{structHybridADRSolver_1_1SolverParameters_a8f070d4c82159eeae6bcf8da6240c650}{linear\_solver}}\ =\ \mbox{\hyperlink{namespaceHybridADRSolver_a222b7a02326125bfc0eec6713f38e5ffac1bfd84e7215afa3204b8e1cdb21a2bd}{LinearSolverType::GMRES}};}
 \DoxyCodeLine{00064\ }
-\DoxyCodeLine{00068\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structHybridADRSolver_1_1TimingResults}{TimingResults}}\ \{}
-\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structHybridADRSolver_1_1TimingResults_a925e4721515e3d0c96a848630e36db41}{setup\_time}}\ =\ 0.0;}
-\DoxyCodeLine{00070\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structHybridADRSolver_1_1TimingResults_a498e3a034c3a1058a34a1b7926d8c6ff}{assembly\_time}}\ =\ 0.0;}
-\DoxyCodeLine{00071\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structHybridADRSolver_1_1TimingResults_a0d64e9cb5f24bde8e5504d9fb9b3787c}{solve\_time}}\ =\ 0.0;}
-\DoxyCodeLine{00072\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structHybridADRSolver_1_1TimingResults_a6ae6f144ce9dc799acd4bfa873a271c9}{total\_time}}\ =\ 0.0;}
-\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structHybridADRSolver_1_1TimingResults_a7ad366ecfdea278eac1e53720acd2f71}{operator\_apply\_time}}\ =\ 0.0;}
-\DoxyCodeLine{00074\ }
-\DoxyCodeLine{00075\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structHybridADRSolver_1_1TimingResults_aa1cc78b0a55a8e261222be1ab7f7dc28}{n\_iterations}}\ =\ 0;}
-\DoxyCodeLine{00076\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structHybridADRSolver_1_1TimingResults_ac710bc7c2a51c6b6c71d9b79c10c7244}{memory\_mb}}\ =\ 0.0;}
-\DoxyCodeLine{00077\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structHybridADRSolver_1_1TimingResults_a198c3720d7233dea6fd319224ecf14e0}{n\_dofs}}\ =\ 0;}
-\DoxyCodeLine{00078\ }
-\DoxyCodeLine{00079\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structHybridADRSolver_1_1TimingResults_a75108e6f61ec8ecbc8c529ba7925d1cd}{n\_cells}}\ =\ 0;}
-\DoxyCodeLine{00080\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structHybridADRSolver_1_1TimingResults_a1ab6998c1b5b7e80122fa053f69c17f3}{l2\_error}}\ =\ 0.0;}
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{comment}{//\ Multigrid\ settings}}
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structHybridADRSolver_1_1SolverParameters_a2b9581189c9a3f9fee2a7962379c36c0}{enable\_multigrid}}\ =\ \textcolor{keyword}{true};\ \ \ \ \ \ \ \ \textcolor{comment}{//\ Enable\ GMG\ preconditioning}}
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structHybridADRSolver_1_1SolverParameters_a5cd8990db2e3930ce7dccfd21ba733ec}{mg\_smoother\_degree}}\ =\ 5;\ \textcolor{comment}{//\ Chebyshev\ smoother\ degree}}
+\DoxyCodeLine{00068\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structHybridADRSolver_1_1SolverParameters_ac9175838602a5b277b384e7a1a6b9c57}{mg\_smoothing\_range}}\ =\ 15.0;\ \ \ \ \textcolor{comment}{//\ Smoothing\ range}}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00070\ \ \ \ \ \textcolor{comment}{//\ Linear\ solver\ settings}}
+\DoxyCodeLine{00071\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structHybridADRSolver_1_1SolverParameters_a4c2b9a60536c6d95ad2e46ddfa091d44}{max\_iterations}}\ =\ 1000;}
+\DoxyCodeLine{00072\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structHybridADRSolver_1_1SolverParameters_a3c788c37a7f69132d2301356408071b0}{tolerance}}\ =\ 1e-\/10;}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00074\ \ \ \ \ \textcolor{comment}{//\ Threading\ parameters}}
+\DoxyCodeLine{00075\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structHybridADRSolver_1_1SolverParameters_a13ae3739a9e42d8fdbec7ad3cb29c1c2}{n\_threads}}\ =\ dealii::numbers::invalid\_unsigned\_int;}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00077\ \ \ \ \ \textcolor{comment}{//\ Output\ options}}
+\DoxyCodeLine{00078\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structHybridADRSolver_1_1SolverParameters_a11a6732017c2dd35824c7108f80b4f5b}{verbose}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00079\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structHybridADRSolver_1_1SolverParameters_a89dbc5c399e8238cd1a78ab3c20038ac}{output\_solution}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00080\ \ \ \ \ std::string\ \mbox{\hyperlink{structHybridADRSolver_1_1SolverParameters_af21863e980587690c653330e4fcf6d4a}{output\_prefix}}\ =\ \textcolor{stringliteral}{"{}solution"{}};}
 \DoxyCodeLine{00081\ \};}
 \DoxyCodeLine{00082\ }
-\DoxyCodeLine{00083\ \}\ \textcolor{comment}{//\ namespace\ HybridADRSolver}}
-\DoxyCodeLine{00084\ }
-\DoxyCodeLine{00085\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ HYBRIDADRSOLVER\_TYPES\_H}}
+\DoxyCodeLine{00086\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structHybridADRSolver_1_1TimingResults}{TimingResults}}\ \{}
+\DoxyCodeLine{00087\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structHybridADRSolver_1_1TimingResults_a925e4721515e3d0c96a848630e36db41}{setup\_time}}\ =\ 0.0;}
+\DoxyCodeLine{00088\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structHybridADRSolver_1_1TimingResults_a498e3a034c3a1058a34a1b7926d8c6ff}{assembly\_time}}\ =\ 0.0;}
+\DoxyCodeLine{00089\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structHybridADRSolver_1_1TimingResults_a0d64e9cb5f24bde8e5504d9fb9b3787c}{solve\_time}}\ =\ 0.0;}
+\DoxyCodeLine{00090\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structHybridADRSolver_1_1TimingResults_a6ae6f144ce9dc799acd4bfa873a271c9}{total\_time}}\ =\ 0.0;}
+\DoxyCodeLine{00091\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structHybridADRSolver_1_1TimingResults_a7ad366ecfdea278eac1e53720acd2f71}{operator\_apply\_time}}\ =\ 0.0;}
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00093\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structHybridADRSolver_1_1TimingResults_aa1cc78b0a55a8e261222be1ab7f7dc28}{n\_iterations}}\ =\ 0;}
+\DoxyCodeLine{00094\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structHybridADRSolver_1_1TimingResults_ac710bc7c2a51c6b6c71d9b79c10c7244}{memory\_mb}}\ =\ 0.0;}
+\DoxyCodeLine{00095\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structHybridADRSolver_1_1TimingResults_a198c3720d7233dea6fd319224ecf14e0}{n\_dofs}}\ =\ 0;}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00097\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structHybridADRSolver_1_1TimingResults_a75108e6f61ec8ecbc8c529ba7925d1cd}{n\_cells}}\ =\ 0;}
+\DoxyCodeLine{00098\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structHybridADRSolver_1_1TimingResults_a1ab6998c1b5b7e80122fa053f69c17f3}{l2\_error}}\ =\ 0.0;}
+\DoxyCodeLine{00099\ \};}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00101\ \}\ \textcolor{comment}{//\ namespace\ HybridADRSolver}}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00103\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ HYBRIDADRSOLVER\_TYPES\_H}}
 
 \end{DoxyCode}

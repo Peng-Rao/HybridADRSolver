@@ -101,7 +101,7 @@ $(function(){initNavTree('solver_8h.html','',''); });
 </div><!--header-->
 <div class="contents">
 
-<p>Abstract base class for all solvers.  
+<p>Abstract base class for all solvers with GMG support.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="types_8h_source.html">types.h</a>&quot;</code><br />
 <code>#include &lt;deal.II/base/conditional_ostream.h&gt;</code><br />
@@ -119,7 +119,7 @@ Include dependency graph for solver.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="solver_8h__incl.png" border="0" usemap="#asrc_2include_2core_2solver_8h" loading="lazy" alt=""/></div>
 <map name="asrc_2include_2core_2solver_8h" id="asrc_2include_2core_2solver_8h">
-<area shape="rect" title="Abstract base class for all solvers." alt="" coords="868,5,1030,30"/>
+<area shape="rect" title="Abstract base class for all solvers with GMG support." alt="" coords="868,5,1030,30"/>
 <area shape="rect" href="types_8h.html" title="Common type definitions for the hybrid solver framework." alt="" coords="113,85,177,110"/>
 <area shape="poly" title=" " alt="" coords="867,25,512,44,325,60,248,70,189,81,185,82,183,77,188,75,247,65,324,55,512,39,867,19"/>
 <area shape="rect" title=" " alt="" coords="200,78,356,117"/>
@@ -153,10 +153,10 @@ This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="solver_8h__dep__incl.png" border="0" usemap="#asrc_2include_2core_2solver_8hdep" loading="lazy" alt=""/></div>
 <map name="asrc_2include_2core_2solver_8hdep" id="asrc_2include_2core_2solver_8hdep">
-<area shape="rect" title="Abstract base class for all solvers." alt="" coords="802,5,964,30"/>
+<area shape="rect" title="Abstract base class for all solvers with GMG support." alt="" coords="802,5,964,30"/>
 <area shape="rect" href="matrix__based__solver_8h.html" title="Matrix&#45;based solver using WorkStream for hybrid parallelization." alt="" coords="913,78,1059,131"/>
 <area shape="poly" title=" " alt="" coords="910,38,956,75,953,79,907,42"/>
-<area shape="rect" href="matrix__free__solver_8h.html" title="Matrix&#45;free solver with hybrid MPI+threading parallelization." alt="" coords="707,85,878,124"/>
+<area shape="rect" href="matrix__free__solver_8h.html" title="Matrix&#45;free solver with hybrid MPI+threading parallelization and GMG." alt="" coords="707,85,878,124"/>
 <area shape="poly" title=" " alt="" coords="862,43,814,86,811,83,858,39"/>
 <area shape="rect" href="benchmark__main_8cpp.html" title="Main benchmark driver for comparing hybrid vs fully distributed solvers." alt="" coords="799,186,981,224"/>
 <area shape="poly" title=" " alt="" coords="953,144,910,187,906,183,949,140"/>
@@ -179,7 +179,7 @@ This graph shows which files directly or indirectly include this file:</div>
 <area shape="poly" title=" " alt="" coords="763,136,707,187,703,183,759,132"/>
 <area shape="rect" href="main__matrix__free_8cpp.html" title="Main driver for the matrix&#45;free ADR solver with hybrid parallelization." alt="" coords="215,186,365,224"/>
 <area shape="poly" title=" " alt="" coords="692,123,543,148,377,181,352,188,351,183,376,176,542,142,691,118"/>
-<area shape="rect" href="matrix__free__solver_8cpp.html" title="Implementation of the Matrix&#45;free solver." alt="" coords="5,186,191,224"/>
+<area shape="rect" href="matrix__free__solver_8cpp.html" title="Implementation of the Matrix&#45;free solver with GMG preconditioning." alt="" coords="5,186,191,224"/>
 <area shape="poly" title=" " alt="" coords="692,117,468,142,204,181,173,188,171,182,203,176,467,137,692,112"/>
 </map>
 </div>
@@ -189,13 +189,14 @@ This graph shows which files directly or indirectly include this file:</div>
 <tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:HybridADRSolver_3A_3AParallelSolverBase_3C_20dim_20_3E" id="r_HybridADRSolver_3A_3AParallelSolverBase_3C_20dim_20_3E"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHybridADRSolver_1_1ParallelSolverBase.html">HybridADRSolver::ParallelSolverBase&lt; dim &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Abstract base class for parallel solvers.  <a href="classHybridADRSolver_1_1ParallelSolverBase.html#details">More...</a><br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-namespaces" class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:HybridADRSolver" id="r_HybridADRSolver"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceHybridADRSolver.html">HybridADRSolver</a></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Abstract base class for all solvers. </p>
+<div class="textblock"><p>Abstract base class for all solvers with GMG support. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <div id="page-nav" class="page-nav-panel">

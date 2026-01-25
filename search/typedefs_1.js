@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['size_5ftype_0',['size_type',['../classHybridADRSolver_1_1ADROperator.html#a9b20d4eeb7f2effb111ab3e73e798704',1,'HybridADRSolver::ADROperator']]]
+  ['levelmatrixtype_0',['LevelMatrixType',['../classHybridADRSolver_1_1MatrixFreeSolver.html#ad64523e5338bdefc820b30ace27441ae',1,'HybridADRSolver::MatrixFreeSolver']]],
+  ['levelnumber_1',['LevelNumber',['../classHybridADRSolver_1_1MatrixFreeSolver.html#a69c7c6d7a16238c963b6133834dbd61e',1,'HybridADRSolver::MatrixFreeSolver']]],
+  ['levelvectortype_2',['LevelVectorType',['../classHybridADRSolver_1_1MatrixFreeSolver.html#a90d5ef66704dd43262361a5474e370c9',1,'HybridADRSolver::MatrixFreeSolver']]]
 ];

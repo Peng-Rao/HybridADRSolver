@@ -5,6 +5,5 @@ var searchData=
   ['vector_2',['Vector',['../namespaceHybridADRSolver_1_1LAMatrixFree.html#ae01c009957c8b7be75b9f834434ede45',1,'HybridADRSolver::LAMatrixFree']]],
   ['vectortype_3',['VectorType',['../classHybridADRSolver_1_1ADROperator.html#aff0ba29974dfe3ea1768c095eb3acb7e',1,'HybridADRSolver::ADROperator::VectorType'],['../classHybridADRSolver_1_1JacobiPreconditioner.html#a379c15643b52436d227f5c7efed6dc53',1,'HybridADRSolver::JacobiPreconditioner::VectorType'],['../classHybridADRSolver_1_1MatrixFreeSolver.html#acf4d4ab462daaab95b3cbb415794dc00',1,'HybridADRSolver::MatrixFreeSolver::VectorType']]],
   ['verbose_4',['verbose',['../structHybridADRSolver_1_1SolverParameters.html#a11a6732017c2dd35824c7108f80b4f5b',1,'HybridADRSolver::SolverParameters']]],
-  ['vmult_5',['vmult',['../classHybridADRSolver_1_1ADROperator.html#a101c5d878ba9926dc9e6e30947cb8aa2',1,'HybridADRSolver::ADROperator::vmult()'],['../classHybridADRSolver_1_1JacobiPreconditioner.html#ad5b1a748a6bf6df9d00878742f8dae67',1,'HybridADRSolver::JacobiPreconditioner::vmult()']]],
-  ['vmult_5fadd_6',['vmult_add',['../classHybridADRSolver_1_1ADROperator.html#a475a8215de7eb19ef2dbd3a4f4396762',1,'HybridADRSolver::ADROperator']]]
+  ['vmult_5',['vmult',['../classHybridADRSolver_1_1JacobiPreconditioner.html#ad5b1a748a6bf6df9d00878742f8dae67',1,'HybridADRSolver::JacobiPreconditioner']]]
 ];

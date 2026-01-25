@@ -2,6 +2,11 @@
 \hypertarget{classHybridADRSolver_1_1ParallelSolverBase}{}\label{classHybridADRSolver_1_1ParallelSolverBase}\index{HybridADRSolver::ParallelSolverBase$<$ dim $>$@{HybridADRSolver::ParallelSolverBase$<$ dim $>$}}
 
 
+Abstract base class for parallel solvers.  
+
+
+
+
 {\ttfamily \#include $<$solver.\+h$>$}
 
 
@@ -83,6 +88,26 @@ Conditional\+OStream \mbox{\hyperlink{classHybridADRSolver_1_1ParallelSolverBase
 \item 
 Timer\+Output \mbox{\hyperlink{classHybridADRSolver_1_1ParallelSolverBase_a952f68312d883f472887719276289a6d}{computing\+\_\+timer}}
 \end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$int dim$>$\newline
+class Hybrid\+ADRSolver\+::\+Parallel\+Solver\+Base$<$ dim $>$}
+Abstract base class for parallel solvers. 
+
+This class provides the common infrastructure for matrix-\/based and matrix-\/free solvers, including\+:
+\begin{DoxyItemize}
+\item MPI communication setup
+\item Triangulation with multigrid hierarchy support
+\item DoF handler and constraints
+\item Timing and output utilities
+\end{DoxyItemize}
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em dim} & Spatial dimension \\
+\hline
+\end{DoxyTemplParams}
 
 
 \label{doc-constructors}
@@ -204,7 +229,7 @@ Implemented in \mbox{\hyperlink{classHybridADRSolver_1_1MatrixBasedSolver_a43b39
 template$<$int dim$>$ \\
 void \mbox{\hyperlink{classHybridADRSolver_1_1ParallelSolverBase}{Hybrid\+ADRSolver\+::\+Parallel\+Solver\+Base}}$<$ dim $>$\+::setup\+\_\+grid (\begin{DoxyParamCaption}\item[{unsigned int}]{n\+\_\+refinements}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}
 
-Setup the mesh/triangulation 
+Setup the mesh/triangulation with multigrid hierarchy 
 \begin{DoxyParams}{Parameters}
 {\em n\+\_\+refinements} & Number of global refinements \\
 \hline

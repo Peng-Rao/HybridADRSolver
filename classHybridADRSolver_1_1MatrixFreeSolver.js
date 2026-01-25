@@ -1,6 +1,12 @@
 var classHybridADRSolver_1_1MatrixFreeSolver =
 [
+    [ "LevelMatrixType", "classHybridADRSolver_1_1MatrixFreeSolver.html#ad64523e5338bdefc820b30ace27441ae", null ],
+    [ "LevelNumber", "classHybridADRSolver_1_1MatrixFreeSolver.html#a69c7c6d7a16238c963b6133834dbd61e", null ],
+    [ "LevelVectorType", "classHybridADRSolver_1_1MatrixFreeSolver.html#a90d5ef66704dd43262361a5474e370c9", null ],
     [ "Number", "classHybridADRSolver_1_1MatrixFreeSolver.html#a7217c11ce8bebeb139faad0dc91209d7", null ],
+    [ "SmootherPreconditionerType", "classHybridADRSolver_1_1MatrixFreeSolver.html#a2a1f7cffde4ba2b0fe481adf61adbc99", null ],
+    [ "SmootherType", "classHybridADRSolver_1_1MatrixFreeSolver.html#a77ae5a03e9ff7866eddf1fec2ba300d2", null ],
+    [ "SystemMatrixType", "classHybridADRSolver_1_1MatrixFreeSolver.html#ad85c80796a00a2921828219e84e622c2", null ],
     [ "VectorType", "classHybridADRSolver_1_1MatrixFreeSolver.html#acf4d4ab462daaab95b3cbb415794dc00", null ],
     [ "MatrixFreeSolver", "classHybridADRSolver_1_1MatrixFreeSolver.html#a37d7f2febcfcaad3da232997fd648620", null ],
     [ "assemble_rhs", "classHybridADRSolver_1_1MatrixFreeSolver.html#aaf685380fa1b47b1dbc66fbbc2acac4b", null ],
@@ -10,12 +16,15 @@ var classHybridADRSolver_1_1MatrixFreeSolver =
     [ "get_name", "classHybridADRSolver_1_1MatrixFreeSolver.html#ae03e6b362cc1ed2fc384d8df577e393f", null ],
     [ "get_solution", "classHybridADRSolver_1_1MatrixFreeSolver.html#aabb1daa33f3c7ce6158c6a1acb83cdac", null ],
     [ "get_solver_type", "classHybridADRSolver_1_1MatrixFreeSolver.html#a51c025c5f3930970bc8bc7432d6544a9", null ],
-    [ "get_system_operator", "classHybridADRSolver_1_1MatrixFreeSolver.html#a793a7ba2a54a9c7f2d0434be05d8bfde", null ],
+    [ "get_system_operator", "classHybridADRSolver_1_1MatrixFreeSolver.html#a9090f725a5421d5c2eee50327062598d", null ],
     [ "output_results", "classHybridADRSolver_1_1MatrixFreeSolver.html#a47e3b8e1976e2467767685e33c85e6b4", null ],
     [ "run", "classHybridADRSolver_1_1MatrixFreeSolver.html#a06dce7dcb58e2bf397eeeddb6de17f8d", null ],
     [ "setup_dofs", "classHybridADRSolver_1_1MatrixFreeSolver.html#a6f2f775fdb6308e7c0b77da7f6ed3892", null ],
     [ "setup_matrix_free", "classHybridADRSolver_1_1MatrixFreeSolver.html#ad418a87a46d518b6295e97c3321287fb", null ],
+    [ "setup_multigrid", "classHybridADRSolver_1_1MatrixFreeSolver.html#a96eaa13ee25f147dd3b9662141000306", null ],
     [ "solve", "classHybridADRSolver_1_1MatrixFreeSolver.html#a1f8d8113aea014e6251ab66c6e37ac71", null ],
-    [ "solve_cg", "classHybridADRSolver_1_1MatrixFreeSolver.html#a2049313665cbe93c8e75318afa72edde", null ],
+    [ "solve_cg_gmg", "classHybridADRSolver_1_1MatrixFreeSolver.html#a12d013ba18ce30ec5133055e7f39af62", null ],
+    [ "solve_cg_jacobi", "classHybridADRSolver_1_1MatrixFreeSolver.html#afd3584c3638b5b5807c965f2a9ad07e7", null ],
+    [ "solve_gmres_gmg", "classHybridADRSolver_1_1MatrixFreeSolver.html#a5be5e24b794c7161b5ee081b622b0c04", null ],
     [ "solve_gmres_jacobi", "classHybridADRSolver_1_1MatrixFreeSolver.html#afd1177cf465fbbe999000e03d0511b99", null ]
 ];

@@ -1,5 +1,5 @@
 <map id="HybridADRSolver::MatrixFreeSolver&lt; dim, fe_degree &gt;" name="HybridADRSolver::MatrixFreeSolver&lt; dim, fe_degree &gt;">
-<area shape="rect" id="Node000001" title="Matrix&#45;free solver with hybrid MPI+threading parallelization." alt="" coords="5,92,198,131"/>
-<area shape="rect" id="Node000002" href="$classHybridADRSolver_1_1ParallelSolverBase.html" title=" " alt="" coords="15,5,188,44"/>
+<area shape="rect" id="Node000001" title="Matrix&#45;free solver with hybrid MPI+threading parallelization and GMG." alt="" coords="5,92,198,131"/>
+<area shape="rect" id="Node000002" href="$classHybridADRSolver_1_1ParallelSolverBase.html" title="Abstract base class for parallel solvers." alt="" coords="15,5,188,44"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="104,60,104,91,99,91,99,60"/>
 </map>

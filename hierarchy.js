@@ -1,5 +1,10 @@
 var hierarchy =
 [
+    [ "MatrixFreeOperators::Base", null, [
+      [ "HybridADRSolver::ADROperator< dim, fe_degree, Number >", "classHybridADRSolver_1_1ADROperator.html", null ],
+      [ "HybridADRSolver::ADROperator< dim, fe_degree, LevelNumber >", "classHybridADRSolver_1_1ADROperator.html", null ],
+      [ "HybridADRSolver::ADROperator< dim, fe_degree, Number >", "classHybridADRSolver_1_1ADROperator.html", null ]
+    ] ],
     [ "BenchmarkUtils::BenchmarkResult", "structBenchmarkUtils_1_1BenchmarkResult.html", null ],
     [ "HybridADRSolver::CopyData", "structHybridADRSolver_1_1CopyData.html", null ],
     [ "Function", null, [
@@ -19,10 +24,6 @@ var hierarchy =
     [ "HybridADRSolver::ScratchData< dim >", "structHybridADRSolver_1_1ScratchData.html", null ],
     [ "HybridADRSolver::SolverParameters", "structHybridADRSolver_1_1SolverParameters.html", null ],
     [ "StrongScalingConfig", "structStrongScalingConfig.html", null ],
-    [ "Subscriptor", null, [
-      [ "HybridADRSolver::ADROperator< dim, fe_degree, Number >", "classHybridADRSolver_1_1ADROperator.html", null ],
-      [ "HybridADRSolver::ADROperator< dim, fe_degree, Number >", "classHybridADRSolver_1_1ADROperator.html", null ]
-    ] ],
     [ "BenchmarkUtils::Timer", "classBenchmarkUtils_1_1Timer.html", null ],
     [ "HybridADRSolver::TimingResults", "structHybridADRSolver_1_1TimingResults.html", null ],
     [ "TimingStats", "structTimingStats.html", null ],

@@ -1,3 +1,9 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$structStrongScalingConfig.html" title="Strong scaling test configuration." alt="" coords="5,5,146,30"/>
+<area shape="rect" id="Node000000" title=" " alt="" coords="5,68,147,107"/>
+<area shape="rect" id="Node000001" href="$classHybridADRSolver_1_1ADROperator.html" title=" " alt="" coords="198,5,406,44"/>
+<area shape="poly" id="edge6_Node000000_Node000001" title=" " alt="" coords="161,61,229,42,231,47,162,66"/>
+<area shape="rect" id="Node000002" href="$classHybridADRSolver_1_1ADROperator.html" title=" " alt="" coords="195,68,410,107"/>
+<area shape="poly" id="edge7_Node000000_Node000002" title=" " alt="" coords="162,85,194,85,194,90,162,90"/>
+<area shape="rect" id="Node000003" href="$classHybridADRSolver_1_1ADROperator.html" title="Matrix&#45;free operator for the ADR problem with multigrid support." alt="" coords="198,131,406,169"/>
+<area shape="poly" id="edge8_Node000000_Node000003" title=" " alt="" coords="162,108,231,128,229,133,161,113"/>
 </map>

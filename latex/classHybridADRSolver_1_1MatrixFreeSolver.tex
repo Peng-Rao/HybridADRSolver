@@ -2,7 +2,7 @@
 \hypertarget{classHybridADRSolver_1_1MatrixFreeSolver}{}\label{classHybridADRSolver_1_1MatrixFreeSolver}\index{HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$@{HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$}}
 
 
-Matrix-\/free solver with hybrid MPI+threading parallelization.  
+Matrix-\/free solver with hybrid MPI+threading parallelization and GMG.  
 
 
 
@@ -34,7 +34,19 @@ Collaboration diagram for Hybrid\+ADRSolver\+::Matrix\+Free\+Solver\texorpdfstri
 \item 
 using \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_a7217c11ce8bebeb139faad0dc91209d7}{Number}} = double
 \item 
+using \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_a69c7c6d7a16238c963b6133834dbd61e}{Level\+Number}}
+\item 
 using \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_acf4d4ab462daaab95b3cbb415794dc00}{Vector\+Type}} = Linear\+Algebra\+::distributed\+::\+Vector$<$\mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_a7217c11ce8bebeb139faad0dc91209d7}{Number}}$>$
+\item 
+using \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_a90d5ef66704dd43262361a5474e370c9}{Level\+Vector\+Type}} = Linear\+Algebra\+::distributed\+::\+Vector$<$\mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_a69c7c6d7a16238c963b6133834dbd61e}{Level\+Number}}$>$
+\item 
+using \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_ad85c80796a00a2921828219e84e622c2}{System\+Matrix\+Type}} = \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator}{ADROperator}}$<$dim, fe\+\_\+degree, \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_a7217c11ce8bebeb139faad0dc91209d7}{Number}}$>$
+\item 
+using \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_ad64523e5338bdefc820b30ace27441ae}{Level\+Matrix\+Type}} = \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator}{ADROperator}}$<$dim, fe\+\_\+degree, \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_a69c7c6d7a16238c963b6133834dbd61e}{Level\+Number}}$>$
+\item 
+using \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_a77ae5a03e9ff7866eddf1fec2ba300d2}{Smoother\+Type}}
+\item 
+using \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_a2a1f7cffde4ba2b0fe481adf61adbc99}{Smoother\+Preconditioner\+Type}} = Diagonal\+Matrix$<$\mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_a90d5ef66704dd43262361a5474e370c9}{Level\+Vector\+Type}}$>$
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
@@ -47,7 +59,7 @@ void \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_a06dce7dcb58e2bf3
 \begin{DoxyCompactList}\small\item\em Returns the solver type identifier. \end{DoxyCompactList}\item 
 std\+::string \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_ae03e6b362cc1ed2fc384d8df577e393f}{get\+\_\+name}} () const override
 \begin{DoxyCompactList}\small\item\em Returns a descriptive name for this solver. \end{DoxyCompactList}\item 
-const \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator}{ADROperator}}$<$ dim, fe\+\_\+degree, \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_a7217c11ce8bebeb139faad0dc91209d7}{Number}} $>$ \& \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_a793a7ba2a54a9c7f2d0434be05d8bfde}{get\+\_\+system\+\_\+operator}} () const
+const \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_ad85c80796a00a2921828219e84e622c2}{System\+Matrix\+Type}} \& \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_a9090f725a5421d5c2eee50327062598d}{get\+\_\+system\+\_\+operator}} () const
 \begin{DoxyCompactList}\small\item\em Get the system operator (for analysis/debugging). \end{DoxyCompactList}\item 
 const \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_acf4d4ab462daaab95b3cbb415794dc00}{Vector\+Type}} \& \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_aabb1daa33f3c7ce6158c6a1acb83cdac}{get\+\_\+solution}} () const
 \begin{DoxyCompactList}\small\item\em Get the solution vector. \end{DoxyCompactList}\item 
@@ -76,13 +88,19 @@ void \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_a1f8d8113aea014e6
 void \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_a47e3b8e1976e2467767685e33c85e6b4}{output\+\_\+results}} (unsigned int cycle) const override
 \item 
 void \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_ad418a87a46d518b6295e97c3321287fb}{setup\+\_\+matrix\+\_\+free}} ()
-\begin{DoxyCompactList}\small\item\em Setup the Matrix\+Free data structure. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Setup the Matrix\+Free data structure for the finest level. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_a96eaa13ee25f147dd3b9662141000306}{setup\+\_\+multigrid}} ()
+\begin{DoxyCompactList}\small\item\em Setup the multigrid hierarchy. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_aaf685380fa1b47b1dbc66fbbc2acac4b}{assemble\+\_\+rhs}} ()
 \begin{DoxyCompactList}\small\item\em Assemble the right-\/hand side vector. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_a5be5e24b794c7161b5ee081b622b0c04}{solve\+\_\+gmres\+\_\+gmg}} ()
+\begin{DoxyCompactList}\small\item\em Solve using GMRES with GMG preconditioning. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_a12d013ba18ce30ec5133055e7f39af62}{solve\+\_\+cg\+\_\+gmg}} ()
+\begin{DoxyCompactList}\small\item\em Solve using CG with GMG preconditioning (for symmetric problems). \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_afd1177cf465fbbe999000e03d0511b99}{solve\+\_\+gmres\+\_\+jacobi}} ()
-\begin{DoxyCompactList}\small\item\em Solve using GMRES with Jacobi preconditioning. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_a2049313665cbe93c8e75318afa72edde}{solve\+\_\+cg}} ()
-\begin{DoxyCompactList}\small\item\em Solve using CG (for symmetric problems). \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Solve using GMRES with Jacobi preconditioning (fallback). \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_afd3584c3638b5b5807c965f2a9ad07e7}{solve\+\_\+cg\+\_\+jacobi}} ()
+\begin{DoxyCompactList}\small\item\em Solve using CG with Jacobi preconditioning (fallback). \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Protected Member Functions inherited from \mbox{\hyperlink{classHybridADRSolver_1_1ParallelSolverBase}{Hybrid\+ADRSolver\+::\+Parallel\+Solver\+Base$<$ dim $>$}}}
 \begin{DoxyCompactItemize}
 \item 
@@ -125,13 +143,13 @@ Timer\+Output \mbox{\hyperlink{classHybridADRSolver_1_1ParallelSolverBase_a952f6
 \doxysubsection{Detailed Description}
 \subsubsection*{template$<$int dim, int fe\+\_\+degree$>$\newline
 class Hybrid\+ADRSolver\+::\+Matrix\+Free\+Solver$<$ dim, fe\+\_\+degree $>$}
-Matrix-\/free solver with hybrid MPI+threading parallelization. 
+Matrix-\/free solver with hybrid MPI+threading parallelization and GMG. 
 
 This class implements a matrix-\/free finite element solver that\+:
 \begin{DoxyItemize}
 \item Uses Matrix\+Free for efficient operator application
 \item Supports hybrid MPI (distributed) + threading (shared memory) parallelization
-\item Implements GMRES/\+CG with Jacobi preconditioning
+\item Implements Geometric Multigrid (GMG) preconditioning with Chebyshev smoother
 \item Achieves better memory efficiency and cache utilization than matrix-\/based
 \end{DoxyItemize}
 
@@ -147,12 +165,66 @@ This class implements a matrix-\/free finite element solver that\+:
 \label{doc-typedef-members}
 \Hypertarget{classHybridADRSolver_1_1MatrixFreeSolver_doc-typedef-members}
 \doxysubsection{Member Typedef Documentation}
+\Hypertarget{classHybridADRSolver_1_1MatrixFreeSolver_ad64523e5338bdefc820b30ace27441ae}\index{HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$@{HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$}!LevelMatrixType@{LevelMatrixType}}
+\index{LevelMatrixType@{LevelMatrixType}!HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$@{HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$}}
+\doxysubsubsection{\texorpdfstring{LevelMatrixType}{LevelMatrixType}}
+{\footnotesize\ttfamily \label{classHybridADRSolver_1_1MatrixFreeSolver_ad64523e5338bdefc820b30ace27441ae} 
+template$<$int dim, int fe\+\_\+degree$>$ \\
+using \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver}{Hybrid\+ADRSolver\+::\+Matrix\+Free\+Solver}}$<$ dim, fe\+\_\+degree $>$\+::\+Level\+Matrix\+Type = \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator}{ADROperator}}$<$dim, fe\+\_\+degree, \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_a69c7c6d7a16238c963b6133834dbd61e}{Level\+Number}}$>$}
+
+\Hypertarget{classHybridADRSolver_1_1MatrixFreeSolver_a69c7c6d7a16238c963b6133834dbd61e}\index{HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$@{HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$}!LevelNumber@{LevelNumber}}
+\index{LevelNumber@{LevelNumber}!HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$@{HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$}}
+\doxysubsubsection{\texorpdfstring{LevelNumber}{LevelNumber}}
+{\footnotesize\ttfamily \label{classHybridADRSolver_1_1MatrixFreeSolver_a69c7c6d7a16238c963b6133834dbd61e} 
+template$<$int dim, int fe\+\_\+degree$>$ \\
+using \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver}{Hybrid\+ADRSolver\+::\+Matrix\+Free\+Solver}}$<$ dim, fe\+\_\+degree $>$\+::\+Level\+Number}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}}
+
+\end{DoxyCode}
+\Hypertarget{classHybridADRSolver_1_1MatrixFreeSolver_a90d5ef66704dd43262361a5474e370c9}\index{HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$@{HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$}!LevelVectorType@{LevelVectorType}}
+\index{LevelVectorType@{LevelVectorType}!HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$@{HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$}}
+\doxysubsubsection{\texorpdfstring{LevelVectorType}{LevelVectorType}}
+{\footnotesize\ttfamily \label{classHybridADRSolver_1_1MatrixFreeSolver_a90d5ef66704dd43262361a5474e370c9} 
+template$<$int dim, int fe\+\_\+degree$>$ \\
+using \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver}{Hybrid\+ADRSolver\+::\+Matrix\+Free\+Solver}}$<$ dim, fe\+\_\+degree $>$\+::\+Level\+Vector\+Type = Linear\+Algebra\+::distributed\+::\+Vector$<$\mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_a69c7c6d7a16238c963b6133834dbd61e}{Level\+Number}}$>$}
+
 \Hypertarget{classHybridADRSolver_1_1MatrixFreeSolver_a7217c11ce8bebeb139faad0dc91209d7}\index{HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$@{HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$}!Number@{Number}}
 \index{Number@{Number}!HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$@{HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$}}
 \doxysubsubsection{\texorpdfstring{Number}{Number}}
 {\footnotesize\ttfamily \label{classHybridADRSolver_1_1MatrixFreeSolver_a7217c11ce8bebeb139faad0dc91209d7} 
 template$<$int dim, int fe\+\_\+degree$>$ \\
 using \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver}{Hybrid\+ADRSolver\+::\+Matrix\+Free\+Solver}}$<$ dim, fe\+\_\+degree $>$\+::\+Number = double}
+
+\Hypertarget{classHybridADRSolver_1_1MatrixFreeSolver_a2a1f7cffde4ba2b0fe481adf61adbc99}\index{HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$@{HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$}!SmootherPreconditionerType@{SmootherPreconditionerType}}
+\index{SmootherPreconditionerType@{SmootherPreconditionerType}!HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$@{HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$}}
+\doxysubsubsection{\texorpdfstring{SmootherPreconditionerType}{SmootherPreconditionerType}}
+{\footnotesize\ttfamily \label{classHybridADRSolver_1_1MatrixFreeSolver_a2a1f7cffde4ba2b0fe481adf61adbc99} 
+template$<$int dim, int fe\+\_\+degree$>$ \\
+using \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver}{Hybrid\+ADRSolver\+::\+Matrix\+Free\+Solver}}$<$ dim, fe\+\_\+degree $>$\+::\+Smoother\+Preconditioner\+Type = Diagonal\+Matrix$<$\mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_a90d5ef66704dd43262361a5474e370c9}{Level\+Vector\+Type}}$>$}
+
+\Hypertarget{classHybridADRSolver_1_1MatrixFreeSolver_a77ae5a03e9ff7866eddf1fec2ba300d2}\index{HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$@{HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$}!SmootherType@{SmootherType}}
+\index{SmootherType@{SmootherType}!HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$@{HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$}}
+\doxysubsubsection{\texorpdfstring{SmootherType}{SmootherType}}
+{\footnotesize\ttfamily \label{classHybridADRSolver_1_1MatrixFreeSolver_a77ae5a03e9ff7866eddf1fec2ba300d2} 
+template$<$int dim, int fe\+\_\+degree$>$ \\
+using \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver}{Hybrid\+ADRSolver\+::\+Matrix\+Free\+Solver}}$<$ dim, fe\+\_\+degree $>$\+::\+Smoother\+Type}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ PreconditionChebyshev<LevelMatrixType,\ LevelVectorType>}
+
+\end{DoxyCode}
+\Hypertarget{classHybridADRSolver_1_1MatrixFreeSolver_ad85c80796a00a2921828219e84e622c2}\index{HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$@{HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$}!SystemMatrixType@{SystemMatrixType}}
+\index{SystemMatrixType@{SystemMatrixType}!HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$@{HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$}}
+\doxysubsubsection{\texorpdfstring{SystemMatrixType}{SystemMatrixType}}
+{\footnotesize\ttfamily \label{classHybridADRSolver_1_1MatrixFreeSolver_ad85c80796a00a2921828219e84e622c2} 
+template$<$int dim, int fe\+\_\+degree$>$ \\
+using \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver}{Hybrid\+ADRSolver\+::\+Matrix\+Free\+Solver}}$<$ dim, fe\+\_\+degree $>$\+::\+System\+Matrix\+Type = \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator}{ADROperator}}$<$dim, fe\+\_\+degree, \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_a7217c11ce8bebeb139faad0dc91209d7}{Number}}$>$}
 
 \Hypertarget{classHybridADRSolver_1_1MatrixFreeSolver_acf4d4ab462daaab95b3cbb415794dc00}\index{HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$@{HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$}!VectorType@{VectorType}}
 \index{VectorType@{VectorType}!HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$@{HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$}}
@@ -276,12 +348,12 @@ Returns the solver type identifier.
 
 Implements \mbox{\hyperlink{classHybridADRSolver_1_1ParallelSolverBase_a17a1f03f110b6c0a6a2837c514c24d24}{Hybrid\+ADRSolver\+::\+Parallel\+Solver\+Base$<$ dim $>$}}.
 
-\Hypertarget{classHybridADRSolver_1_1MatrixFreeSolver_a793a7ba2a54a9c7f2d0434be05d8bfde}\index{HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$@{HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$}!get\_system\_operator@{get\_system\_operator}}
+\Hypertarget{classHybridADRSolver_1_1MatrixFreeSolver_a9090f725a5421d5c2eee50327062598d}\index{HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$@{HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$}!get\_system\_operator@{get\_system\_operator}}
 \index{get\_system\_operator@{get\_system\_operator}!HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$@{HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$}}
 \doxysubsubsection{\texorpdfstring{get\_system\_operator()}{get\_system\_operator()}}
-{\footnotesize\ttfamily \label{classHybridADRSolver_1_1MatrixFreeSolver_a793a7ba2a54a9c7f2d0434be05d8bfde} 
+{\footnotesize\ttfamily \label{classHybridADRSolver_1_1MatrixFreeSolver_a9090f725a5421d5c2eee50327062598d} 
 template$<$int dim, int fe\+\_\+degree$>$ \\
-const \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator}{ADROperator}}$<$ dim, fe\+\_\+degree, \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_a7217c11ce8bebeb139faad0dc91209d7}{Number}} $>$ \& \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver}{Hybrid\+ADRSolver\+::\+Matrix\+Free\+Solver}}$<$ dim, fe\+\_\+degree $>$\+::get\+\_\+system\+\_\+operator (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+const \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver_ad85c80796a00a2921828219e84e622c2}{System\+Matrix\+Type}} \& \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver}{Hybrid\+ADRSolver\+::\+Matrix\+Free\+Solver}}$<$ dim, fe\+\_\+degree $>$\+::get\+\_\+system\+\_\+operator (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
@@ -343,7 +415,18 @@ void \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver}{Hybrid\+ADRSolve
 
 
 
-Setup the Matrix\+Free data structure. 
+Setup the Matrix\+Free data structure for the finest level. 
+
+\Hypertarget{classHybridADRSolver_1_1MatrixFreeSolver_a96eaa13ee25f147dd3b9662141000306}\index{HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$@{HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$}!setup\_multigrid@{setup\_multigrid}}
+\index{setup\_multigrid@{setup\_multigrid}!HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$@{HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$}}
+\doxysubsubsection{\texorpdfstring{setup\_multigrid()}{setup\_multigrid()}}
+{\footnotesize\ttfamily \label{classHybridADRSolver_1_1MatrixFreeSolver_a96eaa13ee25f147dd3b9662141000306} 
+template$<$int dim, int fe\+\_\+degree$>$ \\
+void \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver}{Hybrid\+ADRSolver\+::\+Matrix\+Free\+Solver}}$<$ dim, fe\+\_\+degree $>$\+::setup\+\_\+multigrid (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Setup the multigrid hierarchy. 
 
 \Hypertarget{classHybridADRSolver_1_1MatrixFreeSolver_a1f8d8113aea014e6251ab66c6e37ac71}\index{HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$@{HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$}!solve@{solve}}
 \index{solve@{solve}!HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$@{HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$}}
@@ -356,16 +439,38 @@ Solve the linear system
 
 Implements \mbox{\hyperlink{classHybridADRSolver_1_1ParallelSolverBase_a98b341d0949ede6584d02d3520eb1642}{Hybrid\+ADRSolver\+::\+Parallel\+Solver\+Base$<$ dim $>$}}.
 
-\Hypertarget{classHybridADRSolver_1_1MatrixFreeSolver_a2049313665cbe93c8e75318afa72edde}\index{HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$@{HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$}!solve\_cg@{solve\_cg}}
-\index{solve\_cg@{solve\_cg}!HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$@{HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$}}
-\doxysubsubsection{\texorpdfstring{solve\_cg()}{solve\_cg()}}
-{\footnotesize\ttfamily \label{classHybridADRSolver_1_1MatrixFreeSolver_a2049313665cbe93c8e75318afa72edde} 
+\Hypertarget{classHybridADRSolver_1_1MatrixFreeSolver_a12d013ba18ce30ec5133055e7f39af62}\index{HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$@{HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$}!solve\_cg\_gmg@{solve\_cg\_gmg}}
+\index{solve\_cg\_gmg@{solve\_cg\_gmg}!HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$@{HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$}}
+\doxysubsubsection{\texorpdfstring{solve\_cg\_gmg()}{solve\_cg\_gmg()}}
+{\footnotesize\ttfamily \label{classHybridADRSolver_1_1MatrixFreeSolver_a12d013ba18ce30ec5133055e7f39af62} 
 template$<$int dim, int fe\+\_\+degree$>$ \\
-void \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver}{Hybrid\+ADRSolver\+::\+Matrix\+Free\+Solver}}$<$ dim, fe\+\_\+degree $>$\+::solve\+\_\+cg (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+void \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver}{Hybrid\+ADRSolver\+::\+Matrix\+Free\+Solver}}$<$ dim, fe\+\_\+degree $>$\+::solve\+\_\+cg\+\_\+gmg (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
 
 
 
-Solve using CG (for symmetric problems). 
+Solve using CG with GMG preconditioning (for symmetric problems). 
+
+\Hypertarget{classHybridADRSolver_1_1MatrixFreeSolver_afd3584c3638b5b5807c965f2a9ad07e7}\index{HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$@{HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$}!solve\_cg\_jacobi@{solve\_cg\_jacobi}}
+\index{solve\_cg\_jacobi@{solve\_cg\_jacobi}!HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$@{HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$}}
+\doxysubsubsection{\texorpdfstring{solve\_cg\_jacobi()}{solve\_cg\_jacobi()}}
+{\footnotesize\ttfamily \label{classHybridADRSolver_1_1MatrixFreeSolver_afd3584c3638b5b5807c965f2a9ad07e7} 
+template$<$int dim, int fe\+\_\+degree$>$ \\
+void \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver}{Hybrid\+ADRSolver\+::\+Matrix\+Free\+Solver}}$<$ dim, fe\+\_\+degree $>$\+::solve\+\_\+cg\+\_\+jacobi (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Solve using CG with Jacobi preconditioning (fallback). 
+
+\Hypertarget{classHybridADRSolver_1_1MatrixFreeSolver_a5be5e24b794c7161b5ee081b622b0c04}\index{HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$@{HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$}!solve\_gmres\_gmg@{solve\_gmres\_gmg}}
+\index{solve\_gmres\_gmg@{solve\_gmres\_gmg}!HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$@{HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$}}
+\doxysubsubsection{\texorpdfstring{solve\_gmres\_gmg()}{solve\_gmres\_gmg()}}
+{\footnotesize\ttfamily \label{classHybridADRSolver_1_1MatrixFreeSolver_a5be5e24b794c7161b5ee081b622b0c04} 
+template$<$int dim, int fe\+\_\+degree$>$ \\
+void \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver}{Hybrid\+ADRSolver\+::\+Matrix\+Free\+Solver}}$<$ dim, fe\+\_\+degree $>$\+::solve\+\_\+gmres\+\_\+gmg (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Solve using GMRES with GMG preconditioning. 
 
 \Hypertarget{classHybridADRSolver_1_1MatrixFreeSolver_afd1177cf465fbbe999000e03d0511b99}\index{HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$@{HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$}!solve\_gmres\_jacobi@{solve\_gmres\_jacobi}}
 \index{solve\_gmres\_jacobi@{solve\_gmres\_jacobi}!HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$@{HybridADRSolver::MatrixFreeSolver$<$ dim, fe\_degree $>$}}
@@ -376,7 +481,7 @@ void \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver}{Hybrid\+ADRSolve
 
 
 
-Solve using GMRES with Jacobi preconditioning. 
+Solve using GMRES with Jacobi preconditioning (fallback). 
 
 
 

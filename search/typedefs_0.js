@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['number_0',['Number',['../classHybridADRSolver_1_1MatrixFreeSolver.html#a7217c11ce8bebeb139faad0dc91209d7',1,'HybridADRSolver::MatrixFreeSolver']]]
+  ['base_0',['Base',['../classHybridADRSolver_1_1ADROperator.html#a2d9563f24ffde0750d51a67bf8ac28c7',1,'HybridADRSolver::ADROperator']]]
 ];

@@ -101,16 +101,19 @@ $(function(){initNavTree('classHybridADRSolver_1_1ParallelSolverBase.html','','c
 </div><!--header-->
 <div class="contents">
 
+<p>Abstract base class for parallel solvers.  
+ <a href="#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="solver_8h_source.html">solver.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for HybridADRSolver::ParallelSolverBase&lt; dim &gt;:</div>
 <div class="dyncontent">
 <div class="center"><img src="classHybridADRSolver_1_1ParallelSolverBase__inherit__graph.png" border="0" usemap="#aHybridADRSolver_1_1ParallelSolverBase_3_01dim_01_4_inherit__map" loading="lazy" alt="Inheritance graph"/></div>
 <map name="aHybridADRSolver_1_1ParallelSolverBase_3_01dim_01_4_inherit__map" id="aHybridADRSolver_1_1ParallelSolverBase_3_01dim_01_4_inherit__map">
-<area shape="rect" title=" " alt="" coords="5,37,179,76"/>
+<area shape="rect" title="Abstract base class for parallel solvers." alt="" coords="5,37,179,76"/>
 <area shape="rect" href="classHybridADRSolver_1_1MatrixBasedSolver.html" title="Matrix&#45;based solver with hybrid MPI+threading parallelization." alt="" coords="227,5,430,44"/>
 <area shape="poly" title=" " alt="" coords="194,40,226,36,227,41,194,46"/>
-<area shape="rect" href="classHybridADRSolver_1_1MatrixFreeSolver.html" title="Matrix&#45;free solver with hybrid MPI+threading parallelization." alt="" coords="232,68,424,107"/>
+<area shape="rect" href="classHybridADRSolver_1_1MatrixFreeSolver.html" title="Matrix&#45;free solver with hybrid MPI+threading parallelization and GMG." alt="" coords="232,68,424,107"/>
 <area shape="poly" title=" " alt="" coords="194,67,232,72,232,77,194,73"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
@@ -119,7 +122,7 @@ Collaboration diagram for HybridADRSolver::ParallelSolverBase&lt; dim &gt;:</div
 <div class="dyncontent">
 <div class="center"><img src="classHybridADRSolver_1_1ParallelSolverBase__coll__graph.png" border="0" usemap="#aHybridADRSolver_1_1ParallelSolverBase_3_01dim_01_4_coll__map" loading="lazy" alt="Collaboration graph"/></div>
 <map name="aHybridADRSolver_1_1ParallelSolverBase_3_01dim_01_4_coll__map" id="aHybridADRSolver_1_1ParallelSolverBase_3_01dim_01_4_coll__map">
-<area shape="rect" title=" " alt="" coords="160,100,333,139"/>
+<area shape="rect" title="Abstract base class for parallel solvers." alt="" coords="160,100,333,139"/>
 <area shape="rect" href="structHybridADRSolver_1_1SolverParameters.html" title=" " alt="" coords="5,5,240,30"/>
 <area shape="poly" title=" " alt="" coords="150,38,225,97,222,101,147,42"/>
 <area shape="rect" href="structHybridADRSolver_1_1TimingResults.html" title=" " alt="" coords="264,5,477,30"/>
@@ -161,7 +164,22 @@ Protected Attributes</h2></td></tr>
 <tr class="memitem:a5d32995f237f5330f6455a45e7ac5383" id="r_a5d32995f237f5330f6455a45e7ac5383"><td class="memItemLeft" align="right" valign="top">ConditionalOStream&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5d32995f237f5330f6455a45e7ac5383">pcout</a></td></tr>
 <tr class="memitem:a952f68312d883f472887719276289a6d" id="r_a952f68312d883f472887719276289a6d"><td class="memItemLeft" align="right" valign="top">TimerOutput&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a952f68312d883f472887719276289a6d">computing_timer</a></td></tr>
 </table>
-<a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
+<div class="textblock"><div class="compoundTemplParams">template&lt;int dim&gt;<br />
+class HybridADRSolver::ParallelSolverBase&lt; dim &gt;</div><p>Abstract base class for parallel solvers. </p>
+<p>This class provides the common infrastructure for matrix-based and matrix-free solvers, including:</p><ul>
+<li>MPI communication setup</li>
+<li>Triangulation with multigrid hierarchy support</li>
+<li>DoF handler and constraints</li>
+<li>Timing and output utilities</li>
+</ul>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">dim</td><td>Spatial dimension </td></tr>
+  </table>
+  </dd>
+</dl>
+</div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a7041a10316760de354c3898fc542f35c" name="a7041a10316760de354c3898fc542f35c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7041a10316760de354c3898fc542f35c">&#9670;&#160;</a></span>ParallelSolverBase()</h2>
 
@@ -462,7 +480,7 @@ template&lt;int dim&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Setup the mesh/triangulation </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Setup the mesh/triangulation with multigrid hierarchy </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">n_refinements</td><td>Number of global refinements </td></tr>
   </table>

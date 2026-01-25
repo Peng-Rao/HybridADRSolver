@@ -18,7 +18,7 @@
 <area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="924,58,961,178,956,179,918,60"/>
 <area shape="rect" id="Node000011" href="$adr__operator_8h.html" title=" " alt="" coords="630,92,767,131"/>
 <area shape="poly" id="edge16_Node000001_Node000011" title=" " alt="" coords="850,53,747,94,745,89,848,48"/>
-<area shape="rect" id="Node000012" href="$matrix__free__solver_8h.html" title="Matrix&#45;free solver with hybrid MPI+threading parallelization." alt="" coords="632,186,803,224"/>
+<area shape="rect" id="Node000012" href="$matrix__free__solver_8h.html" title="Matrix&#45;free solver with hybrid MPI+threading parallelization and GMG." alt="" coords="632,186,803,224"/>
 <area shape="poly" id="edge25_Node000001_Node000012" title=" " alt="" coords="881,56,839,94,739,187,735,183,836,90,877,52"/>
 <area shape="poly" id="edge9_Node000009_Node000002" title=" " alt="" coords="879,225,815,234,642,249,506,254,371,261,199,282,166,288,165,283,198,277,371,256,506,249,641,244,814,229,878,220"/>
 <area shape="poly" id="edge10_Node000009_Node000003" title=" " alt="" coords="879,226,615,282,588,288,586,283,614,277,878,221"/>
@@ -35,6 +35,6 @@
 <area shape="poly" id="edge21_Node000012_Node000005" title=" " alt="" coords="804,226,1023,283,1021,288,803,231"/>
 <area shape="poly" id="edge22_Node000012_Node000006" title=" " alt="" coords="819,219,1196,277,1226,283,1225,288,1196,282,818,224"/>
 <area shape="poly" id="edge23_Node000012_Node000008" title=" " alt="" coords="819,220,883,229,1029,242,1143,247,1257,255,1402,277,1430,283,1429,288,1401,282,1256,260,1143,252,1028,247,882,234,818,225"/>
-<area shape="rect" id="Node000013" href="$matrix__free__solver_8cpp.html" title="Implementation of the Matrix&#45;free solver." alt="" coords="211,286,397,325"/>
+<area shape="rect" id="Node000013" href="$matrix__free__solver_8cpp.html" title="Implementation of the Matrix&#45;free solver with GMG preconditioning." alt="" coords="211,286,397,325"/>
 <area shape="poly" id="edge24_Node000012_Node000013" title=" " alt="" coords="625,231,410,282,383,288,382,283,409,277,624,226"/>
 </map>

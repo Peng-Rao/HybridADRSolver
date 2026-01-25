@@ -1,8 +1,8 @@
 <map id="src/include/core/solver.h" name="src/include/core/solver.h">
-<area shape="rect" id="Node000001" title="Abstract base class for all solvers." alt="" coords="802,5,964,30"/>
+<area shape="rect" id="Node000001" title="Abstract base class for all solvers with GMG support." alt="" coords="802,5,964,30"/>
 <area shape="rect" id="Node000002" href="$matrix__based__solver_8h.html" title="Matrix&#45;based solver using WorkStream for hybrid parallelization." alt="" coords="913,78,1059,131"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="910,38,956,75,953,79,907,42"/>
-<area shape="rect" id="Node000010" href="$matrix__free__solver_8h.html" title="Matrix&#45;free solver with hybrid MPI+threading parallelization." alt="" coords="707,85,878,124"/>
+<area shape="rect" id="Node000010" href="$matrix__free__solver_8h.html" title="Matrix&#45;free solver with hybrid MPI+threading parallelization and GMG." alt="" coords="707,85,878,124"/>
 <area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="862,43,814,86,811,83,858,39"/>
 <area shape="rect" id="Node000003" href="$benchmark__main_8cpp.html" title="Main benchmark driver for comparing hybrid vs fully distributed solvers." alt="" coords="799,186,981,224"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="953,144,910,187,906,183,949,140"/>
@@ -25,6 +25,6 @@
 <area shape="poly" id="edge14_Node000010_Node000007" title=" " alt="" coords="763,136,707,187,703,183,759,132"/>
 <area shape="rect" id="Node000011" href="$main__matrix__free_8cpp.html" title="Main driver for the matrix&#45;free ADR solver with hybrid parallelization." alt="" coords="215,186,365,224"/>
 <area shape="poly" id="edge15_Node000010_Node000011" title=" " alt="" coords="692,123,543,148,377,181,352,188,351,183,376,176,542,142,691,118"/>
-<area shape="rect" id="Node000012" href="$matrix__free__solver_8cpp.html" title="Implementation of the Matrix&#45;free solver." alt="" coords="5,186,191,224"/>
+<area shape="rect" id="Node000012" href="$matrix__free__solver_8cpp.html" title="Implementation of the Matrix&#45;free solver with GMG preconditioning." alt="" coords="5,186,191,224"/>
 <area shape="poly" id="edge16_Node000010_Node000012" title=" " alt="" coords="692,117,468,142,204,181,173,188,171,182,203,176,467,137,692,112"/>
 </map>

@@ -13,7 +13,5 @@ var searchData=
   ['tolerance_10',['tolerance',['../structHybridADRSolver_1_1SolverParameters.html#a3c788c37a7f69132d2301356408071b0',1,'HybridADRSolver::SolverParameters']]],
   ['total_5ftime_11',['total_time',['../structBenchmarkUtils_1_1BenchmarkResult.html#a8ce0d3b45b2017097bbbd2e4eb9b57c3',1,'BenchmarkUtils::BenchmarkResult::total_time'],['../structHybridADRSolver_1_1TimingResults.html#a6ae6f144ce9dc799acd4bfa873a271c9',1,'HybridADRSolver::TimingResults::total_time']]],
   ['triangulation_12',['triangulation',['../classHybridADRSolver_1_1ParallelSolverBase.html#af2e824387ec1bd0226b457d9c56a0b54',1,'HybridADRSolver::ParallelSolverBase']]],
-  ['tvmult_13',['Tvmult',['../classHybridADRSolver_1_1ADROperator.html#aa4a1e6777fef75161fcf6f4c1501b0fa',1,'HybridADRSolver::ADROperator']]],
-  ['tvmult_5fadd_14',['Tvmult_add',['../classHybridADRSolver_1_1ADROperator.html#a0fef8e8e00fbc3e17c11726b3d67422f',1,'HybridADRSolver::ADROperator']]],
-  ['types_2eh_15',['types.h',['../types_8h.html',1,'']]]
+  ['types_2eh_13',['types.h',['../types_8h.html',1,'']]]
 ];

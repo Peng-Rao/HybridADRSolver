@@ -13,7 +13,7 @@ namespace \mbox{\hyperlink{namespaceHybridADRSolver_1_1Problems}{Problems}}
 \begin{DoxyCompactItemize}
 \item 
 class \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator}{ADROperator}}
-\begin{DoxyCompactList}\small\item\em Matrix-\/free operator for the ADR problem. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Matrix-\/free operator for the ADR problem with multigrid support. \end{DoxyCompactList}\item 
 struct \mbox{\hyperlink{structHybridADRSolver_1_1CopyData}{Copy\+Data}}
 \begin{DoxyCompactList}\small\item\em Copy data for the {\ttfamily Work\+Stream} assembly. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{classHybridADRSolver_1_1JacobiPreconditioner}{Jacobi\+Preconditioner}}
@@ -21,9 +21,9 @@ class \mbox{\hyperlink{classHybridADRSolver_1_1JacobiPreconditioner}{Jacobi\+Pre
 class \mbox{\hyperlink{classHybridADRSolver_1_1MatrixBasedSolver}{Matrix\+Based\+Solver}}
 \begin{DoxyCompactList}\small\item\em Matrix-\/based solver with hybrid MPI+threading parallelization. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{classHybridADRSolver_1_1MatrixFreeSolver}{Matrix\+Free\+Solver}}
-\begin{DoxyCompactList}\small\item\em Matrix-\/free solver with hybrid MPI+threading parallelization. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Matrix-\/free solver with hybrid MPI+threading parallelization and GMG. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{classHybridADRSolver_1_1ParallelSolverBase}{Parallel\+Solver\+Base}}
-\item 
+\begin{DoxyCompactList}\small\item\em Abstract base class for parallel solvers. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{classHybridADRSolver_1_1ProblemInterface}{Problem\+Interface}}
 \begin{DoxyCompactList}\small\item\em Abstract interface for defining a physical problem. \end{DoxyCompactList}\item 
 struct \mbox{\hyperlink{structHybridADRSolver_1_1ScratchData}{Scratch\+Data}}
@@ -65,7 +65,7 @@ enum class \mbox{\hyperlink{namespaceHybridADRSolver_a222b7a02326125bfc0eec6713f
 {\footnotesize\ttfamily \label{namespaceHybridADRSolver_a222b7a02326125bfc0eec6713f38e5ff} 
 enum class \mbox{\hyperlink{namespaceHybridADRSolver_a222b7a02326125bfc0eec6713f38e5ff}{Hybrid\+ADRSolver\+::\+Linear\+Solver\+Type}}\hspace{0.3cm}{\ttfamily [strong]}}
 
-Enum for linear solver type, use matrix-\/based methods \begin{DoxyEnumFields}[2]{Enumerator}
+Enum for linear solver type \begin{DoxyEnumFields}[2]{Enumerator}
 \raisebox{\heightof{T}}[0pt][0pt]{\index{CG@{CG}!HybridADRSolver@{HybridADRSolver}}\index{HybridADRSolver@{HybridADRSolver}!CG@{CG}}}\Hypertarget{namespaceHybridADRSolver_a222b7a02326125bfc0eec6713f38e5ffa5202c6586cac8bee468e86d1ff854231}\label{namespaceHybridADRSolver_a222b7a02326125bfc0eec6713f38e5ffa5202c6586cac8bee468e86d1ff854231} 
 CG&\\
 \hline

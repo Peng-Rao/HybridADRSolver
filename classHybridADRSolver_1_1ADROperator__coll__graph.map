@@ -1,5 +1,5 @@
 <map id="HybridADRSolver::ADROperator&lt; dim, fe_degree, Number &gt;" name="HybridADRSolver::ADROperator&lt; dim, fe_degree, Number &gt;">
-<area shape="rect" id="Node000001" title="Matrix&#45;free operator for the ADR problem." alt="" coords="5,78,214,117"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="66,5,153,30"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="112,46,112,77,107,77,107,46"/>
+<area shape="rect" id="Node000001" title="Matrix&#45;free operator for the ADR problem with multigrid support." alt="" coords="5,106,214,145"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,214,58"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="112,74,112,105,107,105,107,74"/>
 </map>

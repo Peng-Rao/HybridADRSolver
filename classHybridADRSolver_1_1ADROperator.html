@@ -101,7 +101,7 @@ $(function(){initNavTree('classHybridADRSolver_1_1ADROperator.html','','classHyb
 </div><!--header-->
 <div class="contents">
 
-<p>Matrix-free operator for the ADR problem.  
+<p>Matrix-free operator for the ADR problem with multigrid support.  
  <a href="#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="adr__operator_8h_source.html">adr_operator.h</a>&gt;</code></p>
@@ -110,9 +110,9 @@ Inheritance diagram for HybridADRSolver::ADROperator&lt; dim, fe_degree, Number 
 <div class="dyncontent">
 <div class="center"><img src="classHybridADRSolver_1_1ADROperator__inherit__graph.png" border="0" usemap="#aHybridADRSolver_1_1ADROperator_3_01dim_00_01fe__degree_00_01Number_01_4_inherit__map" loading="lazy" alt="Inheritance graph"/></div>
 <map name="aHybridADRSolver_1_1ADROperator_3_01dim_00_01fe__degree_00_01Number_01_4_inherit__map" id="aHybridADRSolver_1_1ADROperator_3_01dim_00_01fe__degree_00_01Number_01_4_inherit__map">
-<area shape="rect" title="Matrix&#45;free operator for the ADR problem." alt="" coords="5,78,214,117"/>
-<area shape="rect" title=" " alt="" coords="66,5,153,30"/>
-<area shape="poly" title=" " alt="" coords="112,46,112,77,107,77,107,46"/>
+<area shape="rect" title="Matrix&#45;free operator for the ADR problem with multigrid support." alt="" coords="5,106,214,145"/>
+<area shape="rect" title=" " alt="" coords="5,5,214,58"/>
+<area shape="poly" title=" " alt="" coords="112,74,112,105,107,105,107,74"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
@@ -120,9 +120,9 @@ Collaboration diagram for HybridADRSolver::ADROperator&lt; dim, fe_degree, Numbe
 <div class="dyncontent">
 <div class="center"><img src="classHybridADRSolver_1_1ADROperator__coll__graph.png" border="0" usemap="#aHybridADRSolver_1_1ADROperator_3_01dim_00_01fe__degree_00_01Number_01_4_coll__map" loading="lazy" alt="Collaboration graph"/></div>
 <map name="aHybridADRSolver_1_1ADROperator_3_01dim_00_01fe__degree_00_01Number_01_4_coll__map" id="aHybridADRSolver_1_1ADROperator_3_01dim_00_01fe__degree_00_01Number_01_4_coll__map">
-<area shape="rect" title="Matrix&#45;free operator for the ADR problem." alt="" coords="5,78,214,117"/>
-<area shape="rect" title=" " alt="" coords="66,5,153,30"/>
-<area shape="poly" title=" " alt="" coords="112,46,112,77,107,77,107,46"/>
+<area shape="rect" title="Matrix&#45;free operator for the ADR problem with multigrid support." alt="" coords="5,106,214,145"/>
+<area shape="rect" title=" " alt="" coords="5,5,214,58"/>
+<area shape="poly" title=" " alt="" coords="112,74,112,105,107,105,107,74"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -131,6 +131,7 @@ Public Types</h2></td></tr>
 <tr class="memitem:aff0ba29974dfe3ea1768c095eb3acb7e" id="r_aff0ba29974dfe3ea1768c095eb3acb7e"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aff0ba29974dfe3ea1768c095eb3acb7e">VectorType</a> = LinearAlgebra::distributed::Vector&lt;Number&gt;</td></tr>
 <tr class="memitem:a8ab55f16aef4f72e68b45bc8560b22cd" id="r_a8ab55f16aef4f72e68b45bc8560b22cd"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8ab55f16aef4f72e68b45bc8560b22cd">value_type</a> = Number</td></tr>
 <tr class="memitem:a9b20d4eeb7f2effb111ab3e73e798704" id="r_a9b20d4eeb7f2effb111ab3e73e798704"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9b20d4eeb7f2effb111ab3e73e798704">size_type</a> = types::global_dof_index</td></tr>
+<tr class="memitem:a2d9563f24ffde0750d51a67bf8ac28c7" id="r_a2d9563f24ffde0750d51a67bf8ac28c7"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2d9563f24ffde0750d51a67bf8ac28c7">Base</a></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -138,36 +139,27 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:aed661703a9567f90494dbaf153590d67"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor.  <br /></td></tr>
 <tr class="memitem:aa468d145511e54150a5bf8c022caeff2" id="r_aa468d145511e54150a5bf8c022caeff2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa468d145511e54150a5bf8c022caeff2">initialize</a> (std::shared_ptr&lt; const <a class="el" href="namespaceHybridADRSolver.html#afe6d3d39f0c710383621e32a46108cb1af2674a258348188d6a3ee81d2669255a">MatrixFree</a>&lt; dim, Number &gt; &gt; data_in, const <a class="el" href="classHybridADRSolver_1_1ProblemInterface.html">ProblemInterface</a>&lt; dim &gt; &amp;problem)</td></tr>
 <tr class="memdesc:aa468d145511e54150a5bf8c022caeff2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the operator with MatrixFree data and problem definition.  <br /></td></tr>
-<tr class="memitem:a8c5e5616fdaec818c0745f3deae93f34" id="r_a8c5e5616fdaec818c0745f3deae93f34"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8c5e5616fdaec818c0745f3deae93f34">clear</a> ()</td></tr>
-<tr class="memdesc:a8c5e5616fdaec818c0745f3deae93f34"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear all data.  <br /></td></tr>
-<tr class="memitem:a0ae02b4f74e5493bea1ca521230bd8da" id="r_a0ae02b4f74e5493bea1ca521230bd8da"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a9b20d4eeb7f2effb111ab3e73e798704">size_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0ae02b4f74e5493bea1ca521230bd8da">m</a> () const</td></tr>
-<tr class="memdesc:a0ae02b4f74e5493bea1ca521230bd8da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of rows (degrees of freedom).  <br /></td></tr>
-<tr class="memitem:ae19d0ff622fc22e79b192bf9e4ade2da" id="r_ae19d0ff622fc22e79b192bf9e4ade2da"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a9b20d4eeb7f2effb111ab3e73e798704">size_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae19d0ff622fc22e79b192bf9e4ade2da">n</a> () const</td></tr>
-<tr class="memdesc:ae19d0ff622fc22e79b192bf9e4ade2da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of columns (equals rows for square operator).  <br /></td></tr>
-<tr class="memitem:a101c5d878ba9926dc9e6e30947cb8aa2" id="r_a101c5d878ba9926dc9e6e30947cb8aa2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a101c5d878ba9926dc9e6e30947cb8aa2">vmult</a> (<a class="el" href="#aff0ba29974dfe3ea1768c095eb3acb7e">VectorType</a> &amp;dst, const <a class="el" href="#aff0ba29974dfe3ea1768c095eb3acb7e">VectorType</a> &amp;src) const</td></tr>
-<tr class="memdesc:a101c5d878ba9926dc9e6e30947cb8aa2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Applies the operator: dst = A * src.  <br /></td></tr>
-<tr class="memitem:a475a8215de7eb19ef2dbd3a4f4396762" id="r_a475a8215de7eb19ef2dbd3a4f4396762"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a475a8215de7eb19ef2dbd3a4f4396762">vmult_add</a> (<a class="el" href="#aff0ba29974dfe3ea1768c095eb3acb7e">VectorType</a> &amp;dst, const <a class="el" href="#aff0ba29974dfe3ea1768c095eb3acb7e">VectorType</a> &amp;src) const</td></tr>
-<tr class="memdesc:a475a8215de7eb19ef2dbd3a4f4396762"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds the operator application: dst += A * src.  <br /></td></tr>
-<tr class="memitem:aa4a1e6777fef75161fcf6f4c1501b0fa" id="r_aa4a1e6777fef75161fcf6f4c1501b0fa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa4a1e6777fef75161fcf6f4c1501b0fa">Tvmult</a> (<a class="el" href="#aff0ba29974dfe3ea1768c095eb3acb7e">VectorType</a> &amp;dst, const <a class="el" href="#aff0ba29974dfe3ea1768c095eb3acb7e">VectorType</a> &amp;src) const</td></tr>
-<tr class="memdesc:aa4a1e6777fef75161fcf6f4c1501b0fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Applies the transpose operator: dst = A^T * src.  <br /></td></tr>
-<tr class="memitem:a0fef8e8e00fbc3e17c11726b3d67422f" id="r_a0fef8e8e00fbc3e17c11726b3d67422f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0fef8e8e00fbc3e17c11726b3d67422f">Tvmult_add</a> (<a class="el" href="#aff0ba29974dfe3ea1768c095eb3acb7e">VectorType</a> &amp;dst, const <a class="el" href="#aff0ba29974dfe3ea1768c095eb3acb7e">VectorType</a> &amp;src) const</td></tr>
-<tr class="memdesc:a0fef8e8e00fbc3e17c11726b3d67422f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds the transpose operator application: dst += A^T * src.  <br /></td></tr>
-<tr class="memitem:a6c57796c2fb3c8bf1fa6a1e09a507dbc" id="r_a6c57796c2fb3c8bf1fa6a1e09a507dbc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6c57796c2fb3c8bf1fa6a1e09a507dbc">compute_diagonal</a> (<a class="el" href="#aff0ba29974dfe3ea1768c095eb3acb7e">VectorType</a> &amp;diagonal) const</td></tr>
-<tr class="memdesc:a6c57796c2fb3c8bf1fa6a1e09a507dbc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the diagonal of the operator (for preconditioning).  <br /></td></tr>
-<tr class="memitem:ae7493904390d63cc394f4ff1458ad9db" id="r_ae7493904390d63cc394f4ff1458ad9db"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae7493904390d63cc394f4ff1458ad9db">compute_inverse_diagonal</a> (<a class="el" href="#aff0ba29974dfe3ea1768c095eb3acb7e">VectorType</a> &amp;inverse_diagonal) const</td></tr>
-<tr class="memdesc:ae7493904390d63cc394f4ff1458ad9db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the inverse of the diagonal (for Jacobi preconditioning).  <br /></td></tr>
+<tr class="memitem:abab164c83f75cfaa78f7208e49cb2b03" id="r_abab164c83f75cfaa78f7208e49cb2b03"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abab164c83f75cfaa78f7208e49cb2b03">initialize</a> (std::shared_ptr&lt; const <a class="el" href="namespaceHybridADRSolver.html#afe6d3d39f0c710383621e32a46108cb1af2674a258348188d6a3ee81d2669255a">MatrixFree</a>&lt; dim, Number &gt; &gt; data_in, const MGConstrainedDoFs &amp;mg_constrained_dofs, unsigned int level, const <a class="el" href="classHybridADRSolver_1_1ProblemInterface.html">ProblemInterface</a>&lt; dim &gt; &amp;problem)</td></tr>
+<tr class="memdesc:abab164c83f75cfaa78f7208e49cb2b03"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize for a multigrid level.  <br /></td></tr>
+<tr class="memitem:abdbad86caba16953246c5866a099cc6d" id="r_abdbad86caba16953246c5866a099cc6d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abdbad86caba16953246c5866a099cc6d">clear</a> () override</td></tr>
+<tr class="memdesc:abdbad86caba16953246c5866a099cc6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear all data.  <br /></td></tr>
+<tr class="memitem:a46d4d1db37b7c1d56080dc9b905abc69" id="r_a46d4d1db37b7c1d56080dc9b905abc69"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a46d4d1db37b7c1d56080dc9b905abc69">compute_diagonal</a> () override</td></tr>
+<tr class="memdesc:a46d4d1db37b7c1d56080dc9b905abc69"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the diagonal of the operator (for preconditioning).  <br /></td></tr>
 <tr class="memitem:a76974e20b4f4bab4d450871c650dfbc4" id="r_a76974e20b4f4bab4d450871c650dfbc4"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; const <a class="el" href="namespaceHybridADRSolver.html#afe6d3d39f0c710383621e32a46108cb1af2674a258348188d6a3ee81d2669255a">MatrixFree</a>&lt; dim, Number &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a76974e20b4f4bab4d450871c650dfbc4">get_matrix_free</a> () const</td></tr>
 <tr class="memdesc:a76974e20b4f4bab4d450871c650dfbc4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Access to the underlying MatrixFree object.  <br /></td></tr>
-<tr class="memitem:a6856d8ccbe8b4616afa229c22fb66f10" id="r_a6856d8ccbe8b4616afa229c22fb66f10"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6856d8ccbe8b4616afa229c22fb66f10">initialize_dof_vector</a> (<a class="el" href="#aff0ba29974dfe3ea1768c095eb3acb7e">VectorType</a> &amp;vec) const</td></tr>
-<tr class="memdesc:a6856d8ccbe8b4616afa229c22fb66f10"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize a vector compatible with this operator.  <br /></td></tr>
+<tr class="memitem:a56284fc258e0da2500ae67def28d125b" id="r_a56284fc258e0da2500ae67def28d125b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a56284fc258e0da2500ae67def28d125b">is_multigrid_level</a> () const</td></tr>
+<tr class="memdesc:a56284fc258e0da2500ae67def28d125b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if this is a multigrid level operator.  <br /></td></tr>
+<tr class="memitem:ae3f9840bd7c247c0f8e18276129e69a1" id="r_ae3f9840bd7c247c0f8e18276129e69a1"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae3f9840bd7c247c0f8e18276129e69a1">get_mg_level</a> () const</td></tr>
+<tr class="memdesc:ae3f9840bd7c247c0f8e18276129e69a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the multigrid level (-1 if not a level operator).  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><div class="compoundTemplParams">template&lt;int dim, int fe_degree, typename Number = double&gt;<br />
-class HybridADRSolver::ADROperator&lt; dim, fe_degree, Number &gt;</div><p>Matrix-free operator for the ADR problem. </p>
+class HybridADRSolver::ADROperator&lt; dim, fe_degree, Number &gt;</div><p>Matrix-free operator for the ADR problem with multigrid support. </p>
 <p>This class implements the action of the system matrix on a vector without explicitly storing the matrix. The computation uses:</p><ul>
 <li>Sum factorization for efficient tensor-product evaluation</li>
 <li>Vectorization over multiple cells (SIMD)</li>
 <li>Hybrid MPI+threading parallelization</li>
+<li>Geometric Multigrid (GMG) preconditioning support</li>
 </ul>
 <p>The weak form implemented is:  \( a(u,v) = (\mu \nabla u, \nabla v) + (\beta \cdot \nabla u, v) + (\gamma
 u, v) \)</p>
@@ -180,6 +172,25 @@ u, v) \)</p>
   </dd>
 </dl>
 </div><a name="doc-typedef-members" id="doc-typedef-members"></a><h2 id="header-doc-typedef-members" class="groupheader">Member Typedef Documentation</h2>
+<a id="a2d9563f24ffde0750d51a67bf8ac28c7" name="a2d9563f24ffde0750d51a67bf8ac28c7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2d9563f24ffde0750d51a67bf8ac28c7">&#9670;&#160;</a></span>Base</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;int dim, int fe_degree, typename Number = double&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classHybridADRSolver_1_1ADROperator.html">HybridADRSolver::ADROperator</a>&lt; dim, fe_degree, Number &gt;::Base</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line"> </div>
+<div class="line">        MatrixFreeOperators::Base&lt;dim,</div>
+<div class="line">                                  LinearAlgebra::distributed::Vector&lt;Number&gt;&gt;</div>
+</div><!-- fragment -->
+</div>
+</div>
 <a id="a9b20d4eeb7f2effb111ab3e73e798704" name="a9b20d4eeb7f2effb111ab3e73e798704"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9b20d4eeb7f2effb111ab3e73e798704">&#9670;&#160;</a></span>size_type</h2>
 
@@ -259,8 +270,8 @@ template&lt;int dim, int fe_degree, typename Number = double&gt; </div>
 </div>
 </div>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
-<a id="a8c5e5616fdaec818c0745f3deae93f34" name="a8c5e5616fdaec818c0745f3deae93f34"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8c5e5616fdaec818c0745f3deae93f34">&#9670;&#160;</a></span>clear()</h2>
+<a id="abdbad86caba16953246c5866a099cc6d" name="abdbad86caba16953246c5866a099cc6d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abdbad86caba16953246c5866a099cc6d">&#9670;&#160;</a></span>clear()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -279,7 +290,7 @@ template&lt;int dim, int fe_degree, typename Number = double&gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel override">override</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -288,8 +299,8 @@ template&lt;int dim, int fe_degree, typename Number = double&gt; </div>
 
 </div>
 </div>
-<a id="a6c57796c2fb3c8bf1fa6a1e09a507dbc" name="a6c57796c2fb3c8bf1fa6a1e09a507dbc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6c57796c2fb3c8bf1fa6a1e09a507dbc">&#9670;&#160;</a></span>compute_diagonal()</h2>
+<a id="a46d4d1db37b7c1d56080dc9b905abc69" name="a46d4d1db37b7c1d56080dc9b905abc69"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a46d4d1db37b7c1d56080dc9b905abc69">&#9670;&#160;</a></span>compute_diagonal()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -302,59 +313,19 @@ template&lt;int dim, int fe_degree, typename Number = double&gt; </div>
         <tr>
           <td class="memname">void <a class="el" href="classHybridADRSolver_1_1ADROperator.html">HybridADRSolver::ADROperator</a>&lt; dim, fe_degree, Number &gt;::compute_diagonal </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="#aff0ba29974dfe3ea1768c095eb3acb7e">VectorType</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>diagonal</em></span></td><td>)</td>
-          <td> const</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel override">override</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
 <p>Computes the diagonal of the operator (for preconditioning). </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">diagonal</td><td>Output vector containing the diagonal entries </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="ae7493904390d63cc394f4ff1458ad9db" name="ae7493904390d63cc394f4ff1458ad9db"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae7493904390d63cc394f4ff1458ad9db">&#9670;&#160;</a></span>compute_inverse_diagonal()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;int dim, int fe_degree, typename Number = double&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="classHybridADRSolver_1_1ADROperator.html">HybridADRSolver::ADROperator</a>&lt; dim, fe_degree, Number &gt;::compute_inverse_diagonal </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="#aff0ba29974dfe3ea1768c095eb3acb7e">VectorType</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>inverse_diagonal</em></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Returns the inverse of the diagonal (for Jacobi preconditioning). </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">inverse_diagonal</td><td>Output vector </td></tr>
-  </table>
-  </dd>
-</dl>
+<p>Uses MatrixFreeTools for efficient diagonal computation. </p>
 
 </div>
 </div>
@@ -387,8 +358,89 @@ template&lt;int dim, int fe_degree, typename Number = double&gt; </div>
 
 </div>
 </div>
+<a id="ae3f9840bd7c247c0f8e18276129e69a1" name="ae3f9840bd7c247c0f8e18276129e69a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae3f9840bd7c247c0f8e18276129e69a1">&#9670;&#160;</a></span>get_mg_level()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;int dim, int fe_degree, typename Number = double&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int <a class="el" href="classHybridADRSolver_1_1ADROperator.html">HybridADRSolver::ADROperator</a>&lt; dim, fe_degree, Number &gt;::get_mg_level </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the multigrid level (-1 if not a level operator). </p>
+
+</div>
+</div>
+<a id="abab164c83f75cfaa78f7208e49cb2b03" name="abab164c83f75cfaa78f7208e49cb2b03"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abab164c83f75cfaa78f7208e49cb2b03">&#9670;&#160;</a></span>initialize() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;int dim, int fe_degree, typename Number = double&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classHybridADRSolver_1_1ADROperator.html">HybridADRSolver::ADROperator</a>&lt; dim, fe_degree, Number &gt;::initialize </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; const <a class="el" href="namespaceHybridADRSolver.html#afe6d3d39f0c710383621e32a46108cb1af2674a258348188d6a3ee81d2669255a">MatrixFree</a>&lt; dim, Number &gt; &gt;</td>          <td class="paramname"><span class="paramname"><em>data_in</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const MGConstrainedDoFs &amp;</td>          <td class="paramname"><span class="paramname"><em>mg_constrained_dofs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>level</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classHybridADRSolver_1_1ProblemInterface.html">ProblemInterface</a>&lt; dim &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>problem</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Initialize for a multigrid level. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data_in</td><td>Shared pointer to MatrixFree data structure for this level </td></tr>
+    <tr><td class="paramname">mg_constrained_dofs</td><td>The MGConstrainedDoFs object </td></tr>
+    <tr><td class="paramname">level</td><td>The multigrid level </td></tr>
+    <tr><td class="paramname">problem</td><td>Reference to the problem interface </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="aa468d145511e54150a5bf8c022caeff2" name="aa468d145511e54150a5bf8c022caeff2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa468d145511e54150a5bf8c022caeff2">&#9670;&#160;</a></span>initialize()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aa468d145511e54150a5bf8c022caeff2">&#9670;&#160;</a></span>initialize() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -427,8 +479,8 @@ template&lt;int dim, int fe_degree, typename Number = double&gt; </div>
 
 </div>
 </div>
-<a id="a6856d8ccbe8b4616afa229c22fb66f10" name="a6856d8ccbe8b4616afa229c22fb66f10"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6856d8ccbe8b4616afa229c22fb66f10">&#9670;&#160;</a></span>initialize_dof_vector()</h2>
+<a id="a56284fc258e0da2500ae67def28d125b" name="a56284fc258e0da2500ae67def28d125b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a56284fc258e0da2500ae67def28d125b">&#9670;&#160;</a></span>is_multigrid_level()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -439,36 +491,7 @@ template&lt;int dim, int fe_degree, typename Number = double&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="classHybridADRSolver_1_1ADROperator.html">HybridADRSolver::ADROperator</a>&lt; dim, fe_degree, Number &gt;::initialize_dof_vector </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="#aff0ba29974dfe3ea1768c095eb3acb7e">VectorType</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>vec</em></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Initialize a vector compatible with this operator. </p>
-
-</div>
-</div>
-<a id="a0ae02b4f74e5493bea1ca521230bd8da" name="a0ae02b4f74e5493bea1ca521230bd8da"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0ae02b4f74e5493bea1ca521230bd8da">&#9670;&#160;</a></span>m()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;int dim, int fe_degree, typename Number = double&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="#a9b20d4eeb7f2effb111ab3e73e798704">size_type</a> <a class="el" href="classHybridADRSolver_1_1ADROperator.html">HybridADRSolver::ADROperator</a>&lt; dim, fe_degree, Number &gt;::m </td>
+          <td class="memname">bool <a class="el" href="classHybridADRSolver_1_1ADROperator.html">HybridADRSolver::ADROperator</a>&lt; dim, fe_degree, Number &gt;::is_multigrid_level </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -481,183 +504,7 @@ template&lt;int dim, int fe_degree, typename Number = double&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Returns the number of rows (degrees of freedom). </p>
-
-</div>
-</div>
-<a id="ae19d0ff622fc22e79b192bf9e4ade2da" name="ae19d0ff622fc22e79b192bf9e4ade2da"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae19d0ff622fc22e79b192bf9e4ade2da">&#9670;&#160;</a></span>n()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;int dim, int fe_degree, typename Number = double&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="#a9b20d4eeb7f2effb111ab3e73e798704">size_type</a> <a class="el" href="classHybridADRSolver_1_1ADROperator.html">HybridADRSolver::ADROperator</a>&lt; dim, fe_degree, Number &gt;::n </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Returns the number of columns (equals rows for square operator). </p>
-
-</div>
-</div>
-<a id="aa4a1e6777fef75161fcf6f4c1501b0fa" name="aa4a1e6777fef75161fcf6f4c1501b0fa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa4a1e6777fef75161fcf6f4c1501b0fa">&#9670;&#160;</a></span>Tvmult()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;int dim, int fe_degree, typename Number = double&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="classHybridADRSolver_1_1ADROperator.html">HybridADRSolver::ADROperator</a>&lt; dim, fe_degree, Number &gt;::Tvmult </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="#aff0ba29974dfe3ea1768c095eb3acb7e">VectorType</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>dst</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="#aff0ba29974dfe3ea1768c095eb3acb7e">VectorType</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>src</em></span>&#160;) const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Applies the transpose operator: dst = A^T * src. </p>
-<p>For the ADR problem with advection, the operator is non-symmetric, so Tvmult differs from vmult. </p>
-
-</div>
-</div>
-<a id="a0fef8e8e00fbc3e17c11726b3d67422f" name="a0fef8e8e00fbc3e17c11726b3d67422f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0fef8e8e00fbc3e17c11726b3d67422f">&#9670;&#160;</a></span>Tvmult_add()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;int dim, int fe_degree, typename Number = double&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="classHybridADRSolver_1_1ADROperator.html">HybridADRSolver::ADROperator</a>&lt; dim, fe_degree, Number &gt;::Tvmult_add </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="#aff0ba29974dfe3ea1768c095eb3acb7e">VectorType</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>dst</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="#aff0ba29974dfe3ea1768c095eb3acb7e">VectorType</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>src</em></span>&#160;) const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Adds the transpose operator application: dst += A^T * src. </p>
-
-</div>
-</div>
-<a id="a101c5d878ba9926dc9e6e30947cb8aa2" name="a101c5d878ba9926dc9e6e30947cb8aa2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a101c5d878ba9926dc9e6e30947cb8aa2">&#9670;&#160;</a></span>vmult()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;int dim, int fe_degree, typename Number = double&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="classHybridADRSolver_1_1ADROperator.html">HybridADRSolver::ADROperator</a>&lt; dim, fe_degree, Number &gt;::vmult </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="#aff0ba29974dfe3ea1768c095eb3acb7e">VectorType</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>dst</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="#aff0ba29974dfe3ea1768c095eb3acb7e">VectorType</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>src</em></span>&#160;) const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Applies the operator: dst = A * src. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">dst</td><td>Output vector </td></tr>
-    <tr><td class="paramname">src</td><td>Input vector </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="a475a8215de7eb19ef2dbd3a4f4396762" name="a475a8215de7eb19ef2dbd3a4f4396762"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a475a8215de7eb19ef2dbd3a4f4396762">&#9670;&#160;</a></span>vmult_add()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;int dim, int fe_degree, typename Number = double&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="classHybridADRSolver_1_1ADROperator.html">HybridADRSolver::ADROperator</a>&lt; dim, fe_degree, Number &gt;::vmult_add </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="#aff0ba29974dfe3ea1768c095eb3acb7e">VectorType</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>dst</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="#aff0ba29974dfe3ea1768c095eb3acb7e">VectorType</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>src</em></span>&#160;) const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Adds the operator application: dst += A * src. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">dst</td><td>Output vector (accumulated) </td></tr>
-    <tr><td class="paramname">src</td><td>Input vector </td></tr>
-  </table>
-  </dd>
-</dl>
+<p>Check if this is a multigrid level operator. </p>
 
 </div>
 </div>

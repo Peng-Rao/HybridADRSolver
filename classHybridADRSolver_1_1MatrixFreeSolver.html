@@ -101,7 +101,7 @@ $(function(){initNavTree('classHybridADRSolver_1_1MatrixFreeSolver.html','','cla
 </div><!--header-->
 <div class="contents">
 
-<p>Matrix-free solver with hybrid MPI+threading parallelization.  
+<p>Matrix-free solver with hybrid MPI+threading parallelization and GMG.  
  <a href="#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="matrix__free__solver_8h_source.html">matrix_free_solver.h</a>&gt;</code></p>
@@ -110,8 +110,8 @@ Inheritance diagram for HybridADRSolver::MatrixFreeSolver&lt; dim, fe_degree &gt
 <div class="dyncontent">
 <div class="center"><img src="classHybridADRSolver_1_1MatrixFreeSolver__inherit__graph.png" border="0" usemap="#aHybridADRSolver_1_1MatrixFreeSolver_3_01dim_00_01fe__degree_01_4_inherit__map" loading="lazy" alt="Inheritance graph"/></div>
 <map name="aHybridADRSolver_1_1MatrixFreeSolver_3_01dim_00_01fe__degree_01_4_inherit__map" id="aHybridADRSolver_1_1MatrixFreeSolver_3_01dim_00_01fe__degree_01_4_inherit__map">
-<area shape="rect" title="Matrix&#45;free solver with hybrid MPI+threading parallelization." alt="" coords="5,92,198,131"/>
-<area shape="rect" href="classHybridADRSolver_1_1ParallelSolverBase.html" title=" " alt="" coords="15,5,188,44"/>
+<area shape="rect" title="Matrix&#45;free solver with hybrid MPI+threading parallelization and GMG." alt="" coords="5,92,198,131"/>
+<area shape="rect" href="classHybridADRSolver_1_1ParallelSolverBase.html" title="Abstract base class for parallel solvers." alt="" coords="15,5,188,44"/>
 <area shape="poly" title=" " alt="" coords="104,60,104,91,99,91,99,60"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
@@ -120,8 +120,8 @@ Collaboration diagram for HybridADRSolver::MatrixFreeSolver&lt; dim, fe_degree &
 <div class="dyncontent">
 <div class="center"><img src="classHybridADRSolver_1_1MatrixFreeSolver__coll__graph.png" border="0" usemap="#aHybridADRSolver_1_1MatrixFreeSolver_3_01dim_00_01fe__degree_01_4_coll__map" loading="lazy" alt="Collaboration graph"/></div>
 <map name="aHybridADRSolver_1_1MatrixFreeSolver_3_01dim_00_01fe__degree_01_4_coll__map" id="aHybridADRSolver_1_1MatrixFreeSolver_3_01dim_00_01fe__degree_01_4_coll__map">
-<area shape="rect" title="Matrix&#45;free solver with hybrid MPI+threading parallelization." alt="" coords="150,188,343,227"/>
-<area shape="rect" href="classHybridADRSolver_1_1ParallelSolverBase.html" title=" " alt="" coords="160,100,333,139"/>
+<area shape="rect" title="Matrix&#45;free solver with hybrid MPI+threading parallelization and GMG." alt="" coords="150,188,343,227"/>
+<area shape="rect" href="classHybridADRSolver_1_1ParallelSolverBase.html" title="Abstract base class for parallel solvers." alt="" coords="160,100,333,139"/>
 <area shape="poly" title=" " alt="" coords="249,154,249,188,244,188,244,154"/>
 <area shape="rect" href="structHybridADRSolver_1_1SolverParameters.html" title=" " alt="" coords="5,5,240,30"/>
 <area shape="poly" title=" " alt="" coords="150,38,225,97,222,101,147,42"/>
@@ -133,7 +133,13 @@ Collaboration diagram for HybridADRSolver::MatrixFreeSolver&lt; dim, fe_degree &
 <tr class="heading"><td colspan="2"><h2 id="header-pub-types" class="groupheader"><a id="pub-types" name="pub-types"></a>
 Public Types</h2></td></tr>
 <tr class="memitem:a7217c11ce8bebeb139faad0dc91209d7" id="r_a7217c11ce8bebeb139faad0dc91209d7"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7217c11ce8bebeb139faad0dc91209d7">Number</a> = double</td></tr>
+<tr class="memitem:a69c7c6d7a16238c963b6133834dbd61e" id="r_a69c7c6d7a16238c963b6133834dbd61e"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a69c7c6d7a16238c963b6133834dbd61e">LevelNumber</a></td></tr>
 <tr class="memitem:acf4d4ab462daaab95b3cbb415794dc00" id="r_acf4d4ab462daaab95b3cbb415794dc00"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acf4d4ab462daaab95b3cbb415794dc00">VectorType</a> = LinearAlgebra::distributed::Vector&lt;<a class="el" href="#a7217c11ce8bebeb139faad0dc91209d7">Number</a>&gt;</td></tr>
+<tr class="memitem:a90d5ef66704dd43262361a5474e370c9" id="r_a90d5ef66704dd43262361a5474e370c9"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a90d5ef66704dd43262361a5474e370c9">LevelVectorType</a> = LinearAlgebra::distributed::Vector&lt;<a class="el" href="#a69c7c6d7a16238c963b6133834dbd61e">LevelNumber</a>&gt;</td></tr>
+<tr class="memitem:ad85c80796a00a2921828219e84e622c2" id="r_ad85c80796a00a2921828219e84e622c2"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad85c80796a00a2921828219e84e622c2">SystemMatrixType</a> = <a class="el" href="classHybridADRSolver_1_1ADROperator.html">ADROperator</a>&lt;dim, fe_degree, <a class="el" href="#a7217c11ce8bebeb139faad0dc91209d7">Number</a>&gt;</td></tr>
+<tr class="memitem:ad64523e5338bdefc820b30ace27441ae" id="r_ad64523e5338bdefc820b30ace27441ae"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad64523e5338bdefc820b30ace27441ae">LevelMatrixType</a> = <a class="el" href="classHybridADRSolver_1_1ADROperator.html">ADROperator</a>&lt;dim, fe_degree, <a class="el" href="#a69c7c6d7a16238c963b6133834dbd61e">LevelNumber</a>&gt;</td></tr>
+<tr class="memitem:a77ae5a03e9ff7866eddf1fec2ba300d2" id="r_a77ae5a03e9ff7866eddf1fec2ba300d2"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a77ae5a03e9ff7866eddf1fec2ba300d2">SmootherType</a></td></tr>
+<tr class="memitem:a2a1f7cffde4ba2b0fe481adf61adbc99" id="r_a2a1f7cffde4ba2b0fe481adf61adbc99"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2a1f7cffde4ba2b0fe481adf61adbc99">SmootherPreconditionerType</a> = DiagonalMatrix&lt;<a class="el" href="#a90d5ef66704dd43262361a5474e370c9">LevelVectorType</a>&gt;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -145,8 +151,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a51c025c5f3930970bc8bc7432d6544a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the solver type identifier.  <br /></td></tr>
 <tr class="memitem:ae03e6b362cc1ed2fc384d8df577e393f" id="r_ae03e6b362cc1ed2fc384d8df577e393f"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae03e6b362cc1ed2fc384d8df577e393f">get_name</a> () const override</td></tr>
 <tr class="memdesc:ae03e6b362cc1ed2fc384d8df577e393f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a descriptive name for this solver.  <br /></td></tr>
-<tr class="memitem:a793a7ba2a54a9c7f2d0434be05d8bfde" id="r_a793a7ba2a54a9c7f2d0434be05d8bfde"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classHybridADRSolver_1_1ADROperator.html">ADROperator</a>&lt; dim, fe_degree, <a class="el" href="#a7217c11ce8bebeb139faad0dc91209d7">Number</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a793a7ba2a54a9c7f2d0434be05d8bfde">get_system_operator</a> () const</td></tr>
-<tr class="memdesc:a793a7ba2a54a9c7f2d0434be05d8bfde"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the system operator (for analysis/debugging).  <br /></td></tr>
+<tr class="memitem:a9090f725a5421d5c2eee50327062598d" id="r_a9090f725a5421d5c2eee50327062598d"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="#ad85c80796a00a2921828219e84e622c2">SystemMatrixType</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9090f725a5421d5c2eee50327062598d">get_system_operator</a> () const</td></tr>
+<tr class="memdesc:a9090f725a5421d5c2eee50327062598d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the system operator (for analysis/debugging).  <br /></td></tr>
 <tr class="memitem:aabb1daa33f3c7ce6158c6a1acb83cdac" id="r_aabb1daa33f3c7ce6158c6a1acb83cdac"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="#acf4d4ab462daaab95b3cbb415794dc00">VectorType</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aabb1daa33f3c7ce6158c6a1acb83cdac">get_solution</a> () const</td></tr>
 <tr class="memdesc:aabb1daa33f3c7ce6158c6a1acb83cdac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the solution vector.  <br /></td></tr>
 <tr class="memitem:a62f3f05e99546132549e10775099f2aa" id="r_a62f3f05e99546132549e10775099f2aa"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a62f3f05e99546132549e10775099f2aa">get_memory_usage</a> () const</td></tr>
@@ -165,13 +171,19 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:a1f8d8113aea014e6251ab66c6e37ac71" id="r_a1f8d8113aea014e6251ab66c6e37ac71"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1f8d8113aea014e6251ab66c6e37ac71">solve</a> () override</td></tr>
 <tr class="memitem:a47e3b8e1976e2467767685e33c85e6b4" id="r_a47e3b8e1976e2467767685e33c85e6b4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a47e3b8e1976e2467767685e33c85e6b4">output_results</a> (unsigned int cycle) const override</td></tr>
 <tr class="memitem:ad418a87a46d518b6295e97c3321287fb" id="r_ad418a87a46d518b6295e97c3321287fb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad418a87a46d518b6295e97c3321287fb">setup_matrix_free</a> ()</td></tr>
-<tr class="memdesc:ad418a87a46d518b6295e97c3321287fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Setup the MatrixFree data structure.  <br /></td></tr>
+<tr class="memdesc:ad418a87a46d518b6295e97c3321287fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Setup the MatrixFree data structure for the finest level.  <br /></td></tr>
+<tr class="memitem:a96eaa13ee25f147dd3b9662141000306" id="r_a96eaa13ee25f147dd3b9662141000306"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a96eaa13ee25f147dd3b9662141000306">setup_multigrid</a> ()</td></tr>
+<tr class="memdesc:a96eaa13ee25f147dd3b9662141000306"><td class="mdescLeft">&#160;</td><td class="mdescRight">Setup the multigrid hierarchy.  <br /></td></tr>
 <tr class="memitem:aaf685380fa1b47b1dbc66fbbc2acac4b" id="r_aaf685380fa1b47b1dbc66fbbc2acac4b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaf685380fa1b47b1dbc66fbbc2acac4b">assemble_rhs</a> ()</td></tr>
 <tr class="memdesc:aaf685380fa1b47b1dbc66fbbc2acac4b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assemble the right-hand side vector.  <br /></td></tr>
+<tr class="memitem:a5be5e24b794c7161b5ee081b622b0c04" id="r_a5be5e24b794c7161b5ee081b622b0c04"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5be5e24b794c7161b5ee081b622b0c04">solve_gmres_gmg</a> ()</td></tr>
+<tr class="memdesc:a5be5e24b794c7161b5ee081b622b0c04"><td class="mdescLeft">&#160;</td><td class="mdescRight">Solve using GMRES with GMG preconditioning.  <br /></td></tr>
+<tr class="memitem:a12d013ba18ce30ec5133055e7f39af62" id="r_a12d013ba18ce30ec5133055e7f39af62"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a12d013ba18ce30ec5133055e7f39af62">solve_cg_gmg</a> ()</td></tr>
+<tr class="memdesc:a12d013ba18ce30ec5133055e7f39af62"><td class="mdescLeft">&#160;</td><td class="mdescRight">Solve using CG with GMG preconditioning (for symmetric problems).  <br /></td></tr>
 <tr class="memitem:afd1177cf465fbbe999000e03d0511b99" id="r_afd1177cf465fbbe999000e03d0511b99"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afd1177cf465fbbe999000e03d0511b99">solve_gmres_jacobi</a> ()</td></tr>
-<tr class="memdesc:afd1177cf465fbbe999000e03d0511b99"><td class="mdescLeft">&#160;</td><td class="mdescRight">Solve using GMRES with Jacobi preconditioning.  <br /></td></tr>
-<tr class="memitem:a2049313665cbe93c8e75318afa72edde" id="r_a2049313665cbe93c8e75318afa72edde"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2049313665cbe93c8e75318afa72edde">solve_cg</a> ()</td></tr>
-<tr class="memdesc:a2049313665cbe93c8e75318afa72edde"><td class="mdescLeft">&#160;</td><td class="mdescRight">Solve using CG (for symmetric problems).  <br /></td></tr>
+<tr class="memdesc:afd1177cf465fbbe999000e03d0511b99"><td class="mdescLeft">&#160;</td><td class="mdescRight">Solve using GMRES with Jacobi preconditioning (fallback).  <br /></td></tr>
+<tr class="memitem:afd3584c3638b5b5807c965f2a9ad07e7" id="r_afd3584c3638b5b5807c965f2a9ad07e7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afd3584c3638b5b5807c965f2a9ad07e7">solve_cg_jacobi</a> ()</td></tr>
+<tr class="memdesc:afd3584c3638b5b5807c965f2a9ad07e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Solve using CG with Jacobi preconditioning (fallback).  <br /></td></tr>
 <tr class="inherit_header pro_methods_classHybridADRSolver_1_1ParallelSolverBase"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pro_methods_classHybridADRSolver_1_1ParallelSolverBase')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Protected Member Functions inherited from <a class="el" href="classHybridADRSolver_1_1ParallelSolverBase.html">HybridADRSolver::ParallelSolverBase&lt; dim &gt;</a></td></tr>
 <tr class="memitem:af7d316d4fc92d6847a571a50bd2a4ac4 inherit pro_methods_classHybridADRSolver_1_1ParallelSolverBase" id="r_af7d316d4fc92d6847a571a50bd2a4ac4"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHybridADRSolver_1_1ParallelSolverBase.html#af7d316d4fc92d6847a571a50bd2a4ac4">setup_grid</a> (unsigned int n_refinements)</td></tr>
 </table><table class="memberdecls">
@@ -195,11 +207,11 @@ Additional Inherited Members</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><div class="compoundTemplParams">template&lt;int dim, int fe_degree&gt;<br />
-class HybridADRSolver::MatrixFreeSolver&lt; dim, fe_degree &gt;</div><p>Matrix-free solver with hybrid MPI+threading parallelization. </p>
+class HybridADRSolver::MatrixFreeSolver&lt; dim, fe_degree &gt;</div><p>Matrix-free solver with hybrid MPI+threading parallelization and GMG. </p>
 <p>This class implements a matrix-free finite element solver that:</p><ul>
 <li>Uses MatrixFree for efficient operator application</li>
 <li>Supports hybrid MPI (distributed) + threading (shared memory) parallelization</li>
-<li>Implements GMRES/CG with Jacobi preconditioning</li>
+<li>Implements Geometric Multigrid (GMG) preconditioning with Chebyshev smoother</li>
 <li>Achieves better memory efficiency and cache utilization than matrix-based</li>
 </ul>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
@@ -210,6 +222,56 @@ class HybridADRSolver::MatrixFreeSolver&lt; dim, fe_degree &gt;</div><p>Matrix-f
   </dd>
 </dl>
 </div><a name="doc-typedef-members" id="doc-typedef-members"></a><h2 id="header-doc-typedef-members" class="groupheader">Member Typedef Documentation</h2>
+<a id="ad64523e5338bdefc820b30ace27441ae" name="ad64523e5338bdefc820b30ace27441ae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad64523e5338bdefc820b30ace27441ae">&#9670;&#160;</a></span>LevelMatrixType</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;int dim, int fe_degree&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classHybridADRSolver_1_1MatrixFreeSolver.html">HybridADRSolver::MatrixFreeSolver</a>&lt; dim, fe_degree &gt;::LevelMatrixType = <a class="el" href="classHybridADRSolver_1_1ADROperator.html">ADROperator</a>&lt;dim, fe_degree, <a class="el" href="#a69c7c6d7a16238c963b6133834dbd61e">LevelNumber</a>&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a69c7c6d7a16238c963b6133834dbd61e" name="a69c7c6d7a16238c963b6133834dbd61e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a69c7c6d7a16238c963b6133834dbd61e">&#9670;&#160;</a></span>LevelNumber</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;int dim, int fe_degree&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classHybridADRSolver_1_1MatrixFreeSolver.html">HybridADRSolver::MatrixFreeSolver</a>&lt; dim, fe_degree &gt;::LevelNumber</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line"> </div>
+<div class="line">        <span class="keywordtype">float</span></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a90d5ef66704dd43262361a5474e370c9" name="a90d5ef66704dd43262361a5474e370c9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a90d5ef66704dd43262361a5474e370c9">&#9670;&#160;</a></span>LevelVectorType</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;int dim, int fe_degree&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classHybridADRSolver_1_1MatrixFreeSolver.html">HybridADRSolver::MatrixFreeSolver</a>&lt; dim, fe_degree &gt;::LevelVectorType = LinearAlgebra::distributed::Vector&lt;<a class="el" href="#a69c7c6d7a16238c963b6133834dbd61e">LevelNumber</a>&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a7217c11ce8bebeb139faad0dc91209d7" name="a7217c11ce8bebeb139faad0dc91209d7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7217c11ce8bebeb139faad0dc91209d7">&#9670;&#160;</a></span>Number</h2>
 
@@ -220,6 +282,56 @@ template&lt;int dim, int fe_degree&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">using <a class="el" href="classHybridADRSolver_1_1MatrixFreeSolver.html">HybridADRSolver::MatrixFreeSolver</a>&lt; dim, fe_degree &gt;::Number = double</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2a1f7cffde4ba2b0fe481adf61adbc99" name="a2a1f7cffde4ba2b0fe481adf61adbc99"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a1f7cffde4ba2b0fe481adf61adbc99">&#9670;&#160;</a></span>SmootherPreconditionerType</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;int dim, int fe_degree&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classHybridADRSolver_1_1MatrixFreeSolver.html">HybridADRSolver::MatrixFreeSolver</a>&lt; dim, fe_degree &gt;::SmootherPreconditionerType = DiagonalMatrix&lt;<a class="el" href="#a90d5ef66704dd43262361a5474e370c9">LevelVectorType</a>&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a77ae5a03e9ff7866eddf1fec2ba300d2" name="a77ae5a03e9ff7866eddf1fec2ba300d2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a77ae5a03e9ff7866eddf1fec2ba300d2">&#9670;&#160;</a></span>SmootherType</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;int dim, int fe_degree&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classHybridADRSolver_1_1MatrixFreeSolver.html">HybridADRSolver::MatrixFreeSolver</a>&lt; dim, fe_degree &gt;::SmootherType</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line"> </div>
+<div class="line">        PreconditionChebyshev&lt;LevelMatrixType, LevelVectorType&gt;</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="ad85c80796a00a2921828219e84e622c2" name="ad85c80796a00a2921828219e84e622c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad85c80796a00a2921828219e84e622c2">&#9670;&#160;</a></span>SystemMatrixType</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;int dim, int fe_degree&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classHybridADRSolver_1_1MatrixFreeSolver.html">HybridADRSolver::MatrixFreeSolver</a>&lt; dim, fe_degree &gt;::SystemMatrixType = <a class="el" href="classHybridADRSolver_1_1ADROperator.html">ADROperator</a>&lt;dim, fe_degree, <a class="el" href="#a7217c11ce8bebeb139faad0dc91209d7">Number</a>&gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -474,8 +586,8 @@ template&lt;int dim, int fe_degree&gt; </div>
 
 </div>
 </div>
-<a id="a793a7ba2a54a9c7f2d0434be05d8bfde" name="a793a7ba2a54a9c7f2d0434be05d8bfde"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a793a7ba2a54a9c7f2d0434be05d8bfde">&#9670;&#160;</a></span>get_system_operator()</h2>
+<a id="a9090f725a5421d5c2eee50327062598d" name="a9090f725a5421d5c2eee50327062598d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9090f725a5421d5c2eee50327062598d">&#9670;&#160;</a></span>get_system_operator()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -486,7 +598,7 @@ template&lt;int dim, int fe_degree&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="classHybridADRSolver_1_1ADROperator.html">ADROperator</a>&lt; dim, fe_degree, <a class="el" href="#a7217c11ce8bebeb139faad0dc91209d7">Number</a> &gt; &amp; <a class="el" href="classHybridADRSolver_1_1MatrixFreeSolver.html">HybridADRSolver::MatrixFreeSolver</a>&lt; dim, fe_degree &gt;::get_system_operator </td>
+          <td class="memname">const <a class="el" href="#ad85c80796a00a2921828219e84e622c2">SystemMatrixType</a> &amp; <a class="el" href="classHybridADRSolver_1_1MatrixFreeSolver.html">HybridADRSolver::MatrixFreeSolver</a>&lt; dim, fe_degree &gt;::get_system_operator </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -630,7 +742,36 @@ template&lt;int dim, int fe_degree&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Setup the MatrixFree data structure. </p>
+<p>Setup the MatrixFree data structure for the finest level. </p>
+
+</div>
+</div>
+<a id="a96eaa13ee25f147dd3b9662141000306" name="a96eaa13ee25f147dd3b9662141000306"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a96eaa13ee25f147dd3b9662141000306">&#9670;&#160;</a></span>setup_multigrid()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;int dim, int fe_degree&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classHybridADRSolver_1_1MatrixFreeSolver.html">HybridADRSolver::MatrixFreeSolver</a>&lt; dim, fe_degree &gt;::setup_multigrid </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Setup the multigrid hierarchy. </p>
 
 </div>
 </div>
@@ -664,8 +805,8 @@ template&lt;int dim, int fe_degree&gt; </div>
 
 </div>
 </div>
-<a id="a2049313665cbe93c8e75318afa72edde" name="a2049313665cbe93c8e75318afa72edde"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2049313665cbe93c8e75318afa72edde">&#9670;&#160;</a></span>solve_cg()</h2>
+<a id="a12d013ba18ce30ec5133055e7f39af62" name="a12d013ba18ce30ec5133055e7f39af62"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a12d013ba18ce30ec5133055e7f39af62">&#9670;&#160;</a></span>solve_cg_gmg()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -676,7 +817,7 @@ template&lt;int dim, int fe_degree&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="classHybridADRSolver_1_1MatrixFreeSolver.html">HybridADRSolver::MatrixFreeSolver</a>&lt; dim, fe_degree &gt;::solve_cg </td>
+          <td class="memname">void <a class="el" href="classHybridADRSolver_1_1MatrixFreeSolver.html">HybridADRSolver::MatrixFreeSolver</a>&lt; dim, fe_degree &gt;::solve_cg_gmg </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -689,7 +830,65 @@ template&lt;int dim, int fe_degree&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Solve using CG (for symmetric problems). </p>
+<p>Solve using CG with GMG preconditioning (for symmetric problems). </p>
+
+</div>
+</div>
+<a id="afd3584c3638b5b5807c965f2a9ad07e7" name="afd3584c3638b5b5807c965f2a9ad07e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afd3584c3638b5b5807c965f2a9ad07e7">&#9670;&#160;</a></span>solve_cg_jacobi()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;int dim, int fe_degree&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classHybridADRSolver_1_1MatrixFreeSolver.html">HybridADRSolver::MatrixFreeSolver</a>&lt; dim, fe_degree &gt;::solve_cg_jacobi </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Solve using CG with Jacobi preconditioning (fallback). </p>
+
+</div>
+</div>
+<a id="a5be5e24b794c7161b5ee081b622b0c04" name="a5be5e24b794c7161b5ee081b622b0c04"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5be5e24b794c7161b5ee081b622b0c04">&#9670;&#160;</a></span>solve_gmres_gmg()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;int dim, int fe_degree&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classHybridADRSolver_1_1MatrixFreeSolver.html">HybridADRSolver::MatrixFreeSolver</a>&lt; dim, fe_degree &gt;::solve_gmres_gmg </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Solve using GMRES with GMG preconditioning. </p>
 
 </div>
 </div>
@@ -718,7 +917,7 @@ template&lt;int dim, int fe_degree&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Solve using GMRES with Jacobi preconditioning. </p>
+<p>Solve using GMRES with Jacobi preconditioning (fallback). </p>
 
 </div>
 </div>

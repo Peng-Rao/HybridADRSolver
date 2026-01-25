@@ -1,5 +1,5 @@
 <map id="src/include/core/solver.h" name="src/include/core/solver.h">
-<area shape="rect" id="Node000001" title="Abstract base class for all solvers." alt="" coords="868,5,1030,30"/>
+<area shape="rect" id="Node000001" title="Abstract base class for all solvers with GMG support." alt="" coords="868,5,1030,30"/>
 <area shape="rect" id="Node000002" href="$types_8h.html" title="Common type definitions for the hybrid solver framework." alt="" coords="113,85,177,110"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="867,25,512,44,325,60,248,70,189,81,185,82,183,77,188,75,247,65,324,55,512,39,867,19"/>
 <area shape="rect" id="Node000005" title=" " alt="" coords="200,78,356,117"/>
