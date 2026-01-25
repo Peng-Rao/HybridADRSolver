@@ -1,0 +1,100 @@
+\doxysection{src/applications/benchmark/main\+\_\+2d.cpp File Reference}
+\hypertarget{main__2d_8cpp}{}\label{main__2d_8cpp}\index{src/applications/benchmark/main\_2d.cpp@{src/applications/benchmark/main\_2d.cpp}}
+
+
+2D benchmark driver for comparing hybrid vs fully distributed solvers  
+
+
+{\ttfamily \#include "{}core/problem\+\_\+definition.\+h"{}}\newline
+{\ttfamily \#include "{}core/types.\+h"{}}\newline
+{\ttfamily \#include "{}matrix\+\_\+based/matrix\+\_\+based\+\_\+solver.\+h"{}}\newline
+{\ttfamily \#include "{}matrix\+\_\+free/matrix\+\_\+free\+\_\+solver.\+h"{}}\newline
+{\ttfamily \#include "{}utils.\+h"{}}\newline
+{\ttfamily \#include $<$deal.\+II/base/mpi.\+h$>$}\newline
+{\ttfamily \#include $<$deal.\+II/base/multithread\+\_\+info.\+h$>$}\newline
+{\ttfamily \#include $<$getopt.\+h$>$}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+Include dependency graph for main\+\_\+2d.\+cpp\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{main__2d_8cpp__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$int dim$>$ }\\\mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult}{Benchmark\+Result}} \mbox{\hyperlink{main__2d_8cpp_a4401427454118e1585753a4f38406f0f}{run\+\_\+matrix\+\_\+based\+\_\+benchmark}} (const \mbox{\hyperlink{classHybridADRSolver_1_1ProblemInterface}{Problem\+Interface}}$<$ dim $>$ \&problem, int n\+\_\+refinements, int degree, MPI\+\_\+\+Comm comm, const std\+::string \&test\+\_\+type)
+\begin{DoxyCompactList}\small\item\em Run a single benchmark for the matrix-\/based solver (2D) \end{DoxyCompactList}\item 
+{\footnotesize template$<$int dim, int fe\+\_\+degree$>$ }\\\mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult}{Benchmark\+Result}} \mbox{\hyperlink{main__2d_8cpp_a0d70884bbeb28347d25972aa39f03f6f}{run\+\_\+matrix\+\_\+free\+\_\+benchmark}} (const \mbox{\hyperlink{classHybridADRSolver_1_1ProblemInterface}{Problem\+Interface}}$<$ dim $>$ \&problem, int n\+\_\+refinements, MPI\+\_\+\+Comm comm, const std\+::string \&test\+\_\+type)
+\begin{DoxyCompactList}\small\item\em Run a single benchmark for the matrix-\/free solver (2D) \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main__2d_8cpp_a1fc1d4b6048b495b77b7de6ce612563d}{run\+\_\+time\+\_\+complexity\+\_\+benchmark}} (\mbox{\hyperlink{classBenchmarkUtils_1_1ResultCollector}{Result\+Collector}} \&collector, int min\+\_\+refs, int max\+\_\+refs, int degree, MPI\+\_\+\+Comm comm)
+\begin{DoxyCompactList}\small\item\em Run time complexity benchmark (refinement 2 to 10) \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main__2d_8cpp_ac7608332d002ef2745359f4cada4afc8}{print\+\_\+usage}} (const char \texorpdfstring{$\ast$}{*}program\+\_\+name)
+\item 
+int \mbox{\hyperlink{main__2d_8cpp_a0ddf1224851353fc92bfbff6f499fa97}{main}} (int argc, char \texorpdfstring{$\ast$}{*}argv\mbox{[}$\,$\mbox{]})
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+2D benchmark driver for comparing hybrid vs fully distributed solvers 
+
+This benchmark compares\+:
+\begin{DoxyEnumerate}
+\item Matrix-\/based solver (MPI distributed with Work\+Stream threading)
+\item Matrix-\/free solver (Hybrid MPI + threading throughout)
+\end{DoxyEnumerate}
+
+Tests\+: Time complexity analysis from refinement 2 to 10
+
+Usage\+: mpirun -\/np $<$\+N$>$ ./benchmark\+\_\+2d \mbox{[}options\mbox{]} 
+
+\label{doc-func-members}
+\Hypertarget{main__2d_8cpp_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{main__2d_8cpp_a0ddf1224851353fc92bfbff6f499fa97}\index{main\_2d.cpp@{main\_2d.cpp}!main@{main}}
+\index{main@{main}!main\_2d.cpp@{main\_2d.cpp}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily \label{main__2d_8cpp_a0ddf1224851353fc92bfbff6f499fa97} 
+int main (\begin{DoxyParamCaption}\item[{int}]{argc}{, }\item[{char \texorpdfstring{$\ast$}{*}}]{argv}{\mbox{[}$\,$\mbox{]}}\end{DoxyParamCaption})}
+
+\Hypertarget{main__2d_8cpp_ac7608332d002ef2745359f4cada4afc8}\index{main\_2d.cpp@{main\_2d.cpp}!print\_usage@{print\_usage}}
+\index{print\_usage@{print\_usage}!main\_2d.cpp@{main\_2d.cpp}}
+\doxysubsubsection{\texorpdfstring{print\_usage()}{print\_usage()}}
+{\footnotesize\ttfamily \label{main__2d_8cpp_ac7608332d002ef2745359f4cada4afc8} 
+void print\+\_\+usage (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{program\+\_\+name}{}\end{DoxyParamCaption})}
+
+\Hypertarget{main__2d_8cpp_a4401427454118e1585753a4f38406f0f}\index{main\_2d.cpp@{main\_2d.cpp}!run\_matrix\_based\_benchmark@{run\_matrix\_based\_benchmark}}
+\index{run\_matrix\_based\_benchmark@{run\_matrix\_based\_benchmark}!main\_2d.cpp@{main\_2d.cpp}}
+\doxysubsubsection{\texorpdfstring{run\_matrix\_based\_benchmark()}{run\_matrix\_based\_benchmark()}}
+{\footnotesize\ttfamily \label{main__2d_8cpp_a4401427454118e1585753a4f38406f0f} 
+template$<$int dim$>$ \\
+\mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult}{Benchmark\+Result}} run\+\_\+matrix\+\_\+based\+\_\+benchmark (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classHybridADRSolver_1_1ProblemInterface}{Problem\+Interface}}$<$ dim $>$ \&}]{problem}{, }\item[{int}]{n\+\_\+refinements}{, }\item[{int}]{degree}{, }\item[{MPI\+\_\+\+Comm}]{comm}{, }\item[{const std\+::string \&}]{test\+\_\+type}{}\end{DoxyParamCaption})}
+
+
+
+Run a single benchmark for the matrix-\/based solver (2D) 
+
+\Hypertarget{main__2d_8cpp_a0d70884bbeb28347d25972aa39f03f6f}\index{main\_2d.cpp@{main\_2d.cpp}!run\_matrix\_free\_benchmark@{run\_matrix\_free\_benchmark}}
+\index{run\_matrix\_free\_benchmark@{run\_matrix\_free\_benchmark}!main\_2d.cpp@{main\_2d.cpp}}
+\doxysubsubsection{\texorpdfstring{run\_matrix\_free\_benchmark()}{run\_matrix\_free\_benchmark()}}
+{\footnotesize\ttfamily \label{main__2d_8cpp_a0d70884bbeb28347d25972aa39f03f6f} 
+template$<$int dim, int fe\+\_\+degree$>$ \\
+\mbox{\hyperlink{structBenchmarkUtils_1_1BenchmarkResult}{Benchmark\+Result}} run\+\_\+matrix\+\_\+free\+\_\+benchmark (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classHybridADRSolver_1_1ProblemInterface}{Problem\+Interface}}$<$ dim $>$ \&}]{problem}{, }\item[{int}]{n\+\_\+refinements}{, }\item[{MPI\+\_\+\+Comm}]{comm}{, }\item[{const std\+::string \&}]{test\+\_\+type}{}\end{DoxyParamCaption})}
+
+
+
+Run a single benchmark for the matrix-\/free solver (2D) 
+
+\Hypertarget{main__2d_8cpp_a1fc1d4b6048b495b77b7de6ce612563d}\index{main\_2d.cpp@{main\_2d.cpp}!run\_time\_complexity\_benchmark@{run\_time\_complexity\_benchmark}}
+\index{run\_time\_complexity\_benchmark@{run\_time\_complexity\_benchmark}!main\_2d.cpp@{main\_2d.cpp}}
+\doxysubsubsection{\texorpdfstring{run\_time\_complexity\_benchmark()}{run\_time\_complexity\_benchmark()}}
+{\footnotesize\ttfamily \label{main__2d_8cpp_a1fc1d4b6048b495b77b7de6ce612563d} 
+void run\+\_\+time\+\_\+complexity\+\_\+benchmark (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classBenchmarkUtils_1_1ResultCollector}{Result\+Collector}} \&}]{collector}{, }\item[{int}]{min\+\_\+refs}{, }\item[{int}]{max\+\_\+refs}{, }\item[{int}]{degree}{, }\item[{MPI\+\_\+\+Comm}]{comm}{}\end{DoxyParamCaption})}
+
+
+
+Run time complexity benchmark (refinement 2 to 10) 
+

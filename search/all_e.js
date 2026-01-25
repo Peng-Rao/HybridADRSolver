@@ -10,7 +10,7 @@ var searchData=
   ['prerequisites_7',['Prerequisites',['../index.html#autotoc_md4',1,'']]],
   ['print_5fresult_8',['print_result',['../weak__scaling_8cpp.html#aca5cdfad1403be6c640f1049134e780c',1,'weak_scaling.cpp']]],
   ['print_5fsummary_9',['print_summary',['../classBenchmarkUtils_1_1ResultCollector.html#a02fd335ab635717e54eca766f51918d1',1,'BenchmarkUtils::ResultCollector']]],
-  ['print_5fusage_10',['print_usage',['../benchmark__main_8cpp.html#ac7608332d002ef2745359f4cada4afc8',1,'benchmark_main.cpp']]],
+  ['print_5fusage_10',['print_usage',['../benchmark__main_8cpp.html#ac7608332d002ef2745359f4cada4afc8',1,'print_usage(const char *program_name):&#160;benchmark_main.cpp'],['../main__2d_8cpp.html#ac7608332d002ef2745359f4cada4afc8',1,'print_usage(const char *program_name):&#160;main_2d.cpp']]],
   ['problem_20formulation_11',['Problem Formulation',['../index.html#autotoc_md1',1,'']]],
   ['problem_5fdefinition_2eh_12',['problem_definition.h',['../problem__definition_8h.html',1,'']]],
   ['probleminterface_13',['ProblemInterface',['../classHybridADRSolver_1_1ProblemInterface.html',1,'HybridADRSolver']]]
