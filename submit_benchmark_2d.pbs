@@ -62,7 +62,7 @@ ulimit -s unlimited
 #===============================================================================
 
 BUILD_DIR="build"
-EXECUTABLE="${BUILD_DIR}/benchmark_2d"
+EXECUTABLE="${BUILD_DIR}/main_2d"
 REBUILD_REQUIRED=false
 
 if [ ! -f "$EXECUTABLE" ]; then
