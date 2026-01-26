@@ -83,173 +83,174 @@
 \DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{00124\ \ \ \ \ \}}
 \DoxyCodeLine{00125\ }
-\DoxyCodeLine{00129\ \ \ \ \ std::shared\_ptr<const\ MatrixFree<dim,\ Number>>\ \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_a76974e20b4f4bab4d450871c650dfbc4}{get\_matrix\_free}}()\textcolor{keyword}{\ const\ }\{}
-\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ this-\/>data;}
-\DoxyCodeLine{00131\ \ \ \ \ \}}
-\DoxyCodeLine{00132\ }
-\DoxyCodeLine{00136\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_a56284fc258e0da2500ae67def28d125b}{is\_multigrid\_level}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ is\_mg\_level;\ \}}
-\DoxyCodeLine{00137\ }
-\DoxyCodeLine{00141\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_ae3f9840bd7c247c0f8e18276129e69a1}{get\_mg\_level}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ mg\_level;\ \}}
-\DoxyCodeLine{00142\ }
-\DoxyCodeLine{00143\ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00149\ \ \ \ \ \textcolor{keywordtype}{void}\ apply\_add(\mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_aff0ba29974dfe3ea1768c095eb3acb7e}{VectorType}}\&\ dst,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_aff0ba29974dfe3ea1768c095eb3acb7e}{VectorType}}\&\ src)\textcolor{keyword}{\ const\ override\ }\{}
-\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ this-\/>data-\/>cell\_loop(\&ADROperator::local\_apply,\ \textcolor{keyword}{this},\ dst,\ src);}
-\DoxyCodeLine{00151\ \ \ \ \ \}}
-\DoxyCodeLine{00152\ }
-\DoxyCodeLine{00160\ \ \ \ \ \textcolor{keywordtype}{void}\ precompute\_coefficient\_data()\ \{}
-\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ Assert(problem\_ptr\ !=\ \textcolor{keyword}{nullptr},\ ExcNotInitialized());}
-\DoxyCodeLine{00162\ }
-\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ n\_cells\ =\ this-\/>data-\/>n\_cell\_batches();}
-\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ n\_q\_points\ =\ Utilities::pow(fe\_degree\ +\ 1,\ dim);}
-\DoxyCodeLine{00165\ }
-\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ diffusion\_coefficients.resize(n\_cells);}
-\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ advection\_coefficients.resize(n\_cells);}
-\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ reaction\_coefficients.resize(n\_cells);}
-\DoxyCodeLine{00169\ }
-\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Use\ FEEvaluation\ to\ get\ quadrature\ points}}
-\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ FEEvaluation<dim,\ fe\_degree,\ fe\_degree\ +\ 1,\ 1,\ Number>\ phi(*this-\/>data);}
-\DoxyCodeLine{00172\ }
-\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ cell\ =\ 0;\ cell\ <\ n\_cells;\ ++cell)\ \{}
-\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \ \ \ \ phi.reinit(cell);}
-\DoxyCodeLine{00175\ }
-\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \ \ \ \ diffusion\_coefficients[cell].resize(n\_q\_points);}
-\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \ \ \ \ advection\_coefficients[cell].resize(n\_q\_points);}
-\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \ \ \ \ reaction\_coefficients[cell].resize(n\_q\_points);}
-\DoxyCodeLine{00179\ }
-\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ q\ =\ 0;\ q\ <\ n\_q\_points;\ ++q)\ \{}
-\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Get\ the\ vectorized\ quadrature\ point}}
-\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Point<dim,\ VectorizedArray<Number>>\ q\_point\ =}
-\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ phi.quadrature\_point(q);}
-\DoxyCodeLine{00184\ }
-\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Evaluate\ coefficients\ for\ each\ lane\ in\ the\ vector}}
-\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VectorizedArray<Number>\ mu;}
-\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Tensor<1,\ dim,\ VectorizedArray<Number>>\ beta;}
-\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VectorizedArray<Number>\ gamma;}
-\DoxyCodeLine{00189\ }
-\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ v\ =\ 0;\ v\ <\ VectorizedArray<Number>::size();}
-\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ++v)\ \{}
-\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Point<dim>\ p;}
-\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ d\ =\ 0;\ d\ <\ dim;\ ++d)}
-\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ p[d]\ =\ q\_point[d][v];}
-\DoxyCodeLine{00195\ }
-\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ mu[v]\ =\ problem\_ptr-\/>diffusion\_coefficient(p);}
-\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ gamma[v]\ =\ problem\_ptr-\/>reaction\_coefficient(p);}
-\DoxyCodeLine{00198\ }
-\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Tensor<1,\ dim>\ beta\_scalar\ =}
-\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ problem\_ptr-\/>advection\_field(p);}
-\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ d\ =\ 0;\ d\ <\ dim;\ ++d)}
-\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ beta[d][v]\ =\ beta\_scalar[d];}
-\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00204\ }
-\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ diffusion\_coefficients[cell][q]\ =\ mu;}
-\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ advection\_coefficients[cell][q]\ =\ beta;}
-\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ reaction\_coefficients[cell][q]\ =\ gamma;}
-\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00210\ \ \ \ \ \}}
-\DoxyCodeLine{00211\ }
-\DoxyCodeLine{00218\ \ \ \ \ \textcolor{keywordtype}{void}}
-\DoxyCodeLine{00219\ \ \ \ \ local\_apply(\textcolor{keyword}{const}\ \mbox{\hyperlink{namespaceHybridADRSolver_afe6d3d39f0c710383621e32a46108cb1af2674a258348188d6a3ee81d2669255a}{MatrixFree<dim,\ Number>}}\&\ mf\_data,\ \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_aff0ba29974dfe3ea1768c095eb3acb7e}{VectorType}}\&\ dst,}
-\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_aff0ba29974dfe3ea1768c095eb3acb7e}{VectorType}}\&\ src,}
-\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::pair<unsigned\ int,\ unsigned\ int>\&\ cell\_range)\textcolor{keyword}{\ const\ }\{}
-\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ FEEvaluation<dim,\ fe\_degree,\ fe\_degree\ +\ 1,\ 1,\ Number>\ phi(mf\_data);}
-\DoxyCodeLine{00223\ }
-\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ cell\ =\ cell\_range.first;\ cell\ <\ cell\_range.second;}
-\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ \ \ \ \ \ ++cell)\ \{}
-\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ \ \ \ \ phi.reinit(cell);}
-\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ \ \ \ \ phi.gather\_evaluate(src,\ EvaluationFlags::values\ |}
-\DoxyCodeLine{00228\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ EvaluationFlags::gradients);}
-\DoxyCodeLine{00229\ }
-\DoxyCodeLine{00230\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ q\ =\ 0;\ q\ <\ phi.n\_q\_points;\ ++q)\ \{}
-\DoxyCodeLine{00231\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ VectorizedArray<Number>\ u\_val\ =\ phi.get\_value(q);}
-\DoxyCodeLine{00232\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ Tensor<1,\ dim,\ VectorizedArray<Number>>\ grad\_u\ =}
-\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ phi.get\_gradient(q);}
-\DoxyCodeLine{00234\ }
-\DoxyCodeLine{00235\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Diffusion:\ mu\ *\ grad(u)}}
-\DoxyCodeLine{00236\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Tensor<1,\ dim,\ VectorizedArray<Number>>\ flux\ =}
-\DoxyCodeLine{00237\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ diffusion\_coefficients[cell][q]\ *\ grad\_u;}
-\DoxyCodeLine{00238\ }
-\DoxyCodeLine{00239\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Advection\ contribution\ to\ flux:\ (beta\ ·\ grad(u))\ *\ v}}
-\DoxyCodeLine{00240\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ This\ is\ handled\ via\ the\ value\ term\ below}}
-\DoxyCodeLine{00241\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VectorizedArray<Number>\ advection\_val\ =}
-\DoxyCodeLine{00242\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ advection\_coefficients[cell][q]\ *\ grad\_u;}
-\DoxyCodeLine{00243\ }
-\DoxyCodeLine{00244\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Reaction:\ gamma\ *\ u}}
-\DoxyCodeLine{00245\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VectorizedArray<Number>\ val\ =}
-\DoxyCodeLine{00246\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ reaction\_coefficients[cell][q]\ *\ u\_val\ +\ advection\_val;}
-\DoxyCodeLine{00247\ }
-\DoxyCodeLine{00248\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ phi.submit\_gradient(flux,\ q);}
-\DoxyCodeLine{00249\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ phi.submit\_value(val,\ q);}
-\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00251\ }
-\DoxyCodeLine{00252\ \ \ \ \ \ \ \ \ \ \ \ \ phi.integrate\_scatter(}
-\DoxyCodeLine{00253\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ EvaluationFlags::values\ |\ EvaluationFlags::gradients,\ dst);}
-\DoxyCodeLine{00254\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00255\ \ \ \ \ \}}
-\DoxyCodeLine{00256\ }
-\DoxyCodeLine{00263\ \ \ \ \ \textcolor{keywordtype}{void}\ local\_compute\_diagonal(}
-\DoxyCodeLine{00264\ \ \ \ \ \ \ \ \ FEEvaluation<dim,\ fe\_degree,\ fe\_degree\ +\ 1,\ 1,\ Number>\&\ phi)\textcolor{keyword}{\ const\ }\{}
-\DoxyCodeLine{00265\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ cell\ =\ phi.get\_current\_cell\_index();}
-\DoxyCodeLine{00266\ }
-\DoxyCodeLine{00267\ \ \ \ \ \ \ \ \ phi.evaluate(EvaluationFlags::values\ |\ EvaluationFlags::gradients);}
-\DoxyCodeLine{00268\ }
-\DoxyCodeLine{00269\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ q\ =\ 0;\ q\ <\ phi.n\_q\_points;\ ++q)\ \{}
-\DoxyCodeLine{00270\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ VectorizedArray<Number>\ u\_val\ =\ phi.get\_value(q);}
-\DoxyCodeLine{00271\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ Tensor<1,\ dim,\ VectorizedArray<Number>>\ grad\_u\ =}
-\DoxyCodeLine{00272\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ phi.get\_gradient(q);}
-\DoxyCodeLine{00273\ }
-\DoxyCodeLine{00274\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Diffusion}}
-\DoxyCodeLine{00275\ \ \ \ \ \ \ \ \ \ \ \ \ Tensor<1,\ dim,\ VectorizedArray<Number>>\ flux\ =}
-\DoxyCodeLine{00276\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ diffusion\_coefficients[cell][q]\ *\ grad\_u;}
-\DoxyCodeLine{00277\ }
-\DoxyCodeLine{00278\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Advection}}
-\DoxyCodeLine{00279\ \ \ \ \ \ \ \ \ \ \ \ \ VectorizedArray<Number>\ advection\_val\ =}
-\DoxyCodeLine{00280\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ advection\_coefficients[cell][q]\ *\ grad\_u;}
-\DoxyCodeLine{00281\ }
-\DoxyCodeLine{00282\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Reaction}}
-\DoxyCodeLine{00283\ \ \ \ \ \ \ \ \ \ \ \ \ VectorizedArray<Number>\ val\ =}
-\DoxyCodeLine{00284\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ reaction\_coefficients[cell][q]\ *\ u\_val\ +\ advection\_val;}
-\DoxyCodeLine{00285\ }
-\DoxyCodeLine{00286\ \ \ \ \ \ \ \ \ \ \ \ \ phi.submit\_gradient(flux,\ q);}
-\DoxyCodeLine{00287\ \ \ \ \ \ \ \ \ \ \ \ \ phi.submit\_value(val,\ q);}
-\DoxyCodeLine{00288\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00289\ }
-\DoxyCodeLine{00290\ \ \ \ \ \ \ \ \ phi.integrate(EvaluationFlags::values\ |\ EvaluationFlags::gradients);}
-\DoxyCodeLine{00291\ \ \ \ \ \}}
-\DoxyCodeLine{00292\ }
-\DoxyCodeLine{00293\ \ \ \ \ \textcolor{comment}{//\ Data\ members}}
-\DoxyCodeLine{00294\ \ \ \ \ \textcolor{keyword}{const}\ ProblemInterface<dim>*\ problem\_ptr;}
-\DoxyCodeLine{00295\ \ \ \ \ \textcolor{keywordtype}{bool}\ is\_mg\_level;}
-\DoxyCodeLine{00296\ \ \ \ \ \textcolor{keywordtype}{int}\ mg\_level;}
-\DoxyCodeLine{00297\ }
-\DoxyCodeLine{00298\ \ \ \ \ \textcolor{comment}{//\ Precomputed\ coefficients\ at\ quadrature\ points}}
-\DoxyCodeLine{00299\ \ \ \ \ std::vector<std::vector<VectorizedArray<Number>>>\ diffusion\_coefficients;}
-\DoxyCodeLine{00300\ \ \ \ \ std::vector<std::vector<Tensor<1,\ dim,\ VectorizedArray<Number>>>>}
-\DoxyCodeLine{00301\ \ \ \ \ \ \ \ \ advection\_coefficients;}
-\DoxyCodeLine{00302\ \ \ \ \ std::vector<std::vector<VectorizedArray<Number>>>\ reaction\_coefficients;}
-\DoxyCodeLine{00303\ \};}
-\DoxyCodeLine{00304\ }
-\DoxyCodeLine{00310\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{int}\ dim,\ \textcolor{keywordtype}{int}\ fe\_degree,\ \textcolor{keyword}{typename}\ Number\ =\ \textcolor{keywordtype}{double}>}
-\DoxyCodeLine{00311\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classHybridADRSolver_1_1JacobiPreconditioner}{JacobiPreconditioner}}\ \{}
-\DoxyCodeLine{00312\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00313\ \ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{classHybridADRSolver_1_1JacobiPreconditioner_a379c15643b52436d227f5c7efed6dc53}{VectorType}}\ =\ LinearAlgebra::distributed::Vector<Number>;}
-\DoxyCodeLine{00314\ }
-\DoxyCodeLine{00318\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classHybridADRSolver_1_1JacobiPreconditioner_aca6fead7d20eb49cae04755ff052af55}{initialize}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator}{ADROperator<dim,\ fe\_degree,\ Number>}}\&\ op)\ \{}
-\DoxyCodeLine{00319\ \ \ \ \ \ \ \ \ op.\mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_a46d4d1db37b7c1d56080dc9b905abc69}{compute\_diagonal}}();}
-\DoxyCodeLine{00320\ \ \ \ \ \ \ \ \ inverse\_diagonal\ =\ op.get\_matrix\_diagonal\_inverse()-\/>get\_vector();}
-\DoxyCodeLine{00321\ \ \ \ \ \}}
-\DoxyCodeLine{00322\ }
-\DoxyCodeLine{00326\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classHybridADRSolver_1_1JacobiPreconditioner_ad5b1a748a6bf6df9d00878742f8dae67}{vmult}}(\mbox{\hyperlink{classHybridADRSolver_1_1JacobiPreconditioner_a379c15643b52436d227f5c7efed6dc53}{VectorType}}\&\ dst,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{classHybridADRSolver_1_1JacobiPreconditioner_a379c15643b52436d227f5c7efed6dc53}{VectorType}}\&\ src)\textcolor{keyword}{\ const\ }\{}
-\DoxyCodeLine{00327\ \ \ \ \ \ \ \ \ dst\ =\ src;}
-\DoxyCodeLine{00328\ \ \ \ \ \ \ \ \ dst.scale(inverse\_diagonal);}
-\DoxyCodeLine{00329\ \ \ \ \ \}}
-\DoxyCodeLine{00330\ }
-\DoxyCodeLine{00331\ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00332\ \ \ \ \ \mbox{\hyperlink{classHybridADRSolver_1_1JacobiPreconditioner_a379c15643b52436d227f5c7efed6dc53}{VectorType}}\ inverse\_diagonal;}
-\DoxyCodeLine{00333\ \};}
-\DoxyCodeLine{00334\ }
-\DoxyCodeLine{00335\ \}\ \textcolor{comment}{//\ namespace\ HybridADRSolver}}
-\DoxyCodeLine{00336\ }
-\DoxyCodeLine{00337\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ HYBRIDADRSOLVER\_ADR\_OPERATOR\_H}}
+\DoxyCodeLine{00129\ \ \ \ \ std::shared\_ptr<const\ MatrixFree<dim,\ Number>>}
+\DoxyCodeLine{00130\ \ \ \ \ \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_a4e2b160c49593fb905e364da3130d32a}{get\_matrix\_free}}()\textcolor{keyword}{\ const\ override\ }\{}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ this-\/>data;}
+\DoxyCodeLine{00132\ \ \ \ \ \}}
+\DoxyCodeLine{00133\ }
+\DoxyCodeLine{00137\ \ \ \ \ [[nodiscard]]\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_a56284fc258e0da2500ae67def28d125b}{is\_multigrid\_level}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ is\_mg\_level;\ \}}
+\DoxyCodeLine{00138\ }
+\DoxyCodeLine{00142\ \ \ \ \ [[nodiscard]]\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_ae3f9840bd7c247c0f8e18276129e69a1}{get\_mg\_level}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ mg\_level;\ \}}
+\DoxyCodeLine{00143\ }
+\DoxyCodeLine{00144\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00150\ \ \ \ \ \textcolor{keywordtype}{void}\ apply\_add(\mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_aff0ba29974dfe3ea1768c095eb3acb7e}{VectorType}}\&\ dst,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_aff0ba29974dfe3ea1768c095eb3acb7e}{VectorType}}\&\ src)\textcolor{keyword}{\ const\ override\ }\{}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ this-\/>data-\/>cell\_loop(\&ADROperator::local\_apply,\ \textcolor{keyword}{this},\ dst,\ src);}
+\DoxyCodeLine{00152\ \ \ \ \ \}}
+\DoxyCodeLine{00153\ }
+\DoxyCodeLine{00161\ \ \ \ \ \textcolor{keywordtype}{void}\ precompute\_coefficient\_data()\ \{}
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ Assert(problem\_ptr\ !=\ \textcolor{keyword}{nullptr},\ ExcNotInitialized());}
+\DoxyCodeLine{00163\ }
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ n\_cells\ =\ this-\/>data-\/>n\_cell\_batches();}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ n\_q\_points\ =\ Utilities::pow(fe\_degree\ +\ 1,\ dim);}
+\DoxyCodeLine{00166\ }
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ diffusion\_coefficients.resize(n\_cells);}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ advection\_coefficients.resize(n\_cells);}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ reaction\_coefficients.resize(n\_cells);}
+\DoxyCodeLine{00170\ }
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Use\ FEEvaluation\ to\ get\ quadrature\ points}}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ FEEvaluation<dim,\ fe\_degree,\ fe\_degree\ +\ 1,\ 1,\ Number>\ phi(*this-\/>data);}
+\DoxyCodeLine{00173\ }
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ cell\ =\ 0;\ cell\ <\ n\_cells;\ ++cell)\ \{}
+\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \ \ \ \ phi.reinit(cell);}
+\DoxyCodeLine{00176\ }
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \ \ \ \ diffusion\_coefficients[cell].resize(n\_q\_points);}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \ \ \ \ advection\_coefficients[cell].resize(n\_q\_points);}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \ \ \ \ reaction\_coefficients[cell].resize(n\_q\_points);}
+\DoxyCodeLine{00180\ }
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ q\ =\ 0;\ q\ <\ n\_q\_points;\ ++q)\ \{}
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Get\ the\ vectorized\ quadrature\ point}}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Point<dim,\ VectorizedArray<Number>>\ q\_point\ =}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ phi.quadrature\_point(q);}
+\DoxyCodeLine{00185\ }
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Evaluate\ coefficients\ for\ each\ lane\ in\ the\ vector}}
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VectorizedArray<Number>\ mu;}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Tensor<1,\ dim,\ VectorizedArray<Number>>\ beta;}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VectorizedArray<Number>\ gamma;}
+\DoxyCodeLine{00190\ }
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ v\ =\ 0;\ v\ <\ VectorizedArray<Number>::size();}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ++v)\ \{}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Point<dim>\ p;}
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ d\ =\ 0;\ d\ <\ dim;\ ++d)}
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ p[d]\ =\ q\_point[d][v];}
+\DoxyCodeLine{00196\ }
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ mu[v]\ =\ problem\_ptr-\/>diffusion\_coefficient(p);}
+\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ gamma[v]\ =\ problem\_ptr-\/>reaction\_coefficient(p);}
+\DoxyCodeLine{00199\ }
+\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Tensor<1,\ dim>\ beta\_scalar\ =}
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ problem\_ptr-\/>advection\_field(p);}
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ d\ =\ 0;\ d\ <\ dim;\ ++d)}
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ beta[d][v]\ =\ beta\_scalar[d];}
+\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00205\ }
+\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ diffusion\_coefficients[cell][q]\ =\ mu;}
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ advection\_coefficients[cell][q]\ =\ beta;}
+\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ reaction\_coefficients[cell][q]\ =\ gamma;}
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00211\ \ \ \ \ \}}
+\DoxyCodeLine{00212\ }
+\DoxyCodeLine{00219\ \ \ \ \ \textcolor{keywordtype}{void}}
+\DoxyCodeLine{00220\ \ \ \ \ local\_apply(\textcolor{keyword}{const}\ \mbox{\hyperlink{namespaceHybridADRSolver_afe6d3d39f0c710383621e32a46108cb1af2674a258348188d6a3ee81d2669255a}{MatrixFree<dim,\ Number>}}\&\ mf\_data,\ \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_aff0ba29974dfe3ea1768c095eb3acb7e}{VectorType}}\&\ dst,}
+\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_aff0ba29974dfe3ea1768c095eb3acb7e}{VectorType}}\&\ src,}
+\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::pair<unsigned\ int,\ unsigned\ int>\&\ cell\_range)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ FEEvaluation<dim,\ fe\_degree,\ fe\_degree\ +\ 1,\ 1,\ Number>\ phi(mf\_data);}
+\DoxyCodeLine{00224\ }
+\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ cell\ =\ cell\_range.first;\ cell\ <\ cell\_range.second;}
+\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ \ \ \ \ \ ++cell)\ \{}
+\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ \ \ \ \ phi.reinit(cell);}
+\DoxyCodeLine{00228\ \ \ \ \ \ \ \ \ \ \ \ \ phi.gather\_evaluate(src,\ EvaluationFlags::values\ |}
+\DoxyCodeLine{00229\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ EvaluationFlags::gradients);}
+\DoxyCodeLine{00230\ }
+\DoxyCodeLine{00231\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ q\ =\ 0;\ q\ <\ phi.n\_q\_points;\ ++q)\ \{}
+\DoxyCodeLine{00232\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ VectorizedArray<Number>\ u\_val\ =\ phi.get\_value(q);}
+\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ Tensor<1,\ dim,\ VectorizedArray<Number>>\ grad\_u\ =}
+\DoxyCodeLine{00234\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ phi.get\_gradient(q);}
+\DoxyCodeLine{00235\ }
+\DoxyCodeLine{00236\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Diffusion:\ mu\ *\ grad(u)}}
+\DoxyCodeLine{00237\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Tensor<1,\ dim,\ VectorizedArray<Number>>\ flux\ =}
+\DoxyCodeLine{00238\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ diffusion\_coefficients[cell][q]\ *\ grad\_u;}
+\DoxyCodeLine{00239\ }
+\DoxyCodeLine{00240\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Advection\ contribution\ to\ flux:\ (beta\ ·\ grad(u))\ *\ v}}
+\DoxyCodeLine{00241\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ This\ is\ handled\ via\ the\ value\ term\ below}}
+\DoxyCodeLine{00242\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VectorizedArray<Number>\ advection\_val\ =}
+\DoxyCodeLine{00243\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ advection\_coefficients[cell][q]\ *\ grad\_u;}
+\DoxyCodeLine{00244\ }
+\DoxyCodeLine{00245\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Reaction:\ gamma\ *\ u}}
+\DoxyCodeLine{00246\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VectorizedArray<Number>\ val\ =}
+\DoxyCodeLine{00247\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ reaction\_coefficients[cell][q]\ *\ u\_val\ +\ advection\_val;}
+\DoxyCodeLine{00248\ }
+\DoxyCodeLine{00249\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ phi.submit\_gradient(flux,\ q);}
+\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ phi.submit\_value(val,\ q);}
+\DoxyCodeLine{00251\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00252\ }
+\DoxyCodeLine{00253\ \ \ \ \ \ \ \ \ \ \ \ \ phi.integrate\_scatter(}
+\DoxyCodeLine{00254\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ EvaluationFlags::values\ |\ EvaluationFlags::gradients,\ dst);}
+\DoxyCodeLine{00255\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00256\ \ \ \ \ \}}
+\DoxyCodeLine{00257\ }
+\DoxyCodeLine{00264\ \ \ \ \ \textcolor{keywordtype}{void}\ local\_compute\_diagonal(}
+\DoxyCodeLine{00265\ \ \ \ \ \ \ \ \ FEEvaluation<dim,\ fe\_degree,\ fe\_degree\ +\ 1,\ 1,\ Number>\&\ phi)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00266\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ cell\ =\ phi.get\_current\_cell\_index();}
+\DoxyCodeLine{00267\ }
+\DoxyCodeLine{00268\ \ \ \ \ \ \ \ \ phi.evaluate(EvaluationFlags::values\ |\ EvaluationFlags::gradients);}
+\DoxyCodeLine{00269\ }
+\DoxyCodeLine{00270\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ q\ =\ 0;\ q\ <\ phi.n\_q\_points;\ ++q)\ \{}
+\DoxyCodeLine{00271\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ VectorizedArray<Number>\ u\_val\ =\ phi.get\_value(q);}
+\DoxyCodeLine{00272\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ Tensor<1,\ dim,\ VectorizedArray<Number>>\ grad\_u\ =}
+\DoxyCodeLine{00273\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ phi.get\_gradient(q);}
+\DoxyCodeLine{00274\ }
+\DoxyCodeLine{00275\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Diffusion}}
+\DoxyCodeLine{00276\ \ \ \ \ \ \ \ \ \ \ \ \ Tensor<1,\ dim,\ VectorizedArray<Number>>\ flux\ =}
+\DoxyCodeLine{00277\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ diffusion\_coefficients[cell][q]\ *\ grad\_u;}
+\DoxyCodeLine{00278\ }
+\DoxyCodeLine{00279\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Advection}}
+\DoxyCodeLine{00280\ \ \ \ \ \ \ \ \ \ \ \ \ VectorizedArray<Number>\ advection\_val\ =}
+\DoxyCodeLine{00281\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ advection\_coefficients[cell][q]\ *\ grad\_u;}
+\DoxyCodeLine{00282\ }
+\DoxyCodeLine{00283\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Reaction}}
+\DoxyCodeLine{00284\ \ \ \ \ \ \ \ \ \ \ \ \ VectorizedArray<Number>\ val\ =}
+\DoxyCodeLine{00285\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ reaction\_coefficients[cell][q]\ *\ u\_val\ +\ advection\_val;}
+\DoxyCodeLine{00286\ }
+\DoxyCodeLine{00287\ \ \ \ \ \ \ \ \ \ \ \ \ phi.submit\_gradient(flux,\ q);}
+\DoxyCodeLine{00288\ \ \ \ \ \ \ \ \ \ \ \ \ phi.submit\_value(val,\ q);}
+\DoxyCodeLine{00289\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00290\ }
+\DoxyCodeLine{00291\ \ \ \ \ \ \ \ \ phi.integrate(EvaluationFlags::values\ |\ EvaluationFlags::gradients);}
+\DoxyCodeLine{00292\ \ \ \ \ \}}
+\DoxyCodeLine{00293\ }
+\DoxyCodeLine{00294\ \ \ \ \ \textcolor{comment}{//\ Data\ members}}
+\DoxyCodeLine{00295\ \ \ \ \ \textcolor{keyword}{const}\ ProblemInterface<dim>*\ problem\_ptr;}
+\DoxyCodeLine{00296\ \ \ \ \ \textcolor{keywordtype}{bool}\ is\_mg\_level;}
+\DoxyCodeLine{00297\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ mg\_level;}
+\DoxyCodeLine{00298\ }
+\DoxyCodeLine{00299\ \ \ \ \ \textcolor{comment}{//\ Precomputed\ coefficients\ at\ quadrature\ points}}
+\DoxyCodeLine{00300\ \ \ \ \ std::vector<std::vector<VectorizedArray<Number>>>\ diffusion\_coefficients;}
+\DoxyCodeLine{00301\ \ \ \ \ std::vector<std::vector<Tensor<1,\ dim,\ VectorizedArray<Number>>>>}
+\DoxyCodeLine{00302\ \ \ \ \ \ \ \ \ advection\_coefficients;}
+\DoxyCodeLine{00303\ \ \ \ \ std::vector<std::vector<VectorizedArray<Number>>>\ reaction\_coefficients;}
+\DoxyCodeLine{00304\ \};}
+\DoxyCodeLine{00305\ }
+\DoxyCodeLine{00311\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{int}\ dim,\ \textcolor{keywordtype}{int}\ fe\_degree,\ \textcolor{keyword}{typename}\ Number\ =\ \textcolor{keywordtype}{double}>}
+\DoxyCodeLine{00312\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classHybridADRSolver_1_1JacobiPreconditioner}{JacobiPreconditioner}}\ \{}
+\DoxyCodeLine{00313\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00314\ \ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{classHybridADRSolver_1_1JacobiPreconditioner_a379c15643b52436d227f5c7efed6dc53}{VectorType}}\ =\ LinearAlgebra::distributed::Vector<Number>;}
+\DoxyCodeLine{00315\ }
+\DoxyCodeLine{00319\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classHybridADRSolver_1_1JacobiPreconditioner_aca6fead7d20eb49cae04755ff052af55}{initialize}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator}{ADROperator<dim,\ fe\_degree,\ Number>}}\&\ op)\ \{}
+\DoxyCodeLine{00320\ \ \ \ \ \ \ \ \ op.\mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_a46d4d1db37b7c1d56080dc9b905abc69}{compute\_diagonal}}();}
+\DoxyCodeLine{00321\ \ \ \ \ \ \ \ \ inverse\_diagonal\ =\ op.get\_matrix\_diagonal\_inverse()-\/>get\_vector();}
+\DoxyCodeLine{00322\ \ \ \ \ \}}
+\DoxyCodeLine{00323\ }
+\DoxyCodeLine{00327\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classHybridADRSolver_1_1JacobiPreconditioner_ad5b1a748a6bf6df9d00878742f8dae67}{vmult}}(\mbox{\hyperlink{classHybridADRSolver_1_1JacobiPreconditioner_a379c15643b52436d227f5c7efed6dc53}{VectorType}}\&\ dst,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{classHybridADRSolver_1_1JacobiPreconditioner_a379c15643b52436d227f5c7efed6dc53}{VectorType}}\&\ src)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00328\ \ \ \ \ \ \ \ \ dst\ =\ src;}
+\DoxyCodeLine{00329\ \ \ \ \ \ \ \ \ dst.scale(inverse\_diagonal);}
+\DoxyCodeLine{00330\ \ \ \ \ \}}
+\DoxyCodeLine{00331\ }
+\DoxyCodeLine{00332\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00333\ \ \ \ \ \mbox{\hyperlink{classHybridADRSolver_1_1JacobiPreconditioner_a379c15643b52436d227f5c7efed6dc53}{VectorType}}\ inverse\_diagonal;}
+\DoxyCodeLine{00334\ \};}
+\DoxyCodeLine{00335\ }
+\DoxyCodeLine{00336\ \}\ \textcolor{comment}{//\ namespace\ HybridADRSolver}}
+\DoxyCodeLine{00337\ }
+\DoxyCodeLine{00338\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ HYBRIDADRSOLVER\_ADR\_OPERATOR\_H}}
 
 \end{DoxyCode}

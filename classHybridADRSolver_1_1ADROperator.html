@@ -145,8 +145,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:abdbad86caba16953246c5866a099cc6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear all data.  <br /></td></tr>
 <tr class="memitem:a46d4d1db37b7c1d56080dc9b905abc69" id="r_a46d4d1db37b7c1d56080dc9b905abc69"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a46d4d1db37b7c1d56080dc9b905abc69">compute_diagonal</a> () override</td></tr>
 <tr class="memdesc:a46d4d1db37b7c1d56080dc9b905abc69"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the diagonal of the operator (for preconditioning).  <br /></td></tr>
-<tr class="memitem:a76974e20b4f4bab4d450871c650dfbc4" id="r_a76974e20b4f4bab4d450871c650dfbc4"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; const <a class="el" href="namespaceHybridADRSolver.html#afe6d3d39f0c710383621e32a46108cb1af2674a258348188d6a3ee81d2669255a">MatrixFree</a>&lt; dim, Number &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a76974e20b4f4bab4d450871c650dfbc4">get_matrix_free</a> () const</td></tr>
-<tr class="memdesc:a76974e20b4f4bab4d450871c650dfbc4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Access to the underlying MatrixFree object.  <br /></td></tr>
+<tr class="memitem:a4e2b160c49593fb905e364da3130d32a" id="r_a4e2b160c49593fb905e364da3130d32a"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; const <a class="el" href="namespaceHybridADRSolver.html#afe6d3d39f0c710383621e32a46108cb1af2674a258348188d6a3ee81d2669255a">MatrixFree</a>&lt; dim, Number &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4e2b160c49593fb905e364da3130d32a">get_matrix_free</a> () const override</td></tr>
+<tr class="memdesc:a4e2b160c49593fb905e364da3130d32a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Access to the underlying MatrixFree object.  <br /></td></tr>
 <tr class="memitem:a56284fc258e0da2500ae67def28d125b" id="r_a56284fc258e0da2500ae67def28d125b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a56284fc258e0da2500ae67def28d125b">is_multigrid_level</a> () const</td></tr>
 <tr class="memdesc:a56284fc258e0da2500ae67def28d125b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if this is a multigrid level operator.  <br /></td></tr>
 <tr class="memitem:ae3f9840bd7c247c0f8e18276129e69a1" id="r_ae3f9840bd7c247c0f8e18276129e69a1"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae3f9840bd7c247c0f8e18276129e69a1">get_mg_level</a> () const</td></tr>
@@ -329,8 +329,8 @@ template&lt;int dim, int fe_degree, typename Number = double&gt; </div>
 
 </div>
 </div>
-<a id="a76974e20b4f4bab4d450871c650dfbc4" name="a76974e20b4f4bab4d450871c650dfbc4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a76974e20b4f4bab4d450871c650dfbc4">&#9670;&#160;</a></span>get_matrix_free()</h2>
+<a id="a4e2b160c49593fb905e364da3130d32a" name="a4e2b160c49593fb905e364da3130d32a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4e2b160c49593fb905e364da3130d32a">&#9670;&#160;</a></span>get_matrix_free()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -349,7 +349,7 @@ template&lt;int dim, int fe_degree, typename Number = double&gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel override">override</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -378,7 +378,7 @@ template&lt;int dim, int fe_degree, typename Number = double&gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -499,7 +499,7 @@ template&lt;int dim, int fe_degree, typename Number = double&gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
