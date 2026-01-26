@@ -126,19 +126,20 @@ public:
     /**
      * @brief Access to the underlying MatrixFree object.
      */
-    std::shared_ptr<const MatrixFree<dim, Number>> get_matrix_free() const {
+    std::shared_ptr<const MatrixFree<dim, Number>>
+    get_matrix_free() const override {
         return this->data;
     }
 
     /**
      * @brief Check if this is a multigrid level operator.
      */
-    bool is_multigrid_level() const { return is_mg_level; }
+    [[nodiscard]] bool is_multigrid_level() const { return is_mg_level; }
 
     /**
      * @brief Get the multigrid level (-1 if not a level operator).
      */
-    int get_mg_level() const { return mg_level; }
+    [[nodiscard]] int get_mg_level() const { return mg_level; }
 
 private:
     /**
@@ -293,7 +294,7 @@ private:
     // Data members
     const ProblemInterface<dim>* problem_ptr;
     bool is_mg_level;
-    int mg_level;
+    unsigned int mg_level;
 
     // Precomputed coefficients at quadrature points
     std::vector<std::vector<VectorizedArray<Number>>> diffusion_coefficients;
