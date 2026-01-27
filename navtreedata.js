@@ -51,6 +51,7 @@ var NAVTREE =
       [ "File Members", "globals.html", [
         [ "All", "globals.html", null ],
         [ "Functions", "globals_func.html", null ],
+        [ "Variables", "globals_vars.html", null ],
         [ "Macros", "globals_defs.html", null ]
       ] ]
     ] ]
@@ -61,7 +62,7 @@ var NAVTREEINDEX =
 [
 "adr__operator_8h.html",
 "classHybridADRSolver_1_1Problems_1_1ADRProblem.html#add125e85d1ffecaa56cb8895c5ebb284",
-"structScalingResult.html#a06544dcd9b0f5585e02735f9889996f1"
+"structHybridADRSolver_1_1TimingResults.html#aa1cc78b0a55a8e261222be1ab7f7dc28"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

@@ -101,7 +101,7 @@ $(function(){initNavTree('scaling__study_8cpp.html','',''); });
 </div><!--header-->
 <div class="contents">
 
-<p>Comprehensive strong and weak scaling benchmark for the Hybrid ADR Solver.  
+<p>Fixed scaling benchmark with proper problem sizing.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="problem__definition_8h_source.html">core/problem_definition.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="types_8h_source.html">core/types.h</a>&quot;</code><br />
@@ -123,7 +123,7 @@ Include dependency graph for scaling_study.cpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="scaling__study_8cpp__incl.png" border="0" usemap="#asrc_2applications_2benchmark_2scaling__study_8cpp" loading="lazy" alt=""/></div>
 <map name="asrc_2applications_2benchmark_2scaling__study_8cpp" id="asrc_2applications_2benchmark_2scaling__study_8cpp">
-<area shape="rect" title="Comprehensive strong and weak scaling benchmark for the Hybrid ADR Solver." alt="" coords="902,5,1083,44"/>
+<area shape="rect" title="Fixed scaling benchmark with proper problem sizing." alt="" coords="902,5,1083,44"/>
 <area shape="rect" href="problem__definition_8h.html" title="Defines the problem interface and a concrete Advection&#45;Diffusion&#45;Reaction (ADR) problem." alt="" coords="1748,272,1914,297"/>
 <area shape="poly" title=" " alt="" coords="997,44,1004,85,1020,130,1038,160,1055,181,1075,199,1106,215,1163,233,1238,244,1324,251,1416,254,1596,256,1674,258,1736,263,1761,266,1760,272,1735,268,1673,263,1596,261,1416,259,1323,256,1237,250,1162,238,1104,220,1073,203,1051,185,1034,163,1016,132,999,86,991,45"/>
 <area shape="rect" title=" " alt="" coords="5,359,63,384"/>
@@ -252,6 +252,12 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a782cfdccea0f08da738c98145832668d" id="r_a782cfdccea0f08da738c98145832668d"><td class="memTemplParams" colspan="2">template&lt;int dim&gt; </td></tr>
+<tr class="memitem:a782cfdccea0f08da738c98145832668d template"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a782cfdccea0f08da738c98145832668d">estimate_dofs</a> (int n_refinements, int degree)</td></tr>
+<tr class="memdesc:a782cfdccea0f08da738c98145832668d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate expected DoFs for given refinement level.  <br /></td></tr>
+<tr class="memitem:a9b3fd4bfb50fe4983f3af51b77be93b1" id="r_a9b3fd4bfb50fe4983f3af51b77be93b1"><td class="memTemplParams" colspan="2">template&lt;int dim&gt; </td></tr>
+<tr class="memitem:a9b3fd4bfb50fe4983f3af51b77be93b1 template"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9b3fd4bfb50fe4983f3af51b77be93b1">calculate_min_refinements</a> (int n_processes, int degree, unsigned int min_dofs_per_proc=<a class="el" href="#a3c3e0358b4d5aa356e6e2c44b20aff5d">MIN_DOFS_PER_PROCESS</a>)</td></tr>
+<tr class="memdesc:a9b3fd4bfb50fe4983f3af51b77be93b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate minimum refinement level for given process count.  <br /></td></tr>
 <tr class="memitem:af1ce327a322a1429b8f7d324253fbe77" id="r_af1ce327a322a1429b8f7d324253fbe77"><td class="memTemplParams" colspan="2">template&lt;int dim&gt; </td></tr>
 <tr class="memitem:af1ce327a322a1429b8f7d324253fbe77 template"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structHybridADRSolver_1_1TimingResults.html">TimingResults</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af1ce327a322a1429b8f7d324253fbe77">run_matrix_based_single</a> (const <a class="el" href="classHybridADRSolver_1_1ProblemInterface.html">ProblemInterface</a>&lt; dim &gt; &amp;problem, int n_refinements, int degree, MPI_Comm comm)</td></tr>
 <tr class="memdesc:af1ce327a322a1429b8f7d324253fbe77"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run matrix-based solver and collect timing.  <br /></td></tr>
@@ -261,36 +267,83 @@ Functions</h2></td></tr>
 <tr class="memitem:a74367a10b0717daf6f1b500b11bdf271" id="r_a74367a10b0717daf6f1b500b11bdf271"><td class="memTemplParams" colspan="2">template&lt;int dim&gt; </td></tr>
 <tr class="memitem:a74367a10b0717daf6f1b500b11bdf271 template"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structScalingResult.html">ScalingResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a74367a10b0717daf6f1b500b11bdf271">run_benchmark_with_trials</a> (const <a class="el" href="classHybridADRSolver_1_1ProblemInterface.html">ProblemInterface</a>&lt; dim &gt; &amp;problem, const std::string &amp;solver_type, const std::string &amp;test_type, int n_refinements, int degree, int n_warmup, int n_trials, MPI_Comm comm)</td></tr>
 <tr class="memdesc:a74367a10b0717daf6f1b500b11bdf271"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run multiple trials and compute statistics.  <br /></td></tr>
-<tr class="memitem:adeca4ffe910adbe768c8bf6fe53f7fe7" id="r_adeca4ffe910adbe768c8bf6fe53f7fe7"><td class="memTemplParams" colspan="2">template&lt;int dim&gt; </td></tr>
-<tr class="memitem:adeca4ffe910adbe768c8bf6fe53f7fe7 template"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adeca4ffe910adbe768c8bf6fe53f7fe7">run_strong_scaling_test</a> (std::vector&lt; <a class="el" href="structScalingResult.html">ScalingResult</a> &gt; &amp;results, int n_refinements, int degree, int n_warmup, int n_trials, double baseline_time_mb, double baseline_time_mf, MPI_Comm comm)</td></tr>
-<tr class="memdesc:adeca4ffe910adbe768c8bf6fe53f7fe7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Strong scaling test for a fixed problem size.  <br /></td></tr>
-<tr class="memitem:adfab5fb4a37da388ec4f32d09d9d0785" id="r_adfab5fb4a37da388ec4f32d09d9d0785"><td class="memTemplParams" colspan="2">template&lt;int dim&gt; </td></tr>
-<tr class="memitem:adfab5fb4a37da388ec4f32d09d9d0785 template"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adfab5fb4a37da388ec4f32d09d9d0785">run_weak_scaling_test</a> (std::vector&lt; <a class="el" href="structScalingResult.html">ScalingResult</a> &gt; &amp;results, int base_refinements, int degree, int n_warmup, int n_trials, double baseline_time_mb, double baseline_time_mf, MPI_Comm comm)</td></tr>
-<tr class="memdesc:adfab5fb4a37da388ec4f32d09d9d0785"><td class="mdescLeft">&#160;</td><td class="mdescRight">Weak scaling test - problem size grows with processor count.  <br /></td></tr>
+<tr class="memitem:a1921b8ea4f6c9e1a310f90e9c259d4cf" id="r_a1921b8ea4f6c9e1a310f90e9c259d4cf"><td class="memTemplParams" colspan="2">template&lt;int dim&gt; </td></tr>
+<tr class="memitem:a1921b8ea4f6c9e1a310f90e9c259d4cf template"><td class="memItemLeft" align="right" valign="top">std::pair&lt; double, double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1921b8ea4f6c9e1a310f90e9c259d4cf">run_strong_scaling_test</a> (std::vector&lt; <a class="el" href="structScalingResult.html">ScalingResult</a> &gt; &amp;results, int n_refinements, int degree, int n_warmup, int n_trials, double baseline_solve_mb, double baseline_solve_mf, double baseline_total_mb, double baseline_total_mf, MPI_Comm comm)</td></tr>
+<tr class="memdesc:a1921b8ea4f6c9e1a310f90e9c259d4cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Strong scaling test with proper problem sizing.  <br /></td></tr>
+<tr class="memitem:aae4e4bbaab77dc8340b2da9cd9a03c31" id="r_aae4e4bbaab77dc8340b2da9cd9a03c31"><td class="memTemplParams" colspan="2">template&lt;int dim&gt; </td></tr>
+<tr class="memitem:aae4e4bbaab77dc8340b2da9cd9a03c31 template"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aae4e4bbaab77dc8340b2da9cd9a03c31">run_weak_scaling_test</a> (std::vector&lt; <a class="el" href="structScalingResult.html">ScalingResult</a> &gt; &amp;results, int base_refinements, int degree, int n_warmup, int n_trials, double baseline_solve_mb, double baseline_solve_mf, MPI_Comm comm)</td></tr>
+<tr class="memdesc:aae4e4bbaab77dc8340b2da9cd9a03c31"><td class="mdescLeft">&#160;</td><td class="mdescRight">Weak scaling test with proper problem scaling.  <br /></td></tr>
 <tr class="memitem:a3e2227eee3044b9a7e14922628c1c1ec" id="r_a3e2227eee3044b9a7e14922628c1c1ec"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3e2227eee3044b9a7e14922628c1c1ec">write_results_csv</a> (const std::vector&lt; <a class="el" href="structScalingResult.html">ScalingResult</a> &gt; &amp;results, const std::string &amp;filename, MPI_Comm comm)</td></tr>
 <tr class="memdesc:a3e2227eee3044b9a7e14922628c1c1ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write results to CSV file.  <br /></td></tr>
 <tr class="memitem:aef3bf947020daa339ce9c61672b391c4" id="r_aef3bf947020daa339ce9c61672b391c4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aef3bf947020daa339ce9c61672b391c4">print_summary</a> (const std::vector&lt; <a class="el" href="structScalingResult.html">ScalingResult</a> &gt; &amp;results, MPI_Comm comm)</td></tr>
 <tr class="memdesc:aef3bf947020daa339ce9c61672b391c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print summary table.  <br /></td></tr>
 <tr class="memitem:ac7608332d002ef2745359f4cada4afc8" id="r_ac7608332d002ef2745359f4cada4afc8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac7608332d002ef2745359f4cada4afc8">print_usage</a> (const char *program_name)</td></tr>
-<tr class="memdesc:ac7608332d002ef2745359f4cada4afc8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print usage information.  <br /></td></tr>
 <tr class="memitem:a0ddf1224851353fc92bfbff6f499fa97" id="r_a0ddf1224851353fc92bfbff6f499fa97"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0ddf1224851353fc92bfbff6f499fa97">main</a> (int argc, char *argv[])</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a3c3e0358b4d5aa356e6e2c44b20aff5d" id="r_a3c3e0358b4d5aa356e6e2c44b20aff5d"><td class="memItemLeft" align="right" valign="top">constexpr unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3c3e0358b4d5aa356e6e2c44b20aff5d">MIN_DOFS_PER_PROCESS</a> = 50000</td></tr>
+<tr class="memitem:a4fad113823b0ee4c91e4fc8ee9711e59" id="r_a4fad113823b0ee4c91e4fc8ee9711e59"><td class="memItemLeft" align="right" valign="top">constexpr unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4fad113823b0ee4c91e4fc8ee9711e59">TARGET_DOFS_PER_PROCESS</a> = 100000</td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Comprehensive strong and weak scaling benchmark for the Hybrid ADR Solver. </p>
-<p>This benchmark measures:</p><ol type="1">
-<li>Strong Scaling: Fixed problem size, varying core count<ul>
-<li>Speedup: S(p) = T(1) / T(p)</li>
-<li>Efficiency: E(p) = S(p) / p = T(1) / (p * T(p))</li>
-</ul>
-</li>
-<li>Weak Scaling: Problem size scales with core count (constant work per core)<ul>
-<li>Efficiency: E(p) = T(1) / T(p) (ideal = 1.0)</li>
-</ul>
-</li>
-</ol>
-<p>Usage: mpirun -np &lt;N&gt; ./scaling_benchmark [options]</p>
-<p>Options: &ndash;strong Run strong scaling test only &ndash;weak Run weak scaling test only &ndash;min-ref &lt;n&gt; Minimum refinements (default: 3) &ndash;max-ref &lt;n&gt; Maximum refinements (default: 7) &ndash;degree &lt;n&gt; Polynomial degree (default: 2) &ndash;output &lt;file&gt; Output CSV file prefix (default: scaling_results) &ndash;threads &lt;n&gt; Threads per MPI process (default: auto) &ndash;trials &lt;n&gt; Number of trials for averaging (default: 3) &ndash;warmup &lt;n&gt; Number of warmup runs (default: 1) &ndash;dim &lt;n&gt; Dimension 2 or 3 (default: 2) </p>
+<div class="textblock"><p>Fixed scaling benchmark with proper problem sizing. </p>
+<p>Usage: mpirun -np &lt;N&gt; ./scaling_benchmark [options] </p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
+<a id="a9b3fd4bfb50fe4983f3af51b77be93b1" name="a9b3fd4bfb50fe4983f3af51b77be93b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9b3fd4bfb50fe4983f3af51b77be93b1">&#9670;&#160;</a></span>calculate_min_refinements()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;int dim&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">int calculate_min_refinements </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>n_processes</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>degree</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>min_dofs_per_proc</em></span><span class="paramdefsep"> = </span><span class="paramdefval"><a class="el" href="#a3c3e0358b4d5aa356e6e2c44b20aff5d">MIN_DOFS_PER_PROCESS</a></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Calculate minimum refinement level for given process count. </p>
+
+</div>
+</div>
+<a id="a782cfdccea0f08da738c98145832668d" name="a782cfdccea0f08da738c98145832668d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a782cfdccea0f08da738c98145832668d">&#9670;&#160;</a></span>estimate_dofs()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;int dim&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned int estimate_dofs </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>n_refinements</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>degree</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Calculate expected DoFs for given refinement level. </p>
+
+</div>
+</div>
 <a id="a0ddf1224851353fc92bfbff6f499fa97" name="a0ddf1224851353fc92bfbff6f499fa97"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0ddf1224851353fc92bfbff6f499fa97">&#9670;&#160;</a></span>main()</h2>
 
@@ -349,8 +402,6 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Print usage information. </p>
 
 </div>
 </div>
@@ -474,8 +525,8 @@ template&lt;int dim, int fe_degree&gt; </div>
 
 </div>
 </div>
-<a id="adeca4ffe910adbe768c8bf6fe53f7fe7" name="adeca4ffe910adbe768c8bf6fe53f7fe7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adeca4ffe910adbe768c8bf6fe53f7fe7">&#9670;&#160;</a></span>run_strong_scaling_test()</h2>
+<a id="a1921b8ea4f6c9e1a310f90e9c259d4cf" name="a1921b8ea4f6c9e1a310f90e9c259d4cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1921b8ea4f6c9e1a310f90e9c259d4cf">&#9670;&#160;</a></span>run_strong_scaling_test()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -483,7 +534,7 @@ template&lt;int dim, int fe_degree&gt; </div>
 template&lt;int dim&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">void run_strong_scaling_test </td>
+          <td class="memname">std::pair&lt; double, double &gt; run_strong_scaling_test </td>
           <td>(</td>
           <td class="paramtype">std::vector&lt; <a class="el" href="structScalingResult.html">ScalingResult</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>results</em></span>, </td>
         </tr>
@@ -510,12 +561,22 @@ template&lt;int dim&gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">double</td>          <td class="paramname"><span class="paramname"><em>baseline_time_mb</em></span>, </td>
+          <td class="paramtype">double</td>          <td class="paramname"><span class="paramname"><em>baseline_solve_mb</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">double</td>          <td class="paramname"><span class="paramname"><em>baseline_time_mf</em></span>, </td>
+          <td class="paramtype">double</td>          <td class="paramname"><span class="paramname"><em>baseline_solve_mf</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double</td>          <td class="paramname"><span class="paramname"><em>baseline_total_mb</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double</td>          <td class="paramname"><span class="paramname"><em>baseline_total_mf</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -525,12 +586,12 @@ template&lt;int dim&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>Strong scaling test for a fixed problem size. </p>
+<p>Strong scaling test with proper problem sizing. </p>
 
 </div>
 </div>
-<a id="adfab5fb4a37da388ec4f32d09d9d0785" name="adfab5fb4a37da388ec4f32d09d9d0785"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adfab5fb4a37da388ec4f32d09d9d0785">&#9670;&#160;</a></span>run_weak_scaling_test()</h2>
+<a id="aae4e4bbaab77dc8340b2da9cd9a03c31" name="aae4e4bbaab77dc8340b2da9cd9a03c31"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae4e4bbaab77dc8340b2da9cd9a03c31">&#9670;&#160;</a></span>run_weak_scaling_test()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -565,12 +626,12 @@ template&lt;int dim&gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">double</td>          <td class="paramname"><span class="paramname"><em>baseline_time_mb</em></span>, </td>
+          <td class="paramtype">double</td>          <td class="paramname"><span class="paramname"><em>baseline_solve_mb</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">double</td>          <td class="paramname"><span class="paramname"><em>baseline_time_mf</em></span>, </td>
+          <td class="paramtype">double</td>          <td class="paramname"><span class="paramname"><em>baseline_solve_mf</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -580,7 +641,7 @@ template&lt;int dim&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>Weak scaling test - problem size grows with processor count. </p>
+<p>Weak scaling test with proper problem scaling. </p>
 
 </div>
 </div>
@@ -609,6 +670,51 @@ template&lt;int dim&gt; </div>
 </div><div class="memdoc">
 
 <p>Write results to CSV file. </p>
+
+</div>
+</div>
+<a name="doc-var-members" id="doc-var-members"></a><h2 id="header-doc-var-members" class="groupheader">Variable Documentation</h2>
+<a id="a3c3e0358b4d5aa356e6e2c44b20aff5d" name="a3c3e0358b4d5aa356e6e2c44b20aff5d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3c3e0358b4d5aa356e6e2c44b20aff5d">&#9670;&#160;</a></span>MIN_DOFS_PER_PROCESS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned int MIN_DOFS_PER_PROCESS = 50000</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4fad113823b0ee4c91e4fc8ee9711e59" name="a4fad113823b0ee4c91e4fc8ee9711e59"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4fad113823b0ee4c91e4fc8ee9711e59">&#9670;&#160;</a></span>TARGET_DOFS_PER_PROCESS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned int TARGET_DOFS_PER_PROCESS = 100000</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>

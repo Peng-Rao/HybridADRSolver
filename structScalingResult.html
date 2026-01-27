@@ -107,12 +107,10 @@ $(function(){initNavTree('structScalingResult.html','','structScalingResult-memb
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ac8d1418d043a73cd1f3a9dace5bca525" id="r_ac8d1418d043a73cd1f3a9dace5bca525"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac8d1418d043a73cd1f3a9dace5bca525">to_csv</a> () const</td></tr>
-<tr class="memdesc:ac8d1418d043a73cd1f3a9dace5bca525"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert to CSV line.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-static-methods" class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a58aad0b0d265f9e7a022b9ff08d4b138" id="r_a58aad0b0d265f9e7a022b9ff08d4b138"><td class="memItemLeft" align="right" valign="top">static std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a58aad0b0d265f9e7a022b9ff08d4b138">csv_header</a> ()</td></tr>
-<tr class="memdesc:a58aad0b0d265f9e7a022b9ff08d4b138"><td class="mdescLeft">&#160;</td><td class="mdescRight">CSV header.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-attribs" class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -126,6 +124,7 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:ae7346b36465f3814402395e667c3c6c7" id="r_ae7346b36465f3814402395e667c3c6c7"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae7346b36465f3814402395e667c3c6c7">polynomial_degree</a></td></tr>
 <tr class="memitem:a7dbab6e1dcf8e89e94ff29ac5cc99a2b" id="r_a7dbab6e1dcf8e89e94ff29ac5cc99a2b"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7dbab6e1dcf8e89e94ff29ac5cc99a2b">n_dofs</a></td></tr>
 <tr class="memitem:a06544dcd9b0f5585e02735f9889996f1" id="r_a06544dcd9b0f5585e02735f9889996f1"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a06544dcd9b0f5585e02735f9889996f1">n_cells</a></td></tr>
+<tr class="memitem:a78edcafed87b0feb0d9a4622567aabfa" id="r_a78edcafed87b0feb0d9a4622567aabfa"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a78edcafed87b0feb0d9a4622567aabfa">dofs_per_process</a></td></tr>
 <tr class="memitem:a99a965e5cd4239c77fd5386a3a7fd5cc" id="r_a99a965e5cd4239c77fd5386a3a7fd5cc"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a99a965e5cd4239c77fd5386a3a7fd5cc">setup_time_avg</a></td></tr>
 <tr class="memitem:a8cf128e5ca1de18d277ac9e137ae8df3" id="r_a8cf128e5ca1de18d277ac9e137ae8df3"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8cf128e5ca1de18d277ac9e137ae8df3">setup_time_std</a></td></tr>
 <tr class="memitem:a98a2f2de8367aa2401ce8c3b1394c26d" id="r_a98a2f2de8367aa2401ce8c3b1394c26d"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a98a2f2de8367aa2401ce8c3b1394c26d">assembly_time_avg</a></td></tr>
@@ -140,6 +139,8 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a8d278c19cb98debb661ecdbff7642198" id="r_a8d278c19cb98debb661ecdbff7642198"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8d278c19cb98debb661ecdbff7642198">speedup</a></td></tr>
 <tr class="memitem:ac58ca668994123ea1ed0f0a36d0da6d4" id="r_ac58ca668994123ea1ed0f0a36d0da6d4"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac58ca668994123ea1ed0f0a36d0da6d4">parallel_efficiency</a></td></tr>
 <tr class="memitem:aaec1a80ef0af330baef7d54406ff7ba2" id="r_aaec1a80ef0af330baef7d54406ff7ba2"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaec1a80ef0af330baef7d54406ff7ba2">dofs_per_second</a></td></tr>
+<tr class="memitem:a0844b30b216a78067f7f22e1ee87ae37" id="r_a0844b30b216a78067f7f22e1ee87ae37"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0844b30b216a78067f7f22e1ee87ae37">speedup_total</a></td></tr>
+<tr class="memitem:abe0c566110712ff57c8ffad562648cbe" id="r_abe0c566110712ff57c8ffad562648cbe"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abe0c566110712ff57c8ffad562648cbe">efficiency_total</a></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Extended benchmark result with scaling metrics. </p>
@@ -167,8 +168,6 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>CSV header. </p>
-
 </div>
 </div>
 <a id="ac8d1418d043a73cd1f3a9dace5bca525" name="ac8d1418d043a73cd1f3a9dace5bca525"></a>
@@ -193,8 +192,6 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Convert to CSV line. </p>
 
 </div>
 </div>
@@ -241,6 +238,20 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a78edcafed87b0feb0d9a4622567aabfa" name="a78edcafed87b0feb0d9a4622567aabfa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78edcafed87b0feb0d9a4622567aabfa">&#9670;&#160;</a></span>dofs_per_process</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned int ScalingResult::dofs_per_process</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="aaec1a80ef0af330baef7d54406ff7ba2" name="aaec1a80ef0af330baef7d54406ff7ba2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aaec1a80ef0af330baef7d54406ff7ba2">&#9670;&#160;</a></span>dofs_per_second</h2>
 
@@ -249,6 +260,20 @@ Public Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">double ScalingResult::dofs_per_second</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abe0c566110712ff57c8ffad562648cbe" name="abe0c566110712ff57c8ffad562648cbe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abe0c566110712ff57c8ffad562648cbe">&#9670;&#160;</a></span>efficiency_total</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double ScalingResult::efficiency_total</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -473,6 +498,20 @@ Public Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">double ScalingResult::speedup</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0844b30b216a78067f7f22e1ee87ae37" name="a0844b30b216a78067f7f22e1ee87ae37"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0844b30b216a78067f7f22e1ee87ae37">&#9670;&#160;</a></span>speedup_total</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double ScalingResult::speedup_total</td>
         </tr>
       </table>
 </div><div class="memdoc">

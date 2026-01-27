@@ -8,5 +8,6 @@ var searchData=
   ['solve_5ftime_5fstd_5',['solve_time_std',['../structScalingResult.html#a83bdd3567d77e4951438365cfc473de2',1,'ScalingResult']]],
   ['solver_5ftype_6',['solver_type',['../structScalingResult.html#ad3782fd037cc0e4204e4605723a1b8e9',1,'ScalingResult::solver_type'],['../structBenchmarkUtils_1_1BenchmarkResult.html#a516f065e080195f9fb90fe562cec8f67',1,'BenchmarkUtils::BenchmarkResult::solver_type'],['../structWeakScalingResult.html#a7931ffd2943f5d85ca6c3b3c4f34280c',1,'WeakScalingResult::solver_type'],['../structHybridADRSolver_1_1SolverParameters.html#a5207ef56005b1952eea4eb4b03c205f0',1,'HybridADRSolver::SolverParameters::solver_type']]],
   ['speedup_7',['speedup',['../structScalingResult.html#a8d278c19cb98debb661ecdbff7642198',1,'ScalingResult']]],
-  ['stddev_8',['stddev',['../structTimingStats.html#a95147db892704ca749457dd7ad1815c0',1,'TimingStats']]]
+  ['speedup_5ftotal_8',['speedup_total',['../structScalingResult.html#a0844b30b216a78067f7f22e1ee87ae37',1,'ScalingResult']]],
+  ['stddev_9',['stddev',['../structTimingStats.html#a95147db892704ca749457dd7ad1815c0',1,'TimingStats']]]
 ];

@@ -1,5 +1,5 @@
 <map id="src/applications/benchmark/scaling_study.cpp" name="src/applications/benchmark/scaling_study.cpp">
-<area shape="rect" id="Node000001" title="Comprehensive strong and weak scaling benchmark for the Hybrid ADR Solver." alt="" coords="902,5,1083,44"/>
+<area shape="rect" id="Node000001" title="Fixed scaling benchmark with proper problem sizing." alt="" coords="902,5,1083,44"/>
 <area shape="rect" id="Node000002" href="$problem__definition_8h.html" title="Defines the problem interface and a concrete Advection&#45;Diffusion&#45;Reaction (ADR) problem." alt="" coords="1748,272,1914,297"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="997,44,1004,85,1020,130,1038,160,1055,181,1075,199,1106,215,1163,233,1238,244,1324,251,1416,254,1596,256,1674,258,1736,263,1761,266,1760,272,1735,268,1673,263,1596,261,1416,259,1323,256,1237,250,1162,238,1104,220,1073,203,1051,185,1034,163,1016,132,999,86,991,45"/>
 <area shape="rect" id="Node000003" title=" " alt="" coords="5,359,63,384"/>

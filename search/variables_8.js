@@ -11,6 +11,7 @@ var searchData=
   ['mg_5fsmoother_5fdegree_8',['mg_smoother_degree',['../structHybridADRSolver_1_1SolverParameters.html#a5cd8990db2e3930ce7dccfd21ba733ec',1,'HybridADRSolver::SolverParameters']]],
   ['mg_5fsmoothing_5frange_9',['mg_smoothing_range',['../structHybridADRSolver_1_1SolverParameters.html#ac9175838602a5b277b384e7a1a6b9c57',1,'HybridADRSolver::SolverParameters']]],
   ['min_10',['min',['../structTimingStats.html#afde8de5d1579a1b3c9a9881719363622',1,'TimingStats']]],
-  ['min_5frefinements_11',['min_refinements',['../structBenchmarkUtils_1_1ScalingConfig.html#a323cf26deae1492d287b7ecc9532632e',1,'BenchmarkUtils::ScalingConfig']]],
-  ['mpi_5fcommunicator_12',['mpi_communicator',['../classHybridADRSolver_1_1ParallelSolverBase.html#a8eae4688d8ad928945d283be5fb77157',1,'HybridADRSolver::ParallelSolverBase']]]
+  ['min_5fdofs_5fper_5fprocess_11',['MIN_DOFS_PER_PROCESS',['../scaling__study_8cpp.html#a3c3e0358b4d5aa356e6e2c44b20aff5d',1,'scaling_study.cpp']]],
+  ['min_5frefinements_12',['min_refinements',['../structBenchmarkUtils_1_1ScalingConfig.html#a323cf26deae1492d287b7ecc9532632e',1,'BenchmarkUtils::ScalingConfig']]],
+  ['mpi_5fcommunicator_13',['mpi_communicator',['../classHybridADRSolver_1_1ParallelSolverBase.html#a8eae4688d8ad928945d283be5fb77157',1,'HybridADRSolver::ParallelSolverBase']]]
 ];

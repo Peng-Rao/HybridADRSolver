@@ -6,7 +6,7 @@
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="850,30,771,48,732,62,695,80,664,101,635,126,585,180,545,233,519,274,515,271,541,230,581,177,632,122,661,97,692,76,730,57,770,42,849,25"/>
 <area shape="rect" id="Node000004" href="$main__2d_8cpp.html" title="2D benchmark driver for comparing hybrid vs fully distributed solvers" alt="" coords="211,272,392,311"/>
 <area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="850,31,747,49,693,63,641,80,545,126,454,181,379,233,326,274,322,270,376,229,452,176,542,122,639,76,692,58,746,44,849,26"/>
-<area shape="rect" id="Node000005" href="$scaling__study_8cpp.html" title="Comprehensive strong and weak scaling benchmark for the Hybrid ADR Solver." alt="" coords="792,272,973,311"/>
+<area shape="rect" id="Node000005" href="$scaling__study_8cpp.html" title="Fixed scaling benchmark with proper problem sizing." alt="" coords="792,272,973,311"/>
 <area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="942,46,890,273,884,271,937,45"/>
 <area shape="rect" id="Node000006" href="$strong__scaling_8cpp.html" title="Strong scaling benchmark for hybrid vs distributed solvers." alt="" coords="1208,272,1389,311"/>
 <area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="1041,28,1102,45,1133,59,1160,76,1186,98,1209,123,1248,177,1276,230,1294,271,1289,273,1272,232,1244,180,1205,126,1182,101,1157,80,1130,64,1101,50,1040,33"/>

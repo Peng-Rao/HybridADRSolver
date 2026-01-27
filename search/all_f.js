@@ -14,9 +14,9 @@ var searchData=
   ['run_5fmatrix_5ffree_5fweak_5fscaling_11',['run_matrix_free_weak_scaling',['../weak__scaling_8cpp.html#a3d80a05ffdc78fe7a2dc56f068541cc6',1,'weak_scaling.cpp']]],
   ['run_5fmemory_5fbenchmark_12',['run_memory_benchmark',['../benchmark__main_8cpp.html#aabb0d793c97fd1a8a658a416d61ca495',1,'benchmark_main.cpp']]],
   ['run_5fstrong_5fscaling_5fbenchmark_13',['run_strong_scaling_benchmark',['../benchmark__main_8cpp.html#a860fa55df0eb81f3d54d59c45e2f5eea',1,'benchmark_main.cpp']]],
-  ['run_5fstrong_5fscaling_5ftest_14',['run_strong_scaling_test',['../scaling__study_8cpp.html#adeca4ffe910adbe768c8bf6fe53f7fe7',1,'scaling_study.cpp']]],
+  ['run_5fstrong_5fscaling_5ftest_14',['run_strong_scaling_test',['../scaling__study_8cpp.html#a1921b8ea4f6c9e1a310f90e9c259d4cf',1,'scaling_study.cpp']]],
   ['run_5ftime_5fcomplexity_5fbenchmark_15',['run_time_complexity_benchmark',['../main__2d_8cpp.html#a1fc1d4b6048b495b77b7de6ce612563d',1,'main_2d.cpp']]],
   ['run_5fweak_5fscaling_5fbenchmark_16',['run_weak_scaling_benchmark',['../benchmark__main_8cpp.html#a1c5f9ca6f62f136176edb006cef28657',1,'benchmark_main.cpp']]],
-  ['run_5fweak_5fscaling_5ftest_17',['run_weak_scaling_test',['../scaling__study_8cpp.html#adfab5fb4a37da388ec4f32d09d9d0785',1,'scaling_study.cpp']]],
+  ['run_5fweak_5fscaling_5ftest_17',['run_weak_scaling_test',['../scaling__study_8cpp.html#aae4e4bbaab77dc8340b2da9cd9a03c31',1,'scaling_study.cpp']]],
   ['running_18',['Running',['../index.html#autotoc_md6',1,'']]]
 ];

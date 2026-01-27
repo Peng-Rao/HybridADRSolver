@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['_7eparallelsolverbase_0',['~ParallelSolverBase',['../classHybridADRSolver_1_1ParallelSolverBase.html#a4715a01d1a6e0953ad0fee821f1551c0',1,'HybridADRSolver::ParallelSolverBase']]],
-  ['_7eprobleminterface_1',['~ProblemInterface',['../classHybridADRSolver_1_1ProblemInterface.html#a52fc548eccab5919f0e21f85fa61e5d1',1,'HybridADRSolver::ProblemInterface']]]
+  ['write_5fcsv_0',['write_csv',['../classBenchmarkUtils_1_1ResultCollector.html#a9ef0f3f55dd36d17a93241dbffcafb31',1,'BenchmarkUtils::ResultCollector']]],
+  ['write_5fresults_5fcsv_1',['write_results_csv',['../scaling__study_8cpp.html#a3e2227eee3044b9a7e14922628c1c1ec',1,'scaling_study.cpp']]]
 ];

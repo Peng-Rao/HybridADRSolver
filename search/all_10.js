@@ -29,12 +29,13 @@ var searchData=
   ['solvertype_26',['SolverType',['../namespaceHybridADRSolver.html#afe6d3d39f0c710383621e32a46108cb1',1,'HybridADRSolver']]],
   ['source_5fterm_27',['source_term',['../classHybridADRSolver_1_1ProblemInterface.html#ab51cd54979ec7cb91914b0f071d7f5bc',1,'HybridADRSolver::ProblemInterface::source_term()'],['../classHybridADRSolver_1_1Problems_1_1ADRProblem.html#add125e85d1ffecaa56cb8895c5ebb284',1,'HybridADRSolver::Problems::ADRProblem::source_term()']]],
   ['speedup_28',['speedup',['../structScalingResult.html#a8d278c19cb98debb661ecdbff7642198',1,'ScalingResult']]],
-  ['stability_29',['Coercivity and Stability',['../index.html#autotoc_md8',1,'']]],
-  ['start_30',['start',['../classBenchmarkUtils_1_1Timer.html#a16139425b9d5d07183f08c69cda21a93',1,'BenchmarkUtils::Timer']]],
-  ['statistics_31',['Statistics',['../structStatistics.html',1,'']]],
-  ['stddev_32',['stddev',['../structTimingStats.html#a95147db892704ca749457dd7ad1815c0',1,'TimingStats::stddev'],['../structStatistics.html#a72d4e45d0a6859b50fc9483707a7a90e',1,'Statistics::stddev()']]],
-  ['stop_33',['stop',['../classBenchmarkUtils_1_1Timer.html#a6c061574ca6a548a7ba62b8ea5b109ad',1,'BenchmarkUtils::Timer']]],
-  ['strong_5fscaling_2ecpp_34',['strong_scaling.cpp',['../strong__scaling_8cpp.html',1,'']]],
-  ['strongscalingconfig_35',['StrongScalingConfig',['../structStrongScalingConfig.html',1,'']]],
-  ['systemmatrixtype_36',['SystemMatrixType',['../classHybridADRSolver_1_1MatrixFreeSolver.html#ad85c80796a00a2921828219e84e622c2',1,'HybridADRSolver::MatrixFreeSolver']]]
+  ['speedup_5ftotal_29',['speedup_total',['../structScalingResult.html#a0844b30b216a78067f7f22e1ee87ae37',1,'ScalingResult']]],
+  ['stability_30',['Coercivity and Stability',['../index.html#autotoc_md8',1,'']]],
+  ['start_31',['start',['../classBenchmarkUtils_1_1Timer.html#a16139425b9d5d07183f08c69cda21a93',1,'BenchmarkUtils::Timer']]],
+  ['statistics_32',['Statistics',['../structStatistics.html',1,'']]],
+  ['stddev_33',['stddev',['../structTimingStats.html#a95147db892704ca749457dd7ad1815c0',1,'TimingStats::stddev'],['../structStatistics.html#a72d4e45d0a6859b50fc9483707a7a90e',1,'Statistics::stddev()']]],
+  ['stop_34',['stop',['../classBenchmarkUtils_1_1Timer.html#a6c061574ca6a548a7ba62b8ea5b109ad',1,'BenchmarkUtils::Timer']]],
+  ['strong_5fscaling_2ecpp_35',['strong_scaling.cpp',['../strong__scaling_8cpp.html',1,'']]],
+  ['strongscalingconfig_36',['StrongScalingConfig',['../structStrongScalingConfig.html',1,'']]],
+  ['systemmatrixtype_37',['SystemMatrixType',['../classHybridADRSolver_1_1MatrixFreeSolver.html#ad85c80796a00a2921828219e84e622c2',1,'HybridADRSolver::MatrixFreeSolver']]]
 ];
