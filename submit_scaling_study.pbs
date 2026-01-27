@@ -1,16 +1,16 @@
 #!/bin/bash
 
 #===============================================================================
-# PBS Job Script for Strong and Weak Scaling Benchmark
+# FIXED PBS Job Script for Scaling Benchmark
 #===============================================================================
-# Tests both matrix-based and matrix-free solvers across different
-# parallelization configurations to measure scaling efficiency.
-#
-# Strong Scaling: Fixed problem size, varying core count
-# Weak Scaling: Problem size scales with core count
+# Key fixes:
+# 1. Uses larger problem sizes (refs 9-11 for 2D) to ensure meaningful scaling
+# 2. Simplified configurations - no redundant MPI×thread combos at same total
+# 3. Pure MPI scaling as primary test (cleanest results)
+# 4. Separate hybrid analysis
 #===============================================================================
 
-#PBS -N adr_scaling_study
+#PBS -N adr_scaling_fixed
 #PBS -l select=1:ncpus=28
 #PBS -l walltime=24:00:00
 #PBS -q cpu
@@ -27,19 +27,25 @@ cd ${PBS_O_WORKDIR:-$(pwd)}
 TIMESTAMP=$(date +%Y%m%d_%H%M%S)
 LOG_DIR="logs_scaling"
 mkdir -p ${LOG_DIR}
-LOG_FILE="${LOG_DIR}/scaling_${PBS_JOBID:-local}_${TIMESTAMP}.log"
+LOG_FILE="${LOG_DIR}/scaling_fixed_${PBS_JOBID:-local}_${TIMESTAMP}.log"
 
-RESULTS_DIR="results_scaling_${TIMESTAMP}"
+RESULTS_DIR="results_scaling_fixed_${TIMESTAMP}"
 mkdir -p ${RESULTS_DIR}
 
 exec > >(tee -a "${LOG_FILE}") 2>&1
 
 echo "==============================================================================="
-echo "STRONG & WEAK SCALING BENCHMARK"
+echo "FIXED SCALING BENCHMARK"
 echo "==============================================================================="
 echo "Job ID: ${PBS_JOBID}"
 echo "Date: $(date)"
 echo "Results Dir: ${RESULTS_DIR}"
+echo ""
+echo "KEY FIXES APPLIED:"
+echo "  1. Larger problem sizes (ensuring 50k+ DoFs per process)"
+echo "  2. Simplified configurations (no redundant overlapping points)"
+echo "  3. Scaling metrics based on SOLVE TIME (not total time)"
+echo "  4. Pure MPI as primary test, hybrid as separate analysis"
 echo "==============================================================================="
 
 #-------------------------------------------------------------------------------
@@ -93,221 +99,285 @@ fi
 # Benchmark Parameters
 #===============================================================================
 
-# Dimension (2 or 3)
 DIM=2
-
-# Refinement range
-MIN_REF=3
-MAX_REF=8
-
-# Polynomial degree
 DEGREE=2
-
-# Timing trials
 WARMUP=1
 TRIALS=3
 
+# FIXED: Use much larger refinement levels!
+# For 2D Q2 elements:
+#   refs=8  -> ~263k DoFs   (OK for 1-4 cores)
+#   refs=9  -> ~1.05M DoFs  (OK for 1-14 cores)
+#   refs=10 -> ~4.2M DoFs   (OK for 1-28 cores)
+#   refs=11 -> ~16.8M DoFs  (OK for 28-112 cores)
+#
+# Minimum: 50,000 DoFs per MPI process for meaningful scaling
+
+MIN_REF_STRONG=9   # Start from ~1M DoFs
+MAX_REF_STRONG=11  # Up to ~17M DoFs
+
+MIN_REF_WEAK=7     # Base for weak scaling
+MAX_REF_WEAK=9
+
 MPI_CMD="mpirun"
 
-echo "==============================================================================="
-echo "MPI Implementation"
-echo "==============================================================================="
-${MPI_CMD} --version
 echo ""
+echo "==============================================================================="
+echo "Problem Size Estimates (2D Q2 elements)"
+echo "==============================================================================="
+echo "refs=8:  ~263,000 DoFs   -> min 5 processes (50k/proc)"
+echo "refs=9:  ~1,050,000 DoFs -> min 21 processes (50k/proc)"
+echo "refs=10: ~4,200,000 DoFs -> min 84 processes (50k/proc)"
+echo "refs=11: ~16,800,000 DoFs -> OK for any config on 28 cores"
+echo ""
+echo "Selected range: refs ${MIN_REF_STRONG}-${MAX_REF_STRONG}"
+echo "==============================================================================="
 
 #===============================================================================
-# Parallelism Configurations for Scaling Tests
+# PHASE 1: PURE MPI STRONG SCALING (Primary Test)
 #===============================================================================
-# Format: "mpi_ranks threads_per_rank description"
-# Total cores = mpi_ranks × threads_per_rank
+# This gives the cleanest scaling curves with one point per core count
 
-# Strong scaling: vary total cores used
-declare -a STRONG_CONFIGS=(
-    # Single core baseline
-    "1 1 Baseline_1core"
-    
-    # Pure MPI scaling
-    "2 1 MPI_2"
-    "4 1 MPI_4"
-    "7 1 MPI_7"
-    "14 1 MPI_14"
-    "28 1 MPI_28"
-    
-    # Hybrid scaling (fixed 2 threads per rank)
-    "1 2 Hybrid_1x2"
-    "2 2 Hybrid_2x2"
-    "4 2 Hybrid_4x2"
-    "7 2 Hybrid_7x2"
-    "14 2 Hybrid_14x2"
-    
-    # Hybrid scaling (fixed 4 threads per rank)
-    "1 4 Hybrid_1x4"
-    "2 4 Hybrid_2x4"
-    "4 4 Hybrid_4x4"
-    "7 4 Hybrid_7x4"
-    
-    # Thread-heavy configurations
-    "1 7 Hybrid_1x7"
-    "2 7 Hybrid_2x7"
-    "4 7 Hybrid_4x7"
-    
-    # Pure threading
-    "1 14 Thread_14"
-    "1 28 Thread_28"
-)
-
-# Weak scaling: constant work per core (varied problem size)
-declare -a WEAK_CONFIGS=(
-    "1 1 Weak_1core"
-    "2 1 Weak_2core"
-    "4 1 Weak_4core"
-    "8 1 Weak_8core"
-    "14 1 Weak_14core"
-    "28 1 Weak_28core"
-    
-    # Hybrid weak scaling
-    "1 2 Weak_Hybrid_1x2"
-    "2 2 Weak_Hybrid_2x2"
-    "4 2 Weak_Hybrid_4x2"
-    "7 2 Weak_Hybrid_7x2"
-    "14 2 Weak_Hybrid_14x2"
-)
-
+echo ""
 echo "==============================================================================="
-echo "PHASE 1: STRONG SCALING TESTS"
+echo "PHASE 1: PURE MPI STRONG SCALING"
 echo "==============================================================================="
-echo "Testing scaling efficiency with fixed problem size"
-echo "Refinement level: ${MAX_REF} (for consistent large problem)"
+echo "Testing with 1 thread per MPI process (cleanest scaling curves)"
 echo ""
 
-# Store baseline times for efficiency calculation
-BASELINE_TIME_MB=""
-BASELINE_TIME_MF=""
+# Pure MPI configurations (1 thread each) - logarithmic scaling
+declare -a PURE_MPI_CONFIGS=(
+    "1 1"
+    "2 1"
+    "4 1"
+    "7 1"
+    "14 1"
+    "28 1"
+)
 
-CONFIG_COUNT=0
-TOTAL_CONFIGS=${#STRONG_CONFIGS[@]}
-
-for CONFIG in "${STRONG_CONFIGS[@]}"; do
-    CONFIG_COUNT=$((CONFIG_COUNT + 1))
-
-    read -r NRANKS NTHREADS CONFIG_NAME <<< "$CONFIG"
+for CONFIG in "${PURE_MPI_CONFIGS[@]}"; do
+    read -r NRANKS NTHREADS <<< "$CONFIG"
     TOTAL_CORES=$((NRANKS * NTHREADS))
+    CONFIG_NAME="pure_mpi_${NRANKS}"
 
     echo ""
-    echo "==============================================================================="
-    echo "[Strong Scaling] Config ${CONFIG_COUNT}/${TOTAL_CONFIGS}: ${CONFIG_NAME}"
-    echo "==============================================================================="
-    echo "MPI Ranks:         ${NRANKS}"
-    echo "Threads/Rank:      ${NTHREADS}"
-    echo "Total Cores Used:  ${TOTAL_CORES}/28"
-    echo "==============================================================================="
+    echo "-----------------------------------------------------------------------"
+    echo "Pure MPI: ${NRANKS} processes × ${NTHREADS} thread = ${TOTAL_CORES} cores"
+    echo "-----------------------------------------------------------------------"
 
-    # Set threading environment
     export TBB_NUM_THREADS=${NTHREADS}
     export OMP_NUM_THREADS=${NTHREADS}
     export OMP_PROC_BIND=close
     export OMP_PLACES=cores
-    export OMP_STACKSIZE=64M
 
-    # Output file
-    OUTPUT_CSV="${RESULTS_DIR}/strong_${CONFIG_NAME}.csv"
-    OUTPUT_LOG="${RESULTS_DIR}/strong_log_${CONFIG_NAME}.txt"
+    OUTPUT_PREFIX="${RESULTS_DIR}/strong_${CONFIG_NAME}"
 
-    echo "Output: ${OUTPUT_CSV}"
-    echo ""
-
-    # Run strong scaling benchmark
     ${MPI_CMD} -n ${NRANKS} \
         ${EXECUTABLE} \
         --strong \
-        --min-ref ${MIN_REF} \
-        --max-ref ${MAX_REF} \
+        --min-ref ${MIN_REF_STRONG} \
+        --max-ref ${MAX_REF_STRONG} \
         --degree ${DEGREE} \
         --dim ${DIM} \
-        --output "${RESULTS_DIR}/strong_${CONFIG_NAME}" \
+        --output "${OUTPUT_PREFIX}" \
         --threads ${NTHREADS} \
         --warmup ${WARMUP} \
         --trials ${TRIALS} \
-        2>&1 | tee ${OUTPUT_LOG}
-
-    EXIT_CODE=$?
-
-    if [ $EXIT_CODE -ne 0 ]; then
-        echo "WARNING: Configuration ${CONFIG_NAME} failed with exit code ${EXIT_CODE}"
-    else
-        echo "Configuration ${CONFIG_NAME} completed successfully."
-    fi
-
-    sleep 2
-done
-
-echo ""
-echo "==============================================================================="
-echo "PHASE 2: WEAK SCALING TESTS"
-echo "==============================================================================="
-echo "Testing efficiency with problem size proportional to core count"
-echo "Base refinement: ${MIN_REF}"
-echo ""
-
-CONFIG_COUNT=0
-TOTAL_CONFIGS=${#WEAK_CONFIGS[@]}
-
-for CONFIG in "${WEAK_CONFIGS[@]}"; do
-    CONFIG_COUNT=$((CONFIG_COUNT + 1))
-
-    read -r NRANKS NTHREADS CONFIG_NAME <<< "$CONFIG"
-    TOTAL_CORES=$((NRANKS * NTHREADS))
-
-    echo ""
-    echo "==============================================================================="
-    echo "[Weak Scaling] Config ${CONFIG_COUNT}/${TOTAL_CONFIGS}: ${CONFIG_NAME}"
-    echo "==============================================================================="
-    echo "MPI Ranks:         ${NRANKS}"
-    echo "Threads/Rank:      ${NTHREADS}"
-    echo "Total Cores Used:  ${TOTAL_CORES}/28"
-    echo "==============================================================================="
-
-    # Set threading environment
-    export TBB_NUM_THREADS=${NTHREADS}
-    export OMP_NUM_THREADS=${NTHREADS}
-    export OMP_PROC_BIND=close
-    export OMP_PLACES=cores
-    export OMP_STACKSIZE=64M
-
-    # Output file
-    OUTPUT_CSV="${RESULTS_DIR}/weak_${CONFIG_NAME}.csv"
-    OUTPUT_LOG="${RESULTS_DIR}/weak_log_${CONFIG_NAME}.txt"
-
-    echo "Output: ${OUTPUT_CSV}"
-    echo ""
-
-    # Run weak scaling benchmark
-    ${MPI_CMD} -n ${NRANKS} \
-        ${EXECUTABLE} \
-        --weak \
-        --min-ref ${MIN_REF} \
-        --max-ref $((MAX_REF - 2)) \
-        --degree ${DEGREE} \
-        --dim ${DIM} \
-        --output "${RESULTS_DIR}/weak_${CONFIG_NAME}" \
-        --threads ${NTHREADS} \
-        --warmup ${WARMUP} \
-        --trials ${TRIALS} \
-        2>&1 | tee ${OUTPUT_LOG}
-
-    EXIT_CODE=$?
-
-    if [ $EXIT_CODE -ne 0 ]; then
-        echo "WARNING: Configuration ${CONFIG_NAME} failed with exit code ${EXIT_CODE}"
-    else
-        echo "Configuration ${CONFIG_NAME} completed successfully."
-    fi
+        2>&1 | tee "${OUTPUT_PREFIX}.log"
 
     sleep 2
 done
 
 #===============================================================================
-# Combine All Results
+# PHASE 2: PURE THREADING SCALING (Secondary Test)
+#===============================================================================
+# Compare pure threading vs pure MPI
+
+echo ""
+echo "==============================================================================="
+echo "PHASE 2: PURE THREADING SCALING"
+echo "==============================================================================="
+echo "Testing with 1 MPI process, varying threads"
+echo ""
+
+declare -a PURE_THREAD_CONFIGS=(
+    "1 1"
+    "1 2"
+    "1 4"
+    "1 7"
+    "1 14"
+    "1 28"
+)
+
+for CONFIG in "${PURE_THREAD_CONFIGS[@]}"; do
+    read -r NRANKS NTHREADS <<< "$CONFIG"
+    TOTAL_CORES=$((NRANKS * NTHREADS))
+    CONFIG_NAME="pure_thread_${NTHREADS}"
+
+    # Skip 1x1 (already done in pure MPI)
+    if [ "${NRANKS}" -eq 1 ] && [ "${NTHREADS}" -eq 1 ]; then
+        continue
+    fi
+
+    echo ""
+    echo "-----------------------------------------------------------------------"
+    echo "Pure Threading: ${NRANKS} process × ${NTHREADS} threads = ${TOTAL_CORES} cores"
+    echo "-----------------------------------------------------------------------"
+
+    export TBB_NUM_THREADS=${NTHREADS}
+    export OMP_NUM_THREADS=${NTHREADS}
+    export OMP_PROC_BIND=spread
+    export OMP_PLACES=cores
+
+    OUTPUT_PREFIX="${RESULTS_DIR}/strong_${CONFIG_NAME}"
+
+    ${MPI_CMD} -n ${NRANKS} \
+        ${EXECUTABLE} \
+        --strong \
+        --min-ref ${MIN_REF_STRONG} \
+        --max-ref ${MAX_REF_STRONG} \
+        --degree ${DEGREE} \
+        --dim ${DIM} \
+        --output "${OUTPUT_PREFIX}" \
+        --threads ${NTHREADS} \
+        --warmup ${WARMUP} \
+        --trials ${TRIALS} \
+        2>&1 | tee "${OUTPUT_PREFIX}.log"
+
+    sleep 2
+done
+
+#===============================================================================
+# PHASE 3: HYBRID CONFIGURATIONS (Comparison at Fixed Total Cores)
+#===============================================================================
+# Test different MPI×Thread configurations at specific total core counts
+
+echo ""
+echo "==============================================================================="
+echo "PHASE 3: HYBRID ANALYSIS AT FIXED CORE COUNTS"
+echo "==============================================================================="
+echo "Comparing different MPI×Thread configurations at 14 and 28 total cores"
+echo ""
+
+# 14 total cores: compare different decompositions
+declare -a HYBRID_14=(
+    "14 1"   # Pure MPI
+    "7 2"    # Balanced hybrid
+    "2 7"    # Thread-heavy
+    "1 14"   # Pure threading
+)
+
+# 28 total cores: compare different decompositions
+declare -a HYBRID_28=(
+    "28 1"   # Pure MPI
+    "14 2"   # Balanced hybrid
+    "7 4"    # Balanced hybrid
+    "4 7"    # Thread-heavy
+    "2 14"   # Thread-heavy
+    "1 28"   # Pure threading
+)
+
+echo "--- Testing 14 cores ---"
+for CONFIG in "${HYBRID_14[@]}"; do
+    read -r NRANKS NTHREADS <<< "$CONFIG"
+    CONFIG_NAME="hybrid_${NRANKS}x${NTHREADS}"
+
+    echo "  ${NRANKS} MPI × ${NTHREADS} threads"
+
+    export TBB_NUM_THREADS=${NTHREADS}
+    export OMP_NUM_THREADS=${NTHREADS}
+
+    OUTPUT_PREFIX="${RESULTS_DIR}/hybrid14_${CONFIG_NAME}"
+
+    ${MPI_CMD} -n ${NRANKS} \
+        ${EXECUTABLE} \
+        --strong \
+        --min-ref ${MAX_REF_STRONG} \
+        --max-ref ${MAX_REF_STRONG} \
+        --degree ${DEGREE} \
+        --dim ${DIM} \
+        --output "${OUTPUT_PREFIX}" \
+        --threads ${NTHREADS} \
+        --warmup ${WARMUP} \
+        --trials ${TRIALS} \
+        2>&1 > "${OUTPUT_PREFIX}.log"
+
+    sleep 1
+done
+
+echo ""
+echo "--- Testing 28 cores ---"
+for CONFIG in "${HYBRID_28[@]}"; do
+    read -r NRANKS NTHREADS <<< "$CONFIG"
+    CONFIG_NAME="hybrid_${NRANKS}x${NTHREADS}"
+
+    echo "  ${NRANKS} MPI × ${NTHREADS} threads"
+
+    export TBB_NUM_THREADS=${NTHREADS}
+    export OMP_NUM_THREADS=${NTHREADS}
+
+    OUTPUT_PREFIX="${RESULTS_DIR}/hybrid28_${CONFIG_NAME}"
+
+    ${MPI_CMD} -n ${NRANKS} \
+        ${EXECUTABLE} \
+        --strong \
+        --min-ref ${MAX_REF_STRONG} \
+        --max-ref ${MAX_REF_STRONG} \
+        --degree ${DEGREE} \
+        --dim ${DIM} \
+        --output "${OUTPUT_PREFIX}" \
+        --threads ${NTHREADS} \
+        --warmup ${WARMUP} \
+        --trials ${TRIALS} \
+        2>&1 > "${OUTPUT_PREFIX}.log"
+
+    sleep 1
+done
+
+#===============================================================================
+# PHASE 4: WEAK SCALING
+#===============================================================================
+
+echo ""
+echo "==============================================================================="
+echo "PHASE 4: WEAK SCALING (Pure MPI)"
+echo "==============================================================================="
+echo "Problem size scales with core count to maintain constant work per core"
+echo ""
+
+for CONFIG in "${PURE_MPI_CONFIGS[@]}"; do
+    read -r NRANKS NTHREADS <<< "$CONFIG"
+    TOTAL_CORES=$((NRANKS * NTHREADS))
+    CONFIG_NAME="weak_mpi_${NRANKS}"
+
+    echo ""
+    echo "-----------------------------------------------------------------------"
+    echo "Weak Scaling: ${NRANKS} processes"
+    echo "-----------------------------------------------------------------------"
+
+    export TBB_NUM_THREADS=${NTHREADS}
+    export OMP_NUM_THREADS=${NTHREADS}
+
+    OUTPUT_PREFIX="${RESULTS_DIR}/${CONFIG_NAME}"
+
+    ${MPI_CMD} -n ${NRANKS} \
+        ${EXECUTABLE} \
+        --weak \
+        --min-ref ${MIN_REF_WEAK} \
+        --max-ref ${MAX_REF_WEAK} \
+        --degree ${DEGREE} \
+        --dim ${DIM} \
+        --output "${OUTPUT_PREFIX}" \
+        --threads ${NTHREADS} \
+        --warmup ${WARMUP} \
+        --trials ${TRIALS} \
+        2>&1 | tee "${OUTPUT_PREFIX}.log"
+
+    sleep 2
+done
+
+#===============================================================================
+# Combine Results
 #===============================================================================
 
 echo ""
@@ -315,123 +385,68 @@ echo "==========================================================================
 echo "Combining Results"
 echo "==============================================================================="
 
-COMBINED_STRONG="${RESULTS_DIR}/combined_strong_scaling.csv"
-COMBINED_WEAK="${RESULTS_DIR}/combined_weak_scaling.csv"
+# Combine by category
+COMBINED_PURE_MPI="${RESULTS_DIR}/combined_pure_mpi.csv"
+COMBINED_PURE_THREAD="${RESULTS_DIR}/combined_pure_thread.csv"
+COMBINED_HYBRID="${RESULTS_DIR}/combined_hybrid.csv"
+COMBINED_WEAK="${RESULTS_DIR}/combined_weak.csv"
 COMBINED_ALL="${RESULTS_DIR}/combined_all_results.csv"
 
-# Combine strong scaling results
+# Function to combine CSV files
+combine_csv() {
+    local output=$1
+    shift
+    local pattern=$1
+    
+    first_file=true
+    for f in ${RESULTS_DIR}/${pattern}*.csv; do
+        if [ -f "$f" ]; then
+            if [ "$first_file" = true ]; then
+                cat "$f" > ${output}
+                first_file=false
+            else
+                tail -n +2 "$f" >> ${output}
+            fi
+        fi
+    done
+    
+    if [ -f "${output}" ]; then
+        echo "Created: ${output}"
+    fi
+}
+
+combine_csv "${COMBINED_PURE_MPI}" "strong_pure_mpi_"
+combine_csv "${COMBINED_PURE_THREAD}" "strong_pure_thread_"
+combine_csv "${COMBINED_HYBRID}" "hybrid"
+combine_csv "${COMBINED_WEAK}" "weak_"
+
+# Combine all
 first_file=true
-for f in ${RESULTS_DIR}/strong_*.csv; do
+for f in "${COMBINED_PURE_MPI}" "${COMBINED_PURE_THREAD}" "${COMBINED_HYBRID}" "${COMBINED_WEAK}"; do
     if [ -f "$f" ]; then
         if [ "$first_file" = true ]; then
-            cat "$f" > ${COMBINED_STRONG}
+            cat "$f" > ${COMBINED_ALL}
             first_file=false
         else
-            tail -n +2 "$f" >> ${COMBINED_STRONG}
+            tail -n +2 "$f" >> ${COMBINED_ALL}
         fi
     fi
 done
-
-# Combine weak scaling results
-first_file=true
-for f in ${RESULTS_DIR}/weak_*.csv; do
-    if [ -f "$f" ]; then
-        if [ "$first_file" = true ]; then
-            cat "$f" > ${COMBINED_WEAK}
-            first_file=false
-        else
-            tail -n +2 "$f" >> ${COMBINED_WEAK}
-        fi
-    fi
-done
-
-# Combine all results
-if [ -f "${COMBINED_STRONG}" ]; then
-    cat ${COMBINED_STRONG} > ${COMBINED_ALL}
-    if [ -f "${COMBINED_WEAK}" ]; then
-        tail -n +2 ${COMBINED_WEAK} >> ${COMBINED_ALL}
-    fi
-elif [ -f "${COMBINED_WEAK}" ]; then
-    cat ${COMBINED_WEAK} > ${COMBINED_ALL}
-fi
-
-echo "Combined strong scaling: ${COMBINED_STRONG}"
-echo "Combined weak scaling: ${COMBINED_WEAK}"
-echo "Combined all results: ${COMBINED_ALL}"
+echo "Created: ${COMBINED_ALL}"
 
 #===============================================================================
-# Generate Summary Report
+# Generate Analysis Script
 #===============================================================================
 
-echo ""
-echo "==============================================================================="
-echo "Generating Summary Report"
-echo "==============================================================================="
-
-SUMMARY_FILE="${RESULTS_DIR}/SCALING_SUMMARY.txt"
-
-cat > ${SUMMARY_FILE} << EOF
-Scaling Benchmark Summary
-=========================
-Date: $(date)
-Job ID: ${PBS_JOBID}
-
-System Configuration:
-- Node: 1
-- Total Cores Available: 28
-- Dimension: ${DIM}D
-- Refinement Range: ${MIN_REF} to ${MAX_REF}
-- Polynomial Degree: ${DEGREE}
-- Warmup Runs: ${WARMUP}
-- Timed Trials: ${TRIALS}
-
-Strong Scaling Configurations (${#STRONG_CONFIGS[@]} total):
-------------------------------------------------------------
-EOF
-
-for CONFIG in "${STRONG_CONFIGS[@]}"; do
-    read -r NRANKS NTHREADS CONFIG_NAME <<< "$CONFIG"
-    TOTAL_CORES=$((NRANKS * NTHREADS))
-    printf "%-25s MPI: %2d × Threads: %2d = %2d cores\n" \
-        "${CONFIG_NAME}" ${NRANKS} ${NTHREADS} ${TOTAL_CORES} >> ${SUMMARY_FILE}
-done
-
-cat >> ${SUMMARY_FILE} << EOF
-
-Weak Scaling Configurations (${#WEAK_CONFIGS[@]} total):
----------------------------------------------------------
-EOF
-
-for CONFIG in "${WEAK_CONFIGS[@]}"; do
-    read -r NRANKS NTHREADS CONFIG_NAME <<< "$CONFIG"
-    TOTAL_CORES=$((NRANKS * NTHREADS))
-    printf "%-25s MPI: %2d × Threads: %2d = %2d cores\n" \
-        "${CONFIG_NAME}" ${NRANKS} ${NTHREADS} ${TOTAL_CORES} >> ${SUMMARY_FILE}
-done
-
-cat >> ${SUMMARY_FILE} << EOF
-
-Results Directory: ${RESULTS_DIR}
-
-Files Generated:
-----------------
-EOF
-
-ls -lh ${RESULTS_DIR}/*.csv >> ${SUMMARY_FILE} 2>/dev/null
-
-cat ${SUMMARY_FILE}
-
-#===============================================================================
-# Generate Python Analysis Script
-#===============================================================================
-
-ANALYSIS_SCRIPT="${RESULTS_DIR}/analyze_scaling.py"
+ANALYSIS_SCRIPT="${RESULTS_DIR}/analyze_scaling_fixed.py"
 
 cat > ${ANALYSIS_SCRIPT} << 'PYTHON_EOF'
 #!/usr/bin/env python3
 """
-Scaling Analysis Script
-Generates plots for strong and weak scaling benchmarks.
+Fixed Scaling Analysis Script
+- Uses SOLVE TIME for scaling metrics
+- Properly handles multiple configurations
+- Generates clean, publication-quality plots
 """
 
 import pandas as pd
@@ -440,252 +455,330 @@ import numpy as np
 import sys
 import os
 
+plt.style.use('seaborn-v0_8-whitegrid')
+plt.rcParams['figure.dpi'] = 150
+plt.rcParams['font.size'] = 10
+
 def load_data(filename):
-    """Load CSV data."""
     return pd.read_csv(filename)
 
-def plot_strong_scaling(df, output_dir):
-    """Generate strong scaling plots."""
-    fig, axes = plt.subplots(2, 2, figsize=(14, 10))
+def plot_strong_scaling_pure_mpi(df, output_dir):
+    """Plot strong scaling using pure MPI data only (cleanest curves)."""
+    fig, axes = plt.subplots(2, 2, figsize=(12, 10))
     
-    # Filter strong scaling data
-    strong_df = df[df['test_type'] == 'strong_scaling']
+    # Filter: strong scaling, pure MPI (n_threads == 1)
+    strong_df = df[(df['test_type'] == 'strong_scaling') & (df['n_threads'] == 1)].copy()
     
     if strong_df.empty:
-        print("No strong scaling data found")
+        print("No pure MPI strong scaling data")
         return
+    
+    colors = {'matrix_based': 'tab:blue', 'matrix_free': 'tab:orange'}
+    markers = {'matrix_based': 'o', 'matrix_free': 's'}
     
     for solver in ['matrix_based', 'matrix_free']:
         solver_df = strong_df[strong_df['solver_type'] == solver]
         if solver_df.empty:
             continue
+            
+        refs_list = sorted(solver_df['n_refinements'].unique())
         
-        # Group by refinement level
-        for refs in solver_df['n_refinements'].unique():
-            ref_df = solver_df[solver_df['n_refinements'] == refs]
-            ref_df = ref_df.sort_values('total_cores')
+        for refs in refs_list:
+            ref_df = solver_df[solver_df['n_refinements'] == refs].sort_values('n_mpi')
+            if len(ref_df) < 2:
+                continue
             
-            label = f"{solver} (refs={refs})"
+            label = f"{solver.replace('_', '-')} (refs={refs})"
+            color = colors[solver]
+            marker = markers[solver]
+            alpha = 0.4 + 0.2 * (refs - min(refs_list))
             
-            # Time vs cores
-            axes[0, 0].plot(ref_df['total_cores'], ref_df['total_time_avg'], 
-                          'o-', label=label)
+            cores = ref_df['n_mpi'].values
             
-            # Speedup (relative to smallest core count in this series)
-            baseline = ref_df['total_time_avg'].iloc[0]
-            speedup = baseline / ref_df['total_time_avg']
-            axes[0, 1].plot(ref_df['total_cores'], speedup, 'o-', label=label)
+            # Compute speedup from SOLVE TIME
+            baseline_solve = ref_df['solve_time_avg'].iloc[0]
+            speedup = baseline_solve / ref_df['solve_time_avg']
+            efficiency = speedup / (cores / cores[0])
+            throughput = ref_df['n_dofs'].iloc[0] / ref_df['solve_time_avg']
+            
+            axes[0, 0].plot(cores, ref_df['solve_time_avg'], f'{marker}-', 
+                          label=label, color=color, alpha=alpha, markersize=6)
+            axes[0, 1].plot(cores, speedup, f'{marker}-', 
+                          label=label, color=color, alpha=alpha, markersize=6)
+            axes[1, 0].plot(cores, efficiency, f'{marker}-', 
+                          label=label, color=color, alpha=alpha, markersize=6)
+            axes[1, 1].plot(cores, throughput, f'{marker}-', 
+                          label=label, color=color, alpha=alpha, markersize=6)
     
-    # Ideal speedup line
-    max_cores = strong_df['total_cores'].max()
-    ideal_cores = np.array([1, max_cores])
-    axes[0, 1].plot(ideal_cores, ideal_cores, 'k--', label='Ideal', linewidth=2)
+    # Ideal lines
+    max_cores = strong_df['n_mpi'].max()
+    axes[0, 1].plot([1, max_cores], [1, max_cores], 'k--', lw=2, label='Ideal')
+    axes[1, 0].axhline(y=1.0, color='k', linestyle='--', lw=2, label='Ideal (100%)')
     
-    axes[0, 0].set_xlabel('Total Cores')
-    axes[0, 0].set_ylabel('Time (s)')
-    axes[0, 0].set_title('Strong Scaling: Execution Time')
-    axes[0, 0].legend()
+    axes[0, 0].set_xlabel('MPI Processes')
+    axes[0, 0].set_ylabel('Solve Time (s)')
+    axes[0, 0].set_title('Strong Scaling: Solve Time\n(Pure MPI, 1 thread/process)')
+    axes[0, 0].legend(fontsize=8)
     axes[0, 0].set_xscale('log', base=2)
     axes[0, 0].set_yscale('log')
-    axes[0, 0].grid(True)
     
-    axes[0, 1].set_xlabel('Total Cores')
+    axes[0, 1].set_xlabel('MPI Processes')
     axes[0, 1].set_ylabel('Speedup')
     axes[0, 1].set_title('Strong Scaling: Speedup')
-    axes[0, 1].legend()
+    axes[0, 1].legend(fontsize=8)
     axes[0, 1].set_xscale('log', base=2)
     axes[0, 1].set_yscale('log', base=2)
-    axes[0, 1].grid(True)
     
-    # Efficiency plot
-    for solver in ['matrix_based', 'matrix_free']:
-        solver_df = strong_df[strong_df['solver_type'] == solver]
-        if solver_df.empty:
-            continue
-        for refs in solver_df['n_refinements'].unique():
-            ref_df = solver_df[solver_df['n_refinements'] == refs]
-            ref_df = ref_df.sort_values('total_cores')
-            label = f"{solver} (refs={refs})"
-            axes[1, 0].plot(ref_df['total_cores'], ref_df['parallel_efficiency'], 
-                          'o-', label=label)
-    
-    axes[1, 0].axhline(y=1.0, color='k', linestyle='--', linewidth=2, label='Ideal')
-    axes[1, 0].set_xlabel('Total Cores')
+    axes[1, 0].set_xlabel('MPI Processes')
     axes[1, 0].set_ylabel('Parallel Efficiency')
     axes[1, 0].set_title('Strong Scaling: Efficiency')
-    axes[1, 0].legend()
+    axes[1, 0].legend(fontsize=8)
     axes[1, 0].set_xscale('log', base=2)
     axes[1, 0].set_ylim([0, 1.2])
-    axes[1, 0].grid(True)
     
-    # Throughput (DoFs/s)
-    for solver in ['matrix_based', 'matrix_free']:
-        solver_df = strong_df[strong_df['solver_type'] == solver]
-        if solver_df.empty:
-            continue
-        for refs in solver_df['n_refinements'].unique():
-            ref_df = solver_df[solver_df['n_refinements'] == refs]
-            ref_df = ref_df.sort_values('total_cores')
-            label = f"{solver} (refs={refs})"
-            axes[1, 1].plot(ref_df['total_cores'], ref_df['dofs_per_second'], 
-                          'o-', label=label)
-    
-    axes[1, 1].set_xlabel('Total Cores')
+    axes[1, 1].set_xlabel('MPI Processes')
     axes[1, 1].set_ylabel('DoFs/second')
     axes[1, 1].set_title('Strong Scaling: Throughput')
-    axes[1, 1].legend()
+    axes[1, 1].legend(fontsize=8)
     axes[1, 1].set_xscale('log', base=2)
     axes[1, 1].set_yscale('log')
-    axes[1, 1].grid(True)
     
     plt.tight_layout()
-    plt.savefig(os.path.join(output_dir, 'strong_scaling.png'), dpi=150)
+    plt.savefig(os.path.join(output_dir, 'strong_scaling_pure_mpi.png'))
     plt.close()
-    print(f"Saved: {os.path.join(output_dir, 'strong_scaling.png')}")
+    print("Saved: strong_scaling_pure_mpi.png")
 
-def plot_weak_scaling(df, output_dir):
-    """Generate weak scaling plots."""
+def plot_mpi_vs_threading(df, output_dir):
+    """Compare pure MPI vs pure threading scaling."""
     fig, axes = plt.subplots(1, 2, figsize=(12, 5))
     
-    weak_df = df[df['test_type'] == 'weak_scaling']
-    
-    if weak_df.empty:
-        print("No weak scaling data found")
+    strong_df = df[df['test_type'] == 'strong_scaling'].copy()
+    if strong_df.empty:
         return
     
+    # Get largest refinement level
+    max_refs = strong_df['n_refinements'].max()
+    strong_df = strong_df[strong_df['n_refinements'] == max_refs]
+    
+    # Pure MPI: n_threads == 1
+    # Pure threading: n_mpi == 1
+    
     for solver in ['matrix_based', 'matrix_free']:
-        solver_df = weak_df[weak_df['solver_type'] == solver]
+        color = 'tab:blue' if solver == 'matrix_based' else 'tab:orange'
+        label_base = solver.replace('_', '-')
+        
+        # Pure MPI
+        mpi_df = strong_df[(strong_df['solver_type'] == solver) & 
+                           (strong_df['n_threads'] == 1)].sort_values('total_cores')
+        
+        # Pure threading
+        thr_df = strong_df[(strong_df['solver_type'] == solver) & 
+                           (strong_df['n_mpi'] == 1)].sort_values('total_cores')
+        
+        if not mpi_df.empty:
+            baseline = mpi_df['solve_time_avg'].iloc[0]
+            speedup = baseline / mpi_df['solve_time_avg']
+            axes[0].plot(mpi_df['total_cores'], speedup, 'o-', 
+                        color=color, label=f'{label_base} (MPI)')
+        
+        if not thr_df.empty:
+            baseline = thr_df['solve_time_avg'].iloc[0]
+            speedup = baseline / thr_df['solve_time_avg']
+            axes[0].plot(thr_df['total_cores'], speedup, 's--', 
+                        color=color, label=f'{label_base} (Threading)', alpha=0.7)
+        
+        # Time comparison
+        if not mpi_df.empty:
+            axes[1].plot(mpi_df['total_cores'], mpi_df['solve_time_avg'], 'o-',
+                        color=color, label=f'{label_base} (MPI)')
+        if not thr_df.empty:
+            axes[1].plot(thr_df['total_cores'], thr_df['solve_time_avg'], 's--',
+                        color=color, label=f'{label_base} (Threading)', alpha=0.7)
+    
+    # Ideal
+    max_cores = strong_df['total_cores'].max()
+    axes[0].plot([1, max_cores], [1, max_cores], 'k--', lw=2, label='Ideal')
+    
+    axes[0].set_xlabel('Total Cores')
+    axes[0].set_ylabel('Speedup')
+    axes[0].set_title(f'MPI vs Threading: Speedup\n(refs={max_refs})')
+    axes[0].legend(fontsize=8)
+    axes[0].set_xscale('log', base=2)
+    axes[0].set_yscale('log', base=2)
+    
+    axes[1].set_xlabel('Total Cores')
+    axes[1].set_ylabel('Solve Time (s)')
+    axes[1].set_title(f'MPI vs Threading: Solve Time\n(refs={max_refs})')
+    axes[1].legend(fontsize=8)
+    axes[1].set_xscale('log', base=2)
+    axes[1].set_yscale('log')
+    
+    plt.tight_layout()
+    plt.savefig(os.path.join(output_dir, 'mpi_vs_threading.png'))
+    plt.close()
+    print("Saved: mpi_vs_threading.png")
+
+def plot_hybrid_comparison(df, output_dir):
+    """Compare different MPI×Thread configurations at same total core count."""
+    fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+    
+    strong_df = df[df['test_type'] == 'strong_scaling'].copy()
+    if strong_df.empty:
+        return
+    
+    # Get configs at 14 and 28 cores
+    for ax_idx, target_cores in enumerate([14, 28]):
+        ax = axes[ax_idx]
+        
+        core_df = strong_df[strong_df['total_cores'] == target_cores]
+        if core_df.empty:
+            continue
+        
+        # Get largest refs available
+        max_refs = core_df['n_refinements'].max()
+        core_df = core_df[core_df['n_refinements'] == max_refs]
+        
+        for solver in ['matrix_based', 'matrix_free']:
+            solver_df = core_df[core_df['solver_type'] == solver].copy()
+            if solver_df.empty:
+                continue
+            
+            # Create config labels
+            solver_df['config'] = solver_df.apply(
+                lambda r: f"{int(r['n_mpi'])}M×{int(r['n_threads'])}T", axis=1)
+            solver_df = solver_df.sort_values('n_mpi', ascending=False)
+            
+            x = np.arange(len(solver_df))
+            width = 0.35
+            offset = -width/2 if solver == 'matrix_based' else width/2
+            
+            color = 'tab:blue' if solver == 'matrix_based' else 'tab:orange'
+            ax.bar(x + offset, solver_df['solve_time_avg'], width,
+                  label=solver.replace('_', '-'), color=color)
+            
+            if solver == 'matrix_based':
+                ax.set_xticks(x)
+                ax.set_xticklabels(solver_df['config'].values, rotation=45, ha='right')
+        
+        ax.set_xlabel('Configuration (MPI × Threads)')
+        ax.set_ylabel('Solve Time (s)')
+        ax.set_title(f'Hybrid Comparison: {target_cores} Total Cores\n(refs={max_refs})')
+        ax.legend()
+    
+    plt.tight_layout()
+    plt.savefig(os.path.join(output_dir, 'hybrid_comparison.png'))
+    plt.close()
+    print("Saved: hybrid_comparison.png")
+
+def plot_weak_scaling(df, output_dir):
+    """Plot weak scaling results."""
+    fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+    
+    weak_df = df[df['test_type'] == 'weak_scaling'].copy()
+    if weak_df.empty:
+        print("No weak scaling data")
+        return
+    
+    # Use pure MPI only
+    weak_df = weak_df[weak_df['n_threads'] == 1]
+    
+    for solver in ['matrix_based', 'matrix_free']:
+        solver_df = weak_df[weak_df['solver_type'] == solver].sort_values('n_mpi')
         if solver_df.empty:
             continue
         
-        solver_df = solver_df.sort_values('total_cores')
+        color = 'tab:blue' if solver == 'matrix_based' else 'tab:orange'
+        marker = 'o' if solver == 'matrix_based' else 's'
+        label = solver.replace('_', '-')
         
-        # Time vs cores (should be constant for perfect weak scaling)
-        axes[0].plot(solver_df['total_cores'], solver_df['total_time_avg'], 
-                    'o-', label=solver)
+        # Weak scaling: time should stay constant
+        axes[0].plot(solver_df['n_mpi'], solver_df['solve_time_avg'], 
+                    f'{marker}-', label=label, color=color, markersize=8)
         
-        # Efficiency
-        axes[1].plot(solver_df['total_cores'], solver_df['parallel_efficiency'], 
-                    'o-', label=solver)
+        # Efficiency = T(1) / T(p)
+        if len(solver_df) > 0:
+            baseline = solver_df['solve_time_avg'].iloc[0]
+            efficiency = baseline / solver_df['solve_time_avg']
+            axes[1].plot(solver_df['n_mpi'], efficiency,
+                        f'{marker}-', label=label, color=color, markersize=8)
     
-    axes[0].set_xlabel('Total Cores')
-    axes[0].set_ylabel('Time (s)')
-    axes[0].set_title('Weak Scaling: Execution Time')
+    axes[0].set_xlabel('MPI Processes')
+    axes[0].set_ylabel('Solve Time (s)')
+    axes[0].set_title('Weak Scaling: Solve Time\n(should be constant for ideal scaling)')
     axes[0].legend()
     axes[0].set_xscale('log', base=2)
-    axes[0].grid(True)
     
-    axes[1].axhline(y=1.0, color='k', linestyle='--', linewidth=2, label='Ideal')
-    axes[1].set_xlabel('Total Cores')
-    axes[1].set_ylabel('Efficiency')
+    axes[1].axhline(y=1.0, color='k', linestyle='--', lw=2, label='Ideal')
+    axes[1].set_xlabel('MPI Processes')
+    axes[1].set_ylabel('Efficiency = T(1)/T(p)')
     axes[1].set_title('Weak Scaling: Efficiency')
     axes[1].legend()
     axes[1].set_xscale('log', base=2)
-    axes[1].set_ylim([0, 1.2])
-    axes[1].grid(True)
+    axes[1].set_ylim([0, 1.5])
     
     plt.tight_layout()
-    plt.savefig(os.path.join(output_dir, 'weak_scaling.png'), dpi=150)
+    plt.savefig(os.path.join(output_dir, 'weak_scaling.png'))
     plt.close()
-    print(f"Saved: {os.path.join(output_dir, 'weak_scaling.png')}")
+    print("Saved: weak_scaling.png")
 
-def plot_solver_comparison(df, output_dir):
-    """Compare matrix-based vs matrix-free solvers."""
-    fig, axes = plt.subplots(1, 3, figsize=(15, 5))
+def print_summary(df):
+    """Print data summary."""
+    print("\n" + "="*70)
+    print("DATA SUMMARY")
+    print("="*70)
+    print(f"Total records: {len(df)}")
+    print(f"Solvers: {df['solver_type'].unique().tolist()}")
+    print(f"Test types: {df['test_type'].unique().tolist()}")
     
-    # Get unique core counts
-    cores = sorted(df['total_cores'].unique())
+    if 'dofs_per_process' in df.columns:
+        print(f"\nDoFs per process range: {df['dofs_per_process'].min():,} - {df['dofs_per_process'].max():,}")
+        low_dofs = df[df['dofs_per_process'] < 50000]
+        if len(low_dofs) > 0:
+            print(f"WARNING: {len(low_dofs)} runs have < 50k DoFs/process")
     
-    mb_times = []
-    mf_times = []
-    mb_mem = []
-    mf_mem = []
-    
-    for c in cores:
-        mb_df = df[(df['total_cores'] == c) & (df['solver_type'] == 'matrix_based')]
-        mf_df = df[(df['total_cores'] == c) & (df['solver_type'] == 'matrix_free')]
-        
-        if not mb_df.empty:
-            mb_times.append(mb_df['total_time_avg'].mean())
-            mb_mem.append(mb_df['memory_mb'].mean())
-        else:
-            mb_times.append(np.nan)
-            mb_mem.append(np.nan)
-        
-        if not mf_df.empty:
-            mf_times.append(mf_df['total_time_avg'].mean())
-            mf_mem.append(mf_df['memory_mb'].mean())
-        else:
-            mf_times.append(np.nan)
-            mf_mem.append(np.nan)
-    
-    # Time comparison
-    x = np.arange(len(cores))
-    width = 0.35
-    axes[0].bar(x - width/2, mb_times, width, label='Matrix-Based')
-    axes[0].bar(x + width/2, mf_times, width, label='Matrix-Free')
-    axes[0].set_xlabel('Total Cores')
-    axes[0].set_ylabel('Time (s)')
-    axes[0].set_title('Execution Time Comparison')
-    axes[0].set_xticks(x)
-    axes[0].set_xticklabels(cores)
-    axes[0].legend()
-    axes[0].grid(True, axis='y')
-    
-    # Speedup (MF vs MB)
-    speedup = [mb/mf if mf > 0 else 0 for mb, mf in zip(mb_times, mf_times)]
-    axes[1].bar(x, speedup, color='green')
-    axes[1].axhline(y=1.0, color='r', linestyle='--', linewidth=2)
-    axes[1].set_xlabel('Total Cores')
-    axes[1].set_ylabel('Speedup (MB/MF)')
-    axes[1].set_title('Matrix-Free Speedup over Matrix-Based')
-    axes[1].set_xticks(x)
-    axes[1].set_xticklabels(cores)
-    axes[1].grid(True, axis='y')
-    
-    # Memory comparison
-    axes[2].bar(x - width/2, mb_mem, width, label='Matrix-Based')
-    axes[2].bar(x + width/2, mf_mem, width, label='Matrix-Free')
-    axes[2].set_xlabel('Total Cores')
-    axes[2].set_ylabel('Memory (MB)')
-    axes[2].set_title('Memory Usage Comparison')
-    axes[2].set_xticks(x)
-    axes[2].set_xticklabels(cores)
-    axes[2].legend()
-    axes[2].grid(True, axis='y')
-    
-    plt.tight_layout()
-    plt.savefig(os.path.join(output_dir, 'solver_comparison.png'), dpi=150)
-    plt.close()
-    print(f"Saved: {os.path.join(output_dir, 'solver_comparison.png')}")
+    print("\nStrong scaling (pure MPI) summary:")
+    strong_mpi = df[(df['test_type'] == 'strong_scaling') & (df['n_threads'] == 1)]
+    for solver in strong_mpi['solver_type'].unique():
+        solver_df = strong_mpi[strong_mpi['solver_type'] == solver]
+        for refs in sorted(solver_df['n_refinements'].unique()):
+            ref_df = solver_df[solver_df['n_refinements'] == refs].sort_values('n_mpi')
+            if len(ref_df) >= 2:
+                t1 = ref_df['solve_time_avg'].iloc[0]
+                tn = ref_df['solve_time_avg'].iloc[-1]
+                n1 = ref_df['n_mpi'].iloc[0]
+                nn = ref_df['n_mpi'].iloc[-1]
+                speedup = t1 / tn
+                ideal = nn / n1
+                eff = speedup / ideal * 100
+                print(f"  {solver} refs={refs}: T({n1})={t1:.3f}s -> T({nn})={tn:.3f}s, "
+                      f"Speedup={speedup:.1f}x (ideal={ideal:.0f}x), Eff={eff:.0f}%")
 
 def main():
     if len(sys.argv) < 2:
-        print("Usage: python analyze_scaling.py <results_csv>")
+        print("Usage: python analyze_scaling_fixed.py <results_csv>")
         sys.exit(1)
     
     csv_file = sys.argv[1]
     output_dir = os.path.dirname(csv_file) or '.'
     
-    print(f"Loading data from: {csv_file}")
+    print(f"Loading: {csv_file}")
     df = load_data(csv_file)
     
-    print(f"Loaded {len(df)} records")
-    print(f"Solver types: {df['solver_type'].unique()}")
-    print(f"Test types: {df['test_type'].unique()}")
+    print_summary(df)
     
-    plot_strong_scaling(df, output_dir)
+    print("\nGenerating plots...")
+    plot_strong_scaling_pure_mpi(df, output_dir)
+    plot_mpi_vs_threading(df, output_dir)
+    plot_hybrid_comparison(df, output_dir)
     plot_weak_scaling(df, output_dir)
-    plot_solver_comparison(df, output_dir)
     
-    print("\nAnalysis complete!")
+    print("\nDone!")
 
 if __name__ == "__main__":
     main()
 PYTHON_EOF
 
 chmod +x ${ANALYSIS_SCRIPT}
-echo "Analysis script generated: ${ANALYSIS_SCRIPT}"
 
 #===============================================================================
 # Final Summary
@@ -693,20 +786,19 @@ echo "Analysis script generated: ${ANALYSIS_SCRIPT}"
 
 echo ""
 echo "==============================================================================="
-echo "SCALING BENCHMARK COMPLETE"
+echo "BENCHMARK COMPLETE"
 echo "==============================================================================="
-echo "Results Directory: ${RESULTS_DIR}"
-echo "Log File: ${LOG_FILE}"
-echo "Summary: ${SUMMARY_FILE}"
+echo "Results: ${RESULTS_DIR}"
 echo ""
-echo "Combined Results:"
-echo "  Strong Scaling: ${COMBINED_STRONG}"
-echo "  Weak Scaling:   ${COMBINED_WEAK}"
-echo "  All Results:    ${COMBINED_ALL}"
+echo "Key output files:"
+echo "  ${COMBINED_PURE_MPI}     - Pure MPI scaling (primary)"
+echo "  ${COMBINED_PURE_THREAD}  - Pure threading scaling"
+echo "  ${COMBINED_HYBRID}       - Hybrid configurations"
+echo "  ${COMBINED_WEAK}         - Weak scaling"
+echo "  ${COMBINED_ALL}          - All results combined"
 echo ""
-echo "To generate plots, run:"
+echo "To generate plots:"
 echo "  python ${ANALYSIS_SCRIPT} ${COMBINED_ALL}"
 echo ""
-echo "End Time: $(date)"
+echo "End: $(date)"
 echo "==============================================================================="
-echo ""

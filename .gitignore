@@ -429,3 +429,5 @@ TSWLatexianTemp*
 spack.lock
 .spack-env
 .venv
+
+result*
