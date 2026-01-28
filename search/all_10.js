@@ -24,7 +24,7 @@ var searchData=
   ['solve_5ftime_5fstd_21',['solve_time_std',['../structScalingResult.html#a83bdd3567d77e4951438365cfc473de2',1,'ScalingResult']]],
   ['solver_20using_20deal_20ii_22',['Advection-Diffusion-Reaction Solver using deal.II',['../index.html',1,'']]],
   ['solver_2eh_23',['solver.h',['../solver_8h.html',1,'']]],
-  ['solver_5ftype_24',['solver_type',['../structScalingResult.html#ad3782fd037cc0e4204e4605723a1b8e9',1,'ScalingResult::solver_type'],['../structBenchmarkUtils_1_1BenchmarkResult.html#a516f065e080195f9fb90fe562cec8f67',1,'BenchmarkUtils::BenchmarkResult::solver_type'],['../structWeakScalingResult.html#a7931ffd2943f5d85ca6c3b3c4f34280c',1,'WeakScalingResult::solver_type'],['../structHybridADRSolver_1_1SolverParameters.html#a5207ef56005b1952eea4eb4b03c205f0',1,'HybridADRSolver::SolverParameters::solver_type']]],
+  ['solver_5ftype_24',['solver_type',['../structScalingResult.html#ad3782fd037cc0e4204e4605723a1b8e9',1,'ScalingResult::solver_type'],['../structBenchmarkUtils_1_1BenchmarkResult.html#a516f065e080195f9fb90fe562cec8f67',1,'BenchmarkUtils::BenchmarkResult::solver_type'],['../structHybridADRSolver_1_1SolverParameters.html#a5207ef56005b1952eea4eb4b03c205f0',1,'HybridADRSolver::SolverParameters::solver_type']]],
   ['solverparameters_25',['SolverParameters',['../structHybridADRSolver_1_1SolverParameters.html',1,'HybridADRSolver']]],
   ['solvertype_26',['SolverType',['../namespaceHybridADRSolver.html#afe6d3d39f0c710383621e32a46108cb1',1,'HybridADRSolver']]],
   ['source_5fterm_27',['source_term',['../classHybridADRSolver_1_1ProblemInterface.html#ab51cd54979ec7cb91914b0f071d7f5bc',1,'HybridADRSolver::ProblemInterface::source_term()'],['../classHybridADRSolver_1_1Problems_1_1ADRProblem.html#add125e85d1ffecaa56cb8895c5ebb284',1,'HybridADRSolver::Problems::ADRProblem::source_term()']]],
@@ -33,9 +33,7 @@ var searchData=
   ['stability_30',['Coercivity and Stability',['../index.html#autotoc_md8',1,'']]],
   ['start_31',['start',['../classBenchmarkUtils_1_1Timer.html#a16139425b9d5d07183f08c69cda21a93',1,'BenchmarkUtils::Timer']]],
   ['statistics_32',['Statistics',['../structStatistics.html',1,'']]],
-  ['stddev_33',['stddev',['../structTimingStats.html#a95147db892704ca749457dd7ad1815c0',1,'TimingStats::stddev'],['../structStatistics.html#a72d4e45d0a6859b50fc9483707a7a90e',1,'Statistics::stddev()']]],
+  ['stddev_33',['stddev',['../structStatistics.html#a72d4e45d0a6859b50fc9483707a7a90e',1,'Statistics']]],
   ['stop_34',['stop',['../classBenchmarkUtils_1_1Timer.html#a6c061574ca6a548a7ba62b8ea5b109ad',1,'BenchmarkUtils::Timer']]],
-  ['strong_5fscaling_2ecpp_35',['strong_scaling.cpp',['../strong__scaling_8cpp.html',1,'']]],
-  ['strongscalingconfig_36',['StrongScalingConfig',['../structStrongScalingConfig.html',1,'']]],
-  ['systemmatrixtype_37',['SystemMatrixType',['../classHybridADRSolver_1_1MatrixFreeSolver.html#ad85c80796a00a2921828219e84e622c2',1,'HybridADRSolver::MatrixFreeSolver']]]
+  ['systemmatrixtype_35',['SystemMatrixType',['../classHybridADRSolver_1_1MatrixFreeSolver.html#ad85c80796a00a2921828219e84e622c2',1,'HybridADRSolver::MatrixFreeSolver']]]
 ];

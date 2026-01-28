@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['output_5fresults_0',['output_results',['../classHybridADRSolver_1_1ParallelSolverBase.html#a186e59630482325dce51e425a349783b',1,'HybridADRSolver::ParallelSolverBase::output_results()'],['../classHybridADRSolver_1_1MatrixBasedSolver.html#a8d28cb187f683255906fe85103f51e07',1,'HybridADRSolver::MatrixBasedSolver::output_results()'],['../classHybridADRSolver_1_1MatrixFreeSolver.html#a47e3b8e1976e2467767685e33c85e6b4',1,'HybridADRSolver::MatrixFreeSolver::output_results()']]]
+  ['parallelsolverbase_0',['ParallelSolverBase',['../classHybridADRSolver_1_1ParallelSolverBase.html#a4cdefae1c5f994c3d31da7b131f5c8b7',1,'HybridADRSolver::ParallelSolverBase']]],
+  ['print_5fsummary_1',['print_summary',['../classBenchmarkUtils_1_1ResultCollector.html#a02fd335ab635717e54eca766f51918d1',1,'BenchmarkUtils::ResultCollector::print_summary()'],['../scaling__study_8cpp.html#aef3bf947020daa339ce9c61672b391c4',1,'print_summary(const std::vector&lt; ScalingResult &gt; &amp;results, MPI_Comm comm):&#160;scaling_study.cpp']]],
+  ['print_5fusage_2',['print_usage',['../main__2d_8cpp.html#ac7608332d002ef2745359f4cada4afc8',1,'print_usage(const char *program_name):&#160;main_2d.cpp'],['../scaling__study_8cpp.html#ac7608332d002ef2745359f4cada4afc8',1,'print_usage(const char *program_name):&#160;scaling_study.cpp']]]
 ];

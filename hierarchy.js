@@ -25,10 +25,6 @@ var hierarchy =
     [ "HybridADRSolver::ScratchData< dim >", "structHybridADRSolver_1_1ScratchData.html", null ],
     [ "HybridADRSolver::SolverParameters", "structHybridADRSolver_1_1SolverParameters.html", null ],
     [ "Statistics", "structStatistics.html", null ],
-    [ "StrongScalingConfig", "structStrongScalingConfig.html", null ],
     [ "BenchmarkUtils::Timer", "classBenchmarkUtils_1_1Timer.html", null ],
-    [ "HybridADRSolver::TimingResults", "structHybridADRSolver_1_1TimingResults.html", null ],
-    [ "TimingStats", "structTimingStats.html", null ],
-    [ "WeakScalingConfig", "structWeakScalingConfig.html", null ],
-    [ "WeakScalingResult", "structWeakScalingResult.html", null ]
+    [ "HybridADRSolver::TimingResults", "structHybridADRSolver_1_1TimingResults.html", null ]
 ];

@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['value_0',['value',['../classHybridADRSolver_1_1Problems_1_1ExactSolution.html#ac8980c0d2cdb14a4e98a8f9e75d7dec9',1,'HybridADRSolver::Problems::ExactSolution::value()'],['../classHybridADRSolver_1_1Problems_1_1NeumannFluxRight.html#ab6f72de96970be6497ab326566d5dcfb',1,'HybridADRSolver::Problems::NeumannFluxRight::value()']]],
-  ['vmult_1',['vmult',['../classHybridADRSolver_1_1JacobiPreconditioner.html#ad5b1a748a6bf6df9d00878742f8dae67',1,'HybridADRSolver::JacobiPreconditioner']]]
+  ['write_5fcsv_0',['write_csv',['../classBenchmarkUtils_1_1ResultCollector.html#a9ef0f3f55dd36d17a93241dbffcafb31',1,'BenchmarkUtils::ResultCollector']]],
+  ['write_5fresults_5fcsv_1',['write_results_csv',['../scaling__study_8cpp.html#a3e2227eee3044b9a7e14922628c1c1ec',1,'scaling_study.cpp']]]
 ];

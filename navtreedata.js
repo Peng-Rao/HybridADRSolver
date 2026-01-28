@@ -61,8 +61,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "adr__operator_8h.html",
-"classHybridADRSolver_1_1Problems_1_1ADRProblem.html#add125e85d1ffecaa56cb8895c5ebb284",
-"structHybridADRSolver_1_1SolverParameters.html#ac9175838602a5b277b384e7a1a6b9c57"
+"classHybridADRSolver_1_1Problems_1_1ExactSolution.html#ac8980c0d2cdb14a4e98a8f9e75d7dec9",
+"structHybridADRSolver_1_1TimingResults.html#a1ab6998c1b5b7e80122fa053f69c17f3"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

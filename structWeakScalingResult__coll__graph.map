@@ -1,5 +1,0 @@
-<map id="WeakScalingResult" name="WeakScalingResult">
-<area shape="rect" id="Node000001" title="Benchmark result for weak scaling." alt="" coords="5,100,140,125"/>
-<area shape="rect" id="Node000002" href="$structTimingStats.html" title="Compute statistics from timing data." alt="" coords="27,5,118,30"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="75,46,75,100,70,100,70,46"/>
-</map>
