@@ -1,101 +1,129 @@
-# Advection-Diffusion-Reaction Solver using deal.II
+# Hybrid ADR Solver
 
 [![CI](https://github.com/Peng-Rao/HybridADRSolver/actions/workflows/ci.yml/badge.svg)](https://github.com/Peng-Rao/HybridADRSolver/actions/workflows/ci.yml) [![docs-build-deployment](https://github.com/Peng-Rao/HybridADRSolver/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/Peng-Rao/HybridADRSolver/actions/workflows/pages/pages-build-deployment)
 
-This project implements a finite element solver for the steady-state advection-diffusion-reaction equation using
-the [deal.II](https://www.dealii.org/) library.
+A high-performance finite element solver for the steady-state **Advection-Diffusion-Reaction (ADR)** equation using the [deal.II](https://www.dealii.org/) library. This project implements and compares two parallelization strategies:
 
-## Problem Formulation
+- **Matrix-Based Solver**: Explicit sparse matrix assembly with WorkStream threading + AMG preconditioning
+- **Matrix-Free Solver**: On-the-fly operator evaluation with Geometric Multigrid (GMG) preconditioning
 
-The solver addresses the following boundary value problem:
+Both solvers support hybrid **MPI + threading** parallelization for optimal performance on modern HPC architectures.
 
-$$-\nabla \cdot (\mu \nabla u) + \nabla \cdot (\beta u) + \gamma u = f \quad \text{in } \Omega$$
+## Features
 
-$$u = g \quad \text{on } \Gamma_D \subset \partial\Omega \quad \text{(Dirichlet)}$$
-
-$$\nabla u \cdot \mathbf{n} = h \quad \text{on } \Gamma_N = \partial\Omega \setminus \Gamma_D \quad \text{(Neumann)}$$
-
-Where:
-
-- $\mu$: Diffusion coefficient (scalar or tensor)
-- $\beta$: Advection velocity field (vector)
-- $\gamma$: Reaction coefficient (scalar, $\gamma \geq 0$)
-- $f$: Source term
-- $g$: Dirichlet boundary data
-- $h$: Neumann boundary flux
-
-## Weak Formulation
-
-Multiplying by a test function $v \in H^1_0(\Omega)$ and integrating by parts:
-
-$$\int_\Omega \mu \nabla u \cdot \nabla v \, dx + \int_\Omega (\beta \cdot \nabla u) v \, dx + \int_\Omega \gamma u v \, dx = \int_\Omega f v \, dx + \int_{\Gamma_N} h v \, ds$$
+| Feature                  |     Matrix-Based      |     Matrix-Free      |
+| ------------------------ | :-------------------: | :------------------: |
+| Sparse Matrix Storage    |           ✓           |          ✗           |
+| Thread-Parallel Assembly |      WorkStream       |     FEEvaluation     |
+| Preconditioner           |   AMG (PETSc/hypre)   |   GMG (Chebyshev)    |
+| Memory Scaling           |    O(N × stencil)     |         O(N)         |
+| Best For                 | Small-medium problems | Large-scale problems |
 
 ## Building
 
 ### Prerequisites
 
-We recommend use [Spack](https://spack.io) to manage dependencies. Spack is a package manager for supercomputers, Linux,
-macOS, and Windows. We can build deal.II automatically with Spack. Using the following commands to install Spack and
-deal.II:
-
-- Install Spack
+We recommend using [Spack](https://spack.io) to manage dependencies:
 
 ```bash
+# Install Spack
 git clone --depth=2 https://github.com/spack/spack.git
 . spack/share/spack/setup-env.sh
-```
 
-- Install deal.II with MPI and other dependencies
-
-```bash
+# Install deal.II with required dependencies
 spack install dealii +mpi +petsc +p4est \
     '~gmsh' '~arborx' '~taskflow' '~ginkgo' '~opencascade' '~cgal' '~trilinos' \
     '^petsc+hypre+metis+hdf5' \
     '^mpich' \
     '^python@3.11'
-    
-spack install gtest
 ```
 
 ### Compilation
 
-- Load deal.II environment
-
 ```bash
+# Load deal.II environment
 spack load dealii
-```
 
-- Build the project
-
-```bash
-mkdir build
-cd build
+# Build the project
+mkdir build && cd build
 cmake ..
-make -j
+make -j$(nproc)
 ```
 
-### Running
+## Usage
+
+### Running Examples
 
 ```bash
-./GalerkinSolver    # Galerkin solver
+# Matrix-based solver (single process)
+./main_matrix_based
+
+# Matrix-free solver (single process)
+./main_matrix_free
+
+# Hybrid MPI + threading
+export OMP_NUM_THREADS=4
+mpirun -np 8 ./main_matrix_free
 ```
 
-## Mathematical Notes
+### Running Benchmarks
 
-### Coercivity and Stability
+```bash
+# Time complexity study (refinement levels 2-10, degree 2)
+mpirun -np 4 ./main_2d --min-ref 2 --max-ref 10 --degree 2 --output results.csv
 
-For well-posedness, we require:
+# Convergence verification
+mpirun -np 4 ./convergence_study
 
-1. $\mu > 0$ (positive diffusion)
-2. $\gamma \geq 0$ (non-negative reaction)
-3. $\nabla \cdot \beta$ bounded (divergence of convection)
+# Scaling study
+mpirun -np 16 ./scaling_study --test strong
+```
 
-The bilinear form is coercive if:
+### Command-Line Options
 
-$$\gamma - \frac{1}{2}\nabla \cdot \beta \geq \gamma_0 > 0$$
+| Option          | Description              | Default             |
+| --------------- | ------------------------ | ------------------- |
+| `--min-ref, -m` | Minimum refinement level | 2                   |
+| `--max-ref, -M` | Maximum refinement level | 10                  |
+| `--degree, -d`  | Polynomial degree        | 2                   |
+| `--output, -o`  | Output CSV file          | `complexity_2d.csv` |
+| `--threads, -t` | Threads per MPI process  | auto                |
 
-### Error Estimates
+### Submit PBS cluster
 
-For sufficiently smooth solutions, the standard Galerkin method gives:
+```
+qsub submit_benchmark_2d.pbs
+qsub submit_scaling_study.pbs
+```
 
-$$\|u - u_h\|_{H^1} \leq C h^k |u|_{H^{k+1}}$$
+## Performance
+
+Representative results on a unit square domain with $Q_2$ elements:
+
+| DoFs      | Matrix-Based (s) | Matrix-Free (s) | Memory Ratio |
+| --------- | ---------------- | --------------- | ------------ |
+| 16,641    | 0.19             | 0.28            | 2.7×         |
+| 263,169   | 2.59             | 2.07            | 2.7×         |
+| 1,050,625 | 10.41            | 6.75            | 2.7×         |
+| 4,198,401 | 44.13            | 23.77           | 2.7×         |
+
+_Matrix-free solver becomes faster for $N_{\text{dof}} > 250{,}000$ with 3–4× lower memory usage.\_
+
+## References
+
+- [deal.II Documentation](https://www.dealii.org/current/doxygen/deal.II/index.html)
+- [deal.II Step-37](https://www.dealii.org/current/doxygen/deal.II/step_37.html)
+- [deal.II Step-48](https://www.dealii.org/current/doxygen/deal.II/step_48.html) 
+- [deal.II Step-69](https://www.dealii.org/current/doxygen/deal.II/step_69.html) 
+
+## Authors
+
+- **Peng Rao**
+- **Jiali Claudio Huang**
+- **Ruiying Jiao**
+
+_Politecnico di Milano — M.Sc. in High Performance Computing_
+
+## License
+
+This project is licensed under the MIT License.

@@ -646,7 +646,14 @@ The memory consumption of both solvers is compared in \cref{tab:memory_compariso
 The matrix-based solver requires approximately $\mathcal{O}(N_{\text{dof}} \cdot (2k+1)^d)$ memory for the sparse matrix storage (where $(2k+1)^d$ represents the stencil size), while the matrix-free solver only requires $\mathcal{O}(N_{\text{dof}})$ for vector storage plus a small overhead for the MatrixFree data structures and multigrid hierarchy.
 
 \subsection{Scalability}
-\emph{(Placeholder for parallel scalability experiments: strong scaling, weak scaling studies with varying MPI processes and thread counts.)}
+A detailed parallel scalability study is planned for future work. Preliminary tests indicate that both implementations scale well with increasing numbers of MPI processes and threads, leveraging the hybrid parallelization strategy. The matrix-free solver is expected to exhibit better strong and weak scaling due to its lower memory bandwidth requirements and improved cache utilization.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/scaling_analysis_summary.pdf}
+    \caption{Preliminary scalability analysis for both solver implementations.}
+    \label{fig:scalability_analysis}
+\end{figure}
 
 \pagebreak
 \section{Conclusion}
@@ -663,8 +670,6 @@ Both implementations achieve the expected optimal convergence rates ($\mathcal{O
     \item For large-scale problems ($N_{\text{dof}} > 250{,}000$), the matrix-free solver demonstrates better overall performance in both setup and solve phases.
     \item The matrix-based solver remains competitive for smaller problems due to lower setup overhead.
 \end{itemize}
-
-Future work includes comprehensive parallel scalability studies and extension to time-dependent problems and adaptive mesh refinement.
 
 \clearpage
 \printbibliography[heading=bibintoc, title = {References}]
