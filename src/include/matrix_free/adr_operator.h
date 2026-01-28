@@ -2,9 +2,7 @@
 #define HYBRIDADRSOLVER_ADR_OPERATOR_H
 
 #include "core/problem_definition.h"
-#include "core/types.h"
 
-#include <deal.II/base/quadrature_lib.h>
 #include <deal.II/base/vectorization.h>
 #include <deal.II/lac/la_parallel_vector.h>
 #include <deal.II/matrix_free/fe_evaluation.h>
@@ -126,8 +124,7 @@ public:
     /**
      * @brief Access to the underlying MatrixFree object.
      */
-    std::shared_ptr<const MatrixFree<dim, Number>>
-    get_matrix_free() const override {
+    std::shared_ptr<const MatrixFree<dim, Number>> get_matrix_free() const {
         return this->data;
     }
 
@@ -229,22 +226,35 @@ private:
                                          EvaluationFlags::gradients);
 
             for (unsigned int q = 0; q < phi.n_q_points; ++q) {
-                const VectorizedArray<Number> u_val = phi.get_value(q);
-                const Tensor<1, dim, VectorizedArray<Number>> grad_u =
-                    phi.get_gradient(q);
+                const Point<dim, VectorizedArray<Number>> q_point =
+                    phi.quadrature_point(q);
+
+                VectorizedArray<Number> mu_val;
+                VectorizedArray<Number> gamma_val;
+                Tensor<1, dim, VectorizedArray<Number>> beta_val;
+
+                for (unsigned int v = 0; v < VectorizedArray<Number>::size();
+                     ++v) {
+                    Point<dim> p_real;
+                    for (int d = 0; d < dim; ++d)
+                        p_real[d] = q_point[d][v];
+
+                    mu_val[v] = problem_ptr->diffusion_coefficient(p_real);
+                    gamma_val[v] = problem_ptr->reaction_coefficient(p_real);
+                    auto beta_real = problem_ptr->advection_field(p_real);
+                    for (int d = 0; d < dim; ++d)
+                        beta_val[d][v] = beta_real[d];
+                }
+
+                const auto u_val = phi.get_value(q);
+                const auto grad_u = phi.get_gradient(q);
 
                 // Diffusion: mu * grad(u)
-                Tensor<1, dim, VectorizedArray<Number>> flux =
-                    diffusion_coefficients[cell][q] * grad_u;
+                auto flux = mu_val * grad_u;
 
-                // Advection contribution to flux: (beta · grad(u)) * v
-                // This is handled via the value term below
-                VectorizedArray<Number> advection_val =
-                    advection_coefficients[cell][q] * grad_u;
-
-                // Reaction: gamma * u
-                VectorizedArray<Number> val =
-                    reaction_coefficients[cell][q] * u_val + advection_val;
+                // Advection + Reaction
+                // weak form: (beta . grad_u, v) + (gamma * u, v)
+                auto val = gamma_val * u_val + beta_val * grad_u;
 
                 phi.submit_gradient(flux, q);
                 phi.submit_value(val, q);

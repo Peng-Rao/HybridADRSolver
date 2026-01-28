@@ -102,7 +102,7 @@ public:
     /**
      * @brief Compute memory usage in MB.
      */
-    double get_memory_usage() const;
+    double compute_memory_usage() const;
 
     /**
      * @brief Compute the L2 error against the exact solution.

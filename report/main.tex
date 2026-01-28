@@ -41,7 +41,7 @@ giveninits,
 natbib = false,
 isbn=false,%
 backend=biber]{biblatex}
-\addbibresource{bibliography.bib}
+\addbibresource{references.bib}
 
 \usepackage[]{hyperref}
 \usepackage{cleveref}
@@ -381,7 +381,7 @@ These estimates indicate that for smooth solutions, increasing the polynomial de
 
 \section{Implementation Details}
 \subsection{Matrix Assembly}
-The matrix assembly process involves iterating over each cell in the triangulation, computing local contributions to the global stiffness matrix and right-hand side vector using numerical quadrature. The implementation leverages the \texttt{deal.II} finite element library for efficient handling of mesh data structures, basis functions, and quadrature rules.
+The matrix assembly process involves iterating over each cell in the triangulation, computing local contributions to the global stiffness matrix and right-hand side vector using numerical quadrature. The implementation leverages the \texttt{deal.II}\cite{dealII2021} finite element library for efficient handling of mesh data structures, basis functions, and quadrature rules.
 
 \subsubsection{Matrix-Based Implementation}
 In the matrix-based approach, we explicitly assemble the global stiffness matrix $\mathbf{A}$ by summing the local element matrices. For each cell, we compute the local stiffness matrix $A_{\text{cell}}$ and use a scatter operation to add its contributions to the global matrix. The global matrix is stored in a sparse format to optimize memory usage.

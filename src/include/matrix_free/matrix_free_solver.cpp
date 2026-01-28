@@ -572,18 +572,11 @@ void MatrixFreeSolver<dim, fe_degree>::output_results(
 }
 
 template <int dim, int fe_degree>
-double MatrixFreeSolver<dim, fe_degree>::get_memory_usage() const {
+double MatrixFreeSolver<dim, fe_degree>::compute_memory_usage() const {
     double memory = 0.0;
 
     memory += solution.memory_consumption();
     memory += system_rhs.memory_consumption();
-    memory += matrix_free_data->memory_consumption();
-
-    for (unsigned int level = mg_matrices.min_level();
-         level <= mg_matrices.max_level(); ++level) {
-        if (mg_matrix_free_storage[level])
-            memory += mg_matrix_free_storage[level]->memory_consumption();
-    }
 
     const double global_memory =
         Utilities::MPI::sum(memory, this->mpi_communicator);
@@ -636,7 +629,7 @@ void MatrixFreeSolver<dim, fe_degree>::run(unsigned int n_ref) {
         std::chrono::duration<double>(t3 - t2).count();
     this->timing_results.total_time =
         std::chrono::duration<double>(t3 - t0).count();
-    this->timing_results.memory_mb = get_memory_usage();
+    this->timing_results.memory_mb = compute_memory_usage();
     this->timing_results.n_dofs = this->dof_handler.n_dofs();
     this->timing_results.l2_error = err;
     this->timing_results.n_cells = this->triangulation.n_global_active_cells();
