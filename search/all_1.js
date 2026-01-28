@@ -7,6 +7,7 @@ var searchData=
   ['benchmark_5fmatrix_5ffree_4',['benchmark_matrix_free',['../strong__scaling_8cpp.html#ae2b2161843b5bd95ded2229e8b3727fe',1,'strong_scaling.cpp']]],
   ['benchmarkresult_5',['BenchmarkResult',['../structBenchmarkUtils_1_1BenchmarkResult.html',1,'BenchmarkUtils']]],
   ['benchmarkutils_6',['BenchmarkUtils',['../namespaceBenchmarkUtils.html',1,'']]],
-  ['bicgstab_7',['BiCGStab',['../namespaceHybridADRSolver.html#a222b7a02326125bfc0eec6713f38e5ffa17f477cd947340d28b9a4d6f49c1e43b',1,'HybridADRSolver']]],
-  ['building_8',['Building',['../index.html#autotoc_md3',1,'']]]
+  ['beta_5fvalues_7',['beta_values',['../structHybridADRSolver_1_1ScratchData.html#a6027faa35d992e81ea63723a1969555f',1,'HybridADRSolver::ScratchData']]],
+  ['bicgstab_8',['BiCGStab',['../namespaceHybridADRSolver.html#a222b7a02326125bfc0eec6713f38e5ffa17f477cd947340d28b9a4d6f49c1e43b',1,'HybridADRSolver']]],
+  ['building_9',['Building',['../index.html#autotoc_md3',1,'']]]
 ];

@@ -1,13 +1,6 @@
 var searchData=
 [
-  ['setup_5ftime_0',['setup_time',['../structBenchmarkUtils_1_1BenchmarkResult.html#a1fb0649ad5e9437845d477a82707ae75',1,'BenchmarkUtils::BenchmarkResult::setup_time'],['../structHybridADRSolver_1_1TimingResults.html#a925e4721515e3d0c96a848630e36db41',1,'HybridADRSolver::TimingResults::setup_time']]],
-  ['setup_5ftime_5favg_1',['setup_time_avg',['../structScalingResult.html#a99a965e5cd4239c77fd5386a3a7fd5cc',1,'ScalingResult']]],
-  ['setup_5ftime_5fstd_2',['setup_time_std',['../structScalingResult.html#a8cf128e5ca1de18d277ac9e137ae8df3',1,'ScalingResult']]],
-  ['solve_5ftime_3',['solve_time',['../structBenchmarkUtils_1_1BenchmarkResult.html#a0940b53ad2ce0b62da1d0ed9d2d2ba97',1,'BenchmarkUtils::BenchmarkResult::solve_time'],['../structHybridADRSolver_1_1TimingResults.html#a0d64e9cb5f24bde8e5504d9fb9b3787c',1,'HybridADRSolver::TimingResults::solve_time']]],
-  ['solve_5ftime_5favg_4',['solve_time_avg',['../structScalingResult.html#a1c7900ff71a3230567ae7f3054d23dca',1,'ScalingResult']]],
-  ['solve_5ftime_5fstd_5',['solve_time_std',['../structScalingResult.html#a83bdd3567d77e4951438365cfc473de2',1,'ScalingResult']]],
-  ['solver_5ftype_6',['solver_type',['../structScalingResult.html#ad3782fd037cc0e4204e4605723a1b8e9',1,'ScalingResult::solver_type'],['../structBenchmarkUtils_1_1BenchmarkResult.html#a516f065e080195f9fb90fe562cec8f67',1,'BenchmarkUtils::BenchmarkResult::solver_type'],['../structWeakScalingResult.html#a7931ffd2943f5d85ca6c3b3c4f34280c',1,'WeakScalingResult::solver_type'],['../structHybridADRSolver_1_1SolverParameters.html#a5207ef56005b1952eea4eb4b03c205f0',1,'HybridADRSolver::SolverParameters::solver_type']]],
-  ['speedup_7',['speedup',['../structScalingResult.html#a8d278c19cb98debb661ecdbff7642198',1,'ScalingResult']]],
-  ['speedup_5ftotal_8',['speedup_total',['../structScalingResult.html#a0844b30b216a78067f7f22e1ee87ae37',1,'ScalingResult']]],
-  ['stddev_9',['stddev',['../structTimingStats.html#a95147db892704ca749457dd7ad1815c0',1,'TimingStats']]]
+  ['operator_5fapply_5ftime_0',['operator_apply_time',['../structHybridADRSolver_1_1TimingResults.html#a7ad366ecfdea278eac1e53720acd2f71',1,'HybridADRSolver::TimingResults']]],
+  ['output_5fprefix_1',['output_prefix',['../structStrongScalingConfig.html#a6ee07ff65b61f99d492eaffda4dd1bdb',1,'StrongScalingConfig::output_prefix'],['../structWeakScalingConfig.html#a4448fd42612d608afbd77f2d4165acdf',1,'WeakScalingConfig::output_prefix'],['../structHybridADRSolver_1_1SolverParameters.html#af21863e980587690c653330e4fcf6d4a',1,'HybridADRSolver::SolverParameters::output_prefix']]],
+  ['output_5fsolution_2',['output_solution',['../structHybridADRSolver_1_1SolverParameters.html#a89dbc5c399e8238cd1a78ab3c20038ac',1,'HybridADRSolver::SolverParameters']]]
 ];

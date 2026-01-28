@@ -101,7 +101,7 @@ $(function(){initNavTree('structHybridADRSolver_1_1ScratchData.html','','structH
 </div><!--header-->
 <div class="contents">
 
-<p>Scratch data for the <span class="tt">WorkStream</span> assembly.  
+<p>Scratch data for the <span class="tt">WorkStream</span> assembly (Optimized).  
  <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
@@ -115,11 +115,22 @@ Public Member Functions</h2></td></tr>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a5267a7ca2ab89f6bb3a9e3823c0c304e" id="r_a5267a7ca2ab89f6bb3a9e3823c0c304e"><td class="memItemLeft" align="right" valign="top">FEValues&lt; dim &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5267a7ca2ab89f6bb3a9e3823c0c304e">fe_values</a></td></tr>
 <tr class="memitem:a02e734df2e7185a449b54f884b6459c8" id="r_a02e734df2e7185a449b54f884b6459c8"><td class="memItemLeft" align="right" valign="top">FEFaceValues&lt; dim &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a02e734df2e7185a449b54f884b6459c8">fe_face_values</a></td></tr>
+<tr class="memitem:a0142f955577385af5b75813e0afee903" id="r_a0142f955577385af5b75813e0afee903"><td class="memItemLeft" align="right" valign="top">const unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0142f955577385af5b75813e0afee903">n_dofs</a></td></tr>
+<tr class="memitem:acea9c1ba9da5175541a2358dd9dd58cd" id="r_acea9c1ba9da5175541a2358dd9dd58cd"><td class="memItemLeft" align="right" valign="top">const unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acea9c1ba9da5175541a2358dd9dd58cd">n_q_points</a></td></tr>
+<tr class="memitem:ad9f3a443f958f4e6145ba5e89d463e5e" id="r_ad9f3a443f958f4e6145ba5e89d463e5e"><td class="memItemLeft" align="right" valign="top">const unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad9f3a443f958f4e6145ba5e89d463e5e">n_face_q_points</a></td></tr>
+<tr class="memitem:ab566ebe57b280bdb440f193c4e1b25ee" id="r_ab566ebe57b280bdb440f193c4e1b25ee"><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab566ebe57b280bdb440f193c4e1b25ee">phi</a></td></tr>
+<tr class="memitem:a67786f574700f8b0029eafb9ceb08379" id="r_a67786f574700f8b0029eafb9ceb08379"><td class="memItemLeft" align="right" valign="top">std::vector&lt; Tensor&lt; 1, dim &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a67786f574700f8b0029eafb9ceb08379">grad_phi</a></td></tr>
+<tr class="memitem:a644bcd14b33669c6859be956bba5620d" id="r_a644bcd14b33669c6859be956bba5620d"><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a644bcd14b33669c6859be956bba5620d">face_phi</a></td></tr>
+<tr class="memitem:a3621ed317174364a5447655807981a3b" id="r_a3621ed317174364a5447655807981a3b"><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3621ed317174364a5447655807981a3b">mu_values</a></td></tr>
+<tr class="memitem:a6027faa35d992e81ea63723a1969555f" id="r_a6027faa35d992e81ea63723a1969555f"><td class="memItemLeft" align="right" valign="top">std::vector&lt; Tensor&lt; 1, dim &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6027faa35d992e81ea63723a1969555f">beta_values</a></td></tr>
+<tr class="memitem:a319d9b6541f5ffe5b67217ad705e185b" id="r_a319d9b6541f5ffe5b67217ad705e185b"><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a319d9b6541f5ffe5b67217ad705e185b">gamma_values</a></td></tr>
+<tr class="memitem:afa26ca1805d9fde123c94b6583da448c" id="r_afa26ca1805d9fde123c94b6583da448c"><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afa26ca1805d9fde123c94b6583da448c">f_values</a></td></tr>
+<tr class="memitem:a581f8537e28af93bd7d2a8579bae02fd" id="r_a581f8537e28af93bd7d2a8579bae02fd"><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a581f8537e28af93bd7d2a8579bae02fd">JxW_values</a></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><div class="compoundTemplParams">template&lt;int dim&gt;<br />
-struct HybridADRSolver::ScratchData&lt; dim &gt;</div><p>Scratch data for the <span class="tt">WorkStream</span> assembly. </p>
-<p>This struct holds thread-local data required for assembly, such as <span class="tt">FEValues</span> and <span class="tt">FEFaceValues</span> objects. Using this prevents the need to reallocate these objects for every cell, which would be expensive.</p>
+struct HybridADRSolver::ScratchData&lt; dim &gt;</div><p>Scratch data for the <span class="tt">WorkStream</span> assembly (Optimized). </p>
+<p>This struct holds thread-local data required for assembly, including pre-allocated caching arrays for shape values, gradients, and coefficients to minimize redundant computations in the inner assembly loops.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">dim</td><td>Spatial dimension. </td></tr>
@@ -203,6 +214,54 @@ template&lt;int dim&gt; </div>
 </div>
 </div>
 <a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
+<a id="a6027faa35d992e81ea63723a1969555f" name="a6027faa35d992e81ea63723a1969555f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6027faa35d992e81ea63723a1969555f">&#9670;&#160;</a></span>beta_values</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;int dim&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;Tensor&lt;1, dim&gt; &gt; <a class="el" href="structHybridADRSolver_1_1ScratchData.html">HybridADRSolver::ScratchData</a>&lt; dim &gt;::beta_values</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afa26ca1805d9fde123c94b6583da448c" name="afa26ca1805d9fde123c94b6583da448c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afa26ca1805d9fde123c94b6583da448c">&#9670;&#160;</a></span>f_values</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;int dim&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;double&gt; <a class="el" href="structHybridADRSolver_1_1ScratchData.html">HybridADRSolver::ScratchData</a>&lt; dim &gt;::f_values</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a644bcd14b33669c6859be956bba5620d" name="a644bcd14b33669c6859be956bba5620d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a644bcd14b33669c6859be956bba5620d">&#9670;&#160;</a></span>face_phi</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;int dim&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;double&gt; <a class="el" href="structHybridADRSolver_1_1ScratchData.html">HybridADRSolver::ScratchData</a>&lt; dim &gt;::face_phi</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a02e734df2e7185a449b54f884b6459c8" name="a02e734df2e7185a449b54f884b6459c8"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a02e734df2e7185a449b54f884b6459c8">&#9670;&#160;</a></span>fe_face_values</h2>
 
@@ -229,6 +288,134 @@ template&lt;int dim&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">FEValues&lt;dim&gt; <a class="el" href="structHybridADRSolver_1_1ScratchData.html">HybridADRSolver::ScratchData</a>&lt; dim &gt;::fe_values</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a319d9b6541f5ffe5b67217ad705e185b" name="a319d9b6541f5ffe5b67217ad705e185b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a319d9b6541f5ffe5b67217ad705e185b">&#9670;&#160;</a></span>gamma_values</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;int dim&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;double&gt; <a class="el" href="structHybridADRSolver_1_1ScratchData.html">HybridADRSolver::ScratchData</a>&lt; dim &gt;::gamma_values</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a67786f574700f8b0029eafb9ceb08379" name="a67786f574700f8b0029eafb9ceb08379"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a67786f574700f8b0029eafb9ceb08379">&#9670;&#160;</a></span>grad_phi</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;int dim&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;Tensor&lt;1, dim&gt; &gt; <a class="el" href="structHybridADRSolver_1_1ScratchData.html">HybridADRSolver::ScratchData</a>&lt; dim &gt;::grad_phi</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a581f8537e28af93bd7d2a8579bae02fd" name="a581f8537e28af93bd7d2a8579bae02fd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a581f8537e28af93bd7d2a8579bae02fd">&#9670;&#160;</a></span>JxW_values</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;int dim&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;double&gt; <a class="el" href="structHybridADRSolver_1_1ScratchData.html">HybridADRSolver::ScratchData</a>&lt; dim &gt;::JxW_values</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3621ed317174364a5447655807981a3b" name="a3621ed317174364a5447655807981a3b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3621ed317174364a5447655807981a3b">&#9670;&#160;</a></span>mu_values</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;int dim&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;double&gt; <a class="el" href="structHybridADRSolver_1_1ScratchData.html">HybridADRSolver::ScratchData</a>&lt; dim &gt;::mu_values</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0142f955577385af5b75813e0afee903" name="a0142f955577385af5b75813e0afee903"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0142f955577385af5b75813e0afee903">&#9670;&#160;</a></span>n_dofs</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;int dim&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">const unsigned int <a class="el" href="structHybridADRSolver_1_1ScratchData.html">HybridADRSolver::ScratchData</a>&lt; dim &gt;::n_dofs</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad9f3a443f958f4e6145ba5e89d463e5e" name="ad9f3a443f958f4e6145ba5e89d463e5e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad9f3a443f958f4e6145ba5e89d463e5e">&#9670;&#160;</a></span>n_face_q_points</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;int dim&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">const unsigned int <a class="el" href="structHybridADRSolver_1_1ScratchData.html">HybridADRSolver::ScratchData</a>&lt; dim &gt;::n_face_q_points</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acea9c1ba9da5175541a2358dd9dd58cd" name="acea9c1ba9da5175541a2358dd9dd58cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acea9c1ba9da5175541a2358dd9dd58cd">&#9670;&#160;</a></span>n_q_points</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;int dim&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">const unsigned int <a class="el" href="structHybridADRSolver_1_1ScratchData.html">HybridADRSolver::ScratchData</a>&lt; dim &gt;::n_q_points</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab566ebe57b280bdb440f193c4e1b25ee" name="ab566ebe57b280bdb440f193c4e1b25ee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab566ebe57b280bdb440f193c4e1b25ee">&#9670;&#160;</a></span>phi</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;int dim&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;double&gt; <a class="el" href="structHybridADRSolver_1_1ScratchData.html">HybridADRSolver::ScratchData</a>&lt; dim &gt;::phi</td>
         </tr>
       </table>
 </div><div class="memdoc">

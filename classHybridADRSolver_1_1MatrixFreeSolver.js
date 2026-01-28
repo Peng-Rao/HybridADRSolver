@@ -12,7 +12,7 @@ var classHybridADRSolver_1_1MatrixFreeSolver =
     [ "assemble_rhs", "classHybridADRSolver_1_1MatrixFreeSolver.html#aaf685380fa1b47b1dbc66fbbc2acac4b", null ],
     [ "assemble_system", "classHybridADRSolver_1_1MatrixFreeSolver.html#ae4860dd100f034b79eba6f08403e30e2", null ],
     [ "compute_l2_error", "classHybridADRSolver_1_1MatrixFreeSolver.html#a7e1164501a435b6cd65d89b39a616572", null ],
-    [ "get_memory_usage", "classHybridADRSolver_1_1MatrixFreeSolver.html#a62f3f05e99546132549e10775099f2aa", null ],
+    [ "compute_memory_usage", "classHybridADRSolver_1_1MatrixFreeSolver.html#a0dcd9df289e14ed0574452df64dfb2c8", null ],
     [ "get_name", "classHybridADRSolver_1_1MatrixFreeSolver.html#ae03e6b362cc1ed2fc384d8df577e393f", null ],
     [ "get_solution", "classHybridADRSolver_1_1MatrixFreeSolver.html#aabb1daa33f3c7ce6158c6a1acb83cdac", null ],
     [ "get_solver_type", "classHybridADRSolver_1_1MatrixFreeSolver.html#a51c025c5f3930970bc8bc7432d6544a9", null ],

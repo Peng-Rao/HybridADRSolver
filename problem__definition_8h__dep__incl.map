@@ -29,7 +29,7 @@
 <area shape="poly" id="edge14_Node000010_Node000006" title=" " alt="" coords="1160,223,1402,277,1429,283,1428,288,1401,282,1159,228"/>
 <area shape="poly" id="edge15_Node000010_Node000007" title=" " alt="" coords="1146,235,1257,283,1255,288,1144,240"/>
 <area shape="poly" id="edge16_Node000010_Node000008" title=" " alt="" coords="1160,208,1438,230,1609,250,1780,277,1810,283,1809,288,1780,282,1608,255,1437,236,1160,214"/>
-<area shape="rect" id="Node000011" href="$matrix__based__solver_8cpp.html" title="Implementation of the Matrix&#45;based Finite Element solver." alt="" coords="1038,279,1183,332"/>
+<area shape="rect" id="Node000011" href="$matrix__based__solver_8cpp.html" title="Implementation of the Matrix&#45;based Finite Element solver (Optimized)." alt="" coords="1038,279,1183,332"/>
 <area shape="poly" id="edge17_Node000010_Node000011" title=" " alt="" coords="1090,245,1103,278,1098,280,1085,247"/>
 <area shape="poly" id="edge19_Node000012_Node000013" title=" " alt="" coords="810,146,813,185,808,186,804,146"/>
 <area shape="poly" id="edge20_Node000013_Node000002" title=" " alt="" coords="711,217,476,242,337,260,199,282,168,288,167,283,198,277,337,254,476,236,710,212"/>

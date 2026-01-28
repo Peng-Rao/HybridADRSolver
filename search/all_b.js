@@ -26,5 +26,6 @@ var searchData=
   ['min_23',['min',['../structTimingStats.html#afde8de5d1579a1b3c9a9881719363622',1,'TimingStats']]],
   ['min_5fdofs_5fper_5fprocess_24',['MIN_DOFS_PER_PROCESS',['../scaling__study_8cpp.html#a3c3e0358b4d5aa356e6e2c44b20aff5d',1,'scaling_study.cpp']]],
   ['min_5frefinements_25',['min_refinements',['../structBenchmarkUtils_1_1ScalingConfig.html#a323cf26deae1492d287b7ecc9532632e',1,'BenchmarkUtils::ScalingConfig']]],
-  ['mpi_5fcommunicator_26',['mpi_communicator',['../classHybridADRSolver_1_1ParallelSolverBase.html#a8eae4688d8ad928945d283be5fb77157',1,'HybridADRSolver::ParallelSolverBase']]]
+  ['mpi_5fcommunicator_26',['mpi_communicator',['../classHybridADRSolver_1_1ParallelSolverBase.html#a8eae4688d8ad928945d283be5fb77157',1,'HybridADRSolver::ParallelSolverBase']]],
+  ['mu_5fvalues_27',['mu_values',['../structHybridADRSolver_1_1ScratchData.html#a3621ed317174364a5447655807981a3b',1,'HybridADRSolver::ScratchData']]]
 ];

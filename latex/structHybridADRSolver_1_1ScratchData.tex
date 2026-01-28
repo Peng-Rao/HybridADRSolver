@@ -2,7 +2,7 @@
 \hypertarget{structHybridADRSolver_1_1ScratchData}{}\label{structHybridADRSolver_1_1ScratchData}\index{HybridADRSolver::ScratchData$<$ dim $>$@{HybridADRSolver::ScratchData$<$ dim $>$}}
 
 
-Scratch data for the {\ttfamily Work\+Stream} assembly.  
+Scratch data for the {\ttfamily Work\+Stream} assembly (Optimized).  
 
 
 \doxysubsubsection*{Public Member Functions}
@@ -18,15 +18,37 @@ Scratch data for the {\ttfamily Work\+Stream} assembly.
 FEValues$<$ dim $>$ \mbox{\hyperlink{structHybridADRSolver_1_1ScratchData_a5267a7ca2ab89f6bb3a9e3823c0c304e}{fe\+\_\+values}}
 \item 
 FEFace\+Values$<$ dim $>$ \mbox{\hyperlink{structHybridADRSolver_1_1ScratchData_a02e734df2e7185a449b54f884b6459c8}{fe\+\_\+face\+\_\+values}}
+\item 
+const unsigned int \mbox{\hyperlink{structHybridADRSolver_1_1ScratchData_a0142f955577385af5b75813e0afee903}{n\+\_\+dofs}}
+\item 
+const unsigned int \mbox{\hyperlink{structHybridADRSolver_1_1ScratchData_acea9c1ba9da5175541a2358dd9dd58cd}{n\+\_\+q\+\_\+points}}
+\item 
+const unsigned int \mbox{\hyperlink{structHybridADRSolver_1_1ScratchData_ad9f3a443f958f4e6145ba5e89d463e5e}{n\+\_\+face\+\_\+q\+\_\+points}}
+\item 
+std\+::vector$<$ double $>$ \mbox{\hyperlink{structHybridADRSolver_1_1ScratchData_ab566ebe57b280bdb440f193c4e1b25ee}{phi}}
+\item 
+std\+::vector$<$ Tensor$<$ 1, dim $>$ $>$ \mbox{\hyperlink{structHybridADRSolver_1_1ScratchData_a67786f574700f8b0029eafb9ceb08379}{grad\+\_\+phi}}
+\item 
+std\+::vector$<$ double $>$ \mbox{\hyperlink{structHybridADRSolver_1_1ScratchData_a644bcd14b33669c6859be956bba5620d}{face\+\_\+phi}}
+\item 
+std\+::vector$<$ double $>$ \mbox{\hyperlink{structHybridADRSolver_1_1ScratchData_a3621ed317174364a5447655807981a3b}{mu\+\_\+values}}
+\item 
+std\+::vector$<$ Tensor$<$ 1, dim $>$ $>$ \mbox{\hyperlink{structHybridADRSolver_1_1ScratchData_a6027faa35d992e81ea63723a1969555f}{beta\+\_\+values}}
+\item 
+std\+::vector$<$ double $>$ \mbox{\hyperlink{structHybridADRSolver_1_1ScratchData_a319d9b6541f5ffe5b67217ad705e185b}{gamma\+\_\+values}}
+\item 
+std\+::vector$<$ double $>$ \mbox{\hyperlink{structHybridADRSolver_1_1ScratchData_afa26ca1805d9fde123c94b6583da448c}{f\+\_\+values}}
+\item 
+std\+::vector$<$ double $>$ \mbox{\hyperlink{structHybridADRSolver_1_1ScratchData_a581f8537e28af93bd7d2a8579bae02fd}{Jx\+W\+\_\+values}}
 \end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
 \subsubsection*{template$<$int dim$>$\newline
 struct Hybrid\+ADRSolver\+::\+Scratch\+Data$<$ dim $>$}
-Scratch data for the {\ttfamily Work\+Stream} assembly. 
+Scratch data for the {\ttfamily Work\+Stream} assembly (Optimized). 
 
-This struct holds thread-\/local data required for assembly, such as {\ttfamily FEValues} and {\ttfamily FEFace\+Values} objects. Using this prevents the need to reallocate these objects for every cell, which would be expensive.
+This struct holds thread-\/local data required for assembly, including pre-\/allocated caching arrays for shape values, gradients, and coefficients to minimize redundant computations in the inner assembly loops.
 
 
 \begin{DoxyTemplParams}{Template Parameters}
@@ -74,6 +96,27 @@ Copy constructor (required by Work\+Stream).
 \label{doc-variable-members}
 \Hypertarget{structHybridADRSolver_1_1ScratchData_doc-variable-members}
 \doxysubsection{Member Data Documentation}
+\Hypertarget{structHybridADRSolver_1_1ScratchData_a6027faa35d992e81ea63723a1969555f}\index{HybridADRSolver::ScratchData$<$ dim $>$@{HybridADRSolver::ScratchData$<$ dim $>$}!beta\_values@{beta\_values}}
+\index{beta\_values@{beta\_values}!HybridADRSolver::ScratchData$<$ dim $>$@{HybridADRSolver::ScratchData$<$ dim $>$}}
+\doxysubsubsection{\texorpdfstring{beta\_values}{beta\_values}}
+{\footnotesize\ttfamily \label{structHybridADRSolver_1_1ScratchData_a6027faa35d992e81ea63723a1969555f} 
+template$<$int dim$>$ \\
+std\+::vector$<$Tensor$<$1, dim$>$ $>$ \mbox{\hyperlink{structHybridADRSolver_1_1ScratchData}{Hybrid\+ADRSolver\+::\+Scratch\+Data}}$<$ dim $>$\+::beta\+\_\+values}
+
+\Hypertarget{structHybridADRSolver_1_1ScratchData_afa26ca1805d9fde123c94b6583da448c}\index{HybridADRSolver::ScratchData$<$ dim $>$@{HybridADRSolver::ScratchData$<$ dim $>$}!f\_values@{f\_values}}
+\index{f\_values@{f\_values}!HybridADRSolver::ScratchData$<$ dim $>$@{HybridADRSolver::ScratchData$<$ dim $>$}}
+\doxysubsubsection{\texorpdfstring{f\_values}{f\_values}}
+{\footnotesize\ttfamily \label{structHybridADRSolver_1_1ScratchData_afa26ca1805d9fde123c94b6583da448c} 
+template$<$int dim$>$ \\
+std\+::vector$<$double$>$ \mbox{\hyperlink{structHybridADRSolver_1_1ScratchData}{Hybrid\+ADRSolver\+::\+Scratch\+Data}}$<$ dim $>$\+::f\+\_\+values}
+
+\Hypertarget{structHybridADRSolver_1_1ScratchData_a644bcd14b33669c6859be956bba5620d}\index{HybridADRSolver::ScratchData$<$ dim $>$@{HybridADRSolver::ScratchData$<$ dim $>$}!face\_phi@{face\_phi}}
+\index{face\_phi@{face\_phi}!HybridADRSolver::ScratchData$<$ dim $>$@{HybridADRSolver::ScratchData$<$ dim $>$}}
+\doxysubsubsection{\texorpdfstring{face\_phi}{face\_phi}}
+{\footnotesize\ttfamily \label{structHybridADRSolver_1_1ScratchData_a644bcd14b33669c6859be956bba5620d} 
+template$<$int dim$>$ \\
+std\+::vector$<$double$>$ \mbox{\hyperlink{structHybridADRSolver_1_1ScratchData}{Hybrid\+ADRSolver\+::\+Scratch\+Data}}$<$ dim $>$\+::face\+\_\+phi}
+
 \Hypertarget{structHybridADRSolver_1_1ScratchData_a02e734df2e7185a449b54f884b6459c8}\index{HybridADRSolver::ScratchData$<$ dim $>$@{HybridADRSolver::ScratchData$<$ dim $>$}!fe\_face\_values@{fe\_face\_values}}
 \index{fe\_face\_values@{fe\_face\_values}!HybridADRSolver::ScratchData$<$ dim $>$@{HybridADRSolver::ScratchData$<$ dim $>$}}
 \doxysubsubsection{\texorpdfstring{fe\_face\_values}{fe\_face\_values}}
@@ -87,6 +130,62 @@ FEFace\+Values$<$dim$>$ \mbox{\hyperlink{structHybridADRSolver_1_1ScratchData}{H
 {\footnotesize\ttfamily \label{structHybridADRSolver_1_1ScratchData_a5267a7ca2ab89f6bb3a9e3823c0c304e} 
 template$<$int dim$>$ \\
 FEValues$<$dim$>$ \mbox{\hyperlink{structHybridADRSolver_1_1ScratchData}{Hybrid\+ADRSolver\+::\+Scratch\+Data}}$<$ dim $>$\+::fe\+\_\+values}
+
+\Hypertarget{structHybridADRSolver_1_1ScratchData_a319d9b6541f5ffe5b67217ad705e185b}\index{HybridADRSolver::ScratchData$<$ dim $>$@{HybridADRSolver::ScratchData$<$ dim $>$}!gamma\_values@{gamma\_values}}
+\index{gamma\_values@{gamma\_values}!HybridADRSolver::ScratchData$<$ dim $>$@{HybridADRSolver::ScratchData$<$ dim $>$}}
+\doxysubsubsection{\texorpdfstring{gamma\_values}{gamma\_values}}
+{\footnotesize\ttfamily \label{structHybridADRSolver_1_1ScratchData_a319d9b6541f5ffe5b67217ad705e185b} 
+template$<$int dim$>$ \\
+std\+::vector$<$double$>$ \mbox{\hyperlink{structHybridADRSolver_1_1ScratchData}{Hybrid\+ADRSolver\+::\+Scratch\+Data}}$<$ dim $>$\+::gamma\+\_\+values}
+
+\Hypertarget{structHybridADRSolver_1_1ScratchData_a67786f574700f8b0029eafb9ceb08379}\index{HybridADRSolver::ScratchData$<$ dim $>$@{HybridADRSolver::ScratchData$<$ dim $>$}!grad\_phi@{grad\_phi}}
+\index{grad\_phi@{grad\_phi}!HybridADRSolver::ScratchData$<$ dim $>$@{HybridADRSolver::ScratchData$<$ dim $>$}}
+\doxysubsubsection{\texorpdfstring{grad\_phi}{grad\_phi}}
+{\footnotesize\ttfamily \label{structHybridADRSolver_1_1ScratchData_a67786f574700f8b0029eafb9ceb08379} 
+template$<$int dim$>$ \\
+std\+::vector$<$Tensor$<$1, dim$>$ $>$ \mbox{\hyperlink{structHybridADRSolver_1_1ScratchData}{Hybrid\+ADRSolver\+::\+Scratch\+Data}}$<$ dim $>$\+::grad\+\_\+phi}
+
+\Hypertarget{structHybridADRSolver_1_1ScratchData_a581f8537e28af93bd7d2a8579bae02fd}\index{HybridADRSolver::ScratchData$<$ dim $>$@{HybridADRSolver::ScratchData$<$ dim $>$}!JxW\_values@{JxW\_values}}
+\index{JxW\_values@{JxW\_values}!HybridADRSolver::ScratchData$<$ dim $>$@{HybridADRSolver::ScratchData$<$ dim $>$}}
+\doxysubsubsection{\texorpdfstring{JxW\_values}{JxW\_values}}
+{\footnotesize\ttfamily \label{structHybridADRSolver_1_1ScratchData_a581f8537e28af93bd7d2a8579bae02fd} 
+template$<$int dim$>$ \\
+std\+::vector$<$double$>$ \mbox{\hyperlink{structHybridADRSolver_1_1ScratchData}{Hybrid\+ADRSolver\+::\+Scratch\+Data}}$<$ dim $>$\+::\+Jx\+W\+\_\+values}
+
+\Hypertarget{structHybridADRSolver_1_1ScratchData_a3621ed317174364a5447655807981a3b}\index{HybridADRSolver::ScratchData$<$ dim $>$@{HybridADRSolver::ScratchData$<$ dim $>$}!mu\_values@{mu\_values}}
+\index{mu\_values@{mu\_values}!HybridADRSolver::ScratchData$<$ dim $>$@{HybridADRSolver::ScratchData$<$ dim $>$}}
+\doxysubsubsection{\texorpdfstring{mu\_values}{mu\_values}}
+{\footnotesize\ttfamily \label{structHybridADRSolver_1_1ScratchData_a3621ed317174364a5447655807981a3b} 
+template$<$int dim$>$ \\
+std\+::vector$<$double$>$ \mbox{\hyperlink{structHybridADRSolver_1_1ScratchData}{Hybrid\+ADRSolver\+::\+Scratch\+Data}}$<$ dim $>$\+::mu\+\_\+values}
+
+\Hypertarget{structHybridADRSolver_1_1ScratchData_a0142f955577385af5b75813e0afee903}\index{HybridADRSolver::ScratchData$<$ dim $>$@{HybridADRSolver::ScratchData$<$ dim $>$}!n\_dofs@{n\_dofs}}
+\index{n\_dofs@{n\_dofs}!HybridADRSolver::ScratchData$<$ dim $>$@{HybridADRSolver::ScratchData$<$ dim $>$}}
+\doxysubsubsection{\texorpdfstring{n\_dofs}{n\_dofs}}
+{\footnotesize\ttfamily \label{structHybridADRSolver_1_1ScratchData_a0142f955577385af5b75813e0afee903} 
+template$<$int dim$>$ \\
+const unsigned int \mbox{\hyperlink{structHybridADRSolver_1_1ScratchData}{Hybrid\+ADRSolver\+::\+Scratch\+Data}}$<$ dim $>$\+::n\+\_\+dofs}
+
+\Hypertarget{structHybridADRSolver_1_1ScratchData_ad9f3a443f958f4e6145ba5e89d463e5e}\index{HybridADRSolver::ScratchData$<$ dim $>$@{HybridADRSolver::ScratchData$<$ dim $>$}!n\_face\_q\_points@{n\_face\_q\_points}}
+\index{n\_face\_q\_points@{n\_face\_q\_points}!HybridADRSolver::ScratchData$<$ dim $>$@{HybridADRSolver::ScratchData$<$ dim $>$}}
+\doxysubsubsection{\texorpdfstring{n\_face\_q\_points}{n\_face\_q\_points}}
+{\footnotesize\ttfamily \label{structHybridADRSolver_1_1ScratchData_ad9f3a443f958f4e6145ba5e89d463e5e} 
+template$<$int dim$>$ \\
+const unsigned int \mbox{\hyperlink{structHybridADRSolver_1_1ScratchData}{Hybrid\+ADRSolver\+::\+Scratch\+Data}}$<$ dim $>$\+::n\+\_\+face\+\_\+q\+\_\+points}
+
+\Hypertarget{structHybridADRSolver_1_1ScratchData_acea9c1ba9da5175541a2358dd9dd58cd}\index{HybridADRSolver::ScratchData$<$ dim $>$@{HybridADRSolver::ScratchData$<$ dim $>$}!n\_q\_points@{n\_q\_points}}
+\index{n\_q\_points@{n\_q\_points}!HybridADRSolver::ScratchData$<$ dim $>$@{HybridADRSolver::ScratchData$<$ dim $>$}}
+\doxysubsubsection{\texorpdfstring{n\_q\_points}{n\_q\_points}}
+{\footnotesize\ttfamily \label{structHybridADRSolver_1_1ScratchData_acea9c1ba9da5175541a2358dd9dd58cd} 
+template$<$int dim$>$ \\
+const unsigned int \mbox{\hyperlink{structHybridADRSolver_1_1ScratchData}{Hybrid\+ADRSolver\+::\+Scratch\+Data}}$<$ dim $>$\+::n\+\_\+q\+\_\+points}
+
+\Hypertarget{structHybridADRSolver_1_1ScratchData_ab566ebe57b280bdb440f193c4e1b25ee}\index{HybridADRSolver::ScratchData$<$ dim $>$@{HybridADRSolver::ScratchData$<$ dim $>$}!phi@{phi}}
+\index{phi@{phi}!HybridADRSolver::ScratchData$<$ dim $>$@{HybridADRSolver::ScratchData$<$ dim $>$}}
+\doxysubsubsection{\texorpdfstring{phi}{phi}}
+{\footnotesize\ttfamily \label{structHybridADRSolver_1_1ScratchData_ab566ebe57b280bdb440f193c4e1b25ee} 
+template$<$int dim$>$ \\
+std\+::vector$<$double$>$ \mbox{\hyperlink{structHybridADRSolver_1_1ScratchData}{Hybrid\+ADRSolver\+::\+Scratch\+Data}}$<$ dim $>$\+::phi}
 
 
 
