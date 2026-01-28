@@ -1,10 +1,30 @@
 /**
  * @file scaling_study.cpp
- * @brief Fixed scaling benchmark with proper problem sizing
+ * @brief Comprehensive strong and weak scaling benchmark for the Hybrid ADR
+ * Solver
  *
+ * This benchmark measures:
+ * 1. Strong Scaling: Fixed problem size, varying core count
+ *    - Speedup: S(p) = T(1) / T(p)
+ *    - Efficiency: E(p) = S(p) / p = T(1) / (p * T(p))
+ *
+ * 2. Weak Scaling: Problem size scales with core count (constant work per core)
+ *    - Efficiency: E(p) = T(1) / T(p)  (ideal = 1.0)
  *
  * Usage:
  *   mpirun -np <N> ./scaling_benchmark [options]
+ *
+ * Options:
+ *   --strong          Run strong scaling test only
+ *   --weak            Run weak scaling test only
+ *   --min-ref <n>     Minimum refinements (default: 3)
+ *   --max-ref <n>     Maximum refinements (default: 7)
+ *   --degree <n>      Polynomial degree (default: 2)
+ *   --output <file>   Output CSV file prefix (default: scaling_results)
+ *   --threads <n>     Threads per MPI process (default: auto)
+ *   --trials <n>      Number of trials for averaging (default: 3)
+ *   --warmup <n>      Number of warmup runs (default: 1)
+ *   --dim <n>         Dimension 2 or 3 (default: 2)
  */
 
 #include "core/problem_definition.h"
@@ -17,7 +37,6 @@
 #include <deal.II/base/multithread_info.h>
 
 #include <algorithm>
-#include <cmath>
 #include <getopt.h>
 #include <iomanip>
 #include <iostream>
@@ -36,13 +55,6 @@ using namespace BenchmarkUtils;
 // Minimum DoFs per MPI process for meaningful parallel efficiency
 // Below this threshold, communication overhead dominates computation
 constexpr unsigned int MIN_DOFS_PER_PROCESS = 50000;
-
-// Target DoFs per process for good scaling (used in weak scaling)
-constexpr unsigned int TARGET_DOFS_PER_PROCESS = 100000;
-
-// Estimated DoFs for Q2 elements: (2^refs * degree + 1)^dim
-// For 2D Q2: refs=8 -> ~263k, refs=9 -> ~1M, refs=10 -> ~4.2M
-// For 3D Q2: refs=4 -> ~35k, refs=5 -> ~275k, refs=6 -> ~2.1M
 
 /**
  * @brief Calculate expected DoFs for given refinement level
@@ -587,7 +599,8 @@ void print_usage(const char* program_name) {
         << "  --weak            Run weak scaling test only\n"
         << "  --min-ref <n>     Minimum refinements (default: "
            "auto-calculated)\n"
-        << "  --max-ref <n>     Maximum refinements (default: 10 for 2D, 6 for "
+        << "  --max-ref <n>     Maximum refinements (default: 10 for 2D, 6 "
+           "for "
            "3D)\n"
         << "  --degree <n>      Polynomial degree 1, 2, or 3 (default: 2)\n"
         << "  --output <file>   Output CSV file prefix (default: "

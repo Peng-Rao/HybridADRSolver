@@ -71,7 +71,7 @@ struct SolverParameters {
     double tolerance = 1e-10;
 
     // Threading parameters
-    unsigned int n_threads = dealii::numbers::invalid_unsigned_int;
+    unsigned int n_threads = numbers::invalid_unsigned_int;
 
     // Output options
     bool verbose = true;

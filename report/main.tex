@@ -20,7 +20,18 @@
  \usepackage{amssymb}
 
 \usepackage{tikz}
-\usetikzlibrary{positioning,3d}
+\usepackage{listings}
+\lstset{
+    basicstyle=\small\ttfamily,
+    keywordstyle=\color{blue}\bfseries,
+    commentstyle=\color{gray}\itshape,
+    stringstyle=\color{red},
+    numbers=none,
+    breaklines=true,
+    showstringspaces=false,
+    tabsize=4
+}
+\usetikzlibrary{positioning,3d,shapes.geometric, arrows.meta, fit}
 
 
 %Bibliography
@@ -505,7 +516,54 @@ For the matrix-based implementation, we utilize PETSc for distributed linear alg
     \item Preconditioners including AMG (via hypre)
 \end{itemize}
 
-For the matrix-free implementation, \texttt{deal.II}'s native distributed vectors (\texttt{LinearAlgebra::distributed::Vector}) are used, which support MPI-parallel operations with ghost value exchange.
+\subsection{Data Flow}
+\cref{fig:data_flow} illustrates the execution flow for both solver variants.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[
+            block/.style={rectangle, draw, thick, minimum width=3cm, minimum height=0.8cm, text centered, font=\small},
+            decision/.style={diamond, draw, thick, aspect=2, font=\small},
+            arrow/.style={->, thick, >=stealth},
+            node distance=0.8cm
+        ]
+        % Common setup
+        \node[block, fill=gray!20] (grid) {setup\_grid()};
+        \node[block, fill=gray!20, below=of grid] (dofs) {setup\_dofs()};
+
+        % Branch
+        \node[decision, below=of dofs] (branch) {Solver Type?};
+
+        % Matrix-based path
+        \node[block, fill=blue!20, below left=1cm and 1.5cm of branch] (mb_assemble) {assemble\_system()};
+        \node[block, fill=blue!20, below=of mb_assemble] (mb_solve) {solve() [GMRES+AMG]};
+
+        % Matrix-free path
+        \node[block, fill=green!20, below right=1cm and 1.5cm of branch] (mf_setup) {setup\_multigrid()};
+        \node[block, fill=green!20, below=of mf_setup] (mf_rhs) {assemble\_rhs()};
+        \node[block, fill=green!20, below=of mf_rhs] (mf_solve) {solve() [GMRES+GMG]};
+
+        % Merge
+        \node[block, fill=gray!20, below=3.5cm of branch] (output) {output\_results()};
+
+        % Arrows
+        \draw[arrow] (grid) -- (dofs);
+        \draw[arrow] (dofs) -- (branch);
+        \draw[arrow] (branch) -| node[above, pos=0.25, font=\scriptsize] {Matrix-Based} (mb_assemble);
+        \draw[arrow] (branch) -| node[above, pos=0.25, font=\scriptsize] {Matrix-Free} (mf_setup);
+        \draw[arrow] (mb_assemble) -- (mb_solve);
+        \draw[arrow] (mf_setup) -- (mf_rhs);
+        \draw[arrow] (mf_rhs) -- (mf_solve);
+        \draw[arrow] (mb_solve) |- (output);
+        \draw[arrow] (mf_solve) |- (output);
+
+        % Labels
+        \node[font=\scriptsize, right=0.1cm of mb_assemble, text=blue!70] {WorkStream};
+        \node[font=\scriptsize, right=0.1cm of mf_solve, text=green!70] {MatrixFree};
+    \end{tikzpicture}
+    \caption{Execution flow for matrix-based and matrix-free solver variants.}
+    \label{fig:data_flow}
+\end{figure}
 
 \pagebreak
 

@@ -1,3 +1,11 @@
+/**
+ * @file main_matrix_based.cpp
+ * @brief Main driver for the matrix-based ADR solver with hybrid
+ * parallelization.
+ *
+ * This program demonstrates the matrix-based solver using hybrid MPI+threading
+ * parallelization for the Advection-Diffusion-Reaction problem.
+ */
 #include "core/problem_definition.h"
 #include "core/types.h"
 #include "matrix_based/matrix_based_solver.h"

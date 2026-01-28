@@ -122,13 +122,6 @@ public:
     }
 
     /**
-     * @brief Access to the underlying MatrixFree object.
-     */
-    std::shared_ptr<const MatrixFree<dim, Number>> get_matrix_free() const {
-        return this->data;
-    }
-
-    /**
      * @brief Check if this is a multigrid level operator.
      */
     [[nodiscard]] bool is_multigrid_level() const { return is_mg_level; }
