@@ -7,7 +7,6 @@ var classHybridADRSolver_1_1ADROperator =
     [ "ADROperator", "classHybridADRSolver_1_1ADROperator.html#aed661703a9567f90494dbaf153590d67", null ],
     [ "clear", "classHybridADRSolver_1_1ADROperator.html#abdbad86caba16953246c5866a099cc6d", null ],
     [ "compute_diagonal", "classHybridADRSolver_1_1ADROperator.html#a46d4d1db37b7c1d56080dc9b905abc69", null ],
-    [ "get_matrix_free", "classHybridADRSolver_1_1ADROperator.html#a76974e20b4f4bab4d450871c650dfbc4", null ],
     [ "get_mg_level", "classHybridADRSolver_1_1ADROperator.html#ae3f9840bd7c247c0f8e18276129e69a1", null ],
     [ "initialize", "classHybridADRSolver_1_1ADROperator.html#abab164c83f75cfaa78f7208e49cb2b03", null ],
     [ "initialize", "classHybridADRSolver_1_1ADROperator.html#aa468d145511e54150a5bf8c022caeff2", null ],

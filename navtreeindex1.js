@@ -1,7 +1,5 @@
 var NAVTREEINDEX1 =
 {
-"classHybridADRSolver_1_1Problems_1_1ExactSolution.html#ac8980c0d2cdb14a4e98a8f9e75d7dec9":[2,0,1,0,1,1],
-"classHybridADRSolver_1_1Problems_1_1NeumannFluxRight.html":[1,0,1,2,2],
 "classHybridADRSolver_1_1Problems_1_1NeumannFluxRight.html":[2,0,1,0,2],
 "classHybridADRSolver_1_1Problems_1_1NeumannFluxRight.html#ab6f72de96970be6497ab326566d5dcfb":[1,0,1,2,2,0],
 "classHybridADRSolver_1_1Problems_1_1NeumannFluxRight.html#ab6f72de96970be6497ab326566d5dcfb":[2,0,1,0,2,0],
@@ -112,7 +110,6 @@ var NAVTREEINDEX1 =
 "scaling__study_8cpp.html#a1921b8ea4f6c9e1a310f90e9c259d4cf":[3,0,0,0,0,2,10],
 "scaling__study_8cpp.html#a3c3e0358b4d5aa356e6e2c44b20aff5d":[3,0,0,0,0,2,13],
 "scaling__study_8cpp.html#a3e2227eee3044b9a7e14922628c1c1ec":[3,0,0,0,0,2,12],
-"scaling__study_8cpp.html#a4fad113823b0ee4c91e4fc8ee9711e59":[3,0,0,0,0,2,14],
 "scaling__study_8cpp.html#a74367a10b0717daf6f1b500b11bdf271":[3,0,0,0,0,2,7],
 "scaling__study_8cpp.html#a782cfdccea0f08da738c98145832668d":[3,0,0,0,0,2,3],
 "scaling__study_8cpp.html#a9b3fd4bfb50fe4983f3af51b77be93b1":[3,0,0,0,0,2,2],
@@ -249,5 +246,8 @@ var NAVTREEINDEX1 =
 "structHybridADRSolver_1_1TimingResults.html#a0d64e9cb5f24bde8e5504d9fb9b3787c":[2,0,1,10,8],
 "structHybridADRSolver_1_1TimingResults.html#a198c3720d7233dea6fd319224ecf14e0":[1,0,1,12,4],
 "structHybridADRSolver_1_1TimingResults.html#a198c3720d7233dea6fd319224ecf14e0":[2,0,1,10,4],
-"structHybridADRSolver_1_1TimingResults.html#a1ab6998c1b5b7e80122fa053f69c17f3":[1,0,1,12,1]
+"structHybridADRSolver_1_1TimingResults.html#a1ab6998c1b5b7e80122fa053f69c17f3":[1,0,1,12,1],
+"structHybridADRSolver_1_1TimingResults.html#a1ab6998c1b5b7e80122fa053f69c17f3":[2,0,1,10,1],
+"structHybridADRSolver_1_1TimingResults.html#a498e3a034c3a1058a34a1b7926d8c6ff":[1,0,1,12,0],
+"structHybridADRSolver_1_1TimingResults.html#a498e3a034c3a1058a34a1b7926d8c6ff":[2,0,1,10,0]
 };

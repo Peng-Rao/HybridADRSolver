@@ -2,7 +2,7 @@
 \hypertarget{scaling__study_8cpp}{}\label{scaling__study_8cpp}\index{src/applications/benchmark/scaling\_study.cpp@{src/applications/benchmark/scaling\_study.cpp}}
 
 
-Fixed scaling benchmark with proper problem sizing.  
+Comprehensive strong and weak scaling benchmark for the Hybrid ADR Solver.  
 
 
 {\ttfamily \#include "{}core/problem\+\_\+definition.\+h"{}}\newline
@@ -13,7 +13,6 @@ Fixed scaling benchmark with proper problem sizing.
 {\ttfamily \#include $<$deal.\+II/base/mpi.\+h$>$}\newline
 {\ttfamily \#include $<$deal.\+II/base/multithread\+\_\+info.\+h$>$}\newline
 {\ttfamily \#include $<$algorithm$>$}\newline
-{\ttfamily \#include $<$cmath$>$}\newline
 {\ttfamily \#include $<$getopt.\+h$>$}\newline
 {\ttfamily \#include $<$iomanip$>$}\newline
 {\ttfamily \#include $<$iostream$>$}\newline
@@ -64,15 +63,28 @@ int \mbox{\hyperlink{scaling__study_8cpp_a0ddf1224851353fc92bfbff6f499fa97}{main
 \begin{DoxyCompactItemize}
 \item 
 constexpr unsigned int \mbox{\hyperlink{scaling__study_8cpp_a3c3e0358b4d5aa356e6e2c44b20aff5d}{MIN\+\_\+\+DOFS\+\_\+\+PER\+\_\+\+PROCESS}} = 50000
-\item 
-constexpr unsigned int \mbox{\hyperlink{scaling__study_8cpp_a4fad113823b0ee4c91e4fc8ee9711e59}{TARGET\+\_\+\+DOFS\+\_\+\+PER\+\_\+\+PROCESS}} = 100000
 \end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
-Fixed scaling benchmark with proper problem sizing. 
+Comprehensive strong and weak scaling benchmark for the Hybrid ADR Solver. 
 
-Usage\+: mpirun -\/np $<$\+N$>$ ./scaling\+\_\+benchmark \mbox{[}options\mbox{]} 
+This benchmark measures\+:
+\begin{DoxyEnumerate}
+\item Strong Scaling\+: Fixed problem size, varying core count
+\begin{DoxyItemize}
+\item Speedup\+: S(p) = T(1) / T(p)
+\item Efficiency\+: E(p) = S(p) / p = T(1) / (p \texorpdfstring{$\ast$}{*} T(p))
+\end{DoxyItemize}
+\item Weak Scaling\+: Problem size scales with core count (constant work per core)
+\begin{DoxyItemize}
+\item Efficiency\+: E(p) = T(1) / T(p) (ideal = 1.\+0)
+\end{DoxyItemize}
+\end{DoxyEnumerate}
+
+Usage\+: mpirun -\/np $<$\+N$>$ ./scaling\+\_\+benchmark \mbox{[}options\mbox{]}
+
+Options\+: --strong Run strong scaling test only --weak Run weak scaling test only --min-\/ref $<$n$>$ Minimum refinements (default\+: 3) --max-\/ref $<$n$>$ Maximum refinements (default\+: 7) --degree $<$n$>$ Polynomial degree (default\+: 2) --output $<$file$>$ Output CSV file prefix (default\+: scaling\+\_\+results) --threads $<$n$>$ Threads per MPI process (default\+: auto) --trials $<$n$>$ Number of trials for averaging (default\+: 3) --warmup $<$n$>$ Number of warmup runs (default\+: 1) --dim $<$n$>$ Dimension 2 or 3 (default\+: 2) 
 
 \label{doc-func-members}
 \Hypertarget{scaling__study_8cpp_doc-func-members}
@@ -196,10 +208,4 @@ Write results to CSV file.
 \doxysubsubsection{\texorpdfstring{MIN\_DOFS\_PER\_PROCESS}{MIN\_DOFS\_PER\_PROCESS}}
 {\footnotesize\ttfamily \label{scaling__study_8cpp_a3c3e0358b4d5aa356e6e2c44b20aff5d} 
 unsigned int MIN\+\_\+\+DOFS\+\_\+\+PER\+\_\+\+PROCESS = 50000\hspace{0.3cm}{\ttfamily [constexpr]}}
-
-\Hypertarget{scaling__study_8cpp_a4fad113823b0ee4c91e4fc8ee9711e59}\index{scaling\_study.cpp@{scaling\_study.cpp}!TARGET\_DOFS\_PER\_PROCESS@{TARGET\_DOFS\_PER\_PROCESS}}
-\index{TARGET\_DOFS\_PER\_PROCESS@{TARGET\_DOFS\_PER\_PROCESS}!scaling\_study.cpp@{scaling\_study.cpp}}
-\doxysubsubsection{\texorpdfstring{TARGET\_DOFS\_PER\_PROCESS}{TARGET\_DOFS\_PER\_PROCESS}}
-{\footnotesize\ttfamily \label{scaling__study_8cpp_a4fad113823b0ee4c91e4fc8ee9711e59} 
-unsigned int TARGET\+\_\+\+DOFS\+\_\+\+PER\+\_\+\+PROCESS = 100000\hspace{0.3cm}{\ttfamily [constexpr]}}
 

@@ -13,6 +13,5 @@ var scaling__study_8cpp =
     [ "run_strong_scaling_test", "scaling__study_8cpp.html#a1921b8ea4f6c9e1a310f90e9c259d4cf", null ],
     [ "run_weak_scaling_test", "scaling__study_8cpp.html#aae4e4bbaab77dc8340b2da9cd9a03c31", null ],
     [ "write_results_csv", "scaling__study_8cpp.html#a3e2227eee3044b9a7e14922628c1c1ec", null ],
-    [ "MIN_DOFS_PER_PROCESS", "scaling__study_8cpp.html#a3c3e0358b4d5aa356e6e2c44b20aff5d", null ],
-    [ "TARGET_DOFS_PER_PROCESS", "scaling__study_8cpp.html#a4fad113823b0ee4c91e4fc8ee9711e59", null ]
+    [ "MIN_DOFS_PER_PROCESS", "scaling__study_8cpp.html#a3c3e0358b4d5aa356e6e2c44b20aff5d", null ]
 ];

@@ -53,8 +53,6 @@ void \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_abdbad86caba16953246c5
 \begin{DoxyCompactList}\small\item\em Clear all data. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_a46d4d1db37b7c1d56080dc9b905abc69}{compute\+\_\+diagonal}} () override
 \begin{DoxyCompactList}\small\item\em Computes the diagonal of the operator (for preconditioning). \end{DoxyCompactList}\item 
-std\+::shared\+\_\+ptr$<$ const \mbox{\hyperlink{namespaceHybridADRSolver_afe6d3d39f0c710383621e32a46108cb1af2674a258348188d6a3ee81d2669255a}{Matrix\+Free}}$<$ dim, Number $>$ $>$ \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_a76974e20b4f4bab4d450871c650dfbc4}{get\+\_\+matrix\+\_\+free}} () const
-\begin{DoxyCompactList}\small\item\em Access to the underlying Matrix\+Free object. \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_a56284fc258e0da2500ae67def28d125b}{is\+\_\+multigrid\+\_\+level}} () const
 \begin{DoxyCompactList}\small\item\em Check if this is a multigrid level operator. \end{DoxyCompactList}\item 
 int \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator_ae3f9840bd7c247c0f8e18276129e69a1}{get\+\_\+mg\+\_\+level}} () const
@@ -169,18 +167,7 @@ void \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator}{Hybrid\+ADRSolver\+::
 
 Computes the diagonal of the operator (for preconditioning). 
 
-Uses Matrix\+Free\+Tools for efficient diagonal computation. \Hypertarget{classHybridADRSolver_1_1ADROperator_a76974e20b4f4bab4d450871c650dfbc4}\index{HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$@{HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$}!get\_matrix\_free@{get\_matrix\_free}}
-\index{get\_matrix\_free@{get\_matrix\_free}!HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$@{HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$}}
-\doxysubsubsection{\texorpdfstring{get\_matrix\_free()}{get\_matrix\_free()}}
-{\footnotesize\ttfamily \label{classHybridADRSolver_1_1ADROperator_a76974e20b4f4bab4d450871c650dfbc4} 
-template$<$int dim, int fe\+\_\+degree, typename Number = double$>$ \\
-std\+::shared\+\_\+ptr$<$ const \mbox{\hyperlink{namespaceHybridADRSolver_afe6d3d39f0c710383621e32a46108cb1af2674a258348188d6a3ee81d2669255a}{Matrix\+Free}}$<$ dim, Number $>$ $>$ \mbox{\hyperlink{classHybridADRSolver_1_1ADROperator}{Hybrid\+ADRSolver\+::\+ADROperator}}$<$ dim, fe\+\_\+degree, Number $>$\+::get\+\_\+matrix\+\_\+free (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
-
-
-
-Access to the underlying Matrix\+Free object. 
-
-\Hypertarget{classHybridADRSolver_1_1ADROperator_ae3f9840bd7c247c0f8e18276129e69a1}\index{HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$@{HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$}!get\_mg\_level@{get\_mg\_level}}
+Uses Matrix\+Free\+Tools for efficient diagonal computation. \Hypertarget{classHybridADRSolver_1_1ADROperator_ae3f9840bd7c247c0f8e18276129e69a1}\index{HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$@{HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$}!get\_mg\_level@{get\_mg\_level}}
 \index{get\_mg\_level@{get\_mg\_level}!HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$@{HybridADRSolver::ADROperator$<$ dim, fe\_degree, Number $>$}}
 \doxysubsubsection{\texorpdfstring{get\_mg\_level()}{get\_mg\_level()}}
 {\footnotesize\ttfamily \label{classHybridADRSolver_1_1ADROperator_ae3f9840bd7c247c0f8e18276129e69a1} 
