@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['prerequisites_0',['Prerequisites',['../index.html#autotoc_md4',1,'']]],
-  ['problem_20formulation_1',['Problem Formulation',['../index.html#autotoc_md1',1,'']]]
+  ['references_0',['References',['../index.html#autotoc_md11',1,'']]],
+  ['running_20benchmarks_1',['Running Benchmarks',['../index.html#autotoc_md7',1,'']]],
+  ['running_20examples_2',['Running Examples',['../index.html#autotoc_md6',1,'']]]
 ];

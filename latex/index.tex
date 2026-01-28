@@ -1,112 +1,152 @@
-\chapter{Advection-\/\+Diffusion-\/\+Reaction Solver using deal.\+II }
-\hypertarget{index}{}\label{index}\index{Advection-\/Diffusion-\/Reaction Solver using deal.II@{Advection-\/Diffusion-\/Reaction Solver using deal.II}}
+\chapter{Hybrid ADR Solver }
+\hypertarget{index}{}\label{index}\index{Hybrid ADR Solver@{Hybrid ADR Solver}}
 \label{index_md_README}%
 \Hypertarget{index_md_README}%
 
 
 \href{https://github.com/Peng-Rao/HybridADRSolver/actions/workflows/ci.yml}{\texttt{}} \href{https://github.com/Peng-Rao/HybridADRSolver/actions/workflows/pages/pages-build-deployment}{\texttt{}}
 
-This project implements a finite element solver for the steady-\/state advection-\/diffusion-\/reaction equation using the \href{https://www.dealii.org/}{\texttt{deal.\+II}} library.\hypertarget{index_autotoc_md1}{}\doxysection{\texorpdfstring{Problem Formulation}{Problem Formulation}}\label{index_autotoc_md1}
-The solver addresses the following boundary value problem\+:
-
-\$\$-\/\textbackslash{}nabla \textbackslash{}cdot (\textbackslash{}mu \textbackslash{}nabla u) + \textbackslash{}nabla \textbackslash{}cdot (\textbackslash{}beta u) + \textbackslash{}gamma u = f \textbackslash{}quad \textbackslash{}text\{in \} \textbackslash{}\+Omega\$\$
-
-\$\$u = g \textbackslash{}quad \textbackslash{}text\{on \} \textbackslash{}\+Gamma\+\_\+D \textbackslash{}subset \textbackslash{}partial\textbackslash{}\+Omega \textbackslash{}quad \textbackslash{}text\{(Dirichlet)\}\$\$
-
-\$\$\textbackslash{}nabla u \textbackslash{}cdot \textbackslash{}mathbf\{n\} = h \textbackslash{}quad \textbackslash{}text\{on \} \textbackslash{}\+Gamma\+\_\+N = \textbackslash{}partial\textbackslash{}\+Omega \textbackslash{}setminus \textbackslash{}\+Gamma\+\_\+D \textbackslash{}quad \textbackslash{}text\{(Neumann)\}\$\$
-
-Where\+:
+A high-\/performance finite element solver for the steady-\/state {\bfseries{Advection-\/\+Diffusion-\/\+Reaction (ADR)}} equation using the \href{https://www.dealii.org/}{\texttt{deal.\+II}} library. This project implements and compares two parallelization strategies\+:
 
 
 \begin{DoxyItemize}
-\item \$\textbackslash{}mu\$\+: Diffusion coefficient (scalar or tensor)
-\item \$\textbackslash{}beta\$\+: Advection velocity field (vector)
-\item \$\textbackslash{}gamma\$\+: Reaction coefficient (scalar, \$\textbackslash{}gamma \textbackslash{}geq 0\$)
-\item \$f\$\+: Source term
-\item \$g\$\+: Dirichlet boundary data
-\item \$h\$\+: Neumann boundary flux
-\end{DoxyItemize}\hypertarget{index_autotoc_md2}{}\doxysection{\texorpdfstring{Weak Formulation}{Weak Formulation}}\label{index_autotoc_md2}
-Multiplying by a test function \$v \textbackslash{}in H\texorpdfstring{$^\wedge$}{\string^}1\+\_\+0(\textbackslash{}\+Omega)\$ and integrating by parts\+:
-
-\$\$\textbackslash{}int\+\_\+\textbackslash{}\+Omega \textbackslash{}mu \textbackslash{}nabla u \textbackslash{}cdot \textbackslash{}nabla v \textbackslash{}, dx + \textbackslash{}int\+\_\+\textbackslash{}\+Omega (\textbackslash{}beta \textbackslash{}cdot \textbackslash{}nabla u) v \textbackslash{}, dx + \textbackslash{}int\+\_\+\textbackslash{}\+Omega \textbackslash{}gamma u v \textbackslash{}, dx = \textbackslash{}int\+\_\+\textbackslash{}\+Omega f v \textbackslash{}, dx + \textbackslash{}int\+\_\+\{\textbackslash{}\+Gamma\+\_\+N\} h v \textbackslash{}, ds\$\$\hypertarget{index_autotoc_md3}{}\doxysection{\texorpdfstring{Building}{Building}}\label{index_autotoc_md3}
-\hypertarget{index_autotoc_md4}{}\doxysubsection{\texorpdfstring{Prerequisites}{Prerequisites}}\label{index_autotoc_md4}
-We recommend use \href{https://spack.io}{\texttt{Spack}} to manage dependencies. Spack is a package manager for supercomputers, Linux, mac\+OS, and Windows. We can build deal.\+II automatically with Spack. Using the following commands to install Spack and deal.\+II\+:
-
-
-\begin{DoxyItemize}
-\item Install Spack
+\item {\bfseries{Matrix-\/\+Based Solver}}\+: Explicit sparse matrix assembly with Work\+Stream threading + AMG preconditioning
+\item {\bfseries{Matrix-\/\+Free Solver}}\+: On-\/the-\/fly operator evaluation with Geometric Multigrid (GMG) preconditioning
 \end{DoxyItemize}
+
+Both solvers support hybrid {\bfseries{MPI + threading}} parallelization for optimal performance on modern HPC architectures.\hypertarget{index_autotoc_md1}{}\doxysection{\texorpdfstring{Features}{Features}}\label{index_autotoc_md1}
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{3}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Feature  }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Matrix-\/\+Based  }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Matrix-\/\+Free  }\\\cline{1-3}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Feature  }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Matrix-\/\+Based  }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Matrix-\/\+Free  }\\\cline{1-3}
+\endhead
+Sparse Matrix Storage  &\PBS\centering ✓  &\PBS\centering ✗  \\\cline{1-3}
+Thread-\/\+Parallel Assembly  &\PBS\centering Work\+Stream  &\PBS\centering FEEvaluation  \\\cline{1-3}
+Preconditioner  &\PBS\centering AMG (PETSc/hypre)  &\PBS\centering GMG (Chebyshev)  \\\cline{1-3}
+Memory Scaling  &\PBS\centering O(N × stencil)  &\PBS\centering O(\+N)  \\\cline{1-3}
+Best For  &\PBS\centering Small-\/medium problems  &\PBS\centering Large-\/scale problems  \\\cline{1-3}
+\end{longtabu}
+\hypertarget{index_autotoc_md2}{}\doxysection{\texorpdfstring{Building}{Building}}\label{index_autotoc_md2}
+\hypertarget{index_autotoc_md3}{}\doxysubsection{\texorpdfstring{Prerequisites}{Prerequisites}}\label{index_autotoc_md3}
+We recommend using \href{https://spack.io}{\texttt{Spack}} to manage dependencies\+:
 
 
 \begin{DoxyCode}{0}
+\DoxyCodeLine{\#\ Install\ Spack}
 \DoxyCodeLine{git\ clone\ -\/-\/depth=2\ https://github.com/spack/spack.git}
 \DoxyCodeLine{.\ spack/share/spack/setup-\/env.sh}
-
-\end{DoxyCode}
-
-
-
-\begin{DoxyItemize}
-\item Install deal.\+II with MPI and other dependencies
-\end{DoxyItemize}
-
-
-\begin{DoxyCode}{0}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ Install\ deal.II\ with\ required\ dependencies}
 \DoxyCodeLine{spack\ install\ dealii\ +mpi\ +petsc\ +p4est\ \(\backslash\)}
 \DoxyCodeLine{\ \ \ \ '\string~gmsh'\ '\string~arborx'\ '\string~taskflow'\ '\string~ginkgo'\ '\string~opencascade'\ '\string~cgal'\ '\string~trilinos'\ \(\backslash\)}
 \DoxyCodeLine{\ \ \ \ '\string^petsc+hypre+metis+hdf5'\ \(\backslash\)}
 \DoxyCodeLine{\ \ \ \ '\string^mpich'\ \(\backslash\)}
 \DoxyCodeLine{\ \ \ \ '\string^python@3.11'}
-\DoxyCodeLine{\ \ \ \ }
-\DoxyCodeLine{spack\ install\ gtest}
 
 \end{DoxyCode}
-\hypertarget{index_autotoc_md5}{}\doxysubsection{\texorpdfstring{Compilation}{Compilation}}\label{index_autotoc_md5}
-
-\begin{DoxyItemize}
-\item Load deal.\+II environment
-\end{DoxyItemize}
-
+\hypertarget{index_autotoc_md4}{}\doxysubsection{\texorpdfstring{Compilation}{Compilation}}\label{index_autotoc_md4}
 
 \begin{DoxyCode}{0}
+\DoxyCodeLine{\#\ Load\ deal.II\ environment}
 \DoxyCodeLine{spack\ load\ dealii}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ Build\ the\ project}
+\DoxyCodeLine{mkdir\ build\ \&\&\ cd\ build}
+\DoxyCodeLine{cmake\ ..}
+\DoxyCodeLine{make\ -\/j\$(nproc)}
 
 \end{DoxyCode}
+\hypertarget{index_autotoc_md5}{}\doxysection{\texorpdfstring{Usage}{Usage}}\label{index_autotoc_md5}
+\hypertarget{index_autotoc_md6}{}\doxysubsection{\texorpdfstring{Running Examples}{Running Examples}}\label{index_autotoc_md6}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\#\ Matrix-\/based\ solver\ (single\ process)}
+\DoxyCodeLine{./main\_matrix\_based}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ Matrix-\/free\ solver\ (single\ process)}
+\DoxyCodeLine{./main\_matrix\_free}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ Hybrid\ MPI\ +\ threading}
+\DoxyCodeLine{export\ OMP\_NUM\_THREADS=4}
+\DoxyCodeLine{mpirun\ -\/np\ 8\ ./main\_matrix\_free}
+
+\end{DoxyCode}
+\hypertarget{index_autotoc_md7}{}\doxysubsection{\texorpdfstring{Running Benchmarks}{Running Benchmarks}}\label{index_autotoc_md7}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\#\ Time\ complexity\ study\ (refinement\ levels\ 2-\/10,\ degree\ 2)}
+\DoxyCodeLine{mpirun\ -\/np\ 4\ ./main\_2d\ -\/-\/min-\/ref\ 2\ -\/-\/max-\/ref\ 10\ -\/-\/degree\ 2\ -\/-\/output\ results.csv}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ Convergence\ verification}
+\DoxyCodeLine{mpirun\ -\/np\ 4\ ./convergence\_study}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ Scaling\ study}
+\DoxyCodeLine{mpirun\ -\/np\ 16\ ./scaling\_study\ -\/-\/test\ strong}
+
+\end{DoxyCode}
+\hypertarget{index_autotoc_md8}{}\doxysubsection{\texorpdfstring{Command-\/\+Line Options}{Command-\/\+Line Options}}\label{index_autotoc_md8}
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{3}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Option  }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Description  }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Default  }\\\cline{1-3}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Option  }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Description  }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Default  }\\\cline{1-3}
+\endhead
+{\ttfamily -\/-\/min-\/ref, -\/m}  &Minimum refinement level  &2  \\\cline{1-3}
+{\ttfamily -\/-\/max-\/ref, -\/M}  &Maximum refinement level  &10  \\\cline{1-3}
+{\ttfamily -\/-\/degree, -\/d}  &Polynomial degree  &2  \\\cline{1-3}
+{\ttfamily -\/-\/output, -\/o}  &Output CSV file  &{\ttfamily complexity\+\_\+2d.\+csv}  \\\cline{1-3}
+{\ttfamily -\/-\/threads, -\/t}  &Threads per MPI process  &auto  \\\cline{1-3}
+\end{longtabu}
+\hypertarget{index_autotoc_md9}{}\doxysubsection{\texorpdfstring{Submit PBS cluster}{Submit PBS cluster}}\label{index_autotoc_md9}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{qsub\ submit\_benchmark\_2d.pbs}
+\DoxyCodeLine{qsub\ submit\_scaling\_study.pbs}
+
+\end{DoxyCode}
+\hypertarget{index_autotoc_md10}{}\doxysection{\texorpdfstring{Performance}{Performance}}\label{index_autotoc_md10}
+Representative results on a unit square domain with \$\+Q\+\_\+2\$ elements\+:
+
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{4}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Do\+Fs  }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Matrix-\/\+Based (s)  }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Matrix-\/\+Free (s)  }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Memory Ratio  }\\\cline{1-4}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Do\+Fs  }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Matrix-\/\+Based (s)  }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Matrix-\/\+Free (s)  }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Memory Ratio  }\\\cline{1-4}
+\endhead
+16,641  &0.\+19  &0.\+28  &2.\+7×  \\\cline{1-4}
+263,169  &2.\+59  &2.\+07  &2.\+7×  \\\cline{1-4}
+1,050,625  &10.\+41  &6.\+75  &2.\+7×  \\\cline{1-4}
+4,198,401  &44.\+13  &23.\+77  &2.\+7×  \\\cline{1-4}
+\end{longtabu}
 
 
+{\itshape Matrix-\/free solver becomes faster for \$N}\{\textbackslash{}text\{dof\}\} \texorpdfstring{$>$}{>} 250\{,\}000\$ with 3–4× lower memory usage.\+\_\+\hypertarget{index_autotoc_md11}{}\doxysection{\texorpdfstring{References}{References}}\label{index_autotoc_md11}
 
 \begin{DoxyItemize}
-\item Build the project
+\item \href{https://www.dealii.org/current/doxygen/deal.II/index.html}{\texttt{deal.\+II Documentation}}
+\item \href{https://www.dealii.org/current/doxygen/deal.II/step_37.html}{\texttt{deal.\+II Step-\/37}}
+\item \href{https://www.dealii.org/current/doxygen/deal.II/step_48.html}{\texttt{deal.\+II Step-\/48}}
+\item \href{https://www.dealii.org/current/doxygen/deal.II/step_69.html}{\texttt{deal.\+II Step-\/69}}
+\end{DoxyItemize}\hypertarget{index_autotoc_md12}{}\doxysection{\texorpdfstring{Authors}{Authors}}\label{index_autotoc_md12}
+
+\begin{DoxyItemize}
+\item {\bfseries{Peng Rao}}
+\item {\bfseries{Jiali Claudio Huang}}
+\item {\bfseries{Ruiying Jiao}}
 \end{DoxyItemize}
 
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{mkdir\ build}
-\DoxyCodeLine{cd\ build}
-\DoxyCodeLine{cmake\ ..}
-\DoxyCodeLine{make\ -\/j}
-
-\end{DoxyCode}
-\hypertarget{index_autotoc_md6}{}\doxysubsection{\texorpdfstring{Running}{Running}}\label{index_autotoc_md6}
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{./GalerkinSolver\ \ \ \ \#\ Galerkin\ solver}
-
-\end{DoxyCode}
-\hypertarget{index_autotoc_md7}{}\doxysection{\texorpdfstring{Mathematical Notes}{Mathematical Notes}}\label{index_autotoc_md7}
-\hypertarget{index_autotoc_md8}{}\doxysubsection{\texorpdfstring{Coercivity and Stability}{Coercivity and Stability}}\label{index_autotoc_md8}
-For well-\/posedness, we require\+:
-
-
-\begin{DoxyEnumerate}
-\item \$\textbackslash{}mu \texorpdfstring{$>$}{>} 0\$ (positive diffusion)
-\item \$\textbackslash{}gamma \textbackslash{}geq 0\$ (non-\/negative reaction)
-\item \$\textbackslash{}nabla \textbackslash{}cdot \textbackslash{}beta\$ bounded (divergence of convection)
-\end{DoxyEnumerate}
-
-The bilinear form is coercive if\+:
-
-\$\$\textbackslash{}gamma -\/ \textbackslash{}frac\{1\}\{2\}\textbackslash{}nabla \textbackslash{}cdot \textbackslash{}beta \textbackslash{}geq \textbackslash{}gamma\+\_\+0 \texorpdfstring{$>$}{>} 0\$\$\hypertarget{index_autotoc_md9}{}\doxysubsection{\texorpdfstring{Error Estimates}{Error Estimates}}\label{index_autotoc_md9}
-For sufficiently smooth solutions, the standard Galerkin method gives\+:
-
-\$\$$|$u -\/ u\+\_\+h$|$\+\_\+\{H\texorpdfstring{$^\wedge$}{\string^}1\} \textbackslash{}leq C h\texorpdfstring{$^\wedge$}{\string^}k \texorpdfstring{$\vert$}{|}u\texorpdfstring{$\vert$}{|}\+\_\+\{H\texorpdfstring{$^\wedge$}{\string^}\{k+1\}\}\$\$ 
+{\itshape Politecnico di Milano — M.\+Sc. in High Performance Computing}\hypertarget{index_autotoc_md13}{}\doxysection{\texorpdfstring{License}{License}}\label{index_autotoc_md13}
+This project is licensed under the MIT License. 

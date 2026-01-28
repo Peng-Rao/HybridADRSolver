@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['advection_20diffusion_20reaction_20solver_20using_20deal_20ii_0',['Advection-Diffusion-Reaction Solver using deal.II',['../index.html',1,'']]],
-  ['and_20stability_1',['Coercivity and Stability',['../index.html#autotoc_md8',1,'']]]
+  ['adr_20solver_0',['Hybrid ADR Solver',['../index.html',1,'']]],
+  ['authors_1',['Authors',['../index.html#autotoc_md12',1,'']]]
 ];

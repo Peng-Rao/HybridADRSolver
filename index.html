@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.14.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>HybridADRSolver: Advection-Diffusion-Reaction Solver using deal.II</title>
+<title>HybridADRSolver: Hybrid ADR Solver</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -97,83 +97,135 @@ $(function(){initNavTree('index.html','',''); });
 </div>
 
 <div><div class="header">
-  <div class="headertitle"><div class="title">Advection-Diffusion-Reaction Solver using deal.II </div></div>
+  <div class="headertitle"><div class="title">Hybrid ADR Solver </div></div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_README"></a></p>
 <p><a href="https://github.com/Peng-Rao/HybridADRSolver/actions/workflows/ci.yml"><img src="https://github.com/Peng-Rao/HybridADRSolver/actions/workflows/ci.yml/badge.svg" alt="CI" style="pointer-events: none;" class="inline"/></a> <a href="https://github.com/Peng-Rao/HybridADRSolver/actions/workflows/pages/pages-build-deployment"><img src="https://github.com/Peng-Rao/HybridADRSolver/actions/workflows/pages/pages-build-deployment/badge.svg" alt="docs-build-deployment" style="pointer-events: none;" class="inline"/></a></p>
-<p>This project implements a finite element solver for the steady-state advection-diffusion-reaction equation using the <a href="https://www.dealii.org/">deal.II</a> library.</p>
+<p>A high-performance finite element solver for the steady-state <b>Advection-Diffusion-Reaction (ADR)</b> equation using the <a href="https://www.dealii.org/">deal.II</a> library. This project implements and compares two parallelization strategies:</p>
+<ul>
+<li><b>Matrix-Based Solver</b>: Explicit sparse matrix assembly with WorkStream threading + AMG preconditioning</li>
+<li><b>Matrix-Free Solver</b>: On-the-fly operator evaluation with Geometric Multigrid (GMG) preconditioning</li>
+</ul>
+<p>Both solvers support hybrid <b>MPI + threading</b> parallelization for optimal performance on modern HPC architectures.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md1"></a>
-Problem Formulation</h1>
-<p>The solver addresses the following boundary value problem:</p>
-<p>$$-\nabla \cdot (\mu \nabla u) + \nabla \cdot (\beta u) + \gamma u = f \quad \text{in } \Omega$$</p>
-<p>$$u = g \quad \text{on } \Gamma_D \subset \partial\Omega \quad \text{(Dirichlet)}$$</p>
-<p>$$\nabla u \cdot \mathbf{n} = h \quad \text{on } \Gamma_N = \partial\Omega \setminus \Gamma_D \quad \text{(Neumann)}$$</p>
-<p>Where:</p>
-<ul>
-<li>$\mu$: Diffusion coefficient (scalar or tensor)</li>
-<li>$\beta$: Advection velocity field (vector)</li>
-<li>$\gamma$: Reaction coefficient (scalar, $\gamma \geq 0$)</li>
-<li>$f$: Source term</li>
-<li>$g$: Dirichlet boundary data</li>
-<li>$h$: Neumann boundary flux</li>
-</ul>
+Features</h1>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Feature  </th><th class="markdownTableHeadCenter">Matrix-Based  </th><th class="markdownTableHeadCenter">Matrix-Free  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">Sparse Matrix Storage  </td><td class="markdownTableBodyCenter">✓  </td><td class="markdownTableBodyCenter">✗  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">Thread-Parallel Assembly  </td><td class="markdownTableBodyCenter">WorkStream  </td><td class="markdownTableBodyCenter">FEEvaluation  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">Preconditioner  </td><td class="markdownTableBodyCenter">AMG (PETSc/hypre)  </td><td class="markdownTableBodyCenter">GMG (Chebyshev)  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">Memory Scaling  </td><td class="markdownTableBodyCenter">O(N × stencil)  </td><td class="markdownTableBodyCenter">O(N)  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">Best For  </td><td class="markdownTableBodyCenter">Small-medium problems  </td><td class="markdownTableBodyCenter">Large-scale problems  </td></tr>
+</table>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md2"></a>
-Weak Formulation</h1>
-<p>Multiplying by a test function $v \in H^1_0(\Omega)$ and integrating by parts:</p>
-<p>$$\int_\Omega \mu \nabla u \cdot \nabla v \, dx + \int_\Omega (\beta \cdot \nabla u) v \, dx + \int_\Omega \gamma u v \, dx = \int_\Omega f v \, dx + \int_{\Gamma_N} h v \, ds$$</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md3"></a>
 Building</h1>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md4"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md3"></a>
 Prerequisites</h2>
-<p>We recommend use <a href="https://spack.io">Spack</a> to manage dependencies. Spack is a package manager for supercomputers, Linux, macOS, and Windows. We can build deal.II automatically with Spack. Using the following commands to install Spack and deal.II:</p>
-<ul>
-<li>Install Spack</li>
-</ul>
-<div class="fragment"><div class="line">git clone --depth=2 https://github.com/spack/spack.git</div>
+<p>We recommend using <a href="https://spack.io">Spack</a> to manage dependencies:</p>
+<div class="fragment"><div class="line"># Install Spack</div>
+<div class="line">git clone --depth=2 https://github.com/spack/spack.git</div>
 <div class="line">. spack/share/spack/setup-env.sh</div>
-</div><!-- fragment --><ul>
-<li>Install deal.II with MPI and other dependencies</li>
-</ul>
-<div class="fragment"><div class="line">spack install dealii +mpi +petsc +p4est \</div>
+<div class="line"> </div>
+<div class="line"># Install deal.II with required dependencies</div>
+<div class="line">spack install dealii +mpi +petsc +p4est \</div>
 <div class="line">    &#39;~gmsh&#39; &#39;~arborx&#39; &#39;~taskflow&#39; &#39;~ginkgo&#39; &#39;~opencascade&#39; &#39;~cgal&#39; &#39;~trilinos&#39; \</div>
 <div class="line">    &#39;^petsc+hypre+metis+hdf5&#39; \</div>
 <div class="line">    &#39;^mpich&#39; \</div>
 <div class="line">    &#39;^python@3.11&#39;</div>
-<div class="line">    </div>
-<div class="line">spack install gtest</div>
-</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
+</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md4"></a>
 Compilation</h2>
-<ul>
-<li>Load deal.II environment</li>
-</ul>
-<div class="fragment"><div class="line">spack load dealii</div>
-</div><!-- fragment --><ul>
-<li>Build the project</li>
-</ul>
-<div class="fragment"><div class="line">mkdir build</div>
-<div class="line">cd build</div>
+<div class="fragment"><div class="line"># Load deal.II environment</div>
+<div class="line">spack load dealii</div>
+<div class="line"> </div>
+<div class="line"># Build the project</div>
+<div class="line">mkdir build &amp;&amp; cd build</div>
 <div class="line">cmake ..</div>
-<div class="line">make -j</div>
-</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md6"></a>
-Running</h2>
-<div class="fragment"><div class="line">./GalerkinSolver    # Galerkin solver</div>
-</div><!-- fragment --><h1 class="doxsection"><a class="anchor" id="autotoc_md7"></a>
-Mathematical Notes</h1>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md8"></a>
-Coercivity and Stability</h2>
-<p>For well-posedness, we require:</p>
-<ol type="1">
-<li>$\mu &gt; 0$ (positive diffusion)</li>
-<li>$\gamma \geq 0$ (non-negative reaction)</li>
-<li>$\nabla \cdot \beta$ bounded (divergence of convection)</li>
-</ol>
-<p>The bilinear form is coercive if:</p>
-<p>$$\gamma - \frac{1}{2}\nabla \cdot \beta \geq \gamma_0 &gt; 0$$</p>
+<div class="line">make -j$(nproc)</div>
+</div><!-- fragment --><h1 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
+Usage</h1>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md6"></a>
+Running Examples</h2>
+<div class="fragment"><div class="line"># Matrix-based solver (single process)</div>
+<div class="line">./main_matrix_based</div>
+<div class="line"> </div>
+<div class="line"># Matrix-free solver (single process)</div>
+<div class="line">./main_matrix_free</div>
+<div class="line"> </div>
+<div class="line"># Hybrid MPI + threading</div>
+<div class="line">export OMP_NUM_THREADS=4</div>
+<div class="line">mpirun -np 8 ./main_matrix_free</div>
+</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md7"></a>
+Running Benchmarks</h2>
+<div class="fragment"><div class="line"># Time complexity study (refinement levels 2-10, degree 2)</div>
+<div class="line">mpirun -np 4 ./main_2d --min-ref 2 --max-ref 10 --degree 2 --output results.csv</div>
+<div class="line"> </div>
+<div class="line"># Convergence verification</div>
+<div class="line">mpirun -np 4 ./convergence_study</div>
+<div class="line"> </div>
+<div class="line"># Scaling study</div>
+<div class="line">mpirun -np 16 ./scaling_study --test strong</div>
+</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md8"></a>
+Command-Line Options</h2>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Option  </th><th class="markdownTableHeadNone">Description  </th><th class="markdownTableHeadNone">Default  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><span class="tt">--min-ref, -m</span>  </td><td class="markdownTableBodyNone">Minimum refinement level  </td><td class="markdownTableBodyNone">2  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><span class="tt">--max-ref, -M</span>  </td><td class="markdownTableBodyNone">Maximum refinement level  </td><td class="markdownTableBodyNone">10  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><span class="tt">--degree, -d</span>  </td><td class="markdownTableBodyNone">Polynomial degree  </td><td class="markdownTableBodyNone">2  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><span class="tt">--output, -o</span>  </td><td class="markdownTableBodyNone">Output CSV file  </td><td class="markdownTableBodyNone"><span class="tt">complexity_2d.csv</span>  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><span class="tt">--threads, -t</span>  </td><td class="markdownTableBodyNone">Threads per MPI process  </td><td class="markdownTableBodyNone">auto  </td></tr>
+</table>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md9"></a>
-Error Estimates</h2>
-<p>For sufficiently smooth solutions, the standard Galerkin method gives:</p>
-<p>$$|u - u_h|_{H^1} \leq C h^k |u|_{H^{k+1}}$$ </p>
+Submit PBS cluster</h2>
+<div class="fragment"><div class="line">qsub submit_benchmark_2d.pbs</div>
+<div class="line">qsub submit_scaling_study.pbs</div>
+</div><!-- fragment --><h1 class="doxsection"><a class="anchor" id="autotoc_md10"></a>
+Performance</h1>
+<p>Representative results on a unit square domain with $Q_2$ elements:</p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">DoFs  </th><th class="markdownTableHeadNone">Matrix-Based (s)  </th><th class="markdownTableHeadNone">Matrix-Free (s)  </th><th class="markdownTableHeadNone">Memory Ratio  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">16,641  </td><td class="markdownTableBodyNone">0.19  </td><td class="markdownTableBodyNone">0.28  </td><td class="markdownTableBodyNone">2.7×  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">263,169  </td><td class="markdownTableBodyNone">2.59  </td><td class="markdownTableBodyNone">2.07  </td><td class="markdownTableBodyNone">2.7×  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">1,050,625  </td><td class="markdownTableBodyNone">10.41  </td><td class="markdownTableBodyNone">6.75  </td><td class="markdownTableBodyNone">2.7×  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">4,198,401  </td><td class="markdownTableBodyNone">44.13  </td><td class="markdownTableBodyNone">23.77  </td><td class="markdownTableBodyNone">2.7×  </td></tr>
+</table>
+<p><em>Matrix-free solver becomes faster for $N</em>{\text{dof}} &gt; 250{,}000$ with 3–4× lower memory usage._</p>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md11"></a>
+References</h1>
+<ul>
+<li><a href="https://www.dealii.org/current/doxygen/deal.II/index.html">deal.II Documentation</a></li>
+<li><a href="https://www.dealii.org/current/doxygen/deal.II/step_37.html">deal.II Step-37</a></li>
+<li><a href="https://www.dealii.org/current/doxygen/deal.II/step_48.html">deal.II Step-48</a></li>
+<li><a href="https://www.dealii.org/current/doxygen/deal.II/step_69.html">deal.II Step-69</a></li>
+</ul>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md12"></a>
+Authors</h1>
+<ul>
+<li><b>Peng Rao</b></li>
+<li><b>Jiali Claudio Huang</b></li>
+<li><b>Ruiying Jiao</b></li>
+</ul>
+<p><em>Politecnico di Milano — M.Sc. in High Performance Computing</em></p>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md13"></a>
+License</h1>
+<p>This project is licensed under the MIT License. </p>
 </div></div><!-- PageDoc -->
 <a href="doxygen_crawl.html"></a>
 </div><!-- contents -->

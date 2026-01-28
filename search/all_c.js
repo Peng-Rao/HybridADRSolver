@@ -14,6 +14,5 @@ var searchData=
   ['n_5fwarmup_5fruns_11',['n_warmup_runs',['../structBenchmarkUtils_1_1ScalingConfig.html#ab8a67b9545c8402b489d20fc21e170f7',1,'BenchmarkUtils::ScalingConfig']]],
   ['neumannfluxright_12',['NeumannFluxRight',['../classHybridADRSolver_1_1Problems_1_1NeumannFluxRight.html',1,'HybridADRSolver::Problems']]],
   ['none_13',['None',['../namespaceHybridADRSolver.html#aa3fd5a2bb73d19a55b178e5a35b5b341a6adf97f83acf6453d4a6a4b1070f3754',1,'HybridADRSolver']]],
-  ['notes_14',['Mathematical Notes',['../index.html#autotoc_md7',1,'']]],
-  ['number_15',['Number',['../classHybridADRSolver_1_1MatrixFreeSolver.html#a7217c11ce8bebeb139faad0dc91209d7',1,'HybridADRSolver::MatrixFreeSolver']]]
+  ['number_14',['Number',['../classHybridADRSolver_1_1MatrixFreeSolver.html#a7217c11ce8bebeb139faad0dc91209d7',1,'HybridADRSolver::MatrixFreeSolver']]]
 ];

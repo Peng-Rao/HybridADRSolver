@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['reaction_20solver_20using_20deal_20ii_0',['Advection-Diffusion-Reaction Solver using deal.II',['../index.html',1,'']]],
-  ['running_1',['Running',['../index.html#autotoc_md6',1,'']]]
+  ['solver_0',['Hybrid ADR Solver',['../index.html',1,'']]],
+  ['submit_20pbs_20cluster_1',['Submit PBS cluster',['../index.html#autotoc_md9',1,'']]]
 ];
