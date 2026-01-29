@@ -8,6 +8,7 @@
 # 2. Simplified configurations - no redundant MPI×thread combos at same total
 # 3. Pure MPI scaling as primary test (cleanest results)
 # 4. Separate hybrid analysis
+# 5. MPICH bind-to-core for consistent performance
 #===============================================================================
 
 #PBS -N adr_scaling_fixed
@@ -46,6 +47,7 @@ echo "  1. Larger problem sizes (ensuring 50k+ DoFs per process)"
 echo "  2. Simplified configurations (no redundant overlapping points)"
 echo "  3. Scaling metrics based on SOLVE TIME (not total time)"
 echo "  4. Pure MPI as primary test, hybrid as separate analysis"
+echo "  5. MPICH bind-to-core for consistent performance"
 echo "==============================================================================="
 
 #-------------------------------------------------------------------------------
@@ -121,6 +123,26 @@ MAX_REF_WEAK=9
 
 MPI_CMD="mpirun"
 
+#===============================================================================
+# MPICH Binding Configuration
+#===============================================================================
+# For pure MPI (1 thread per process): bind each process to a core
+# For hybrid (multiple threads): bind to none so threads can spread
+
+# Pure MPI binding: each MPI process gets one core
+MPI_BIND_CORE="-bind-to core"
+
+# Hybrid binding: don't bind to single core (threads need room)
+MPI_BIND_NONE="-bind-to none"
+
+echo ""
+echo "==============================================================================="
+echo "MPICH Process Binding Configuration"
+echo "==============================================================================="
+echo "Pure MPI runs:  ${MPI_BIND_CORE}"
+echo "Hybrid runs:    ${MPI_BIND_NONE}"
+echo "==============================================================================="
+
 echo ""
 echo "==============================================================================="
 echo "Problem Size Estimates (2D Q2 elements)"
@@ -143,6 +165,7 @@ echo "==========================================================================
 echo "PHASE 1: PURE MPI STRONG SCALING"
 echo "==============================================================================="
 echo "Testing with 1 thread per MPI process (cleanest scaling curves)"
+echo "Using: ${MPI_BIND_CORE}"
 echo ""
 
 # Pure MPI configurations (1 thread each) - logarithmic scaling
@@ -163,6 +186,7 @@ for CONFIG in "${PURE_MPI_CONFIGS[@]}"; do
     echo ""
     echo "-----------------------------------------------------------------------"
     echo "Pure MPI: ${NRANKS} processes × ${NTHREADS} thread = ${TOTAL_CORES} cores"
+    echo "Binding: ${MPI_BIND_CORE}"
     echo "-----------------------------------------------------------------------"
 
     export TBB_NUM_THREADS=${NTHREADS}
@@ -172,7 +196,7 @@ for CONFIG in "${PURE_MPI_CONFIGS[@]}"; do
 
     OUTPUT_PREFIX="${RESULTS_DIR}/strong_${CONFIG_NAME}"
 
-    ${MPI_CMD} -n ${NRANKS} \
+    ${MPI_CMD} -n ${NRANKS} ${MPI_BIND_CORE} \
         ${EXECUTABLE} \
         --strong \
         --min-ref ${MIN_REF_STRONG} \
@@ -198,6 +222,7 @@ echo "==========================================================================
 echo "PHASE 2: PURE THREADING SCALING"
 echo "==============================================================================="
 echo "Testing with 1 MPI process, varying threads"
+echo "Using: ${MPI_BIND_NONE} (threads need multiple cores)"
 echo ""
 
 declare -a PURE_THREAD_CONFIGS=(
@@ -222,6 +247,7 @@ for CONFIG in "${PURE_THREAD_CONFIGS[@]}"; do
     echo ""
     echo "-----------------------------------------------------------------------"
     echo "Pure Threading: ${NRANKS} process × ${NTHREADS} threads = ${TOTAL_CORES} cores"
+    echo "Binding: ${MPI_BIND_NONE}"
     echo "-----------------------------------------------------------------------"
 
     export TBB_NUM_THREADS=${NTHREADS}
@@ -231,7 +257,7 @@ for CONFIG in "${PURE_THREAD_CONFIGS[@]}"; do
 
     OUTPUT_PREFIX="${RESULTS_DIR}/strong_${CONFIG_NAME}"
 
-    ${MPI_CMD} -n ${NRANKS} \
+    ${MPI_CMD} -n ${NRANKS} ${MPI_BIND_NONE} \
         ${EXECUTABLE} \
         --strong \
         --min-ref ${MIN_REF_STRONG} \
@@ -257,6 +283,7 @@ echo "==========================================================================
 echo "PHASE 3: HYBRID ANALYSIS AT FIXED CORE COUNTS"
 echo "==============================================================================="
 echo "Comparing different MPI×Thread configurations at 14 and 28 total cores"
+echo "Using: ${MPI_BIND_NONE} (hybrid needs flexible binding)"
 echo ""
 
 # 14 total cores: compare different decompositions
@@ -286,10 +313,19 @@ for CONFIG in "${HYBRID_14[@]}"; do
 
     export TBB_NUM_THREADS=${NTHREADS}
     export OMP_NUM_THREADS=${NTHREADS}
+    export OMP_PROC_BIND=close
+    export OMP_PLACES=cores
 
     OUTPUT_PREFIX="${RESULTS_DIR}/hybrid14_${CONFIG_NAME}"
 
-    ${MPI_CMD} -n ${NRANKS} \
+    # Use bind-to-core only for pure MPI (1 thread), otherwise no binding
+    if [ "${NTHREADS}" -eq 1 ]; then
+        BIND_OPT="${MPI_BIND_CORE}"
+    else
+        BIND_OPT="${MPI_BIND_NONE}"
+    fi
+
+    ${MPI_CMD} -n ${NRANKS} ${BIND_OPT} \
         ${EXECUTABLE} \
         --strong \
         --min-ref ${MAX_REF_STRONG} \
@@ -315,10 +351,19 @@ for CONFIG in "${HYBRID_28[@]}"; do
 
     export TBB_NUM_THREADS=${NTHREADS}
     export OMP_NUM_THREADS=${NTHREADS}
+    export OMP_PROC_BIND=close
+    export OMP_PLACES=cores
 
     OUTPUT_PREFIX="${RESULTS_DIR}/hybrid28_${CONFIG_NAME}"
 
-    ${MPI_CMD} -n ${NRANKS} \
+    # Use bind-to-core only for pure MPI (1 thread), otherwise no binding
+    if [ "${NTHREADS}" -eq 1 ]; then
+        BIND_OPT="${MPI_BIND_CORE}"
+    else
+        BIND_OPT="${MPI_BIND_NONE}"
+    fi
+
+    ${MPI_CMD} -n ${NRANKS} ${BIND_OPT} \
         ${EXECUTABLE} \
         --strong \
         --min-ref ${MAX_REF_STRONG} \
@@ -343,6 +388,7 @@ echo "==========================================================================
 echo "PHASE 4: WEAK SCALING (Pure MPI)"
 echo "==============================================================================="
 echo "Problem size scales with core count to maintain constant work per core"
+echo "Using: ${MPI_BIND_CORE}"
 echo ""
 
 for CONFIG in "${PURE_MPI_CONFIGS[@]}"; do
@@ -353,14 +399,17 @@ for CONFIG in "${PURE_MPI_CONFIGS[@]}"; do
     echo ""
     echo "-----------------------------------------------------------------------"
     echo "Weak Scaling: ${NRANKS} processes"
+    echo "Binding: ${MPI_BIND_CORE}"
     echo "-----------------------------------------------------------------------"
 
     export TBB_NUM_THREADS=${NTHREADS}
     export OMP_NUM_THREADS=${NTHREADS}
+    export OMP_PROC_BIND=close
+    export OMP_PLACES=cores
 
     OUTPUT_PREFIX="${RESULTS_DIR}/${CONFIG_NAME}"
 
-    ${MPI_CMD} -n ${NRANKS} \
+    ${MPI_CMD} -n ${NRANKS} ${MPI_BIND_CORE} \
         ${EXECUTABLE} \
         --weak \
         --min-ref ${MIN_REF_WEAK} \
@@ -799,6 +848,10 @@ echo "  ${COMBINED_ALL}          - All results combined"
 echo ""
 echo "To generate plots:"
 echo "  python ${ANALYSIS_SCRIPT} ${COMBINED_ALL}"
+echo ""
+echo "MPICH binding used:"
+echo "  Pure MPI:  ${MPI_BIND_CORE}"
+echo "  Hybrid:    ${MPI_BIND_NONE}"
 echo ""
 echo "End: $(date)"
 echo "==============================================================================="

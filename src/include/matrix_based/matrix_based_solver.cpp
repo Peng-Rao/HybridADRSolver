@@ -6,12 +6,6 @@
  * `WorkStream` functionality for multithreaded assembly and PETSc wrappers for
  * distributed linear algebra.
  *
- * Optimizations applied:
- * - Filtered iterators to skip non-local cells at iterator level
- * - Cached shape values/gradients to avoid redundant FEValues lookups
- * - Pre-evaluated coefficients per quadrature point
- * - Tuned AMG preconditioner for problem type
- * - Reduced memory allocations in scratch data
  */
 
 #include "matrix_based/matrix_based_solver.h"
@@ -26,26 +20,17 @@
 #include <deal.II/numerics/data_out.h>
 #include <deal.II/numerics/vector_tools.h>
 
+#include <petscksp.h>
+#include <petscpc.h>
+
 namespace HybridADRSolver {
 
 using namespace dealii;
 
 /**
  * @brief Scratch data for the `WorkStream` assembly (Optimized).
- *
- * This struct holds thread-local data required for assembly, including
- * pre-allocated caching arrays for shape values, gradients, and coefficients
- * to minimize redundant computations in the inner assembly loops.
- *
- * @tparam dim Spatial dimension.
  */
 template <int dim> struct ScratchData {
-    /**
-     * @brief Constructor.
-     * @param fe The finite element object.
-     * @param q The cell quadrature rule.
-     * @param fq The face quadrature rule.
-     */
     ScratchData(const FiniteElement<dim>& fe, const Quadrature<dim>& q,
                 const Quadrature<dim - 1>& fq)
         : fe_values(fe, q,
@@ -55,16 +40,11 @@ template <int dim> struct ScratchData {
                          update_values | update_quadrature_points |
                              update_JxW_values),
           n_dofs(fe.n_dofs_per_cell()), n_q_points(q.size()),
-          n_face_q_points(fq.size()),
-          // Pre-allocate caching arrays
-          phi(n_dofs), grad_phi(n_dofs), face_phi(n_dofs),
-          mu_values(n_q_points), beta_values(n_q_points),
+          n_face_q_points(fq.size()), phi(n_dofs), grad_phi(n_dofs),
+          face_phi(n_dofs), mu_values(n_q_points), beta_values(n_q_points),
           gamma_values(n_q_points), f_values(n_q_points),
           JxW_values(n_q_points) {}
 
-    /**
-     * @brief Copy constructor (required by WorkStream).
-     */
     ScratchData(const ScratchData& sd)
         : fe_values(sd.fe_values.get_fe(), sd.fe_values.get_quadrature(),
                     sd.fe_values.get_update_flags()),
@@ -80,17 +60,14 @@ template <int dim> struct ScratchData {
     FEValues<dim> fe_values;
     FEFaceValues<dim> fe_face_values;
 
-    // Cached sizes (avoid repeated calls)
     const unsigned int n_dofs;
     const unsigned int n_q_points;
     const unsigned int n_face_q_points;
 
-    // Shape function caches (reused per quadrature point)
     std::vector<double> phi;
     std::vector<Tensor<1, dim>> grad_phi;
     std::vector<double> face_phi;
 
-    // Coefficient caches (filled once per cell)
     std::vector<double> mu_values;
     std::vector<Tensor<1, dim>> beta_values;
     std::vector<double> gamma_values;
@@ -98,9 +75,6 @@ template <int dim> struct ScratchData {
     std::vector<double> JxW_values;
 };
 
-/**
- * @brief Copy data for the `WorkStream` assembly.
- */
 struct CopyData {
     FullMatrix<double> cell_matrix;
     Vector<double> cell_rhs;
@@ -128,7 +102,6 @@ template <int dim> double MatrixBasedSolver<dim>::compute_memory_usage() const {
 }
 
 template <int dim> void MatrixBasedSolver<dim>::setup_dofs() {
-    // Distribute degrees of freedom based on the finite element
     this->dof_handler.distribute_dofs(*this->fe);
     this->timing_results.n_dofs = this->dof_handler.n_dofs();
 
@@ -137,11 +110,8 @@ template <int dim> void MatrixBasedSolver<dim>::setup_dofs() {
                     << std::endl;
     }
 
-    // Renumber DoFs to minimize matrix bandwidth (improves ILU/solver
-    // performance)
     DoFRenumbering::Cuthill_McKee(this->dof_handler);
 
-    // Extract indices for locally owned and locally relevant (ghost) DoFs
     this->locally_owned_dofs = this->dof_handler.locally_owned_dofs();
     this->locally_relevant_dofs =
         DoFTools::extract_locally_relevant_dofs(this->dof_handler);
@@ -152,7 +122,6 @@ template <int dim> void MatrixBasedSolver<dim>::setup_dofs() {
     DoFTools::make_hanging_node_constraints(this->dof_handler,
                                             this->constraints);
 
-    // Apply Dirichlet boundary conditions
     for (const auto& id : problem.get_dirichlet_ids()) {
         VectorTools::interpolate_boundary_values(
             this->dof_handler, id, problem.get_dirichlet_function(id),
@@ -160,7 +129,6 @@ template <int dim> void MatrixBasedSolver<dim>::setup_dofs() {
     }
     this->constraints.close();
 
-    // Create the Dynamic Sparsity Pattern
     DynamicSparsityPattern dsp(this->locally_relevant_dofs);
     DoFTools::make_sparsity_pattern(this->dof_handler, dsp, this->constraints,
                                     false);
@@ -169,7 +137,6 @@ template <int dim> void MatrixBasedSolver<dim>::setup_dofs() {
                                                this->mpi_communicator,
                                                this->locally_relevant_dofs);
 
-    // Initialize the system matrix and vectors
     system_matrix.reinit(this->locally_owned_dofs, this->locally_owned_dofs,
                          dsp, this->mpi_communicator);
     system_rhs.reinit(this->locally_owned_dofs, this->mpi_communicator);
@@ -178,17 +145,12 @@ template <int dim> void MatrixBasedSolver<dim>::setup_dofs() {
 }
 
 template <int dim> void MatrixBasedSolver<dim>::assemble_system() {
-    /**
-     * @brief Optimized worker lambda with cached shape functions and
-     * coefficients.
-     */
     auto worker =
         [&](const typename DoFHandler<dim>::active_cell_iterator& cell,
             ScratchData<dim>& scratch, CopyData& copy) {
             const unsigned int n_dofs = scratch.n_dofs;
             const unsigned int n_q_points = scratch.n_q_points;
 
-            // Reinitialize local matrix and RHS
             copy.cell_matrix.reinit(n_dofs, n_dofs);
             copy.cell_rhs.reinit(n_dofs);
             copy.local_dof_indices.resize(n_dofs);
@@ -197,7 +159,7 @@ template <int dim> void MatrixBasedSolver<dim>::assemble_system() {
 
             const auto& q_points = scratch.fe_values.get_quadrature_points();
 
-            // --- Pre-evaluate all coefficients for this cell ---
+            // Pre-evaluate all coefficients for this cell
             for (unsigned int q = 0; q < n_q_points; ++q) {
                 scratch.mu_values[q] =
                     problem.diffusion_coefficient(q_points[q]);
@@ -208,10 +170,8 @@ template <int dim> void MatrixBasedSolver<dim>::assemble_system() {
                 scratch.JxW_values[q] = scratch.fe_values.JxW(q);
             }
 
-            // --- Cell Integration Loop (optimized) ---
+            // Cell Integration Loop
             for (unsigned int q = 0; q < n_q_points; ++q) {
-                // Cache all shape values and gradients for this quadrature
-                // point
                 for (unsigned int k = 0; k < n_dofs; ++k) {
                     scratch.phi[k] = scratch.fe_values.shape_value(k, q);
                     scratch.grad_phi[k] = scratch.fe_values.shape_grad(k, q);
@@ -231,8 +191,6 @@ template <int dim> void MatrixBasedSolver<dim>::assemble_system() {
                         const double phi_j = scratch.phi[j];
                         const auto& grad_j = scratch.grad_phi[j];
 
-                        // Weak form: (mu*grad_u, grad_v) + (beta.grad_u, v) +
-                        // (gamma*u, v)
                         copy.cell_matrix(i, j) +=
                             (mu * grad_i * grad_j + (beta * grad_j) * phi_i +
                              gamma * phi_i * phi_j) *
@@ -242,7 +200,7 @@ template <int dim> void MatrixBasedSolver<dim>::assemble_system() {
                 }
             }
 
-            // --- Neumann Boundary Handling ---
+            // Neumann Boundary Handling
             for (const auto& face : cell->face_iterators()) {
                 if (face->at_boundary()) {
                     const auto bid = face->boundary_id();
@@ -259,7 +217,6 @@ template <int dim> void MatrixBasedSolver<dim>::assemble_system() {
                                     fq_points[q]);
                             const double JxW = scratch.fe_face_values.JxW(q);
 
-                            // Cache face shape values
                             for (unsigned int k = 0; k < n_dofs; ++k) {
                                 scratch.face_phi[k] =
                                     scratch.fe_face_values.shape_value(k, q);
@@ -277,54 +234,59 @@ template <int dim> void MatrixBasedSolver<dim>::assemble_system() {
             cell->get_dof_indices(copy.local_dof_indices);
         };
 
-    // WorkStream copier lambda
     auto copier = [&](const CopyData& copy) {
         this->constraints.distribute_local_to_global(
             copy.cell_matrix, copy.cell_rhs, copy.local_dof_indices,
             system_matrix, system_rhs);
     };
 
-    // Create scratch data
     ScratchData<dim> scratch(*this->fe, QGauss<dim>(fe_degree + 1),
                              QGauss<dim - 1>(fe_degree + 1));
 
-    // Use filtered iterators to skip non-locally-owned cells at iterator level
-    // This avoids thread scheduling overhead for cells we don't process
     WorkStream::run(filter_iterators(this->dof_handler.active_cell_iterators(),
                                      IteratorFilters::LocallyOwnedCell()),
                     worker, copier, scratch, CopyData());
 
-    // Compress the parallel objects
     system_matrix.compress(VectorOperation::add);
     system_rhs.compress(VectorOperation::add);
 }
 
 template <int dim> void MatrixBasedSolver<dim>::solve() {
+
     SolverControl solver_control(this->parameters.max_iterations,
                                  this->parameters.tolerance *
                                      system_rhs.l2_norm());
     LADistributed::MPI::Vector dist_solution(this->locally_owned_dofs,
                                              this->mpi_communicator);
 
-    // Select solver based on problem symmetry (defined in ProblemInterface)
+    // CRITICAL FIX: Configure AMG for better parallel scaling
+    LADistributed::MPI::PreconditionAMG prec;
+    LADistributed::MPI::PreconditionAMG::AdditionalData amg_data;
+    // Tuned settings for parallel scaling:
+    amg_data.symmetric_operator = problem.is_symmetric();
+
+    // These settings improve parallel scaling:
+    // - Higher threshold reduces fill-in and communication
+    // - More aggressive coarsening reduces levels
+    amg_data.strong_threshold =
+        0.5; // Default is 0.25, higher = less coupling = better parallel
+    amg_data.aggressive_coarsening_num_levels =
+        2; // Aggressive coarsening on first 2 levels
+
+    prec.initialize(system_matrix, amg_data);
+
     if (problem.is_symmetric()) {
         LADistributed::SolverCG solver(solver_control);
-        LADistributed::MPI::PreconditionAMG prec;
-        prec.initialize(system_matrix);
         solver.solve(system_matrix, dist_solution, system_rhs, prec);
     } else {
         LADistributed::SolverGMRES solver(solver_control);
-        LADistributed::MPI::PreconditionAMG prec;
-        prec.initialize(system_matrix);
         solver.solve(system_matrix, dist_solution, system_rhs, prec);
     }
 
-    // Apply constraints (hanging nodes, Dirichlet) to the solution vector
     this->constraints.distribute(dist_solution);
     solution = dist_solution;
     solution.update_ghost_values();
 
-    // Store iteration count
     this->timing_results.n_iterations = solver_control.last_step();
 
     if (this->parameters.verbose) {
@@ -370,7 +332,8 @@ void MatrixBasedSolver<dim>::output_results(unsigned int cycle) const {
                                         cycle, this->mpi_communicator, 2);
 }
 
-template <int dim> void MatrixBasedSolver<dim>::run(unsigned int n_ref) {
+template <int dim>
+void MatrixBasedSolver<dim>::run(unsigned int n_refinements) {
     this->pcout << "Running: " << problem.get_name()
                 << " (Matrix-Based, Hybrid MPI+Threading)" << std::endl;
     this->pcout << "   Using " << this->n_mpi_processes << " MPI processes"
@@ -378,26 +341,29 @@ template <int dim> void MatrixBasedSolver<dim>::run(unsigned int n_ref) {
     this->pcout << "   Threading: " << MultithreadInfo::n_threads()
                 << " threads per process" << std::endl;
 
+    MPI_Barrier(this->mpi_communicator);
     const auto t0 = std::chrono::high_resolution_clock::now();
 
-    this->setup_grid(n_ref);
+    this->setup_grid(n_refinements);
     setup_dofs();
 
+    MPI_Barrier(this->mpi_communicator);
     const auto t1 = std::chrono::high_resolution_clock::now();
 
     assemble_system();
 
+    MPI_Barrier(this->mpi_communicator);
     const auto t2 = std::chrono::high_resolution_clock::now();
 
     solve();
 
+    MPI_Barrier(this->mpi_communicator);
     const auto t3 = std::chrono::high_resolution_clock::now();
 
     output_results(0);
     double err = compute_l2_error();
     this->timing_results.memory_mb = compute_memory_usage();
 
-    // Record timing breakdowns
     this->timing_results.setup_time =
         std::chrono::duration<double>(t1 - t0).count();
     this->timing_results.assembly_time =
@@ -417,6 +383,8 @@ template <int dim> void MatrixBasedSolver<dim>::run(unsigned int n_ref) {
                     << this->timing_results.assembly_time << "s" << std::endl;
         this->pcout << "   Solve time:    " << this->timing_results.solve_time
                     << "s" << std::endl;
+        this->pcout << "   Iterations:    " << this->timing_results.n_iterations
+                    << std::endl;
         this->pcout << "   Memory usage:  " << this->timing_results.memory_mb
                     << " MB" << std::endl;
         this->pcout << "   L2 Error:      " << err << std::endl;

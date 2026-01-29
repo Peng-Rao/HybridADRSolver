@@ -146,7 +146,7 @@ private:
      *
      * This avoids repeated evaluation of coefficient functions during
      * each operator application, which is especially important for
-     * non-constant coefficients.
+     * non-constant coefficients. This is CRITICAL for performance!
      */
     void precompute_coefficient_data() {
         Assert(problem_ptr != nullptr, ExcNotInitialized());
@@ -205,12 +205,16 @@ private:
      *
      * This is the core computation kernel that applies the operator
      * on a batch of cells using vectorization (SIMD).
+     *
+     * CRITICAL FIX: Uses PRECOMPUTED coefficients instead of recomputing
+     * them at every matrix-vector product. This was the main performance
+     * bottleneck causing poor scaling!
      */
     void
-    local_apply(const MatrixFree<dim, Number>& mf_data, VectorType& dst,
+    local_apply(const MatrixFree<dim, Number>& /*mf_data*/, VectorType& dst,
                 const VectorType& src,
                 const std::pair<unsigned int, unsigned int>& cell_range) const {
-        FEEvaluation<dim, fe_degree, fe_degree + 1, 1, Number> phi(mf_data);
+        FEEvaluation<dim, fe_degree, fe_degree + 1, 1, Number> phi(*this->data);
 
         for (unsigned int cell = cell_range.first; cell < cell_range.second;
              ++cell) {
@@ -219,35 +223,23 @@ private:
                                          EvaluationFlags::gradients);
 
             for (unsigned int q = 0; q < phi.n_q_points; ++q) {
-                const Point<dim, VectorizedArray<Number>> q_point =
-                    phi.quadrature_point(q);
-
-                VectorizedArray<Number> mu_val;
-                VectorizedArray<Number> gamma_val;
-                Tensor<1, dim, VectorizedArray<Number>> beta_val;
-
-                for (unsigned int v = 0; v < VectorizedArray<Number>::size();
-                     ++v) {
-                    Point<dim> p_real;
-                    for (int d = 0; d < dim; ++d)
-                        p_real[d] = q_point[d][v];
-
-                    mu_val[v] = problem_ptr->diffusion_coefficient(p_real);
-                    gamma_val[v] = problem_ptr->reaction_coefficient(p_real);
-                    auto beta_real = problem_ptr->advection_field(p_real);
-                    for (int d = 0; d < dim; ++d)
-                        beta_val[d][v] = beta_real[d];
-                }
+                // use precomputed coefficients
+                const VectorizedArray<Number>& mu_val =
+                    diffusion_coefficients[cell][q];
+                const Tensor<1, dim, VectorizedArray<Number>>& beta_val =
+                    advection_coefficients[cell][q];
+                const VectorizedArray<Number>& gamma_val =
+                    reaction_coefficients[cell][q];
 
                 const auto u_val = phi.get_value(q);
                 const auto grad_u = phi.get_gradient(q);
 
                 // Diffusion: mu * grad(u)
-                auto flux = mu_val * grad_u;
+                const auto flux = mu_val * grad_u;
 
                 // Advection + Reaction
                 // weak form: (beta . grad_u, v) + (gamma * u, v)
-                auto val = gamma_val * u_val + beta_val * grad_u;
+                const auto val = gamma_val * u_val + beta_val * grad_u;
 
                 phi.submit_gradient(flux, q);
                 phi.submit_value(val, q);
@@ -262,7 +254,7 @@ private:
      * @brief Local diagonal computation for MatrixFreeTools::compute_diagonal.
      *
      * This function is called by MatrixFreeTools to compute the diagonal
-     * entries efficiently.
+     * entries efficiently. Uses precomputed coefficients.
      */
     void local_compute_diagonal(
         FEEvaluation<dim, fe_degree, fe_degree + 1, 1, Number>& phi) const {
@@ -275,16 +267,14 @@ private:
             const Tensor<1, dim, VectorizedArray<Number>> grad_u =
                 phi.get_gradient(q);
 
-            // Diffusion
-            Tensor<1, dim, VectorizedArray<Number>> flux =
+            // Use precomputed coefficients
+            const Tensor<1, dim, VectorizedArray<Number>> flux =
                 diffusion_coefficients[cell][q] * grad_u;
 
-            // Advection
-            VectorizedArray<Number> advection_val =
+            const VectorizedArray<Number> advection_val =
                 advection_coefficients[cell][q] * grad_u;
 
-            // Reaction
-            VectorizedArray<Number> val =
+            const VectorizedArray<Number> val =
                 reaction_coefficients[cell][q] * u_val + advection_val;
 
             phi.submit_gradient(flux, q);
@@ -300,6 +290,7 @@ private:
     unsigned int mg_level;
 
     // Precomputed coefficients at quadrature points
+    // These are computed ONCE during initialization and reused for all
     std::vector<std::vector<VectorizedArray<Number>>> diffusion_coefficients;
     std::vector<std::vector<Tensor<1, dim, VectorizedArray<Number>>>>
         advection_coefficients;
