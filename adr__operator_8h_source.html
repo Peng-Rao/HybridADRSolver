@@ -249,129 +249,116 @@ $(function(){initNavTree('adr__operator_8h_source.html','',''); });
 <div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>        }</div>
 <div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>    }</div>
 <div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span></div>
-<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>    <span class="keywordtype">void</span></div>
-<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>    local_apply(<span class="keyword">const</span> <a class="code hl_enumvalue" href="namespaceHybridADRSolver.html#afe6d3d39f0c710383621e32a46108cb1af2674a258348188d6a3ee81d2669255a">MatrixFree&lt;dim, Number&gt;</a>&amp; mf_data, <a class="code hl_typedef" href="classHybridADRSolver_1_1ADROperator.html#aff0ba29974dfe3ea1768c095eb3acb7e">VectorType</a>&amp; dst,</div>
-<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>                <span class="keyword">const</span> <a class="code hl_typedef" href="classHybridADRSolver_1_1ADROperator.html#aff0ba29974dfe3ea1768c095eb3acb7e">VectorType</a>&amp; src,</div>
-<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>                <span class="keyword">const</span> std::pair&lt;unsigned int, unsigned int&gt;&amp; cell_range)<span class="keyword"> const </span>{</div>
-<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>        FEEvaluation&lt;dim, fe_degree, fe_degree + 1, 1, Number&gt; phi(mf_data);</div>
-<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span> </div>
-<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>        <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> cell = cell_range.first; cell &lt; cell_range.second;</div>
-<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>             ++cell) {</div>
-<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>            phi.reinit(cell);</div>
-<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>            phi.gather_evaluate(src, EvaluationFlags::values |</div>
-<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>                                         EvaluationFlags::gradients);</div>
-<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span> </div>
-<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>            <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> q = 0; q &lt; phi.n_q_points; ++q) {</div>
-<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>                <span class="keyword">const</span> Point&lt;dim, VectorizedArray&lt;Number&gt;&gt; q_point =</div>
-<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>                    phi.quadrature_point(q);</div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>    <span class="keywordtype">void</span></div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>    local_apply(<span class="keyword">const</span> <a class="code hl_enumvalue" href="namespaceHybridADRSolver.html#afe6d3d39f0c710383621e32a46108cb1af2674a258348188d6a3ee81d2669255a">MatrixFree&lt;dim, Number&gt;</a>&amp; <span class="comment">/*mf_data*/</span>, <a class="code hl_typedef" href="classHybridADRSolver_1_1ADROperator.html#aff0ba29974dfe3ea1768c095eb3acb7e">VectorType</a>&amp; dst,</div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>                <span class="keyword">const</span> <a class="code hl_typedef" href="classHybridADRSolver_1_1ADROperator.html#aff0ba29974dfe3ea1768c095eb3acb7e">VectorType</a>&amp; src,</div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>                <span class="keyword">const</span> std::pair&lt;unsigned int, unsigned int&gt;&amp; cell_range)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>        FEEvaluation&lt;dim, fe_degree, fe_degree + 1, 1, Number&gt; phi(*this-&gt;data);</div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span> </div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>        <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> cell = cell_range.first; cell &lt; cell_range.second;</div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>             ++cell) {</div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>            phi.reinit(cell);</div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>            phi.gather_evaluate(src, EvaluationFlags::values |</div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>                                         EvaluationFlags::gradients);</div>
 <div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span> </div>
-<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>                VectorizedArray&lt;Number&gt; mu_val;</div>
-<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>                VectorizedArray&lt;Number&gt; gamma_val;</div>
-<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>                Tensor&lt;1, dim, VectorizedArray&lt;Number&gt;&gt; beta_val;</div>
-<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span> </div>
-<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>                <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> v = 0; v &lt; VectorizedArray&lt;Number&gt;::size();</div>
-<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>                     ++v) {</div>
-<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>                    Point&lt;dim&gt; p_real;</div>
-<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>                    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> d = 0; d &lt; dim; ++d)</div>
-<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>                        p_real[d] = q_point[d][v];</div>
-<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span> </div>
-<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>                    mu_val[v] = problem_ptr-&gt;diffusion_coefficient(p_real);</div>
-<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>                    gamma_val[v] = problem_ptr-&gt;reaction_coefficient(p_real);</div>
-<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>                    <span class="keyword">auto</span> beta_real = problem_ptr-&gt;advection_field(p_real);</div>
-<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>                    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> d = 0; d &lt; dim; ++d)</div>
-<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>                        beta_val[d][v] = beta_real[d];</div>
-<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>                }</div>
-<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span> </div>
-<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>                <span class="keyword">const</span> <span class="keyword">auto</span> u_val = phi.get_value(q);</div>
-<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span>                <span class="keyword">const</span> <span class="keyword">auto</span> grad_u = phi.get_gradient(q);</div>
-<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span> </div>
-<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>                <span class="comment">// Diffusion: mu * grad(u)</span></div>
-<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>                <span class="keyword">auto</span> flux = mu_val * grad_u;</div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>            <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> q = 0; q &lt; phi.n_q_points; ++q) {</div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>                <span class="comment">// use precomputed coefficients</span></div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>                <span class="keyword">const</span> VectorizedArray&lt;Number&gt;&amp; mu_val =</div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>                    diffusion_coefficients[cell][q];</div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>                <span class="keyword">const</span> Tensor&lt;1, dim, VectorizedArray&lt;Number&gt;&gt;&amp; beta_val =</div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>                    advection_coefficients[cell][q];</div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>                <span class="keyword">const</span> VectorizedArray&lt;Number&gt;&amp; gamma_val =</div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>                    reaction_coefficients[cell][q];</div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span> </div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>                <span class="keyword">const</span> <span class="keyword">auto</span> u_val = phi.get_value(q);</div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>                <span class="keyword">const</span> <span class="keyword">auto</span> grad_u = phi.get_gradient(q);</div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span> </div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>                <span class="comment">// Diffusion: mu * grad(u)</span></div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>                <span class="keyword">const</span> <span class="keyword">auto</span> flux = mu_val * grad_u;</div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span> </div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>                <span class="comment">// Advection + Reaction</span></div>
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span>                <span class="comment">// weak form: (beta . grad_u, v) + (gamma * u, v)</span></div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>                <span class="keyword">const</span> <span class="keyword">auto</span> val = gamma_val * u_val + beta_val * grad_u;</div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span> </div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>                phi.submit_gradient(flux, q);</div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>                phi.submit_value(val, q);</div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>            }</div>
 <div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span> </div>
-<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>                <span class="comment">// Advection + Reaction</span></div>
-<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span>                <span class="comment">// weak form: (beta . grad_u, v) + (gamma * u, v)</span></div>
-<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>                <span class="keyword">auto</span> val = gamma_val * u_val + beta_val * grad_u;</div>
-<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span> </div>
-<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>                phi.submit_gradient(flux, q);</div>
-<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>                phi.submit_value(val, q);</div>
-<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>            }</div>
-<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span> </div>
-<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>            phi.integrate_scatter(</div>
-<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span>                EvaluationFlags::values | EvaluationFlags::gradients, dst);</div>
-<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span>        }</div>
-<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span>    }</div>
-<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span></div>
-<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>    <span class="keywordtype">void</span> local_compute_diagonal(</div>
-<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>        FEEvaluation&lt;dim, fe_degree, fe_degree + 1, 1, Number&gt;&amp; phi)<span class="keyword"> const </span>{</div>
-<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>        <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> cell = phi.get_current_cell_index();</div>
-<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span> </div>
-<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>        phi.evaluate(EvaluationFlags::values | EvaluationFlags::gradients);</div>
-<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span> </div>
-<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>        <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> q = 0; q &lt; phi.n_q_points; ++q) {</div>
-<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>            <span class="keyword">const</span> VectorizedArray&lt;Number&gt; u_val = phi.get_value(q);</div>
-<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>            <span class="keyword">const</span> Tensor&lt;1, dim, VectorizedArray&lt;Number&gt;&gt; grad_u =</div>
-<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>                phi.get_gradient(q);</div>
-<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span> </div>
-<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>            <span class="comment">// Diffusion</span></div>
-<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>            Tensor&lt;1, dim, VectorizedArray&lt;Number&gt;&gt; flux =</div>
-<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>                diffusion_coefficients[cell][q] * grad_u;</div>
-<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span> </div>
-<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>            <span class="comment">// Advection</span></div>
-<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span>            VectorizedArray&lt;Number&gt; advection_val =</div>
-<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span>                advection_coefficients[cell][q] * grad_u;</div>
-<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span> </div>
-<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span>            <span class="comment">// Reaction</span></div>
-<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span>            VectorizedArray&lt;Number&gt; val =</div>
-<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>                reaction_coefficients[cell][q] * u_val + advection_val;</div>
-<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span> </div>
-<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span>            phi.submit_gradient(flux, q);</div>
-<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span>            phi.submit_value(val, q);</div>
-<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span>        }</div>
-<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span> </div>
-<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>        phi.integrate(EvaluationFlags::values | EvaluationFlags::gradients);</div>
-<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span>    }</div>
-<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span> </div>
-<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span>    <span class="comment">// Data members</span></div>
-<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span>    <span class="keyword">const</span> ProblemInterface&lt;dim&gt;* problem_ptr;</div>
-<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span>    <span class="keywordtype">bool</span> is_mg_level;</div>
-<div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span>    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> mg_level;</div>
-<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span> </div>
-<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span>    <span class="comment">// Precomputed coefficients at quadrature points</span></div>
-<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>    std::vector&lt;std::vector&lt;VectorizedArray&lt;Number&gt;&gt;&gt; diffusion_coefficients;</div>
-<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span>    std::vector&lt;std::vector&lt;Tensor&lt;1, dim, VectorizedArray&lt;Number&gt;&gt;&gt;&gt;</div>
-<div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span>        advection_coefficients;</div>
-<div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span>    std::vector&lt;std::vector&lt;VectorizedArray&lt;Number&gt;&gt;&gt; reaction_coefficients;</div>
-<div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span>};</div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>            phi.integrate_scatter(</div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span>                EvaluationFlags::values | EvaluationFlags::gradients, dst);</div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>        }</div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>    }</div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span></div>
+<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span>    <span class="keywordtype">void</span> local_compute_diagonal(</div>
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>        FEEvaluation&lt;dim, fe_degree, fe_degree + 1, 1, Number&gt;&amp; phi)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>        <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> cell = phi.get_current_cell_index();</div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span> </div>
+<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>        phi.evaluate(EvaluationFlags::values | EvaluationFlags::gradients);</div>
+<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span> </div>
+<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span>        <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> q = 0; q &lt; phi.n_q_points; ++q) {</div>
+<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>            <span class="keyword">const</span> VectorizedArray&lt;Number&gt; u_val = phi.get_value(q);</div>
+<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>            <span class="keyword">const</span> Tensor&lt;1, dim, VectorizedArray&lt;Number&gt;&gt; grad_u =</div>
+<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>                phi.get_gradient(q);</div>
+<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span> </div>
+<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span>            <span class="comment">// Use precomputed coefficients</span></div>
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>            <span class="keyword">const</span> Tensor&lt;1, dim, VectorizedArray&lt;Number&gt;&gt; flux =</div>
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>                diffusion_coefficients[cell][q] * grad_u;</div>
+<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span> </div>
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>            <span class="keyword">const</span> VectorizedArray&lt;Number&gt; advection_val =</div>
+<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>                advection_coefficients[cell][q] * grad_u;</div>
+<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span> </div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>            <span class="keyword">const</span> VectorizedArray&lt;Number&gt; val =</div>
+<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>                reaction_coefficients[cell][q] * u_val + advection_val;</div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span> </div>
+<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>            phi.submit_gradient(flux, q);</div>
+<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span>            phi.submit_value(val, q);</div>
+<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>        }</div>
+<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span> </div>
+<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span>        phi.integrate(EvaluationFlags::values | EvaluationFlags::gradients);</div>
+<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span>    }</div>
+<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span> </div>
+<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span>    <span class="comment">// Data members</span></div>
+<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>    <span class="keyword">const</span> ProblemInterface&lt;dim&gt;* problem_ptr;</div>
+<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span>    <span class="keywordtype">bool</span> is_mg_level;</div>
+<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span>    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> mg_level;</div>
+<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span> </div>
+<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span>    <span class="comment">// Precomputed coefficients at quadrature points</span></div>
+<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span>    <span class="comment">// These are computed ONCE during initialization and reused for all</span></div>
+<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>    std::vector&lt;std::vector&lt;VectorizedArray&lt;Number&gt;&gt;&gt; diffusion_coefficients;</div>
+<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span>    std::vector&lt;std::vector&lt;Tensor&lt;1, dim, VectorizedArray&lt;Number&gt;&gt;&gt;&gt;</div>
+<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span>        advection_coefficients;</div>
+<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span>    std::vector&lt;std::vector&lt;VectorizedArray&lt;Number&gt;&gt;&gt; reaction_coefficients;</div>
+<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span>};</div>
 </div>
-<div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span></div>
-<div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span><span class="keyword">template</span> &lt;<span class="keywordtype">int</span> dim, <span class="keywordtype">int</span> fe_degree, <span class="keyword">typename</span> Number = <span class="keywordtype">double</span>&gt;</div>
-<div class="foldopen" id="foldopen00315" data-start="{" data-end="};">
-<div class="line"><a id="l00315" name="l00315"></a><span class="lineno"><a class="line" href="classHybridADRSolver_1_1JacobiPreconditioner.html">  315</a></span><span class="keyword">class </span><a class="code hl_class" href="classHybridADRSolver_1_1JacobiPreconditioner.html">JacobiPreconditioner</a> {</div>
-<div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00317" name="l00317"></a><span class="lineno"><a class="line" href="classHybridADRSolver_1_1JacobiPreconditioner.html#a379c15643b52436d227f5c7efed6dc53">  317</a></span>    <span class="keyword">using </span><a class="code hl_typedef" href="classHybridADRSolver_1_1JacobiPreconditioner.html#a379c15643b52436d227f5c7efed6dc53">VectorType</a> = LinearAlgebra::distributed::Vector&lt;Number&gt;;</div>
-<div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span></div>
-<div class="foldopen" id="foldopen00322" data-start="{" data-end="}">
-<div class="line"><a id="l00322" name="l00322"></a><span class="lineno"><a class="line" href="classHybridADRSolver_1_1JacobiPreconditioner.html#aca6fead7d20eb49cae04755ff052af55">  322</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classHybridADRSolver_1_1JacobiPreconditioner.html#aca6fead7d20eb49cae04755ff052af55">initialize</a>(<span class="keyword">const</span> <a class="code hl_class" href="classHybridADRSolver_1_1ADROperator.html">ADROperator&lt;dim, fe_degree, Number&gt;</a>&amp; op) {</div>
-<div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span>        op.<a class="code hl_function" href="classHybridADRSolver_1_1ADROperator.html#a46d4d1db37b7c1d56080dc9b905abc69">compute_diagonal</a>();</div>
-<div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span>        inverse_diagonal = op.get_matrix_diagonal_inverse()-&gt;get_vector();</div>
-<div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span>    }</div>
+<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span></div>
+<div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span><span class="keyword">template</span> &lt;<span class="keywordtype">int</span> dim, <span class="keywordtype">int</span> fe_degree, <span class="keyword">typename</span> Number = <span class="keywordtype">double</span>&gt;</div>
+<div class="foldopen" id="foldopen00306" data-start="{" data-end="};">
+<div class="line"><a id="l00306" name="l00306"></a><span class="lineno"><a class="line" href="classHybridADRSolver_1_1JacobiPreconditioner.html">  306</a></span><span class="keyword">class </span><a class="code hl_class" href="classHybridADRSolver_1_1JacobiPreconditioner.html">JacobiPreconditioner</a> {</div>
+<div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00308" name="l00308"></a><span class="lineno"><a class="line" href="classHybridADRSolver_1_1JacobiPreconditioner.html#a379c15643b52436d227f5c7efed6dc53">  308</a></span>    <span class="keyword">using </span><a class="code hl_typedef" href="classHybridADRSolver_1_1JacobiPreconditioner.html#a379c15643b52436d227f5c7efed6dc53">VectorType</a> = LinearAlgebra::distributed::Vector&lt;Number&gt;;</div>
+<div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span></div>
+<div class="foldopen" id="foldopen00313" data-start="{" data-end="}">
+<div class="line"><a id="l00313" name="l00313"></a><span class="lineno"><a class="line" href="classHybridADRSolver_1_1JacobiPreconditioner.html#aca6fead7d20eb49cae04755ff052af55">  313</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classHybridADRSolver_1_1JacobiPreconditioner.html#aca6fead7d20eb49cae04755ff052af55">initialize</a>(<span class="keyword">const</span> <a class="code hl_class" href="classHybridADRSolver_1_1ADROperator.html">ADROperator&lt;dim, fe_degree, Number&gt;</a>&amp; op) {</div>
+<div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span>        op.<a class="code hl_function" href="classHybridADRSolver_1_1ADROperator.html#a46d4d1db37b7c1d56080dc9b905abc69">compute_diagonal</a>();</div>
+<div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span>        inverse_diagonal = op.get_matrix_diagonal_inverse()-&gt;get_vector();</div>
+<div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span>    }</div>
 </div>
-<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span></div>
-<div class="foldopen" id="foldopen00330" data-start="{" data-end="}">
-<div class="line"><a id="l00330" name="l00330"></a><span class="lineno"><a class="line" href="classHybridADRSolver_1_1JacobiPreconditioner.html#ad5b1a748a6bf6df9d00878742f8dae67">  330</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classHybridADRSolver_1_1JacobiPreconditioner.html#ad5b1a748a6bf6df9d00878742f8dae67">vmult</a>(<a class="code hl_typedef" href="classHybridADRSolver_1_1JacobiPreconditioner.html#a379c15643b52436d227f5c7efed6dc53">VectorType</a>&amp; dst, <span class="keyword">const</span> <a class="code hl_typedef" href="classHybridADRSolver_1_1JacobiPreconditioner.html#a379c15643b52436d227f5c7efed6dc53">VectorType</a>&amp; src)<span class="keyword"> const </span>{</div>
-<div class="line"><a id="l00331" name="l00331"></a><span class="lineno">  331</span>        dst = src;</div>
-<div class="line"><a id="l00332" name="l00332"></a><span class="lineno">  332</span>        dst.scale(inverse_diagonal);</div>
-<div class="line"><a id="l00333" name="l00333"></a><span class="lineno">  333</span>    }</div>
+<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span></div>
+<div class="foldopen" id="foldopen00321" data-start="{" data-end="}">
+<div class="line"><a id="l00321" name="l00321"></a><span class="lineno"><a class="line" href="classHybridADRSolver_1_1JacobiPreconditioner.html#ad5b1a748a6bf6df9d00878742f8dae67">  321</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classHybridADRSolver_1_1JacobiPreconditioner.html#ad5b1a748a6bf6df9d00878742f8dae67">vmult</a>(<a class="code hl_typedef" href="classHybridADRSolver_1_1JacobiPreconditioner.html#a379c15643b52436d227f5c7efed6dc53">VectorType</a>&amp; dst, <span class="keyword">const</span> <a class="code hl_typedef" href="classHybridADRSolver_1_1JacobiPreconditioner.html#a379c15643b52436d227f5c7efed6dc53">VectorType</a>&amp; src)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00322" name="l00322"></a><span class="lineno">  322</span>        dst = src;</div>
+<div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span>        dst.scale(inverse_diagonal);</div>
+<div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span>    }</div>
 </div>
-<div class="line"><a id="l00334" name="l00334"></a><span class="lineno">  334</span> </div>
-<div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span><span class="keyword">private</span>:</div>
-<div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span>    <a class="code hl_typedef" href="classHybridADRSolver_1_1JacobiPreconditioner.html#a379c15643b52436d227f5c7efed6dc53">VectorType</a> inverse_diagonal;</div>
-<div class="line"><a id="l00337" name="l00337"></a><span class="lineno">  337</span>};</div>
+<div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span> </div>
+<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span>    <a class="code hl_typedef" href="classHybridADRSolver_1_1JacobiPreconditioner.html#a379c15643b52436d227f5c7efed6dc53">VectorType</a> inverse_diagonal;</div>
+<div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span>};</div>
 </div>
-<div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span> </div>
-<div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span>} <span class="comment">// namespace HybridADRSolver</span></div>
-<div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span> </div>
-<div class="line"><a id="l00341" name="l00341"></a><span class="lineno">  341</span><span class="preprocessor">#endif </span><span class="comment">// HYBRIDADRSOLVER_ADR_OPERATOR_H</span></div>
+<div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span> </div>
+<div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span>} <span class="comment">// namespace HybridADRSolver</span></div>
+<div class="line"><a id="l00331" name="l00331"></a><span class="lineno">  331</span> </div>
+<div class="line"><a id="l00332" name="l00332"></a><span class="lineno">  332</span><span class="preprocessor">#endif </span><span class="comment">// HYBRIDADRSOLVER_ADR_OPERATOR_H</span></div>
 <div class="ttc" id="aclassHybridADRSolver_1_1ADROperator_html"><div class="ttname"><a href="classHybridADRSolver_1_1ADROperator.html">HybridADRSolver::ADROperator</a></div><div class="ttdoc">Matrix-free operator for the ADR problem with multigrid support.</div><div class="ttdef"><b>Definition</b> adr_operator.h:36</div></div>
 <div class="ttc" id="aclassHybridADRSolver_1_1ADROperator_html_a2d9563f24ffde0750d51a67bf8ac28c7"><div class="ttname"><a href="classHybridADRSolver_1_1ADROperator.html#a2d9563f24ffde0750d51a67bf8ac28c7">HybridADRSolver::ADROperator::Base</a></div><div class="ttdeci">MatrixFreeOperators::Base&lt; dim, LinearAlgebra::distributed::Vector&lt; Number &gt; &gt; Base</div><div class="ttdef"><b>Definition</b> adr_operator.h:41</div></div>
 <div class="ttc" id="aclassHybridADRSolver_1_1ADROperator_html_a46d4d1db37b7c1d56080dc9b905abc69"><div class="ttname"><a href="classHybridADRSolver_1_1ADROperator.html#a46d4d1db37b7c1d56080dc9b905abc69">HybridADRSolver::ADROperator::compute_diagonal</a></div><div class="ttdeci">void compute_diagonal() override</div><div class="ttdoc">Computes the diagonal of the operator (for preconditioning).</div><div class="ttdef"><b>Definition</b> adr_operator.h:102</div></div>
@@ -384,10 +371,10 @@ $(function(){initNavTree('adr__operator_8h_source.html','',''); });
 <div class="ttc" id="aclassHybridADRSolver_1_1ADROperator_html_ae3f9840bd7c247c0f8e18276129e69a1"><div class="ttname"><a href="classHybridADRSolver_1_1ADROperator.html#ae3f9840bd7c247c0f8e18276129e69a1">HybridADRSolver::ADROperator::get_mg_level</a></div><div class="ttdeci">int get_mg_level() const</div><div class="ttdoc">Get the multigrid level (-1 if not a level operator).</div><div class="ttdef"><b>Definition</b> adr_operator.h:132</div></div>
 <div class="ttc" id="aclassHybridADRSolver_1_1ADROperator_html_aed661703a9567f90494dbaf153590d67"><div class="ttname"><a href="classHybridADRSolver_1_1ADROperator.html#aed661703a9567f90494dbaf153590d67">HybridADRSolver::ADROperator::ADROperator</a></div><div class="ttdeci">ADROperator()</div><div class="ttdoc">Default constructor.</div><div class="ttdef"><b>Definition</b> adr_operator.h:48</div></div>
 <div class="ttc" id="aclassHybridADRSolver_1_1ADROperator_html_aff0ba29974dfe3ea1768c095eb3acb7e"><div class="ttname"><a href="classHybridADRSolver_1_1ADROperator.html#aff0ba29974dfe3ea1768c095eb3acb7e">HybridADRSolver::ADROperator::VectorType</a></div><div class="ttdeci">LinearAlgebra::distributed::Vector&lt; Number &gt; VectorType</div><div class="ttdef"><b>Definition</b> adr_operator.h:38</div></div>
-<div class="ttc" id="aclassHybridADRSolver_1_1JacobiPreconditioner_html"><div class="ttname"><a href="classHybridADRSolver_1_1JacobiPreconditioner.html">HybridADRSolver::JacobiPreconditioner</a></div><div class="ttdoc">Jacobi preconditioner for the matrix-free operator.</div><div class="ttdef"><b>Definition</b> adr_operator.h:315</div></div>
-<div class="ttc" id="aclassHybridADRSolver_1_1JacobiPreconditioner_html_a379c15643b52436d227f5c7efed6dc53"><div class="ttname"><a href="classHybridADRSolver_1_1JacobiPreconditioner.html#a379c15643b52436d227f5c7efed6dc53">HybridADRSolver::JacobiPreconditioner::VectorType</a></div><div class="ttdeci">LinearAlgebra::distributed::Vector&lt; Number &gt; VectorType</div><div class="ttdef"><b>Definition</b> adr_operator.h:317</div></div>
-<div class="ttc" id="aclassHybridADRSolver_1_1JacobiPreconditioner_html_aca6fead7d20eb49cae04755ff052af55"><div class="ttname"><a href="classHybridADRSolver_1_1JacobiPreconditioner.html#aca6fead7d20eb49cae04755ff052af55">HybridADRSolver::JacobiPreconditioner::initialize</a></div><div class="ttdeci">void initialize(const ADROperator&lt; dim, fe_degree, Number &gt; &amp;op)</div><div class="ttdoc">Initialize with the operator.</div><div class="ttdef"><b>Definition</b> adr_operator.h:322</div></div>
-<div class="ttc" id="aclassHybridADRSolver_1_1JacobiPreconditioner_html_ad5b1a748a6bf6df9d00878742f8dae67"><div class="ttname"><a href="classHybridADRSolver_1_1JacobiPreconditioner.html#ad5b1a748a6bf6df9d00878742f8dae67">HybridADRSolver::JacobiPreconditioner::vmult</a></div><div class="ttdeci">void vmult(VectorType &amp;dst, const VectorType &amp;src) const</div><div class="ttdoc">Apply the preconditioner: dst = M^{-1} * src.</div><div class="ttdef"><b>Definition</b> adr_operator.h:330</div></div>
+<div class="ttc" id="aclassHybridADRSolver_1_1JacobiPreconditioner_html"><div class="ttname"><a href="classHybridADRSolver_1_1JacobiPreconditioner.html">HybridADRSolver::JacobiPreconditioner</a></div><div class="ttdoc">Jacobi preconditioner for the matrix-free operator.</div><div class="ttdef"><b>Definition</b> adr_operator.h:306</div></div>
+<div class="ttc" id="aclassHybridADRSolver_1_1JacobiPreconditioner_html_a379c15643b52436d227f5c7efed6dc53"><div class="ttname"><a href="classHybridADRSolver_1_1JacobiPreconditioner.html#a379c15643b52436d227f5c7efed6dc53">HybridADRSolver::JacobiPreconditioner::VectorType</a></div><div class="ttdeci">LinearAlgebra::distributed::Vector&lt; Number &gt; VectorType</div><div class="ttdef"><b>Definition</b> adr_operator.h:308</div></div>
+<div class="ttc" id="aclassHybridADRSolver_1_1JacobiPreconditioner_html_aca6fead7d20eb49cae04755ff052af55"><div class="ttname"><a href="classHybridADRSolver_1_1JacobiPreconditioner.html#aca6fead7d20eb49cae04755ff052af55">HybridADRSolver::JacobiPreconditioner::initialize</a></div><div class="ttdeci">void initialize(const ADROperator&lt; dim, fe_degree, Number &gt; &amp;op)</div><div class="ttdoc">Initialize with the operator.</div><div class="ttdef"><b>Definition</b> adr_operator.h:313</div></div>
+<div class="ttc" id="aclassHybridADRSolver_1_1JacobiPreconditioner_html_ad5b1a748a6bf6df9d00878742f8dae67"><div class="ttname"><a href="classHybridADRSolver_1_1JacobiPreconditioner.html#ad5b1a748a6bf6df9d00878742f8dae67">HybridADRSolver::JacobiPreconditioner::vmult</a></div><div class="ttdeci">void vmult(VectorType &amp;dst, const VectorType &amp;src) const</div><div class="ttdoc">Apply the preconditioner: dst = M^{-1} * src.</div><div class="ttdef"><b>Definition</b> adr_operator.h:321</div></div>
 <div class="ttc" id="aclassHybridADRSolver_1_1ProblemInterface_html"><div class="ttname"><a href="classHybridADRSolver_1_1ProblemInterface.html">HybridADRSolver::ProblemInterface</a></div><div class="ttdoc">Abstract interface for defining a physical problem.</div><div class="ttdef"><b>Definition</b> problem_definition.h:39</div></div>
 <div class="ttc" id="anamespaceHybridADRSolver_html"><div class="ttname"><a href="namespaceHybridADRSolver.html">HybridADRSolver</a></div><div class="ttdef"><b>Definition</b> problem_definition.h:25</div></div>
 <div class="ttc" id="anamespaceHybridADRSolver_html_afe6d3d39f0c710383621e32a46108cb1af2674a258348188d6a3ee81d2669255a"><div class="ttname"><a href="namespaceHybridADRSolver.html#afe6d3d39f0c710383621e32a46108cb1af2674a258348188d6a3ee81d2669255a">HybridADRSolver::SolverType::MatrixFree</a></div><div class="ttdeci">@ MatrixFree</div><div class="ttdef"><b>Definition</b> types.h:34</div></div>

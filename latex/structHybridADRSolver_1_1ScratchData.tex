@@ -9,9 +9,9 @@ Scratch data for the {\ttfamily Work\+Stream} assembly (Optimized).
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\hyperlink{structHybridADRSolver_1_1ScratchData_a6363830df8e1dba5b185bb584f98e565}{Scratch\+Data}} (const Finite\+Element$<$ dim $>$ \&fe, const Quadrature$<$ dim $>$ \&q, const Quadrature$<$ dim -\/ 1 $>$ \&fq)
-\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\item 
 \mbox{\hyperlink{structHybridADRSolver_1_1ScratchData_a6239a2e46c97e3b807020f9ae42319b7}{Scratch\+Data}} (const \mbox{\hyperlink{structHybridADRSolver_1_1ScratchData}{Scratch\+Data}} \&sd)
-\begin{DoxyCompactList}\small\item\em Copy constructor (required by Work\+Stream). \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{DoxyCompactItemize}
 \doxysubsubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
@@ -48,15 +48,6 @@ std\+::vector$<$ double $>$ \mbox{\hyperlink{structHybridADRSolver_1_1ScratchDat
 struct Hybrid\+ADRSolver\+::\+Scratch\+Data$<$ dim $>$}
 Scratch data for the {\ttfamily Work\+Stream} assembly (Optimized). 
 
-This struct holds thread-\/local data required for assembly, including pre-\/allocated caching arrays for shape values, gradients, and coefficients to minimize redundant computations in the inner assembly loops.
-
-
-\begin{DoxyTemplParams}{Template Parameters}
-{\em dim} & Spatial dimension. \\
-\hline
-\end{DoxyTemplParams}
-
-
 \label{doc-constructors}
 \Hypertarget{structHybridADRSolver_1_1ScratchData_doc-constructors}
 \doxysubsection{Constructor \& Destructor Documentation}
@@ -67,29 +58,12 @@ This struct holds thread-\/local data required for assembly, including pre-\/all
 template$<$int dim$>$ \\
 \mbox{\hyperlink{structHybridADRSolver_1_1ScratchData}{Hybrid\+ADRSolver\+::\+Scratch\+Data}}$<$ dim $>$\+::\+Scratch\+Data (\begin{DoxyParamCaption}\item[{const Finite\+Element$<$ dim $>$ \&}]{fe}{, }\item[{const Quadrature$<$ dim $>$ \&}]{q}{, }\item[{const Quadrature$<$ dim -\/ 1 $>$ \&}]{fq}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
-
-
-Constructor. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em fe} & The finite element object. \\
-\hline
-{\em q} & The cell quadrature rule. \\
-\hline
-{\em fq} & The face quadrature rule. \\
-\hline
-\end{DoxyParams}
 \Hypertarget{structHybridADRSolver_1_1ScratchData_a6239a2e46c97e3b807020f9ae42319b7}\index{HybridADRSolver::ScratchData$<$ dim $>$@{HybridADRSolver::ScratchData$<$ dim $>$}!ScratchData@{ScratchData}}
 \index{ScratchData@{ScratchData}!HybridADRSolver::ScratchData$<$ dim $>$@{HybridADRSolver::ScratchData$<$ dim $>$}}
 \doxysubsubsection{\texorpdfstring{ScratchData()}{ScratchData()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily \label{structHybridADRSolver_1_1ScratchData_a6239a2e46c97e3b807020f9ae42319b7} 
 template$<$int dim$>$ \\
 \mbox{\hyperlink{structHybridADRSolver_1_1ScratchData}{Hybrid\+ADRSolver\+::\+Scratch\+Data}}$<$ dim $>$\+::\+Scratch\+Data (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structHybridADRSolver_1_1ScratchData}{Scratch\+Data}}$<$ dim $>$ \&}]{sd}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
-
-
-
-Copy constructor (required by Work\+Stream). 
 
 
 

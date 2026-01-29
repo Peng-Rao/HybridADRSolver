@@ -107,9 +107,7 @@ $(function(){initNavTree('structHybridADRSolver_1_1ScratchData.html','','structH
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a6363830df8e1dba5b185bb584f98e565" id="r_a6363830df8e1dba5b185bb584f98e565"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6363830df8e1dba5b185bb584f98e565">ScratchData</a> (const FiniteElement&lt; dim &gt; &amp;fe, const Quadrature&lt; dim &gt; &amp;q, const Quadrature&lt; dim - 1 &gt; &amp;fq)</td></tr>
-<tr class="memdesc:a6363830df8e1dba5b185bb584f98e565"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <br /></td></tr>
 <tr class="memitem:a6239a2e46c97e3b807020f9ae42319b7" id="r_a6239a2e46c97e3b807020f9ae42319b7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6239a2e46c97e3b807020f9ae42319b7">ScratchData</a> (const <a class="el" href="structHybridADRSolver_1_1ScratchData.html">ScratchData</a> &amp;sd)</td></tr>
-<tr class="memdesc:a6239a2e46c97e3b807020f9ae42319b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy constructor (required by WorkStream).  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-attribs" class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -130,13 +128,6 @@ Public Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><div class="compoundTemplParams">template&lt;int dim&gt;<br />
 struct HybridADRSolver::ScratchData&lt; dim &gt;</div><p>Scratch data for the <span class="tt">WorkStream</span> assembly (Optimized). </p>
-<p>This struct holds thread-local data required for assembly, including pre-allocated caching arrays for shape values, gradients, and coefficients to minimize redundant computations in the inner assembly loops.</p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">dim</td><td>Spatial dimension. </td></tr>
-  </table>
-  </dd>
-</dl>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a6363830df8e1dba5b185bb584f98e565" name="a6363830df8e1dba5b185bb584f98e565"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6363830df8e1dba5b185bb584f98e565">&#9670;&#160;</a></span>ScratchData() <span class="overload">[1/2]</span></h2>
@@ -172,16 +163,6 @@ template&lt;int dim&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Constructor. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">fe</td><td>The finite element object. </td></tr>
-    <tr><td class="paramname">q</td><td>The cell quadrature rule. </td></tr>
-    <tr><td class="paramname">fq</td><td>The face quadrature rule. </td></tr>
-  </table>
-  </dd>
-</dl>
-
 </div>
 </div>
 <a id="a6239a2e46c97e3b807020f9ae42319b7" name="a6239a2e46c97e3b807020f9ae42319b7"></a>
@@ -208,8 +189,6 @@ template&lt;int dim&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Copy constructor (required by WorkStream). </p>
 
 </div>
 </div>
