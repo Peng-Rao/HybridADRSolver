@@ -5,15 +5,8 @@
 spack:
   # add package specs to the `specs` list
   specs:
-    - llvm@17.0.6
     - ninja
-    - dealii+mpi+p4est+petsc~trilinos~arborx ^openmpi ^petsc
-    - py-matplotlib
-    - py-pandas
+    - dealii+mpi+p4est+petsc~trilinos~arborx~opencascade~taskflow ^openmpi ^petsc
   view: true
   concretizer:
     unify: true
-  packages:
-    llvm:
-      externals: [ ]
-      buildable: true

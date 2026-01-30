@@ -4,7 +4,7 @@
 # PBS Job Script for 2D Time Complexity Benchmark
 #===============================================================================
 # Single Node: 28 cores
-# Tests various parallelism strategies with refinements 2-10
+# Tests various parallelism strategies with refinements 4-13
 #===============================================================================
 
 #PBS -N adr_2d_complexity
@@ -38,22 +38,6 @@ echo "Job ID: ${PBS_JOBID}"
 echo "Date: $(date)"
 echo "Results Dir: ${RESULTS_DIR}"
 echo "==============================================================================="
-
-#-------------------------------------------------------------------------------
-# Spack Environment
-#-------------------------------------------------------------------------------
-if [ -f "/work/u11022931/spack/share/spack/setup-env.sh" ]; then
-    source /work/u11022931/spack/share/spack/setup-env.sh
-elif [ -f "/opt/spack/share/spack/setup-env.sh" ]; then
-    source /opt/spack/share/spack/setup-env.sh
-else
-    echo "ERROR: Spack not found"
-    exit 1
-fi
-
-spack env activate .
-echo "Spack Environment: $(spack env status)"
-echo ""
 
 ulimit -s unlimited
 
@@ -118,16 +102,17 @@ declare -a CONFIGS=(
 )
 
 # Refinement range for time complexity analysis
-MIN_REF=2
+MIN_REF=4
 MAX_REF=13
 DEGREE=2
 
-MPI_CMD="mpirun"
+# OpenMPI command with binding options
+MPI_CMD="mpirun --bind-to core --map-by socket"
 
 echo "==============================================================================="
-echo "MPI Implementation"
+echo "OpenMPI Implementation"
 echo "==============================================================================="
-${MPI_CMD} --version
+mpirun --version
 echo ""
 
 #===============================================================================
@@ -175,7 +160,7 @@ for CONFIG in "${CONFIGS[@]}"; do
     echo "Output: ${OUTPUT_CSV}"
     echo ""
 
-    # Run the benchmark
+    # Run the benchmark with OpenMPI
     ${MPI_CMD} -n ${NRANKS} \
         ${EXECUTABLE} \
         --min-ref ${MIN_REF} \
@@ -221,6 +206,7 @@ System Configuration:
 - Total Cores: 28
 - Refinement Range: ${MIN_REF} to ${MAX_REF}
 - Polynomial Degree: ${DEGREE}
+- MPI Implementation: OpenMPI
 
 Parallelism Strategies Tested (${TOTAL_CONFIGS} configurations):
 ----------------------------------------------------------------
