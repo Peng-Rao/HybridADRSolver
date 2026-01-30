@@ -34,13 +34,6 @@ echo "==========================================================================
 #-------------------------------------------------------------------------------
 # Environment Setup
 #-------------------------------------------------------------------------------
-unset LD_PRELOAD
-
-if [ -f "/work/u11022931/spack/share/spack/setup-env.sh" ]; then
-    source /work/u11022931/spack/share/spack/setup-env.sh
-    spack env activate .
-fi
-
 echo ""
 echo "MPI Configuration:"
 mpirun --version | head -3
