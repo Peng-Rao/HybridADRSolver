@@ -16,7 +16,7 @@ int main(int argc, char* argv[]) {
         using namespace dealii;
         using namespace HybridADRSolver;
 
-        Utilities::MPI::MPI_InitFinalize mpi(argc, argv, 1);
+        Utilities::MPI::MPI_InitFinalize mpi(argc, argv, 8);
 
         SolverParameters params;
         params.verbose = true;
@@ -26,7 +26,7 @@ int main(int argc, char* argv[]) {
 
         MatrixBasedSolver solver(problem, 2, MPI_COMM_WORLD, params);
 
-        solver.run(4);
+        solver.run(9);
 
     } catch (std::exception& exc) {
         std::cerr << exc.what() << std::endl;

@@ -20,9 +20,6 @@
 #include <deal.II/numerics/data_out.h>
 #include <deal.II/numerics/vector_tools.h>
 
-#include <petscksp.h>
-#include <petscpc.h>
-
 namespace HybridADRSolver {
 
 using namespace dealii;
@@ -79,6 +76,20 @@ struct CopyData {
     FullMatrix<double> cell_matrix;
     Vector<double> cell_rhs;
     std::vector<types::global_dof_index> local_dof_indices;
+
+    // Constructor, pre-allocate memory
+    explicit CopyData(const unsigned int n_dofs)
+        : cell_matrix(n_dofs, n_dofs), cell_rhs(n_dofs),
+          local_dof_indices(n_dofs) {}
+
+    CopyData(const CopyData& other)
+        : cell_matrix(other.cell_matrix.m(), other.cell_matrix.n()),
+          cell_rhs(other.cell_rhs.size()),
+          local_dof_indices(other.local_dof_indices.size()) {}
+
+    CopyData(CopyData&&) = default;
+    CopyData& operator=(const CopyData&) = default;
+    CopyData& operator=(CopyData&&) = default;
 };
 
 template <int dim>
@@ -92,9 +103,11 @@ MatrixBasedSolver<dim>::MatrixBasedSolver(const ProblemInterface<dim>& prob,
 
 template <int dim> double MatrixBasedSolver<dim>::compute_memory_usage() const {
     double local_memory = 0.0;
-    local_memory += system_matrix.memory_consumption();
-    local_memory += solution.memory_consumption();
-    local_memory += system_rhs.memory_consumption();
+    local_memory += this->triangulation.memory_consumption();
+    local_memory += this->dof_handler.memory_consumption();
+    local_memory += this->system_matrix.memory_consumption();
+    local_memory += this->solution.memory_consumption();
+    local_memory += this->system_rhs.memory_consumption();
     local_memory += this->constraints.memory_consumption();
     const double global_memory =
         Utilities::MPI::sum(local_memory, this->mpi_communicator);
@@ -109,8 +122,6 @@ template <int dim> void MatrixBasedSolver<dim>::setup_dofs() {
         this->pcout << "   Number of DoFs: " << this->dof_handler.n_dofs()
                     << std::endl;
     }
-
-    DoFRenumbering::Cuthill_McKee(this->dof_handler);
 
     this->locally_owned_dofs = this->dof_handler.locally_owned_dofs();
     this->locally_relevant_dofs =
@@ -145,14 +156,18 @@ template <int dim> void MatrixBasedSolver<dim>::setup_dofs() {
 }
 
 template <int dim> void MatrixBasedSolver<dim>::assemble_system() {
+    const unsigned int n_dofs_per_cell = this->fe->n_dofs_per_cell();
+    CopyData copy_data_sample(n_dofs_per_cell);
     auto worker =
         [&](const typename DoFHandler<dim>::active_cell_iterator& cell,
             ScratchData<dim>& scratch, CopyData& copy) {
             const unsigned int n_dofs = scratch.n_dofs;
             const unsigned int n_q_points = scratch.n_q_points;
 
-            copy.cell_matrix.reinit(n_dofs, n_dofs);
-            copy.cell_rhs.reinit(n_dofs);
+            // copy.cell_matrix.reinit(n_dofs, n_dofs);
+            // copy.cell_rhs.reinit(n_dofs);
+            copy.cell_matrix = 0;
+            copy.cell_rhs = 0;
             copy.local_dof_indices.resize(n_dofs);
 
             scratch.fe_values.reinit(cell);
@@ -245,7 +260,7 @@ template <int dim> void MatrixBasedSolver<dim>::assemble_system() {
 
     WorkStream::run(filter_iterators(this->dof_handler.active_cell_iterators(),
                                      IteratorFilters::LocallyOwnedCell()),
-                    worker, copier, scratch, CopyData());
+                    worker, copier, scratch, copy_data_sample);
 
     system_matrix.compress(VectorOperation::add);
     system_rhs.compress(VectorOperation::add);
