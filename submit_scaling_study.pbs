@@ -1,5 +1,5 @@
 #!/bin/bash
-#PBS -N adr_scaling_openmpi
+#PBS -N adr_scaling_study
 #PBS -l select=1:ncpus=28
 #PBS -l walltime=24:00:00
 #PBS -q cpu
@@ -24,36 +24,23 @@ mkdir -p ${RESULTS_DIR}
 exec > >(tee -a "${LOG_FILE}") 2>&1
 
 echo "==============================================================================="
-echo "SCALING BENCHMARK - OpenMPI Version"
+echo "SCALING BENCHMARK - OpenMPI"
 echo "==============================================================================="
 echo "Job ID: ${PBS_JOBID}"
 echo "Date: $(date)"
 echo "Results Dir: ${RESULTS_DIR}"
-echo ""
-echo "Configuration:"
-echo "  - Using system OpenMPI (no spack to avoid library conflicts)"
-echo "  - System PETSc (built with OpenMPI)"
-echo "  - OpenMPI binding for process affinity"
 echo "==============================================================================="
 
 #-------------------------------------------------------------------------------
-# Environment Setup - System Libraries Only (No Spack)
+# Environment Setup
 #-------------------------------------------------------------------------------
-# Clear any conflicting environment variables
 unset LD_PRELOAD
 
-# Keep only essential paths, remove spack paths that might conflict
-# If you need spack for deal.II, source it but be careful with MPI
 if [ -f "/work/u11022931/spack/share/spack/setup-env.sh" ]; then
     source /work/u11022931/spack/share/spack/setup-env.sh
     spack env activate .
-    
-    # Force system MPI libraries to take precedence
-    # This ensures we use system OpenMPI, not spack MPICH
-    export LD_LIBRARY_PATH="/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH"
 fi
 
-# Verify MPI version
 echo ""
 echo "MPI Configuration:"
 mpirun --version | head -3
@@ -90,7 +77,6 @@ else
     echo "Binary is up to date."
 fi
 
-# Verify library linking
 echo ""
 echo "Library linking check (MPI libraries):"
 ldd ${EXECUTABLE} | grep -E "mpi" | head -5
@@ -105,12 +91,6 @@ DEGREE=2
 WARMUP=1
 TRIALS=3
 
-# Problem sizes for 2D Q2 elements:
-#   refs=8  -> ~263k DoFs
-#   refs=9  -> ~1.05M DoFs
-#   refs=10 -> ~4.2M DoFs
-#   refs=11 -> ~16.8M DoFs
-
 MIN_REF_STRONG=9
 MAX_REF_STRONG=11
 
@@ -119,54 +99,27 @@ MAX_REF_WEAK=9
 
 MPI_CMD="mpirun"
 
-#===============================================================================
-# OpenMPI Binding Configuration
-#===============================================================================
-# OpenMPI uses different syntax than MPICH:
-#   --bind-to core    : bind each process to a single core
-#   --map-by core     : map processes to cores sequentially
-#   --bind-to none    : no binding (for hybrid with threads)
-#   --report-bindings : print binding info (useful for debugging)
-
-# Pure MPI binding: each MPI process bound to one core
-MPI_BIND_CORE="--bind-to core --map-by core"
-
-# Hybrid binding: don't bind to single core (threads need room)
-MPI_BIND_NONE="--bind-to none"
-
-# Optional: add --report-bindings to see where processes are placed
-# MPI_BIND_CORE="--bind-to core --map-by core --report-bindings"
-
-echo ""
-echo "==============================================================================="
-echo "OpenMPI Process Binding Configuration"
-echo "==============================================================================="
-echo "Pure MPI runs:  ${MPI_BIND_CORE}"
-echo "Hybrid runs:    ${MPI_BIND_NONE}"
-echo "==============================================================================="
-
 echo ""
 echo "==============================================================================="
 echo "Problem Size Estimates (2D Q2 elements)"
 echo "==============================================================================="
-echo "refs=8:  ~263,000 DoFs   -> min 5 processes (50k/proc)"
-echo "refs=9:  ~1,050,000 DoFs -> min 21 processes (50k/proc)"
-echo "refs=10: ~4,200,000 DoFs -> min 84 processes (50k/proc)"
-echo "refs=11: ~16,800,000 DoFs -> OK for any config on 28 cores"
+echo "refs=9:  ~1.05M DoFs"
+echo "refs=10: ~4.2M DoFs"
+echo "refs=11: ~16.8M DoFs"
 echo ""
 echo "Selected range: refs ${MIN_REF_STRONG}-${MAX_REF_STRONG}"
 echo "==============================================================================="
 
 #===============================================================================
-# PHASE 1: PURE MPI STRONG SCALING (Primary Test)
+# PHASE 1: PURE MPI STRONG SCALING
 #===============================================================================
 
 echo ""
 echo "==============================================================================="
 echo "PHASE 1: PURE MPI STRONG SCALING"
 echo "==============================================================================="
-echo "Testing with 1 thread per MPI process (cleanest scaling curves)"
-echo "Using: ${MPI_BIND_CORE}"
+echo "Testing with 1 thread per MPI process"
+echo "No binding (letting OS handle scheduling)"
 echo ""
 
 declare -a PURE_MPI_CONFIGS=(
@@ -186,17 +139,14 @@ for CONFIG in "${PURE_MPI_CONFIGS[@]}"; do
     echo ""
     echo "-----------------------------------------------------------------------"
     echo "Pure MPI: ${NRANKS} processes × ${NTHREADS} thread = ${TOTAL_CORES} cores"
-    echo "Binding: ${MPI_BIND_CORE}"
     echo "-----------------------------------------------------------------------"
 
     export TBB_NUM_THREADS=${NTHREADS}
     export OMP_NUM_THREADS=${NTHREADS}
-    export OMP_PROC_BIND=close
-    export OMP_PLACES=cores
 
     OUTPUT_PREFIX="${RESULTS_DIR}/strong_${CONFIG_NAME}"
 
-    ${MPI_CMD} -np ${NRANKS} ${MPI_BIND_CORE} \
+    ${MPI_CMD} -np ${NRANKS} \
         ${EXECUTABLE} \
         --strong \
         --min-ref ${MIN_REF_STRONG} \
@@ -213,7 +163,7 @@ for CONFIG in "${PURE_MPI_CONFIGS[@]}"; do
 done
 
 #===============================================================================
-# PHASE 2: PURE THREADING SCALING (Secondary Test)
+# PHASE 2: PURE THREADING SCALING
 #===============================================================================
 
 echo ""
@@ -221,11 +171,9 @@ echo "==========================================================================
 echo "PHASE 2: PURE THREADING SCALING"
 echo "==============================================================================="
 echo "Testing with 1 MPI process, varying threads"
-echo "Using: ${MPI_BIND_NONE} (threads need multiple cores)"
 echo ""
 
 declare -a PURE_THREAD_CONFIGS=(
-    "1 1"
     "1 2"
     "1 4"
     "1 7"
@@ -238,25 +186,17 @@ for CONFIG in "${PURE_THREAD_CONFIGS[@]}"; do
     TOTAL_CORES=$((NRANKS * NTHREADS))
     CONFIG_NAME="pure_thread_${NTHREADS}"
 
-    # Skip 1x1 (already done in pure MPI)
-    if [ "${NRANKS}" -eq 1 ] && [ "${NTHREADS}" -eq 1 ]; then
-        continue
-    fi
-
     echo ""
     echo "-----------------------------------------------------------------------"
     echo "Pure Threading: ${NRANKS} process × ${NTHREADS} threads = ${TOTAL_CORES} cores"
-    echo "Binding: ${MPI_BIND_NONE}"
     echo "-----------------------------------------------------------------------"
 
     export TBB_NUM_THREADS=${NTHREADS}
     export OMP_NUM_THREADS=${NTHREADS}
-    export OMP_PROC_BIND=spread
-    export OMP_PLACES=cores
 
     OUTPUT_PREFIX="${RESULTS_DIR}/strong_${CONFIG_NAME}"
 
-    ${MPI_CMD} -np ${NRANKS} ${MPI_BIND_NONE} \
+    ${MPI_CMD} -np ${NRANKS} \
         ${EXECUTABLE} \
         --strong \
         --min-ref ${MIN_REF_STRONG} \
@@ -273,7 +213,7 @@ for CONFIG in "${PURE_THREAD_CONFIGS[@]}"; do
 done
 
 #===============================================================================
-# PHASE 3: HYBRID CONFIGURATIONS (Comparison at Fixed Total Cores)
+# PHASE 3: HYBRID CONFIGURATIONS
 #===============================================================================
 
 echo ""
@@ -283,7 +223,6 @@ echo "==========================================================================
 echo "Comparing different MPI×Thread configurations at 14 and 28 total cores"
 echo ""
 
-# 14 total cores
 declare -a HYBRID_14=(
     "14 1"
     "7 2"
@@ -291,7 +230,6 @@ declare -a HYBRID_14=(
     "1 14"
 )
 
-# 28 total cores
 declare -a HYBRID_28=(
     "28 1"
     "14 2"
@@ -310,19 +248,10 @@ for CONFIG in "${HYBRID_14[@]}"; do
 
     export TBB_NUM_THREADS=${NTHREADS}
     export OMP_NUM_THREADS=${NTHREADS}
-    export OMP_PROC_BIND=close
-    export OMP_PLACES=cores
 
     OUTPUT_PREFIX="${RESULTS_DIR}/hybrid14_${CONFIG_NAME}"
 
-    # Use bind-to-core only for pure MPI (1 thread), otherwise no binding
-    if [ "${NTHREADS}" -eq 1 ]; then
-        BIND_OPT="${MPI_BIND_CORE}"
-    else
-        BIND_OPT="${MPI_BIND_NONE}"
-    fi
-
-    ${MPI_CMD} -np ${NRANKS} ${BIND_OPT} \
+    ${MPI_CMD} -np ${NRANKS} \
         ${EXECUTABLE} \
         --strong \
         --min-ref ${MAX_REF_STRONG} \
@@ -348,18 +277,10 @@ for CONFIG in "${HYBRID_28[@]}"; do
 
     export TBB_NUM_THREADS=${NTHREADS}
     export OMP_NUM_THREADS=${NTHREADS}
-    export OMP_PROC_BIND=close
-    export OMP_PLACES=cores
 
     OUTPUT_PREFIX="${RESULTS_DIR}/hybrid28_${CONFIG_NAME}"
 
-    if [ "${NTHREADS}" -eq 1 ]; then
-        BIND_OPT="${MPI_BIND_CORE}"
-    else
-        BIND_OPT="${MPI_BIND_NONE}"
-    fi
-
-    ${MPI_CMD} -np ${NRANKS} ${BIND_OPT} \
+    ${MPI_CMD} -np ${NRANKS} \
         ${EXECUTABLE} \
         --strong \
         --min-ref ${MAX_REF_STRONG} \
@@ -383,8 +304,6 @@ echo ""
 echo "==============================================================================="
 echo "PHASE 4: WEAK SCALING (Pure MPI)"
 echo "==============================================================================="
-echo "Problem size scales with core count to maintain constant work per core"
-echo "Using: ${MPI_BIND_CORE}"
 echo ""
 
 for CONFIG in "${PURE_MPI_CONFIGS[@]}"; do
@@ -395,17 +314,14 @@ for CONFIG in "${PURE_MPI_CONFIGS[@]}"; do
     echo ""
     echo "-----------------------------------------------------------------------"
     echo "Weak Scaling: ${NRANKS} processes"
-    echo "Binding: ${MPI_BIND_CORE}"
     echo "-----------------------------------------------------------------------"
 
     export TBB_NUM_THREADS=${NTHREADS}
     export OMP_NUM_THREADS=${NTHREADS}
-    export OMP_PROC_BIND=close
-    export OMP_PLACES=cores
 
     OUTPUT_PREFIX="${RESULTS_DIR}/${CONFIG_NAME}"
 
-    ${MPI_CMD} -np ${NRANKS} ${MPI_BIND_CORE} \
+    ${MPI_CMD} -np ${NRANKS} \
         ${EXECUTABLE} \
         --weak \
         --min-ref ${MIN_REF_WEAK} \
@@ -440,7 +356,7 @@ combine_csv() {
     local output=$1
     shift
     local pattern=$1
-    
+
     first_file=true
     for f in ${RESULTS_DIR}/${pattern}*.csv; do
         if [ -f "$f" ]; then
@@ -452,7 +368,7 @@ combine_csv() {
             fi
         fi
     done
-    
+
     if [ -f "${output}" ]; then
         echo "Created: ${output}"
     fi
@@ -463,7 +379,6 @@ combine_csv "${COMBINED_PURE_THREAD}" "strong_pure_thread_"
 combine_csv "${COMBINED_HYBRID}" "hybrid"
 combine_csv "${COMBINED_WEAK}" "weak_"
 
-# Combine all
 first_file=true
 for f in "${COMBINED_PURE_MPI}" "${COMBINED_PURE_THREAD}" "${COMBINED_HYBRID}" "${COMBINED_WEAK}"; do
     if [ -f "$f" ]; then
@@ -485,12 +400,6 @@ ANALYSIS_SCRIPT="${RESULTS_DIR}/analyze_scaling.py"
 
 cat > ${ANALYSIS_SCRIPT} << 'PYTHON_EOF'
 #!/usr/bin/env python3
-"""
-Scaling Analysis Script
-- Uses SOLVE TIME for scaling metrics
-- Generates publication-quality plots
-"""
-
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
@@ -505,123 +414,121 @@ def load_data(filename):
     return pd.read_csv(filename)
 
 def plot_strong_scaling_pure_mpi(df, output_dir):
-    """Plot strong scaling using pure MPI data only."""
     fig, axes = plt.subplots(2, 2, figsize=(12, 10))
-    
+
     strong_df = df[(df['test_type'] == 'strong_scaling') & (df['n_threads'] == 1)].copy()
-    
+
     if strong_df.empty:
         print("No pure MPI strong scaling data")
         return
-    
+
     colors = {'matrix_based': 'tab:blue', 'matrix_free': 'tab:orange'}
     markers = {'matrix_based': 'o', 'matrix_free': 's'}
-    
+
     for solver in ['matrix_based', 'matrix_free']:
         solver_df = strong_df[strong_df['solver_type'] == solver]
         if solver_df.empty:
             continue
-            
+
         refs_list = sorted(solver_df['n_refinements'].unique())
-        
+
         for refs in refs_list:
             ref_df = solver_df[solver_df['n_refinements'] == refs].sort_values('n_mpi')
             if len(ref_df) < 2:
                 continue
-            
+
             label = f"{solver.replace('_', '-')} (refs={refs})"
             color = colors[solver]
             marker = markers[solver]
             alpha = 0.4 + 0.2 * (refs - min(refs_list))
-            
+
             cores = ref_df['n_mpi'].values
-            
+
             baseline_solve = ref_df['solve_time_avg'].iloc[0]
             speedup = baseline_solve / ref_df['solve_time_avg']
             efficiency = speedup / (cores / cores[0])
             throughput = ref_df['n_dofs'].iloc[0] / ref_df['solve_time_avg']
-            
-            axes[0, 0].plot(cores, ref_df['solve_time_avg'], f'{marker}-', 
+
+            axes[0, 0].plot(cores, ref_df['solve_time_avg'], f'{marker}-',
                           label=label, color=color, alpha=alpha, markersize=6)
-            axes[0, 1].plot(cores, speedup, f'{marker}-', 
+            axes[0, 1].plot(cores, speedup, f'{marker}-',
                           label=label, color=color, alpha=alpha, markersize=6)
-            axes[1, 0].plot(cores, efficiency, f'{marker}-', 
+            axes[1, 0].plot(cores, efficiency, f'{marker}-',
                           label=label, color=color, alpha=alpha, markersize=6)
-            axes[1, 1].plot(cores, throughput, f'{marker}-', 
+            axes[1, 1].plot(cores, throughput, f'{marker}-',
                           label=label, color=color, alpha=alpha, markersize=6)
-    
+
     max_cores = strong_df['n_mpi'].max()
     axes[0, 1].plot([1, max_cores], [1, max_cores], 'k--', lw=2, label='Ideal')
     axes[1, 0].axhline(y=1.0, color='k', linestyle='--', lw=2, label='Ideal (100%)')
-    
+
     axes[0, 0].set_xlabel('MPI Processes')
     axes[0, 0].set_ylabel('Solve Time (s)')
     axes[0, 0].set_title('Strong Scaling: Solve Time\n(Pure MPI, 1 thread/process)')
     axes[0, 0].legend(fontsize=8)
     axes[0, 0].set_xscale('log', base=2)
     axes[0, 0].set_yscale('log')
-    
+
     axes[0, 1].set_xlabel('MPI Processes')
     axes[0, 1].set_ylabel('Speedup')
     axes[0, 1].set_title('Strong Scaling: Speedup')
     axes[0, 1].legend(fontsize=8)
     axes[0, 1].set_xscale('log', base=2)
     axes[0, 1].set_yscale('log', base=2)
-    
+
     axes[1, 0].set_xlabel('MPI Processes')
     axes[1, 0].set_ylabel('Parallel Efficiency')
     axes[1, 0].set_title('Strong Scaling: Efficiency')
     axes[1, 0].legend(fontsize=8)
     axes[1, 0].set_xscale('log', base=2)
     axes[1, 0].set_ylim([0, 1.2])
-    
+
     axes[1, 1].set_xlabel('MPI Processes')
     axes[1, 1].set_ylabel('DoFs/second')
     axes[1, 1].set_title('Strong Scaling: Throughput')
     axes[1, 1].legend(fontsize=8)
     axes[1, 1].set_xscale('log', base=2)
     axes[1, 1].set_yscale('log')
-    
+
     plt.tight_layout()
     plt.savefig(os.path.join(output_dir, 'strong_scaling_pure_mpi.png'))
     plt.close()
     print("Saved: strong_scaling_pure_mpi.png")
 
 def plot_weak_scaling(df, output_dir):
-    """Plot weak scaling results."""
     fig, axes = plt.subplots(1, 2, figsize=(12, 5))
-    
+
     weak_df = df[df['test_type'] == 'weak_scaling'].copy()
     if weak_df.empty:
         print("No weak scaling data")
         return
-    
+
     weak_df = weak_df[weak_df['n_threads'] == 1]
-    
+
     for solver in ['matrix_based', 'matrix_free']:
         solver_df = weak_df[weak_df['solver_type'] == solver].sort_values('n_mpi')
         if solver_df.empty:
             continue
-        
+
         color = 'tab:blue' if solver == 'matrix_based' else 'tab:orange'
         marker = 'o' if solver == 'matrix_based' else 's'
         label = solver.replace('_', '-')
-        
-        axes[0].plot(solver_df['n_mpi'], solver_df['solve_time_avg'], 
+
+        axes[0].plot(solver_df['n_mpi'], solver_df['solve_time_avg'],
                     f'{marker}-', label=label, color=color, markersize=8)
-        
+
         if len(solver_df) > 0:
             baseline = solver_df['solve_time_avg'].iloc[0]
             efficiency = baseline / solver_df['solve_time_avg']
             axes[1].plot(solver_df['n_mpi'], efficiency,
                         f'{marker}-', label=label, color=color, markersize=8)
-    
+
     axes[0].set_xlabel('MPI Processes')
     axes[0].set_ylabel('Solve Time (s)')
     axes[0].set_title('Weak Scaling: Solve Time\n(should be constant for ideal scaling)')
     axes[0].legend()
     axes[0].set_xscale('log', base=2)
-    
+
     axes[1].axhline(y=1.0, color='k', linestyle='--', lw=2, label='Ideal')
     axes[1].set_xlabel('MPI Processes')
     axes[1].set_ylabel('Efficiency = T(1)/T(p)')
@@ -629,21 +536,20 @@ def plot_weak_scaling(df, output_dir):
     axes[1].legend()
     axes[1].set_xscale('log', base=2)
     axes[1].set_ylim([0, 1.5])
-    
+
     plt.tight_layout()
     plt.savefig(os.path.join(output_dir, 'weak_scaling.png'))
     plt.close()
     print("Saved: weak_scaling.png")
 
 def print_summary(df):
-    """Print data summary."""
     print("\n" + "="*70)
     print("DATA SUMMARY")
     print("="*70)
     print(f"Total records: {len(df)}")
     print(f"Solvers: {df['solver_type'].unique().tolist()}")
     print(f"Test types: {df['test_type'].unique().tolist()}")
-    
+
     print("\nStrong scaling (pure MPI) summary:")
     strong_mpi = df[(df['test_type'] == 'strong_scaling') & (df['n_threads'] == 1)]
     for solver in strong_mpi['solver_type'].unique():
@@ -665,19 +571,19 @@ def main():
     if len(sys.argv) < 2:
         print("Usage: python analyze_scaling.py <results_csv>")
         sys.exit(1)
-    
+
     csv_file = sys.argv[1]
     output_dir = os.path.dirname(csv_file) or '.'
-    
+
     print(f"Loading: {csv_file}")
     df = load_data(csv_file)
-    
+
     print_summary(df)
-    
+
     print("\nGenerating plots...")
     plot_strong_scaling_pure_mpi(df, output_dir)
     plot_weak_scaling(df, output_dir)
-    
+
     print("\nDone!")
 
 if __name__ == "__main__":
@@ -697,18 +603,10 @@ echo "==========================================================================
 echo "Results: ${RESULTS_DIR}"
 echo ""
 echo "Key output files:"
-echo "  ${COMBINED_PURE_MPI}     - Pure MPI scaling (primary)"
-echo "  ${COMBINED_PURE_THREAD}  - Pure threading scaling"
-echo "  ${COMBINED_HYBRID}       - Hybrid configurations"
-echo "  ${COMBINED_WEAK}         - Weak scaling"
 echo "  ${COMBINED_ALL}          - All results combined"
 echo ""
 echo "To generate plots:"
 echo "  python ${ANALYSIS_SCRIPT} ${COMBINED_ALL}"
-echo ""
-echo "OpenMPI binding used:"
-echo "  Pure MPI:  ${MPI_BIND_CORE}"
-echo "  Hybrid:    ${MPI_BIND_NONE}"
 echo ""
 echo "End: $(date)"
 echo "==============================================================================="
