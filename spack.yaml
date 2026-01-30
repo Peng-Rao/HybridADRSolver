@@ -7,7 +7,7 @@ spack:
   specs:
     - llvm@17.0.6
     - ninja
-    - dealii+mpi+p4est+petsc~trilinos~arborx ^mpich ^petsc
+    - dealii+mpi+p4est+petsc~trilinos~arborx ^openmpi ^petsc
     - py-matplotlib
     - py-pandas
   view: true
