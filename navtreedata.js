@@ -62,7 +62,7 @@ var NAVTREEINDEX =
 [
 "adr__operator_8h.html",
 "classHybridADRSolver_1_1Problems_1_1NeumannFluxRight.html",
-"structHybridADRSolver_1_1TimingResults.html#a1ab6998c1b5b7e80122fa053f69c17f3"
+"structHybridADRSolver_1_1SolverParameters.html#aec8061b1666d98e0615fad93755ec5c5"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

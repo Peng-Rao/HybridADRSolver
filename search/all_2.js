@@ -18,6 +18,6 @@ var searchData=
   ['computing_5ftimer_15',['computing_timer',['../classHybridADRSolver_1_1ParallelSolverBase.html#a952f68312d883f472887719276289a6d',1,'HybridADRSolver::ParallelSolverBase']]],
   ['constraints_16',['constraints',['../classHybridADRSolver_1_1ParallelSolverBase.html#a3b8db48a6033374edcd9cc98fc44ed4a',1,'HybridADRSolver::ParallelSolverBase']]],
   ['convergence_5fstudy_2ecpp_17',['convergence_study.cpp',['../convergence__study_8cpp.html',1,'']]],
-  ['copydata_18',['CopyData',['../structHybridADRSolver_1_1CopyData.html',1,'HybridADRSolver']]],
+  ['copydata_18',['CopyData',['../structHybridADRSolver_1_1CopyData.html',1,'HybridADRSolver::CopyData'],['../structHybridADRSolver_1_1CopyData.html#a00febe1eea091bea26e3b98b3705e032',1,'HybridADRSolver::CopyData::CopyData(const unsigned int n_dofs)'],['../structHybridADRSolver_1_1CopyData.html#a5a49325aec4b583b7a9a0c92277d6c96',1,'HybridADRSolver::CopyData::CopyData(const CopyData &amp;other)'],['../structHybridADRSolver_1_1CopyData.html#ae489d48238f61df1419c3c58357453a8',1,'HybridADRSolver::CopyData::CopyData(CopyData &amp;&amp;)=default']]],
   ['csv_5fheader_19',['csv_header',['../structScalingResult.html#a58aad0b0d265f9e7a022b9ff08d4b138',1,'ScalingResult::csv_header()'],['../structBenchmarkUtils_1_1BenchmarkResult.html#a17fb92b2f308ca6bac91ebcb0e4c0a20',1,'BenchmarkUtils::BenchmarkResult::csv_header()']]]
 ];
