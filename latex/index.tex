@@ -14,7 +14,9 @@ A high-\/performance finite element solver for the steady-\/state {\bfseries{Adv
 \item {\bfseries{Matrix-\/\+Free Solver}}\+: On-\/the-\/fly operator evaluation with Geometric Multigrid (GMG) preconditioning
 \end{DoxyItemize}
 
-Both solvers support hybrid {\bfseries{MPI + threading}} parallelization for optimal performance on modern HPC architectures.\hypertarget{index_autotoc_md1}{}\doxysection{\texorpdfstring{Features}{Features}}\label{index_autotoc_md1}
+Both solvers support hybrid {\bfseries{MPI + threading}} parallelization for optimal performance on modern HPC architectures.
+
+The complete documentation of this project code can be found here \href{https://peng-rao.github.io/HybridADRSolver/}{\texttt{docs}}.\hypertarget{index_autotoc_md1}{}\doxysection{\texorpdfstring{Features}{Features}}\label{index_autotoc_md1}
 \tabulinesep=1mm
 \begin{longtabu}spread 0pt [c]{*{3}{|X[-1]}|}
 \hline
@@ -114,26 +116,7 @@ We recommend using \href{https://spack.io}{\texttt{Spack}} to manage dependencie
 
 \end{DoxyCode}
 \hypertarget{index_autotoc_md10}{}\doxysection{\texorpdfstring{Performance}{Performance}}\label{index_autotoc_md10}
-Representative results on a unit square domain with \$\+Q\+\_\+2\$ elements\+:
-
-\tabulinesep=1mm
-\begin{longtabu}spread 0pt [c]{*{4}{|X[-1]}|}
-\hline
-\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Do\+Fs  }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Matrix-\/\+Based (s)  }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Matrix-\/\+Free (s)  }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Memory Ratio  }\\\cline{1-4}
-\endfirsthead
-\hline
-\endfoot
-\hline
-\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Do\+Fs  }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Matrix-\/\+Based (s)  }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Matrix-\/\+Free (s)  }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Memory Ratio  }\\\cline{1-4}
-\endhead
-16,641  &0.\+19  &0.\+28  &2.\+7×  \\\cline{1-4}
-263,169  &2.\+59  &2.\+07  &2.\+7×  \\\cline{1-4}
-1,050,625  &10.\+41  &6.\+75  &2.\+7×  \\\cline{1-4}
-4,198,401  &44.\+13  &23.\+77  &2.\+7×  \\\cline{1-4}
-\end{longtabu}
-
-
-{\itshape Matrix-\/free solver becomes faster for \$N}\{\textbackslash{}text\{dof\}\} \texorpdfstring{$>$}{>} 250\{,\}000\$ with 3–4× lower memory usage.\+\_\+\hypertarget{index_autotoc_md11}{}\doxysection{\texorpdfstring{References}{References}}\label{index_autotoc_md11}
+ \hypertarget{index_autotoc_md11}{}\doxysection{\texorpdfstring{References}{References}}\label{index_autotoc_md11}
 
 \begin{DoxyItemize}
 \item \href{https://www.dealii.org/current/doxygen/deal.II/index.html}{\texttt{deal.\+II Documentation}}

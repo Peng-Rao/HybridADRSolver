@@ -108,6 +108,7 @@ $(function(){initNavTree('index.html','',''); });
 <li><b>Matrix-Free Solver</b>: On-the-fly operator evaluation with Geometric Multigrid (GMG) preconditioning</li>
 </ul>
 <p>Both solvers support hybrid <b>MPI + threading</b> parallelization for optimal performance on modern HPC architectures.</p>
+<p>The complete documentation of this project code can be found here <a href="https://peng-rao.github.io/HybridADRSolver/">docs</a>.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md1"></a>
 Features</h1>
 <table class="markdownTable">
@@ -193,20 +194,7 @@ Submit PBS cluster</h2>
 <div class="line">qsub submit_scaling_study.pbs</div>
 </div><!-- fragment --><h1 class="doxsection"><a class="anchor" id="autotoc_md10"></a>
 Performance</h1>
-<p>Representative results on a unit square domain with $Q_2$ elements:</p>
-<table class="markdownTable">
-<tr class="markdownTableHead">
-<th class="markdownTableHeadNone">DoFs  </th><th class="markdownTableHeadNone">Matrix-Based (s)  </th><th class="markdownTableHeadNone">Matrix-Free (s)  </th><th class="markdownTableHeadNone">Memory Ratio  </th></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">16,641  </td><td class="markdownTableBodyNone">0.19  </td><td class="markdownTableBodyNone">0.28  </td><td class="markdownTableBodyNone">2.7×  </td></tr>
-<tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">263,169  </td><td class="markdownTableBodyNone">2.59  </td><td class="markdownTableBodyNone">2.07  </td><td class="markdownTableBodyNone">2.7×  </td></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">1,050,625  </td><td class="markdownTableBodyNone">10.41  </td><td class="markdownTableBodyNone">6.75  </td><td class="markdownTableBodyNone">2.7×  </td></tr>
-<tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">4,198,401  </td><td class="markdownTableBodyNone">44.13  </td><td class="markdownTableBodyNone">23.77  </td><td class="markdownTableBodyNone">2.7×  </td></tr>
-</table>
-<p><em>Matrix-free solver becomes faster for $N</em>{\text{dof}} &gt; 250{,}000$ with 3–4× lower memory usage._</p>
+<p><img src="output1.png" alt="The Performance of matrix based solver" class="inline"/> <img src="output2.png" alt="The Performance of matrix free solver" class="inline"/></p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md11"></a>
 References</h1>
 <ul>
