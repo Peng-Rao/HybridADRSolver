@@ -44,7 +44,7 @@ int main(int argc, char* argv[]) {
         }
 
         // --- Study Parameters ---
-        constexpr int total_cycles = 2;
+        constexpr int total_cycles = 6;
 
         SolverParameters params;
         params.verbose = false;

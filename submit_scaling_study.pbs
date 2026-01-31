@@ -84,21 +84,14 @@ DEGREE=2
 WARMUP=1
 TRIALS=3
 
-MIN_REF_STRONG=9
-MAX_REF_STRONG=11
+MIN_REF_STRONG=7
+MAX_REF_STRONG=13
 
 MIN_REF_WEAK=7
 MAX_REF_WEAK=9
 
 MPI_CMD="mpirun"
 
-echo ""
-echo "==============================================================================="
-echo "Problem Size Estimates (2D Q2 elements)"
-echo "==============================================================================="
-echo "refs=9:  ~1.05M DoFs"
-echo "refs=10: ~4.2M DoFs"
-echo "refs=11: ~16.8M DoFs"
 echo ""
 echo "Selected range: refs ${MIN_REF_STRONG}-${MAX_REF_STRONG}"
 echo "==============================================================================="

@@ -8,9 +8,9 @@ TARGET_INCLUDE_DIRECTORIES(scaling_study
         PUBLIC
         ${CMAKE_SOURCE_DIR}/src/include
 )
-if (COMPILER_SUPPORTS_MARCH_NATIVE)
-    target_compile_options(scaling_study PRIVATE -march=native)
-endif ()
+#if (COMPILER_SUPPORTS_MARCH_NATIVE)
+#    target_compile_options(scaling_study PRIVATE -march=native)
+#endif ()
 deal_ii_setup_target(scaling_study)
 
 ADD_EXECUTABLE(convergence_study convergence_study.cpp)
