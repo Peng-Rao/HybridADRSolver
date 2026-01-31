@@ -17,7 +17,9 @@
 \usepackage[intlimits]{empheq}
 \usepackage[hidelinks]{hyperref}
 \usepackage{amsmath}
- \usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{amssymb}
 
 \usepackage{tikz}
 \usepackage{listings}
@@ -530,22 +532,17 @@ For the matrix-based implementation, we utilize PETSc for distributed linear alg
         % Common setup
         \node[block, fill=gray!20] (grid) {setup\_grid()};
         \node[block, fill=gray!20, below=of grid] (dofs) {setup\_dofs()};
-
         % Branch
         \node[decision, below=of dofs] (branch) {Solver Type?};
-
         % Matrix-based path
         \node[block, fill=blue!20, below left=1cm and 1.5cm of branch] (mb_assemble) {assemble\_system()};
         \node[block, fill=blue!20, below=of mb_assemble] (mb_solve) {solve() [GMRES+AMG]};
-
         % Matrix-free path
         \node[block, fill=green!20, below right=1cm and 1.5cm of branch] (mf_setup) {setup\_multigrid()};
         \node[block, fill=green!20, below=of mf_setup] (mf_rhs) {assemble\_rhs()};
         \node[block, fill=green!20, below=of mf_rhs] (mf_solve) {solve() [GMRES+GMG]};
-
-        % Merge
-        \node[block, fill=gray!20, below=3.5cm of branch] (output) {output\_results()};
-
+        % Merge - position relative to mf_solve, not branch
+        \node[block, fill=gray!20, left=of mf_solve] (output) {output\_results()};
         % Arrows
         \draw[arrow] (grid) -- (dofs);
         \draw[arrow] (dofs) -- (branch);
@@ -555,8 +552,7 @@ For the matrix-based implementation, we utilize PETSc for distributed linear alg
         \draw[arrow] (mf_setup) -- (mf_rhs);
         \draw[arrow] (mf_rhs) -- (mf_solve);
         \draw[arrow] (mb_solve) |- (output);
-        \draw[arrow] (mf_solve) |- (output);
-
+        \draw[arrow] (mf_solve) -- (output);
         % Labels
         \node[font=\scriptsize, right=0.1cm of mb_assemble, text=blue!70] {WorkStream};
         \node[font=\scriptsize, right=0.1cm of mf_solve, text=green!70] {MatrixFree};
@@ -580,80 +576,181 @@ To verify the theoretical convergence rates, we conduct a series of numerical ex
 The results confirm the expected convergence rate of $\mathcal{O}(h^{k+1}) = \mathcal{O}(h^3)$ for the $L^2$ error, as derived in \cref{par:error_norms}, for both implementations. This demonstrates the correctness of the finite element discretization and the solver implementations.
 
 \subsection{Time Complexity}
-We compare the performance of the AMG-preconditioned matrix-based solver and the GMG-preconditioned matrix-free solver for solving the linear system arising from the finite element discretization of the ADR equation. The experiments are conducted on a series of uniformly refined meshes in 2D, with polynomial degree $k=2$. The timing results for setup/assembly and solve phases are summarized in \cref{tab:solver_performance}.
+We compare the performance of the AMG-preconditioned matrix-based solver and the GMG-preconditioned matrix-free solver for solving the linear system arising from the finite element discretization of the ADR equation. The experiments are conducted on a series of uniformly refined meshes in 2D using the \texttt{Hybrid\_7x4} configuration (28 cores). The timing results for the setup (including assembly) and solve phases are summarized in \cref{tab:solver_performance}.
 
 \begin{table}[ht]
     \centering
-    \caption{Performance comparison of AMG Matrix-based and GMG Matrix-free solvers.}
+    \caption{Performance comparison of AMG Matrix-based and GMG Matrix-free solvers (Config: Hybrid\_7x4). Data source: \texttt{results\_df.csv}.}
     \label{tab:solver_performance}
-    \begin{tabular}{r rr rr}
+    \setlength{\tabcolsep}{4pt} % Adjust column padding if table is too wide
+    \begin{tabular}{r rrr rrr}
         \toprule
-                         & \multicolumn{2}{c}{AMG Matrix-Based} & \multicolumn{2}{c}{GMG Matrix-Free}                                \\
-        \cmidrule(lr){2-3} \cmidrule(lr){4-5}
-        $N_{\text{dof}}$ & Setup+Assem. (s)                     & Solve (s)                           & Setup+Assem. (s) & Solve (s) \\
+                         & \multicolumn{3}{c}{AMG Matrix-Based} & \multicolumn{3}{c}{GMG Matrix-Free}                                                  \\
+        \cmidrule(lr){2-4} \cmidrule(lr){5-7}
+        $N_{\text{dof}}$ & Setup (s)                            & Assem. (s)                          & Solve (s) & Setup (s) & Assem. (s) & Solve (s) \\
         \midrule
-        81               & 0.0279                               & 0.0121                              & 0.0549           & 0.0091    \\
-        289              & 0.0200                               & 0.0039                              & 0.0529           & 0.0097    \\
-        1,089            & 0.0260                               & 0.0080                              & 0.0845           & 0.0134    \\
-        4,225            & 0.0412                               & 0.0213                              & 0.1002           & 0.0220    \\
-        16,641           & 0.1233                               & 0.0718                              & 0.1573           & 0.1218    \\
-        66,049           & 0.3952                               & 0.3021                              & 0.3382           & 0.3880    \\
-        263,169          & 1.5418                               & 1.0441                              & 0.8482           & 1.2239    \\
-        1,050,625        & 6.1596                               & 4.2531                              & 3.1118           & 3.6356    \\
-        4,198,401        & 25.3630                              & 18.7690                             & 12.0978          & 11.6747   \\
+        1,089            & 0.0085                               & 0.0012                              & 0.0089    & 0.0108    & 0.0001     & 0.0127    \\
+        16,641           & 0.0175                               & 0.0095                              & 0.0246    & 0.0212    & 0.0004     & 0.0439    \\
+        263,169          & 0.1589                               & 0.0465                              & 0.5077    & 0.1887    & 0.0060     & 0.5564    \\
+        4,198,401        & 2.5498                               & 1.6133                              & 8.0254    & 2.2563    & 0.0939     & 6.9818    \\
+        67,125,249       & 40.6832                              & 22.5980                             & 155.5497  & 37.0522   & 1.5884     & 125.2619  \\
+        268,468,225      & 167.6805                             & 92.7442                             & 721.8367  & 147.8389  & 6.1042     & 573.2760  \\
         \bottomrule
     \end{tabular}
 \end{table}
 
-\begin{figure}[H]
+\begin{figure}[h]
     \centering
     \includegraphics[width=0.8\textwidth]{figures/complexity_matrix_based.pdf}
     \caption{Time complexity of AMG Matrix-based solver.}
     \label{fig:complexity_matrix_based}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[h]
     \centering
     \includegraphics[width=0.8\textwidth]{figures/complexity_matrix_free.pdf}
     \caption{Time complexity of GMG Matrix-free solver.}
     \label{fig:complexity_matrix_free}
 \end{figure}
 
-The results show that for small problem sizes, the matrix-based solver has lower setup overhead. However, as the problem size increases (beyond approximately $N_{\text{dof}} \approx 250{,}000$), the matrix-free solver becomes more efficient in both setup/assembly and solve phases. This crossover point is characteristic of matrix-free methods, which have higher per-iteration cost but better memory bandwidth utilization at scale.
+The results demonstrate distinct scaling behaviors for the two approaches:
+
+\begin{itemize}
+    \item \textbf{Setup and Assembly:} The matrix-based solver incurs significant overhead due to the assembly of the global sparse matrix, which becomes dominant at large scales (e.g., 92.74 s for assembly at Refinement 13). Conversely, the matrix-free solver requires negligible assembly time (6.10 s at Refinement 13), as it relies on on-the-fly integration.
+
+    \item \textbf{Solver Complexity:} The GMG matrix-free solver exhibits ideal $O(N)$ complexity, maintaining a constant iteration count of 6 across all refinement levels from $10^3$ to $2.6 \times 10^8$ DoFs. The AMG matrix-based solver, while efficient, shows a gradual increase in iterations from 19 to 48 as the problem size increases.
+
+    \item \textbf{Crossover:} While the matrix-based solver is slightly faster for small problems, the matrix-free solver achieves a crossover point in total time execution at approximately $N_{\text{dof}} \approx 263,000$. Beyond this point, the matrix-free method is consistently superior, achieving a total time of 731.78 s compared to 1023.61 s for the matrix-based solver at the largest problem size.
+\end{itemize}
+
+The reduced memory bandwidth requirements of the matrix-free implementation, combined with the algorithmic optimality of the geometric multigrid preconditioner, result in superior performance for large-scale simulations.
 
 \subsection{Memory Consumption}
-The memory consumption of both solvers is compared in \cref{tab:memory_comparison}. The matrix-free solver demonstrates significantly lower memory requirements, especially for large problem sizes.
+\label{subsec:memory}
+
+We compare the total memory consumption of the two solvers in \cref{tab:memory_comparison}. The matrix-based solver requires approximately $\mathcal{O}(N_{\text{dof}} \cdot (2k+1)^d)$ memory for the sparse matrix storage (where $(2k+1)^d$ represents the non-zero entries per row based on the stencil size). In contrast, the matrix-free solver requires only $\mathcal{O}(N_{\text{dof}})$ storage for solution and right-hand side vectors, plus a small overhead for the multigrid hierarchy and cached geometric data.
 
 \begin{table}[ht]
     \centering
-    \caption{Memory consumption comparison (MB).}
+    \caption{Total memory consumption comparison (MB) for Hybrid $7 \times 4$ configuration.}
     \label{tab:memory_comparison}
     \begin{tabular}{r rr}
         \toprule
         $N_{\text{dof}}$ & Matrix-Based (MB) & Matrix-Free (MB) \\
         \midrule
-        1,089            & 0.5               & 0.2              \\
-        4,225            & 2.1               & 0.8              \\
-        16,641           & 8.5               & 3.2              \\
-        66,049           & 34.2              & 12.8             \\
-        263,169          & 137.1             & 51.3             \\
-        1,050,625        & 549.2             & 205.1            \\
-        4,198,401        & 2197.5            & 820.5            \\
+        1,089            & 0.37              & 0.03             \\
+        16,641           & 2.41              & 0.28             \\
+        263,169          & 28.23             & 4.11             \\
+        4,198,401        & 415.83            & 64.43            \\
+        67,125,249       & 6,517.10          & 1,025.69         \\
+        268,468,225      & 25,978.97         & 4,099.36         \\
         \bottomrule
     \end{tabular}
 \end{table}
 
-The matrix-based solver requires approximately $\mathcal{O}(N_{\text{dof}} \cdot (2k+1)^d)$ memory for the sparse matrix storage (where $(2k+1)^d$ represents the stencil size), while the matrix-free solver only requires $\mathcal{O}(N_{\text{dof}})$ for vector storage plus a small overhead for the MatrixFree data structures and multigrid hierarchy.
+The experimental results confirm this theoretical advantage. At the highest refinement level ($N_{\text{dof}} \approx 2.68 \times 10^8$), the matrix-based solver consumes approximately 26 GB of memory, whereas the matrix-free solver requires only 4.1 GB. This represents a reduction in memory footprint by a factor of $6.3\times$, allowing the matrix-free method to solve significantly larger problems on the same hardware resources.
 
 \subsection{Scalability}
-A detailed parallel scalability study is planned for future work. Preliminary tests indicate that both implementations scale well with increasing numbers of MPI processes and threads, leveraging the hybrid parallelization strategy. The matrix-free solver is expected to exhibit better strong and weak scaling due to its lower memory bandwidth requirements and improved cache utilization.
 
-\begin{figure}
+This section evaluates the strong scaling performance of the matrix-free and matrix-based solvers across varying processor counts (1 to 28 cores) and problem sizes (1.05M to 16.8M DoFs).
+
+\subsubsection{Strong Scaling Analysis}
+
+Figure~\ref{fig:strong_scaling} presents the strong scaling results for both solver types. The total execution time (Figure~\ref{fig:total}) demonstrates that both solvers achieve reasonable scaling up to 28 processors, with the matrix-free approach consistently outperforming the matrix-based solver across all problem sizes and processor configurations. For the largest problem (16.8M DoFs), the matrix-free solver achieves a total time of 7.2s on 28 cores compared to 13.5s for the matrix-based approach, representing a 1.9$\times$ speedup.
+
+The time decomposition reveals distinct scaling behaviors for different computational phases. The setup and assembly phase (Figure~\ref{fig:setup}) exhibits excellent scaling for both solvers, as these operations are largely embarrassingly parallel. Notably, the matrix-free solver demonstrates significantly lower assembly times due to its on-the-fly computation strategy, which avoids explicit matrix storage. The solve phase (Figure~\ref{fig:solve}) dominates the total execution time and shows good scaling up to 14 processors, with diminishing returns beyond this point due to increased communication overhead relative to local computation.
+
+\begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.8\textwidth]{figures/scaling_analysis_summary.pdf}
-    \caption{Preliminary scalability analysis for both solver implementations.}
-    \label{fig:scalability_analysis}
+    % Total time - full width at top
+    \subfloat[Total time\label{fig:total}]{%
+        \includegraphics[width=0.8\textwidth]{figures/strong_scaling_total.pdf}%
+    }
+
+    \vspace{0.3cm}
+
+    % Setup time - left bottom
+    \subfloat[Setup and assembly time\label{fig:setup}]{%
+        \includegraphics[width=0.48\textwidth]{figures/strong_scaling_setup.pdf}%
+    }
+    \hfill
+    % Solve time - right bottom
+    \subfloat[Solve time\label{fig:solve}]{%
+        \includegraphics[width=0.48\textwidth]{figures/strong_scaling_solve.pdf}%
+    }
+
+    \caption{Strong scaling for total time for all the solvers. The dashed line indicates ideal scaling.}
+    \label{fig:strong_scaling}
 \end{figure}
+
+\subsubsection{Parallel Efficiency}
+
+Figure~\ref{fig:parallel_efficiency} illustrates the parallel efficiency for both solver types. The matrix-free solver (Figure~\ref{fig:efficiency_mf}) maintains higher efficiency across all processor counts, achieving approximately 74\% efficiency at 28 cores for the 16.8M DoF problem. The matrix-based solver (Figure~\ref{fig:efficiency_mb}) exhibits lower efficiency, dropping to approximately 50\% at 28 cores. This difference is attributed to the matrix-free approach's superior computation-to-communication ratio and reduced memory bandwidth requirements.
+
+Larger problem sizes consistently yield better parallel efficiency due to the increased computational workload per processor, which amortizes the fixed communication overhead. For instance, the 16.8M DoF problem maintains efficiency above 70\% at 28 cores, while the 1.05M DoF problem drops below 50\% at the same core count.
+
+\begin{figure}[htbp]
+    \centering
+    \subfloat[Matrix-based\label{fig:efficiency_mb}]{%
+        \includegraphics[width=0.48\textwidth]{figures/parallel_efficiency_mb.pdf}%
+    }
+    \hfill
+    \subfloat[Matrix-free\label{fig:efficiency_mf}]{%
+        \includegraphics[width=0.48\textwidth]{figures/parallel_efficiency_mf.pdf}%
+    }
+
+    \caption{Parallel efficiency for matrix-based and matrix-free solvers. The dashed line indicates ideal efficiency (100\%).}
+    \label{fig:parallel_efficiency}
+\end{figure}
+
+\subsubsection{MPI vs.\ Threading Parallelization}
+
+A comparative analysis of pure MPI versus pure threading parallelization reveals a dramatic performance difference, as shown in Figure~\ref{fig:mpi_vs_thread}. At 28 cores with 16.8M DoFs, pure MPI (28 processes $\times$ 1 thread) achieves 7.2s for the matrix-free solver, while pure threading (1 process $\times$ 28 threads) requires 281.8s---a 39$\times$ performance degradation.
+
+The time breakdown (Figure~\ref{fig:mpi_thread_breakdown}) reveals that all computational phases suffer under threading, with the solve phase experiencing the largest absolute slowdown. The performance ratio (Figure~\ref{fig:mpi_thread_ratio}) shows that the gap widens dramatically as core count increases, indicating poor thread scaling. The memory locality analysis (Figure~\ref{fig:mpi_thread_memory}) illustrates the fundamental issue: threading forces 16.8M DoFs into a single shared memory space, while MPI distributes only 600K DoFs per process, enabling efficient cache utilization. Consequently, the parallel efficiency (Figure~\ref{fig:mpi_thread_efficiency}) for threading collapses to less than 2\% at 28 cores, compared to 74\% for MPI.
+
+This disparity stems from several factors:
+
+\begin{itemize}
+    \item \textbf{Memory bandwidth saturation}: Threading confines all 28 threads to a single memory controller, creating a bottleneck, whereas MPI processes can utilize multiple memory controllers in parallel.
+    \item \textbf{NUMA effects}: Threads accessing remote NUMA nodes incur 3--4$\times$ memory latency penalties, while MPI processes can be pinned to local NUMA nodes for optimal memory access.
+    \item \textbf{Cache efficiency}: With threading, the entire 16.8M DoF problem resides in a shared memory space, causing frequent cache misses. MPI distributes approximately 600K DoFs per process, enabling better cache utilization.
+    \item \textbf{Library optimization}: The underlying libraries (deal.II, PETSc) are primarily optimized for distributed memory parallelism via MPI.
+\end{itemize}
+
+Hybrid configurations (MPI $\times$ threads) confirm that maximizing MPI processes yields optimal performance. For example, at 28 total cores, the configuration 28M$\times$1T (pure MPI) outperforms 1M$\times$28T (pure threading) by over an order of magnitude for both solver types.
+
+\begin{figure}[htbp]
+    \centering
+    \subfloat[Time breakdown (28 cores)\label{fig:mpi_thread_breakdown}]{%
+        \includegraphics[width=0.48\textwidth]{figures/mpi_vs_thread_analysis_breakdown.pdf}%
+    }
+    \hfill
+    \subfloat[Performance ratio\label{fig:mpi_thread_ratio}]{%
+        \includegraphics[width=0.48\textwidth]{figures/mpi_vs_thread_analysis_ratio.pdf}%
+    }
+
+    \vspace{0.3cm}
+
+    \subfloat[Memory locality\label{fig:mpi_thread_memory}]{%
+        \includegraphics[width=0.48\textwidth]{figures/mpi_vs_thread_analysis_memory.pdf}%
+    }
+    \hfill
+    \subfloat[Parallel efficiency\label{fig:mpi_thread_efficiency}]{%
+        \includegraphics[width=0.48\textwidth]{figures/mpi_vs_thread_analysis_efficiency.pdf}%
+    }
+
+    \caption{Comparison of pure MPI versus pure threading parallelization strategies for 16.8M DoFs: (a) time breakdown showing all phases are slower with threading, (b) performance ratio demonstrating the widening gap at higher core counts, (c) DoFs per MPI process illustrating memory locality advantages, and (d) parallel efficiency comparison.}
+    \label{fig:mpi_vs_thread}
+\end{figure}
+
+\subsubsection{Summary}
+
+The scalability analysis demonstrates that the matrix-free solver offers superior performance and parallel efficiency compared to the matrix-based approach. Pure MPI parallelization significantly outperforms threading, and hybrid configurations should favor higher MPI process counts. For production runs, we recommend using pure MPI parallelization with one process per physical core to maximize performance.
+\subsubsection{Summary}
+
+The scalability analysis demonstrates that the matrix-free solver offers superior performance and parallel efficiency compared to the matrix-based approach. Pure MPI parallelization significantly outperforms threading, and hybrid configurations should favor higher MPI process counts. For production runs, we recommend using pure MPI parallelization with one process per physical core to maximize performance.
+
 
 \pagebreak
 \section{Conclusion}
