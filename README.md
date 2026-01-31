@@ -9,6 +9,8 @@ A high-performance finite element solver for the steady-state **Advection-Diffus
 
 Both solvers support hybrid **MPI + threading** parallelization for optimal performance on modern HPC architectures.
 
+The complete documentation of this project code can be found here [docs](https://peng-rao.github.io/HybridADRSolver/).
+
 ## Features
 
 | Feature                  |     Matrix-Based      |     Matrix-Free      |
@@ -98,23 +100,15 @@ qsub submit_scaling_study.pbs
 
 ## Performance
 
-Representative results on a unit square domain with $Q_2$ elements:
-
-| DoFs      | Matrix-Based (s) | Matrix-Free (s) | Memory Ratio |
-| --------- | ---------------- | --------------- | ------------ |
-| 16,641    | 0.19             | 0.28            | 2.7×         |
-| 263,169   | 2.59             | 2.07            | 2.7×         |
-| 1,050,625 | 10.41            | 6.75            | 2.7×         |
-| 4,198,401 | 44.13            | 23.77           | 2.7×         |
-
-_Matrix-free solver becomes faster for $N_{\text{dof}} > 250{,}000$ with 3–4× lower memory usage.\_
+![The Performance of matrix based solver](output1.png)
+![The Performance of matrix free solver](output2.png)
 
 ## References
 
 - [deal.II Documentation](https://www.dealii.org/current/doxygen/deal.II/index.html)
 - [deal.II Step-37](https://www.dealii.org/current/doxygen/deal.II/step_37.html)
-- [deal.II Step-48](https://www.dealii.org/current/doxygen/deal.II/step_48.html) 
-- [deal.II Step-69](https://www.dealii.org/current/doxygen/deal.II/step_69.html) 
+- [deal.II Step-48](https://www.dealii.org/current/doxygen/deal.II/step_48.html)
+- [deal.II Step-69](https://www.dealii.org/current/doxygen/deal.II/step_69.html)
 
 ## Authors
 

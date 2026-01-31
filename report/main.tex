@@ -77,7 +77,7 @@ backend=biber]{biblatex}
         \vspace{1cm}
 
         \rule{0.95\textwidth}{0.7mm}
-        {\Large{\textbf{Hybrid thread-MPI parallelization for ADR equation}}}
+        {\Large{\textbf{Hybrid Thread-MPI Parallelization for the ADR Equation}}}
         \rule{0.95\textwidth}{0.7mm}
 
         \vspace{1cm}
@@ -390,8 +390,6 @@ These estimates indicate that for smooth solutions, increasing the polynomial de
     \item The $L^2$-error converges at rate $\mathcal{O}(h^{k+1})$.
 \end{itemize}
 
-\pagebreak
-
 \section{Implementation Details}
 \subsection{Matrix Assembly}
 The matrix assembly process involves iterating over each cell in the triangulation, computing local contributions to the global stiffness matrix and right-hand side vector using numerical quadrature. The implementation leverages the \texttt{deal.II}\cite{dealII2021} finite element library for efficient handling of mesh data structures, basis functions, and quadrature rules.
@@ -656,15 +654,15 @@ This section evaluates the strong scaling performance of the matrix-free and mat
 
 \subsubsection{Strong Scaling Analysis}
 
-Figure~\ref{fig:strong_scaling} presents the strong scaling results for both solver types. The total execution time (Figure~\ref{fig:total}) demonstrates that both solvers achieve reasonable scaling up to 28 processors, with the matrix-free approach consistently outperforming the matrix-based solver across all problem sizes and processor configurations. For the largest problem (16.8M DoFs), the matrix-free solver achieves a total time of 7.2s on 28 cores compared to 13.5s for the matrix-based approach, representing a 1.9$\times$ speedup.
+\cref{fig:strong_scaling} presents the strong scaling results for both solver types. The total execution time (\cref{fig:total}) demonstrates that both solvers achieve reasonable scaling up to 28 processors, with the matrix-free approach consistently outperforming the matrix-based solver across all problem sizes and processor configurations. For the largest problem (16.8M DoFs), the matrix-free solver achieves a total execution time of 7.2~s on 28 cores compared to 13.5~s for the matrix-based approach, representing a $1.9\times$ speedup.
 
-The time decomposition reveals distinct scaling behaviors for different computational phases. The setup and assembly phase (Figure~\ref{fig:setup}) exhibits excellent scaling for both solvers, as these operations are largely embarrassingly parallel. Notably, the matrix-free solver demonstrates significantly lower assembly times due to its on-the-fly computation strategy, which avoids explicit matrix storage. The solve phase (Figure~\ref{fig:solve}) dominates the total execution time and shows good scaling up to 14 processors, with diminishing returns beyond this point due to increased communication overhead relative to local computation.
+The time decomposition reveals distinct scaling behaviors for different computational phases. The setup and assembly phase (\cref{fig:setup}) exhibits excellent scaling for both solvers, as these operations are largely embarrassingly parallel. Notably, the matrix-free solver demonstrates significantly lower assembly times due to its on-the-fly computation strategy, which avoids explicit matrix storage. The solve phase (\cref{fig:solve}) dominates the total execution time and exhibits good scaling up to 14 processors, with diminishing returns beyond this point due to increased communication overhead relative to local computation.
 
 \begin{figure}[htbp]
     \centering
     % Total time - full width at top
     \subfloat[Total time\label{fig:total}]{%
-        \includegraphics[width=0.8\textwidth]{figures/strong_scaling_total.pdf}%
+        \includegraphics[width=0.9\textwidth]{figures/strong_scaling_total.pdf}%
     }
 
     \vspace{0.3cm}
@@ -679,13 +677,13 @@ The time decomposition reveals distinct scaling behaviors for different computat
         \includegraphics[width=0.48\textwidth]{figures/strong_scaling_solve.pdf}%
     }
 
-    \caption{Strong scaling for total time for all the solvers. The dashed line indicates ideal scaling.}
+    \caption{Strong scaling results for both solver types. The dashed line indicates ideal linear scaling.}
     \label{fig:strong_scaling}
 \end{figure}
 
 \subsubsection{Parallel Efficiency}
 
-Figure~\ref{fig:parallel_efficiency} illustrates the parallel efficiency for both solver types. The matrix-free solver (Figure~\ref{fig:efficiency_mf}) maintains higher efficiency across all processor counts, achieving approximately 74\% efficiency at 28 cores for the 16.8M DoF problem. The matrix-based solver (Figure~\ref{fig:efficiency_mb}) exhibits lower efficiency, dropping to approximately 50\% at 28 cores. This difference is attributed to the matrix-free approach's superior computation-to-communication ratio and reduced memory bandwidth requirements.
+\cref{fig:parallel_efficiency} illustrates the parallel efficiency for both solver types. The matrix-free solver (\cref{fig:efficiency_mf}) maintains higher efficiency across all processor counts, achieving approximately 74\% efficiency at 28 cores for the 16.8M DoF problem. The matrix-based solver (\cref{fig:efficiency_mb}) exhibits lower efficiency, dropping to approximately 50\% at 28 cores. This difference is attributed to the matrix-free approach's superior computation-to-communication ratio and reduced memory bandwidth requirements.
 
 Larger problem sizes consistently yield better parallel efficiency due to the increased computational workload per processor, which amortizes the fixed communication overhead. For instance, the 16.8M DoF problem maintains efficiency above 70\% at 28 cores, while the 1.05M DoF problem drops below 50\% at the same core count.
 
@@ -705,20 +703,20 @@ Larger problem sizes consistently yield better parallel efficiency due to the in
 
 \subsubsection{MPI vs.\ Threading Parallelization}
 
-A comparative analysis of pure MPI versus pure threading parallelization reveals a dramatic performance difference, as shown in Figure~\ref{fig:mpi_vs_thread}. At 28 cores with 16.8M DoFs, pure MPI (28 processes $\times$ 1 thread) achieves 7.2s for the matrix-free solver, while pure threading (1 process $\times$ 28 threads) requires 281.8s---a 39$\times$ performance degradation.
+A comparative analysis of pure MPI versus pure threading parallelization reveals a striking performance disparity, as illustrated in \cref{fig:mpi_vs_thread}. At 28 cores with 16.8M DoFs, pure MPI (28 processes $\times$ 1 thread) achieves an execution time of 7.2~s for the matrix-free solver, while pure threading (1 process $\times$ 28 threads) requires 281.8~s---representing a $39\times$ performance degradation.
 
-The time breakdown (Figure~\ref{fig:mpi_thread_breakdown}) reveals that all computational phases suffer under threading, with the solve phase experiencing the largest absolute slowdown. The performance ratio (Figure~\ref{fig:mpi_thread_ratio}) shows that the gap widens dramatically as core count increases, indicating poor thread scaling. The memory locality analysis (Figure~\ref{fig:mpi_thread_memory}) illustrates the fundamental issue: threading forces 16.8M DoFs into a single shared memory space, while MPI distributes only 600K DoFs per process, enabling efficient cache utilization. Consequently, the parallel efficiency (Figure~\ref{fig:mpi_thread_efficiency}) for threading collapses to less than 2\% at 28 cores, compared to 74\% for MPI.
+The time breakdown (\cref{fig:mpi_thread_breakdown}) reveals that all computational phases suffer under threading, with the solve phase experiencing the most significant absolute slowdown. The performance ratio (\cref{fig:mpi_thread_ratio}) demonstrates that this gap widens dramatically as the core count increases, indicating poor thread scalability. The memory locality analysis (\cref{fig:mpi_thread_memory}) illustrates the fundamental issue: threading forces all 16.8M DoFs into a single shared memory space, while MPI distributes approximately 600K DoFs per process, enabling efficient cache utilization. Consequently, the parallel efficiency (\cref{fig:mpi_thread_efficiency}) for threading collapses to less than 2\% at 28 cores, compared to 74\% for MPI.
 
-This disparity stems from several factors:
+This disparity can be attributed to several factors:
 
 \begin{itemize}
-    \item \textbf{Memory bandwidth saturation}: Threading confines all 28 threads to a single memory controller, creating a bottleneck, whereas MPI processes can utilize multiple memory controllers in parallel.
-    \item \textbf{NUMA effects}: Threads accessing remote NUMA nodes incur 3--4$\times$ memory latency penalties, while MPI processes can be pinned to local NUMA nodes for optimal memory access.
-    \item \textbf{Cache efficiency}: With threading, the entire 16.8M DoF problem resides in a shared memory space, causing frequent cache misses. MPI distributes approximately 600K DoFs per process, enabling better cache utilization.
-    \item \textbf{Library optimization}: The underlying libraries (deal.II, PETSc) are primarily optimized for distributed memory parallelism via MPI.
+    \item \textbf{Memory bandwidth saturation}: Threading confines all 28 threads to a single memory controller, creating a bottleneck, whereas MPI processes can utilize multiple memory controllers concurrently.
+    \item \textbf{NUMA effects}: Threads accessing remote NUMA nodes incur 3--4$\times$ memory latency penalties, while MPI processes can be pinned to local NUMA nodes for optimal memory access patterns.
+    \item \textbf{Cache efficiency}: With threading, the entire 16.8M DoF problem resides in a shared memory space, causing frequent cache misses. MPI distributes approximately 600K DoFs per process, enabling superior cache utilization.
+    \item \textbf{Library optimization}: The underlying libraries (deal.II, PETSc) are primarily optimized for distributed memory parallelism via MPI, with thread-level parallelism serving as a secondary optimization.
 \end{itemize}
 
-Hybrid configurations (MPI $\times$ threads) confirm that maximizing MPI processes yields optimal performance. For example, at 28 total cores, the configuration 28M$\times$1T (pure MPI) outperforms 1M$\times$28T (pure threading) by over an order of magnitude for both solver types.
+Experiments with hybrid configurations (MPI $\times$ threads) confirm that maximizing the number of MPI processes yields optimal performance. For example, at 28 total cores, the configuration 28M$\times$1T (pure MPI) outperforms 1M$\times$28T (pure threading) by more than an order of magnitude for both solver types.
 
 \begin{figure}[htbp]
     \centering
@@ -740,33 +738,78 @@ Hybrid configurations (MPI $\times$ threads) confirm that maximizing MPI process
         \includegraphics[width=0.48\textwidth]{figures/mpi_vs_thread_analysis_efficiency.pdf}%
     }
 
-    \caption{Comparison of pure MPI versus pure threading parallelization strategies for 16.8M DoFs: (a) time breakdown showing all phases are slower with threading, (b) performance ratio demonstrating the widening gap at higher core counts, (c) DoFs per MPI process illustrating memory locality advantages, and (d) parallel efficiency comparison.}
+    \caption{Comparison of pure MPI versus pure threading parallelization strategies for 16.8M DoFs: (a) time breakdown showing that all phases are slower with threading, (b) performance ratio demonstrating the widening gap at higher core counts, (c) DoFs per MPI process illustrating memory locality advantages, and (d) parallel efficiency comparison.}
     \label{fig:mpi_vs_thread}
 \end{figure}
 
-\subsubsection{Summary}
+\subsubsection{Scalability Summary}
 
-The scalability analysis demonstrates that the matrix-free solver offers superior performance and parallel efficiency compared to the matrix-based approach. Pure MPI parallelization significantly outperforms threading, and hybrid configurations should favor higher MPI process counts. For production runs, we recommend using pure MPI parallelization with one process per physical core to maximize performance.
-\subsubsection{Summary}
-
-The scalability analysis demonstrates that the matrix-free solver offers superior performance and parallel efficiency compared to the matrix-based approach. Pure MPI parallelization significantly outperforms threading, and hybrid configurations should favor higher MPI process counts. For production runs, we recommend using pure MPI parallelization with one process per physical core to maximize performance.
+The scalability analysis demonstrates that the matrix-free solver offers superior performance and parallel efficiency compared to the matrix-based approach. Pure MPI parallelization significantly outperforms threading due to better memory locality, reduced bandwidth contention, and optimized library support. When hybrid configurations are employed, they should favor higher MPI process counts with minimal threading. For production deployments, we recommend pure MPI parallelization with one process per physical core to maximize performance.
 
 
-\pagebreak
 \section{Conclusion}
-We have presented a hybrid MPI + threading parallel implementation for solving the steady-state Advection-Diffusion-Reaction equation using finite elements. Two solver approaches were implemented and compared:
+
+This work presents a comprehensive study of hybrid MPI+threading parallel implementations for solving the steady-state Advection-Diffusion-Reaction equation using finite element methods. Two fundamentally different solver approaches were implemented, analyzed, and compared:
 
 \begin{itemize}
-    \item \textbf{Matrix-based solver:} Explicitly assembles the sparse system matrix using the \texttt{WorkStream} framework for thread-parallel assembly, with AMG preconditioning via PETSc for the iterative solve.
-    \item \textbf{Matrix-free solver:} Computes matrix-vector products on-the-fly using sum factorization and SIMD vectorization, with geometric multigrid (GMG) preconditioning using Chebyshev smoothers.
+    \item \textbf{Matrix-based solver}: Explicitly assembles the sparse system matrix using the \texttt{WorkStream} framework for thread-parallel assembly, coupled with Algebraic Multigrid (AMG) preconditioning via PETSc for the iterative solve phase.
+    \item \textbf{Matrix-free solver}: Computes matrix-vector products on-the-fly using sum factorization and SIMD vectorization techniques, with Geometric Multigrid (GMG) preconditioning employing Chebyshev polynomial smoothers.
 \end{itemize}
 
-Both implementations achieve the expected optimal convergence rates ($\mathcal{O}(h^{k+1})$ in the $L^2$ norm for polynomial degree $k$), validating the correctness of the discretization. The performance comparison reveals that:
+\subsection*{Correctness Verification}
+
+Both implementations achieve the expected optimal convergence rates ($\mathcal{O}(h^{k+1})$ in the $L^2$ norm for polynomial degree $k$), validating the correctness of the discretization and solver implementations against the manufactured solution benchmark.
+
+\subsection*{Performance Comparison}
+
+The comprehensive performance analysis reveals several key findings:
+
+\begin{enumerate}
+    \item \textbf{Memory efficiency}: The matrix-free solver achieves a $6.3\times$ reduction in memory footprint compared to the matrix-based approach at the largest problem size (268M DoFs), consuming only 4.1~GB versus 26~GB. This advantage enables the solution of significantly larger problems on equivalent hardware.
+
+    \item \textbf{Algorithmic scalability}: The GMG-preconditioned matrix-free solver exhibits ideal $\mathcal{O}(N)$ complexity, maintaining a constant iteration count of 6 across all problem sizes from $10^3$ to $2.68 \times 10^8$ DoFs. In contrast, the AMG-preconditioned matrix-based solver shows a gradual increase in iterations (19 to 48) as problem size grows.
+
+    \item \textbf{Crossover behavior}: While the matrix-based solver demonstrates slightly faster execution for small problems due to lower setup overhead, the matrix-free solver achieves superior performance beyond a crossover point of approximately $N_{\text{dof}} \approx 263{,}000$. At the largest scale, the matrix-free approach is $1.4\times$ faster in total execution time.
+
+    \item \textbf{Parallel efficiency}: The matrix-free solver maintains approximately 74\% parallel efficiency at 28 cores for 16.8M DoFs, compared to 50\% for the matrix-based solver. This superior efficiency stems from the reduced memory bandwidth requirements and improved computation-to-communication ratio.
+\end{enumerate}
+
+\subsection*{Parallelization Strategy Insights}
+
+A critical finding of this study concerns the relative effectiveness of different parallelization paradigms:
+
 \begin{itemize}
-    \item The matrix-free solver achieves superior memory efficiency, using approximately 3--4$\times$ less memory than the matrix-based approach.
-    \item For large-scale problems ($N_{\text{dof}} > 250{,}000$), the matrix-free solver demonstrates better overall performance in both setup and solve phases.
-    \item The matrix-based solver remains competitive for smaller problems due to lower setup overhead.
+    \item \textbf{Pure MPI dominance}: Pure MPI parallelization dramatically outperforms pure threading, achieving up to $39\times$ better performance at 28 cores. This disparity arises from memory bandwidth saturation, NUMA effects, cache inefficiency, and the MPI-centric optimization of underlying libraries.
+
+    \item \textbf{Hybrid configuration guidelines}: When hybrid MPI+threading configurations are employed, maximizing the number of MPI processes while minimizing threads per process yields optimal results. Configurations favoring threading (e.g., 1M$\times$28T) should be avoided in favor of MPI-dominant configurations (e.g., 28M$\times$1T or 14M$\times$2T).
 \end{itemize}
+
+\subsection*{Recommendations}
+
+Based on these findings, we offer the following practical recommendations:
+
+\begin{enumerate}
+    \item For large-scale simulations ($N_{\text{dof}} > 250{,}000$), the matrix-free solver with GMG preconditioning should be preferred due to its superior memory efficiency, algorithmic scalability, and parallel performance.
+
+    \item For smaller problems or cases where rapid prototyping is prioritized, the matrix-based solver remains competitive and may offer simpler debugging and analysis.
+
+    \item Production runs should employ pure MPI parallelization with one process per physical core. If hybrid parallelization is necessary (e.g., due to memory constraints), configurations with high MPI-to-thread ratios should be adopted.
+
+    \item Memory-limited scenarios benefit substantially from the matrix-free approach, which can solve problems $6\times$ larger than the matrix-based method on identical hardware.
+\end{enumerate}
+
+\subsection*{Future Work}
+
+Several avenues for future investigation emerge from this study:
+
+\begin{itemize}
+    \item Extension to three-dimensional problems and higher polynomial degrees, where the advantages of matrix-free methods are expected to be even more pronounced.
+    \item Investigation of GPU acceleration for the matrix-free operator evaluation, leveraging the inherent parallelism of the element-wise computations.
+    \item Adaptive mesh refinement strategies combined with the matrix-free framework for problems with localized features.
+    \item Application to time-dependent and nonlinear variants of the ADR equation.
+\end{itemize}
+
+In summary, this work demonstrates that matrix-free methods with geometric multigrid preconditioning, combined with MPI-based distributed memory parallelization, represent the optimal approach for large-scale finite element simulations of advection-diffusion-reaction problems on modern HPC architectures.
 
 \clearpage
 \printbibliography[heading=bibintoc, title = {References}]
