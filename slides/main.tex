@@ -1,0 +1,460 @@
+\documentclass{beamer}
+
+\usetheme{polimi}
+
+\setbeamertemplate{footline}{%
+    \begin{minipage}[b][1cm][c]{\paperwidth}
+        \ifnum\insertframenumber>0
+            \begin{tikzpicture}[overlay, remember picture]
+                \node at ([shift={(-0.5\xshift, 0.5)}] current page.south east)
+                    [anchor=east, inner sep=0pt]
+                    {\includegraphics[height=\baselineskip]{logo_bandiera.png}};
+            \end{tikzpicture}
+        \fi
+    \end{minipage}%
+}
+
+\usepackage{fontspec}
+\usepackage{amsmath, amssymb}
+\usepackage{booktabs}
+\usepackage{multicol}
+\usepackage{tikz}
+\usetikzlibrary{positioning, arrows.meta, shapes.geometric}
+
+\title{Hybrid Thread-MPI Parallelization\\for the ADR Equation}
+\subtitle{Advection-Diffusion-Reaction Equation via FEM}
+\author{\textbf{Peng Rao} \quad \textbf{Jiali Claudio Huang} \quad \textbf{Ruiying Jiao}}
+\date{M.Sc.\ High Performance Computing --- Politecnico di Milano}
+
+% ─── Custom commands ───────────────────────────────────────────────
+\newcommand{\blueitem}[1]{\textcolor{bluePolimi}{\textbf{#1}}}
+
+\begin{document}
+
+% ══════════════════════════════════
+% TITLE
+% ══════════════════════════════════
+\begin{frame}
+    \maketitle
+\end{frame}
+
+% ══════════════════════════════════
+% OUTLINE
+% ══════════════════════════════════
+\begin{frame}{Outline}
+    \tableofcontents
+\end{frame}
+
+% ══════════════════════════════════
+\section{Problem Statement}
+% ══════════════════════════════════
+
+\begin{frame}{Strong Formulation}
+    Find $u: \Omega \to \mathbb{R}$ such that:
+    \begin{block}{ADR Equation with Mixed BCs}
+        \[
+            \begin{cases}
+                -\nabla \cdot (\mu \nabla u) + \nabla \cdot (\boldsymbol{\beta} u) + \gamma u = f & \text{in } \Omega   \\[4pt]
+                u = g                                                                             & \text{on } \Gamma_D \\[4pt]
+                \nabla u \cdot \boldsymbol{n} = h                                                 & \text{on } \Gamma_N
+            \end{cases}
+        \]
+    \end{block}
+
+    \medskip
+    \begin{columns}[t]
+        \column{0.5\textwidth}
+        \begin{itemize}
+            \item $\Omega \subset \mathbb{R}^d$, $d = 2,3$
+            \item $\mu > 0$: diffusion coefficient
+            \item $\boldsymbol{\beta} \in [L^\infty(\Omega)]^d$: advection field
+        \end{itemize}
+        \column{0.5\textwidth}
+        \begin{itemize}
+            \item $\gamma \geq 0$: reaction coefficient
+            \item $f \in L^2(\Omega)$: source term
+            \item $\Gamma_D \cup \Gamma_N = \partial\Omega$
+        \end{itemize}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Weak Formulation}
+    Define $V_0 = \{v \in H^1(\Omega) : v = 0 \text{ on } \Gamma_D\}$.
+    \medskip
+
+    \begin{block}{Variational Problem}
+        Find $u_0 \in V_0$ such that $a(u_0, v) = F(v)$ for all $v \in V_0$, where:
+        \[
+            a(u, v) = \int_\Omega \mu \nabla u \cdot \nabla v \, dx
+            + \int_\Omega (\boldsymbol{\beta} \cdot \nabla u)\, v \, dx
+            + \int_\Omega \gamma u v \, dx
+        \]
+        \[
+            F(v) = \int_\Omega f v \, dx
+            + \int_{\Gamma_N} \mu h v \, ds
+            - a(u_g, v)
+        \]
+    \end{block}
+\end{frame}
+
+\begin{frame}{Manufactured Solution}
+    Domain: $\Omega = [0,1]^d$, $d = 2, 3$.
+
+    \begin{block}{Exact Solution}
+        \[
+            u_{\mathrm{ex}}(\mathbf{x}) = \prod_{i=1}^{d} \sin(\pi x_i)
+        \]
+    \end{block}
+
+    \medskip
+    \textbf{Physical parameters:}
+    \begin{itemize}
+        \item $\mu = 1.0$ (isotropic diffusion), \quad $\gamma = 0.1$ (reaction)
+        \item Rotational advection: $\boldsymbol{\beta} = (-x_2,\, x_1,\, 0.1)^\top$ --- divergence-free
+        \item \textbf{Neumann BC} on right face $x_1 = 1$:\quad $h = -\pi \prod_{j \geq 2} \sin(\pi x_j)$
+        \item \textbf{Dirichlet BC} $u = 0$ on all other faces
+    \end{itemize}
+\end{frame}
+
+% ══════════════════════════════════
+\section{FEM Discretization}
+% ══════════════════════════════════
+
+\begin{frame}{Galerkin Approximation}
+    \textbf{Triangulation} $\mathcal{T}_h$: hexahedral cells, mesh size $h = \max_K \mathrm{diam}(K)$.\\
+    \textbf{Space} $V_h^k$: $Q_k$ Lagrangian elements (tensor-product degree $k$).
+
+    \medskip
+    \begin{block}{Discrete Problem}
+        Find $u_h \in V_{h,g}$ such that $a(u_h, v_h) = L(v_h)$ for all $v_h \in V_{h,0}$.
+    \end{block}
+
+    Expanding in nodal basis $\{\varphi_j\}$ gives the \textbf{linear system}:
+    \[
+        \mathbf{A}\,\mathbf{U} = \mathbf{F}, \qquad
+        A_{ij} = \int_\Omega \bigl(\mu\,\nabla\varphi_j \cdot \nabla\varphi_i
+        + (\boldsymbol{\beta} \cdot \nabla\varphi_j)\,\varphi_i
+        + \gamma\,\varphi_j\,\varphi_i\bigr)\,dx
+    \]
+\end{frame}
+
+\begin{frame}{A Priori Error Estimates}
+    For $u \in H^{k+1}(\Omega)$ and $Q_k$ Lagrangian elements:
+
+    \medskip
+    \begin{columns}
+        \column{0.5\textwidth}
+        \begin{block}{$H^1$ Seminorm}
+            \[
+                |u - u_h|_{H^1} \leq C\,h^k\,|u|_{H^{k+1}}
+            \]
+            Rate: $\mathcal{O}(h^k)$
+        \end{block}
+
+        \column{0.5\textwidth}
+        \begin{block}{$L^2$ Norm}
+            \[
+                \|u - u_h\|_{L^2} \leq C\,h^{k+1}\,|u|_{H^{k+1}}
+            \]
+            Rate: $\mathcal{O}(h^{k+1})$
+        \end{block}
+    \end{columns}
+
+    \medskip
+    \begin{itemize}
+        \item $H^1$ bound via \textbf{C\'{e}a's Lemma} + interpolation theory
+        \item $L^2$ improvement via \textbf{Aubin-Nitsche} duality argument
+    \end{itemize}
+\end{frame}
+
+% ══════════════════════════════════
+\section{Implementation}
+% ══════════════════════════════════
+
+\begin{frame}{Matrix-Based Solver (AMG)}
+    \begin{columns}[t]
+        \column{0.55\textwidth}
+        \textbf{Assembly --- \texttt{WorkStream}:}
+        \[
+            A = \sum_{\text{cell}} P_{\mathrm{cell}}^T A_{\mathrm{cell}} P_{\mathrm{cell}}
+        \]
+        \begin{itemize}
+            \item \blueitem{Worker:} local cell matrix (embarrassingly parallel)
+            \item \blueitem{Copier:} scatter to global (sequential)
+            \item Sparse AIJ storage via \textbf{PETSc}
+        \end{itemize}
+        \column{0.45\textwidth}
+        \textbf{Solver:}
+        \begin{itemize}
+            \item GMRES iterative solver
+            \item \textbf{AMG} preconditioner (\texttt{hypre})
+            \item Memory: $\mathcal{O}(N_\text{dof} \cdot (2k+1)^d)$
+        \end{itemize}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Matrix-Free Solver (GMG)}
+    Matrix-vector product computed \emph{on the fly}:
+    \[
+        \mathbf{v} = \sum_{e=1}^{N_\text{el}} P_e^T A_e (P_e\,\mathbf{u}),
+        \quad \text{(no explicit } A \text{ stored)}
+    \]
+
+    \begin{columns}[t]
+        \column{0.5\textwidth}
+        \textbf{Optimizations:}
+        \begin{itemize}
+            \item \blueitem{Sum factorization}: $\mathcal{O}(d(k{+}1)^{d+1})$ per cell
+            \item \blueitem{SIMD}: AVX over cell batches
+            \item Memory: $\mathcal{O}(N_\text{dof})$
+        \end{itemize}
+        \column{0.5\textwidth}
+        \textbf{GMG Preconditioner:}
+        \begin{itemize}
+            \item Chebyshev smoothers (deg.\ 5, range $\times 15$--$20$)
+            \item Matrix-free transfer operators
+            \item Coarse-grid Chebyshev solve
+        \end{itemize}
+    \end{columns}
+\end{frame}
+
+% ══════════════════════════════════
+\section{Parallelization Strategy}
+% ══════════════════════════════════
+
+\begin{frame}{MPI + Threading Hybrid}
+    \begin{columns}[t]
+        \column{0.5\textwidth}
+        \begin{block}{MPI --- Distributed Memory}
+            \begin{itemize}
+                \item Mesh via \texttt{p4est} (Morton SFC)
+                \item Each rank: subset of cells \& DoFs
+                \item Ghost cell exchange
+                \item Parallel matrix/vector assembly
+                \item Multigrid transfers across ranks
+            \end{itemize}
+        \end{block}
+
+        \column{0.5\textwidth}
+        \begin{block}{TBB --- Shared Memory}
+            \begin{itemize}
+                \item Within each MPI rank
+                \item MB: \texttt{WorkStream} parallel assembly
+                \item MF: \texttt{partition\_partition} cell loop
+                \item Parallel vector operations
+            \end{itemize}
+        \end{block}
+    \end{columns}
+
+    \medskip
+    \begin{alertblock}{Key Finding}
+        Pure MPI (28M$\times$1T) outperforms pure threading (1M$\times$28T) by $\mathbf{39\times}$ at 28 cores.
+    \end{alertblock}
+\end{frame}
+
+\begin{frame}{Why MPI Dominates}
+    \begin{itemize}
+        \item \blueitem{Memory bandwidth}: 28 threads share 1 controller; MPI uses multiple
+        \item \blueitem{NUMA effects}: remote-NUMA threads suffer $3$--$4\times$ latency penalty;
+              MPI ranks can be pinned locally
+        \item \blueitem{Cache efficiency}: threading shares 16.8M DoFs in one space $\to$ cache
+              thrash; MPI distributes $\approx600\mathrm{K}$ DoFs/rank $\to$ fits in LLC
+        \item \blueitem{Library optimization}: \texttt{deal.II} \& PETSc are MPI-first;
+              threading is secondary
+    \end{itemize}
+
+    \medskip
+    \begin{exampleblock}{Recommendation}
+        Use \textbf{pure MPI} (1 process/core). If hybrid is required, maximize MPI ranks
+        and minimize threads per rank.
+    \end{exampleblock}
+\end{frame}
+
+% ══════════════════════════════════
+\section{Experimental Results}
+% ══════════════════════════════════
+
+\begin{frame}{Convergence Verification ($k=2$, $d=2$)}
+    \begin{exampleblock}{Result}
+        Both implementations confirm the expected $L^2$-error rate $\mathcal{O}(h^3)$.
+    \end{exampleblock}
+
+    \medskip
+    \begin{columns}[t]
+        \column{0.5\textwidth}
+        \textbf{Theoretical:}
+        \[
+            \|u - u_h\|_{L^2} \leq C\,h^{k+1} = \mathcal{O}(h^3)
+        \]
+        \begin{itemize}
+            \item C\'{e}a's Lemma + Aubin-Nitsche
+        \end{itemize}
+
+        \column{0.5\textwidth}
+        \textbf{Observed:}
+        \begin{itemize}
+            \item[$\checkmark$] Matrix-based: $\mathcal{O}(h^3)$
+            \item[$\checkmark$] Matrix-free: $\mathcal{O}(h^3)$
+            \item Both solvers are \textbf{correct}
+        \end{itemize}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Time Complexity --- Config: Hybrid 7$\times$4 (28 cores)}
+    \begin{table}
+        \centering
+        \small
+        \begin{tabular}{r rrr rrr}
+            \toprule
+                           & \multicolumn{3}{c}{\textbf{AMG Matrix-Based}}
+                           & \multicolumn{3}{c}{\textbf{GMG Matrix-Free}}                                                \\
+            \cmidrule(lr){2-4} \cmidrule(lr){5-7}
+            $N_\text{dof}$ & Setup                                         & Assem. & Solve  & Setup  & Assem.  & Solve  \\
+            \midrule
+            1K             & 0.009s                                        & 0.001s & 0.009s & 0.011s & 0.0001s & 0.013s \\
+            17K            & 0.018s                                        & 0.010s & 0.025s & 0.021s & 0.0004s & 0.044s \\
+            263K           & 0.159s                                        & 0.047s & 0.508s & 0.189s & 0.006s  & 0.556s \\
+            4.2M           & 2.55s                                         & 1.61s  & 8.03s  & 2.26s  & 0.094s  & 6.98s  \\
+            67M            & 40.7s                                         & 22.6s  & 155.5s & 37.1s  & 1.59s   & 125.3s \\
+            268M           & 167.7s                                        & 92.7s  & 721.8s & 147.8s & 6.10s   & 573.3s \\
+            \bottomrule
+        \end{tabular}
+    \end{table}
+
+    \medskip
+    \begin{itemize}
+        \item \textbf{Crossover} at $\approx 263$K DoFs: MF faster beyond this point
+        \item MF assembly: $92.7\mathrm{s} \to 6.1\mathrm{s}$ (on-the-fly vs.\ explicit storage)
+        \item GMG: \textbf{constant 6 iterations} vs.\ AMG 19--48 (growing with $N$)
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Memory Consumption}
+    \begin{columns}[t]
+        \column{0.5\textwidth}
+        \begin{table}
+            \centering
+            \small
+            \caption{Memory (MB) --- Hybrid $7{\times}4$}
+            \begin{tabular}{r rr}
+                \toprule
+                $N_\text{dof}$ & MB    & MF   \\
+                \midrule
+                1K             & 0.37  & 0.03 \\
+                17K            & 2.41  & 0.28 \\
+                263K           & 28.2  & 4.1  \\
+                4.2M           & 416   & 64   \\
+                67M            & 6517  & 1026 \\
+                268M           & 25979 & 4099 \\
+                \bottomrule
+            \end{tabular}
+        \end{table}
+
+        \column{0.5\textwidth}
+        \vspace{0.5cm}
+        \begin{block}{$6.3\times$ reduction at 268M DoFs}
+            \begin{itemize}
+                \item Matrix-based: \textbf{26 GB}
+                \item Matrix-free: \textbf{4.1 GB}
+            \end{itemize}
+        \end{block}
+
+        \medskip
+        MB storage: $\mathcal{O}(N \cdot (2k+1)^d)$\\
+        MF storage: $\mathcal{O}(N)$ (vectors only)
+
+        \medskip
+        \textit{MF enables solving $6\times$ larger problems on the same hardware.}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Strong Scaling \& Parallel Efficiency}
+    \begin{columns}[t]
+        \column{0.5\textwidth}
+        \textbf{At 28 cores, 16.8M DoFs:}
+        \begin{itemize}
+            \item MF total: 7.2s \quad MB total: 13.5s
+            \item MF speedup: $\mathbf{1.9\times}$ over MB
+        \end{itemize}
+
+        \medskip
+        \textbf{Parallel efficiency:}
+        \begin{itemize}
+            \item Matrix-free: $\approx\mathbf{74\%}$ at 28 cores
+            \item Matrix-based: $\approx\mathbf{50\%}$ at 28 cores
+            \item Larger problems $\to$ better efficiency
+        \end{itemize}
+
+        \column{0.5\textwidth}
+        \textbf{MPI vs.\ Threading (28 cores):}
+
+        \medskip
+        \begin{tabular}{lrr}
+            \toprule
+            Config        & Time   & Eff.   \\
+            \midrule
+            28M$\times$1T & 7.2s   & 74\%   \\
+            14M$\times$2T & 9.1s   & 58\%   \\
+            4M$\times$7T  & 42.3s  & 10\%   \\
+            1M$\times$28T & 281.8s & $<$2\% \\
+            \bottomrule
+        \end{tabular}
+    \end{columns}
+\end{frame}
+
+% ══════════════════════════════════
+\section{Conclusions}
+% ══════════════════════════════════
+
+\begin{frame}{Key Findings}
+    \begin{enumerate}
+        \item \blueitem{Correctness:} Both solvers achieve $\mathcal{O}(h^{k+1})$ $L^2$ convergence ---
+              confirmed against manufactured solution.
+
+              \medskip
+        \item \blueitem{Memory ($6.3\times$):} Matrix-free needs 4.1 GB vs.\ 26 GB at 268M DoFs.
+
+              \medskip
+        \item \blueitem{Algorithmic scalability:} GMG-MF maintains \textbf{constant 6 iterations}
+              across $10^3$--$2.68\times10^8$ DoFs; AMG-MB grows from 19 to 48.
+
+              \medskip
+        \item \blueitem{Parallel efficiency:} MF achieves 74\% at 28 cores vs.\ 50\% for MB.
+
+              \medskip
+        \item \blueitem{MPI $\gg$ Threading:} Pure MPI outperforms pure threading by
+              $\mathbf{39\times}$ at 28 cores due to memory bandwidth, NUMA, and cache effects.
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}{Recommendations \& Future Work}
+    \begin{columns}[t]
+        \column{0.5\textwidth}
+        \begin{block}{Recommendations}
+            \begin{itemize}
+                \item $N_\text{dof} > 250$K: prefer \textbf{MF + GMG}
+                \item Small problems / prototyping: MB is competitive
+                \item Production: \textbf{pure MPI}, 1 process/core
+                \item Memory-limited: MF solves $6\times$ larger problems
+            \end{itemize}
+        \end{block}
+
+        \column{0.5\textwidth}
+        \begin{block}{Future Work}
+            \begin{itemize}
+                \item 3D problems \& higher $k$
+                \item GPU acceleration for MF operator
+                \item Adaptive mesh refinement
+                \item Time-dependent \& nonlinear ADR
+            \end{itemize}
+        \end{block}
+    \end{columns}
+
+    \medskip
+    \begin{exampleblock}{Repository}
+        \centering\small
+        \texttt{https://github.com/Peng-Rao/HybridADRSolver}
+    \end{exampleblock}
+\end{frame}
+
+\end{document}
